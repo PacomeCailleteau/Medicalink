@@ -7,7 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="Embedded JDK" />
+        <option name="gradleJvm" value="JDK" />
         <option name="modules">
           <set>
             <option value="/var/home/E211556C/reseau/Perso/Annee info 3/SAE1/test/sae_medicalink" />

@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonTakePicture: Button
     private lateinit var buttonChooseFromGallery: Button
     private lateinit var imagePreview: ImageView
+    private lateinit var validateButton: Button
 
     private lateinit var takePictureLauncher: ActivityResultLauncher<Context>
     private lateinit var chooseFromGalleryLauncher: ActivityResultLauncher<String>
@@ -22,12 +23,17 @@ class MainActivity : AppCompatActivity() {
 
         buttonTakePicture = findViewById(R.id.button_take_picture)
         buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
+        validateButton = findViewById(R.id.validate_button)
         imagePreview = findViewById(R.id.image_preview)
+
 
         takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
             if (uri != null) {
                 imagePreview.setImageURI(uri)
                 imagePreview.visibility = ImageView.VISIBLE
+                validateButton.visibility = Button.VISIBLE
+            }else{
+                validateButton.visibility = Button.INVISIBLE
             }
         }
 
@@ -35,6 +41,9 @@ class MainActivity : AppCompatActivity() {
             if (uri != null) {
                 imagePreview.setImageURI(uri)
                 imagePreview.visibility = ImageView.VISIBLE
+                validateButton.visibility = Button.VISIBLE
+            }else{
+                validateButton.visibility = Button.INVISIBLE
             }
         }
 
@@ -45,5 +54,6 @@ class MainActivity : AppCompatActivity() {
         buttonChooseFromGallery.setOnClickListener {
             chooseFromGalleryLauncher.launch("image/*")
         }
+
     }
 }
