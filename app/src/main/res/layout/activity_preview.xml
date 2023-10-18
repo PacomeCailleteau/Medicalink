@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+    <ImageView
+        android:id="@+id/image_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/button_choose_from_gallery"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintDimensionRatio="1.5:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_take_picture"
+            android:layout_width="325dp"
+            android:layout_height="69dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_blue_button_background"
+            android:backgroundTint="#DEE5F0"
+            android:fontFamily="@font/quicksand_semibold"
+            android:text="Prendre une photo"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_choose_from_gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_choose_from_gallery"
+            android:layout_width="325dp"
+            android:layout_height="69dp"
+            android:layout_below="@id/button_take_picture"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_blue_button_background"
+            android:backgroundTint="#DEE5F0"
+            android:fontFamily="@font/quicksand_semibold"
+            android:text="Choisir depuis la galerie"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/validate_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/validate_button"
+            android:layout_width="325dp"
+            android:layout_height="69dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_green_button_background"
+            android:backgroundTint="#DCF0E7"
+            android:fontFamily="@font/quicksand_semibold"
+            android:text="Valider le nouveau traitement"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,8 +15,8 @@ class AddTraitements : AppCompatActivity() {
     private lateinit var loadButton: Button
     private lateinit var manualImportButton: Button
 
-    private lateinit var photoLauncher: ActivityResultLauncher<Intent>
-    private lateinit var loadLauncher: ActivityResultLauncher<Intent>
+    private lateinit var photoLauncher: ActivityResultLauncher<Context>
+    private lateinit var loadLauncher: ActivityResultLauncher<String>
     private lateinit var manualImportLauncher: ActivityResultLauncher<Intent>
 
 
@@ -29,15 +29,29 @@ class AddTraitements : AppCompatActivity() {
         loadButton = findViewById(R.id.loadButton)
         manualImportButton = findViewById(R.id.manualImportButton)
 
-        photoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // Gérez l'activité de résultat ici
+        photoLauncher = registerForActivityResult(TakePictureContract()) { uri ->
+            if (uri != null) {
+                startActivity(Intent(this, PreviewActivity::class.java))
+            }else{
+                null
+            }
+        }
+
+        loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                startActivity(Intent(this, PreviewActivity::class.java)
+                    .putExtra("uri", uri.toString()))
+            }else{
+                null
             }
         }
 
         photoButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            photoLauncher.launch(intent)
+            photoLauncher.launch(this)
+        }
+
+        loadButton.setOnClickListener {
+            loadLauncher.launch("image/*")
         }
 
 
