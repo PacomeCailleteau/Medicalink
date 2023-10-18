@@ -3,6 +3,7 @@ package dev.mobile.td3notes
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,21 +33,19 @@ class MainActivity : AppCompatActivity() {
 
         takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
             if (uri != null) {
-                imagePreview.setImageURI(uri)
-                imagePreview.visibility = ImageView.VISIBLE
-                validateButton.visibility = Button.VISIBLE
+                displayImage(uri)
             }else{
-                validateButton.visibility = Button.INVISIBLE
+                validateButton.visibility = Button.GONE
             }
         }
 
+
+
         chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                imagePreview.setImageURI(uri)
-                imagePreview.visibility = ImageView.VISIBLE
-                validateButton.visibility = Button.VISIBLE
+                displayImage(uri)
             }else{
-                validateButton.visibility = Button.INVISIBLE
+                validateButton.visibility = Button.GONE
             }
         }
 
@@ -71,5 +70,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun displayImage(uri: Uri) {
+        imagePreview.setImageURI(uri)
+        imagePreview.visibility = ImageView.VISIBLE
+        validateButton.visibility = Button.VISIBLE
     }
 }
