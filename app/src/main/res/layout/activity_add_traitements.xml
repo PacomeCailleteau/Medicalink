@@ -22,7 +22,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button5"
+        android:id="@+id/manualImportButton"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -34,10 +34,10 @@
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/loadButton" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button2"
+        android:id="@+id/photoButton"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button3"
+        android:id="@+id/loadButton"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -64,7 +64,7 @@
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/photoButton" />
 
     <ImageView
         android:id="@+id/imageView"

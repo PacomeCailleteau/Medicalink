@@ -25,6 +25,10 @@
         <activity
         android:name=".MainTraitementsActivity">
         </activity>
+        <activity
+            android:name=".AddTraitements">
+        </activity>
+
 
 
     </application>
