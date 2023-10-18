@@ -12,7 +12,7 @@ import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 
-class MainActivity : AppCompatActivity() {
+class PreviewActivity : AppCompatActivity() {
     private lateinit var buttonTakePicture: Button
     private lateinit var buttonChooseFromGallery: Button
     private lateinit var imagePreview: ImageView
@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
                 validateButton.visibility = Button.GONE
             }
         }
+
+        val uri : Uri = intent.getStringExtra("uri")!!.toUri()
+        displayImage(uri)
 
         chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
