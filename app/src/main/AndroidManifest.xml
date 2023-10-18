@@ -28,6 +28,9 @@
         <activity
             android:name=".AddTraitements">
         </activity>
+        <activity
+            android:name=".ListeTraitements">
+        </activity>
 
 
 

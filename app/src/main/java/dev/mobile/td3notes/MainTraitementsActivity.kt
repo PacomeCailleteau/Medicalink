@@ -17,6 +17,7 @@ class MainTraitementsActivity : AppCompatActivity() {
     private lateinit var journalButton: Button
 
     private lateinit var addLauncher: ActivityResultLauncher<Intent>
+    private lateinit var traitementLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +41,24 @@ class MainTraitementsActivity : AppCompatActivity() {
             }
         }
 
+        traitementLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Gérez l'activité de résultat ici
+            }
+        }
+
+
+
+
         addTraitementButton.setOnClickListener {
             val intent = Intent(this, AddTraitements::class.java)
             addLauncher.launch(intent)
         }
+
+        traitementsButton.setOnClickListener {
+            val intent = Intent(this, ListeTraitements::class.java)
+            traitementLauncher.launch(intent)
+        }
+
     }
 }
