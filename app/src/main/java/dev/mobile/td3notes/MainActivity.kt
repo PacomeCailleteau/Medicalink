@@ -1,6 +1,9 @@
 package dev.mobile.td3notes
 
+import MainTraitementsActivity
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var takePictureLauncher: ActivityResultLauncher<Context>
     private lateinit var chooseFromGalleryLauncher: ActivityResultLauncher<String>
+    private lateinit var validateLauncher: ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        validateLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Gérez l'activité de résultat ici
+            }
+        }
+
         buttonTakePicture.setOnClickListener {
             takePictureLauncher.launch(this)
         }
@@ -54,6 +65,12 @@ class MainActivity : AppCompatActivity() {
         buttonChooseFromGallery.setOnClickListener {
             chooseFromGalleryLauncher.launch("image/*")
         }
+
+        validateButton.setOnClickListener {
+            val intent = Intent(this, MainTraitementsActivity::class.java)
+            validateLauncher.launch(intent)
+        }
+
 
     }
 }

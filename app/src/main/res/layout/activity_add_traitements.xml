@@ -22,7 +22,22 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button3"
+        android:id="@+id/button5"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:text="Ajouter manuellement un traitement"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button2"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -37,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/button3"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -49,22 +64,7 @@
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button5"
-        android:layout_width="325dp"
-        android:layout_height="69dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_blue_button_background"
-        android:text="Ajouter manuellement un traitement"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <ImageView
         android:id="@+id/imageView"

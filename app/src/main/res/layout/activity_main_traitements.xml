@@ -32,7 +32,7 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="@+id/addTraitementButton"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
@@ -46,11 +46,11 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintStart_toStartOf="@+id/addTraitementButton"
+        app:layout_constraintTop_toBottomOf="@+id/addTraitementButton" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button3"
+        android:id="@+id/addTraitementButton"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -66,7 +66,7 @@
         android:textAllCaps="false"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button2"
+        android:id="@+id/traitementsButton"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button4"
+        android:id="@+id/journalButton"
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_alignParentEnd="true"
@@ -94,7 +94,7 @@
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/traitementsButton" />
 
     <ImageView
         android:id="@+id/imageView2"
