@@ -1,3 +1,5 @@
+package dev.mobile.td3notes
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle

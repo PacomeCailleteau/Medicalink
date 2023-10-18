@@ -1,6 +1,5 @@
 package dev.mobile.td3notes
 
-import MainTraitementsActivity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
         validateButton = findViewById(R.id.validate_button)
         imagePreview = findViewById(R.id.image_preview)
-
 
         takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
             if (uri != null) {
@@ -70,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MainTraitementsActivity::class.java)
             validateLauncher.launch(intent)
         }
+
 
 
     }
