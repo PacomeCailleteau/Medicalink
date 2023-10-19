@@ -1,9 +1,12 @@
 package dev.mobile.td3notes
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.util.*
 
-class Traitement(var nomTraitement: String) {
+@RequiresApi(Build.VERSION_CODES.O)
+class Traitement(var nomTraitement: String, var dosageNb : Int, var dosageUnite : String, var dateFinTraitement : LocalDate?, var comprimesRestants : Int, var expire : Boolean = true) {
 
     fun enMajuscule() {
         nomTraitement = nomTraitement.uppercase(Locale.getDefault())
@@ -15,5 +18,8 @@ class Traitement(var nomTraitement: String) {
 
 
     init {
+        if (dateFinTraitement!=null){
+            expire = LocalDate.now() > dateFinTraitement
+        }
     }
 }
