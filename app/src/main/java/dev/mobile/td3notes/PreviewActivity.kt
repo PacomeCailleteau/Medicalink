@@ -25,15 +25,16 @@ class PreviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_preview)
 
+        buttonTakePicture = findViewById(R.id.button_take_picture)
+        buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
         imagePreview = findViewById(R.id.image_preview)
         validateButton = findViewById(R.id.validate_button)
 
         when (intent.getStringExtra("type")) {
             "photo" -> {
                 buttonChooseFromGallery.visibility = Button.GONE
-                buttonTakePicture = findViewById(R.id.button_take_picture)
                 takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
                     if (uri != null) {
                         displayImage(uri)
@@ -48,7 +49,6 @@ class PreviewActivity : AppCompatActivity() {
             }
             "charger" -> {
                 buttonTakePicture.visibility = Button.GONE
-                buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
                 chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                     if (uri != null) {
                         displayImage(uri)
@@ -64,8 +64,8 @@ class PreviewActivity : AppCompatActivity() {
         }
 
         validateButton.setOnClickListener {
-            val intent = Intent(this, MainTraitementsActivity::class.java)
-            validateLauncher.launch(intent)
+            val intent = Intent(this, ListeTraitements::class.java)
+            startActivity(intent)
         }
 
         val uri : Uri = intent.getStringExtra("uri")!!.toUri()
