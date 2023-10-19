@@ -1,6 +1,5 @@
 package dev.mobile.td3notes
 
-import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
 
-class TraitementAdapterR(private val list: MutableList<Traitement>) :
-    RecyclerView.Adapter<TraitementAdapterR.TraitementViewHolder>() {
+class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
+    RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomTraitement = view.findViewById<TextView>(R.id.nomTraitement)
+        val nomTraitement = view.findViewById<TextView>(R.id.nomEffet)
         val dosage = view.findViewById<TextView>(R.id.dosage)
-        val dateExpirationTraitement = view.findViewById<TextView>(R.id.dateExpirationTraitement)
+        val dateExpirationTraitement = view.findViewById<TextView>(R.id.provoquePar)
         val nbComprimesRestants = view.findViewById<TextView>(R.id.nbComprimesRestants)
         val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
 

@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-class Traitement(var nomTraitement: String, var dosageNb : Int, var dosageUnite : String, var dateFinTraitement : LocalDate?, var comprimesRestants : Int, var expire : Boolean = true) {
+class Traitement(var nomTraitement: String, var dosageNb : Int, var dosageUnite : String, var dateFinTraitement : LocalDate?, var comprimesRestants : Int, var expire : Boolean = true,var effetsSecondaires : MutableList<String>?) {
 
     fun enMajuscule() {
         nomTraitement = nomTraitement.uppercase(Locale.getDefault())
