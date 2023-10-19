@@ -9,71 +9,34 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var buttonTakePicture: Button
-    private lateinit var buttonChooseFromGallery: Button
-    private lateinit var imagePreview: ImageView
-    private lateinit var validateButton: Button
-
-    private lateinit var takePictureLauncher: ActivityResultLauncher<Context>
-    private lateinit var chooseFromGalleryLauncher: ActivityResultLauncher<String>
-    private lateinit var validateLauncher: ActivityResultLauncher<Intent>
-
+    private lateinit var image_connexion: ImageView
+    private lateinit var textBienvenue: TextView
+    private lateinit var buttonConnexion: Button
+    private lateinit var buttonChangerUtilisateur: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonTakePicture = findViewById(R.id.button_take_picture)
-        buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
-        validateButton = findViewById(R.id.validate_button)
-        imagePreview = findViewById(R.id.image_preview)
+        image_connexion = findViewById(R.id.image_connexion)
+        textBienvenue = findViewById(R.id.texte_bienvenue)
+        buttonConnexion = findViewById(R.id.button_connexion)
+        buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
-        takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
-            if (uri != null) {
-                displayImage(uri)
-            }else{
-                validateButton.visibility = Button.GONE
-            }
+        buttonConnexion.setOnClickListener {
+            val intent = Intent(this, AddTraitements::class.java)
+            startActivity(intent)
         }
 
-        chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            if (uri != null) {
-                displayImage(uri)
-            }else{
-                validateButton.visibility = Button.GONE
-            }
+        buttonChangerUtilisateur.setOnClickListener {
+            val intent = Intent(this, ListeTraitements::class.java)
+            startActivity(intent)
         }
-
-        validateLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // Gérez l'activité de résultat ici
-            }
-        }
-
-        buttonTakePicture.setOnClickListener {
-            takePictureLauncher.launch(this)
-        }
-
-        buttonChooseFromGallery.setOnClickListener {
-            chooseFromGalleryLauncher.launch("image/*")
-        }
-
-        validateButton.setOnClickListener {
-            val intent = Intent(this, MainTraitementsActivity::class.java)
-            validateLauncher.launch(intent)
-        }
-
-
-
     }
 
-    private fun displayImage(uri: Uri) {
-        imagePreview.setImageURI(uri)
-        imagePreview.visibility = ImageView.VISIBLE
-        validateButton.visibility = Button.VISIBLE
-    }
 }
