@@ -29,6 +29,9 @@
         <activity
             android:name=".ListeTraitements">
         </activity>
+        <activity
+            android:name=".ListeEffetsSecondaires">
+        </activity>
 
 
 

@@ -8,83 +8,71 @@
     tools:context=".MainActivity"
     >
 
-    <ImageView
-        android:id="@+id/image_preview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_below="@id/button_choose_from_gallery"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintDimensionRatio="1.5:2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="411dp"
+        android:layout_height="500dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        <ImageView
+            android:id="@+id/image_connexion"
+            android:layout_width="300dp"
+            android:layout_height="450dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/photo_famille" />
+
+        <TextView
+            android:id="@+id/texte_bienvenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/font_home"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
+            android:text="Bienvenue sur Medicalink !"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_connexion"
+            app:layout_constraintStart_toStartOf="@+id/image_connexion" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_connexion"
+        android:layout_width="250dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="30dp"
+        android:text="Créer un profil"
+        android:background="@drawable/rounded_green_home_button_background"
+        android:fontFamily="@font/quicksand_semibold"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_take_picture"
-            android:layout_width="325dp"
-            android:layout_height="69dp"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_blue_button_background"
-            android:backgroundTint="#DEE5F0"
-            android:fontFamily="@font/quicksand_semibold"
-            android:text="Prendre une photo"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_choose_from_gallery"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_choose_from_gallery"
-            android:layout_width="325dp"
-            android:layout_height="69dp"
-            android:layout_below="@id/button_take_picture"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded_blue_button_background"
-            android:backgroundTint="#DEE5F0"
-            android:fontFamily="@font/quicksand_semibold"
-            android:text="Choisir depuis la galerie"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/validate_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/validate_button"
-            android:layout_width="325dp"
-            android:layout_height="69dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_green_button_background"
-            android:backgroundTint="#DCF0E7"
-            android:fontFamily="@font/quicksand_semibold"
-            android:text="Valider le nouveau traitement"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_changer_utilisateur"
+        android:layout_width="250dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_white_border_white_home_button_background"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="Changer d'utilisateur"
+        android:textAllCaps="false"
+        android:textColor="#007362"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_connexion" />
 </androidx.constraintlayout.widget.ConstraintLayout>

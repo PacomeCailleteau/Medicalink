@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="118dp"
-    android:background="@drawable/squared_blue_button_background">
+    android:background="@drawable/rounded_red_button_background">
 
     <TextView
         android:id="@+id/nomEffet"
@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/quicksand_bold"
-        android:text="Nom_Médicament"
+        android:text="Nom_Effet"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -26,49 +26,19 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/dosage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/quicksand_semibold"
-        android:text="5 par jours"
-        android:textColor="#000000"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/provoquePar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/nomEffet" />
-
-    <TextView
         android:id="@+id/provoquePar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/quicksand_semibold"
-        android:text="Jusqu'au 18/07/2023"
+        android:text="Proqué par : XXX"
         android:textColor="#000000"
         android:textSize="13sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/nbComprimesRestants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/nomEffet" />
-
-    <TextView
-        android:id="@+id/nbComprimesRestants"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="15dp"
-        android:fontFamily="@font/quicksand_semibold"
-        android:gravity="end"
-        android:text="7 Comprimé(s) restants"
-        android:textColor="#000000"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/provoquePar" />
+        app:layout_constraintStart_toStartOf="@+id/nomEffet"
+        app:layout_constraintTop_toBottomOf="@+id/nomEffet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

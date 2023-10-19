@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 
-class ListeTraitements : AppCompatActivity() {
+class ListeEffetsSecondaires : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var annuler: ImageView
 
@@ -17,7 +17,7 @@ class ListeTraitements : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_liste_traitements)
+        setContentView(R.layout.activity_liste_effets_secondaires)
         annuler = findViewById(R.id.annulerListeEffetsSecondaires)
 
         val effetsSecondairesDoliprane = mutableListOf("Nausées", "Vomissements", "Maux de tête")
@@ -49,7 +49,7 @@ class ListeTraitements : AppCompatActivity() {
         println(traitementsTries.first().nomTraitement)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ListeTraitementAdapterR(traitementsTries)
+        recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)
 
         //Gestion espacement entre items RecyclerView
         val espacementEnDp = 22

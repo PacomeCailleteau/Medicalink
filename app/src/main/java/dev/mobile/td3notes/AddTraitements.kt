@@ -1,6 +1,6 @@
 package dev.mobile.td3notes
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
@@ -14,6 +14,7 @@ class AddTraitements : AppCompatActivity() {
     private lateinit var photoButton: Button
     private lateinit var loadButton: Button
     private lateinit var manualImportButton: Button
+    private lateinit var annuler : ImageView
 
     private lateinit var photoLauncher: ActivityResultLauncher<Context>
     private lateinit var loadLauncher: ActivityResultLauncher<String>
@@ -28,6 +29,7 @@ class AddTraitements : AppCompatActivity() {
         photoButton = findViewById(R.id.photoButton)
         loadButton = findViewById(R.id.loadButton)
         manualImportButton = findViewById(R.id.manualImportButton)
+        annuler = findViewById<ImageView>(R.id.annulerAddTraitement)
 
         photoLauncher = registerForActivityResult(TakePictureContract()) { uri ->
             if (uri != null) {
@@ -55,6 +57,10 @@ class AddTraitements : AppCompatActivity() {
 
         loadButton.setOnClickListener {
             loadLauncher.launch("image/*")
+        }
+
+        annuler.setOnClickListener {
+            finish()
         }
 
 
