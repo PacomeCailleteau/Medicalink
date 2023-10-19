@@ -29,12 +29,12 @@ class MainActivity : AppCompatActivity() {
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
         buttonConnexion.setOnClickListener {
-            val intent = Intent(this, AddTraitements::class.java)
+            val intent = Intent(this, MainTraitementsActivity::class.java)
             startActivity(intent)
         }
 
         buttonChangerUtilisateur.setOnClickListener {
-            val intent = Intent(this, ListeTraitements::class.java)
+            val intent = Intent(this, AddTraitements::class.java)
             startActivity(intent)
         }
     }
