@@ -31,7 +31,9 @@ class AddTraitements : AppCompatActivity() {
 
         photoLauncher = registerForActivityResult(TakePictureContract()) { uri ->
             if (uri != null) {
-                startActivity(Intent(this, PreviewActivity::class.java))
+                startActivity(Intent(this, PreviewActivity::class.java)
+                    .putExtra("uri", uri.toString())
+                    .putExtra("type", "photo"))
             }else{
                 null
             }
@@ -40,7 +42,8 @@ class AddTraitements : AppCompatActivity() {
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
                 startActivity(Intent(this, PreviewActivity::class.java)
-                    .putExtra("uri", uri.toString()))
+                    .putExtra("uri", uri.toString())
+                    .putExtra("type", "charger"))
             }else{
                 null
             }

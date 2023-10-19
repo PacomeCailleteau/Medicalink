@@ -27,42 +27,40 @@ class PreviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonTakePicture = findViewById(R.id.button_take_picture)
-        buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
-        validateButton = findViewById(R.id.validate_button)
         imagePreview = findViewById(R.id.image_preview)
+        validateButton = findViewById(R.id.validate_button)
 
-        takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
-            if (uri != null) {
-                displayImage(uri)
-            }else{
-                validateButton.visibility = Button.GONE
+        when (intent.getStringExtra("type")) {
+            "photo" -> {
+                buttonChooseFromGallery.visibility = Button.GONE
+                buttonTakePicture = findViewById(R.id.button_take_picture)
+                takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
+                    if (uri != null) {
+                        displayImage(uri)
+                    }else{
+                        validateButton.visibility = Button.GONE
+                    }
+                }
+
+                buttonTakePicture.setOnClickListener {
+                    takePictureLauncher.launch(this)
+                }
             }
-        }
+            "charger" -> {
+                buttonTakePicture.visibility = Button.GONE
+                buttonChooseFromGallery = findViewById(R.id.button_choose_from_gallery)
+                chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+                    if (uri != null) {
+                        displayImage(uri)
+                    }else{
+                        validateButton.visibility = Button.GONE
+                    }
+                }
 
-        val uri : Uri = intent.getStringExtra("uri")!!.toUri()
-        displayImage(uri)
-
-        chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            if (uri != null) {
-                displayImage(uri)
-            }else{
-                validateButton.visibility = Button.GONE
+                buttonChooseFromGallery.setOnClickListener {
+                    chooseFromGalleryLauncher.launch("image/*")
+                }
             }
-        }
-
-        validateLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // Gérez l'activité de résultat ici
-            }
-        }
-
-        buttonTakePicture.setOnClickListener {
-            takePictureLauncher.launch(this)
-        }
-
-        buttonChooseFromGallery.setOnClickListener {
-            chooseFromGalleryLauncher.launch("image/*")
         }
 
         validateButton.setOnClickListener {
@@ -70,10 +68,14 @@ class PreviewActivity : AppCompatActivity() {
             validateLauncher.launch(intent)
         }
 
+        val uri : Uri = intent.getStringExtra("uri")!!.toUri()
+        displayImage(uri)
+
+
+
 
 
     }
-
     private fun displayImage(uri: Uri) {
         imagePreview.setImageURI(uri)
         imagePreview.visibility = ImageView.VISIBLE
