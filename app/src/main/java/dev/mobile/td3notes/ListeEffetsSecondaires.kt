@@ -22,12 +22,12 @@ class ListeEffetsSecondaires : AppCompatActivity() {
 
         val effetsSecondairesDoliprane = mutableListOf("Nausées", "Vomissements", "Maux de tête")
         val effetsSecondairesAspirine = mutableListOf("Irritation de l'estomac", "Hémorragie")
-        val effetsSecondairesVitamineC = mutableListOf("Aucun effet secondaire connu")
+        val effetsSecondairesVitamineC = null
         val effetsSecondairesIbuprofène = mutableListOf("Maux d'estomac", "Saignement d'estomac")
         val effetsSecondairesAntibiotique = mutableListOf("Réaction allergique", "Diarrhée")
         val effetsSecondairesMédicamentX = mutableListOf("Somnolence", "Vertiges")
-        val effetsSecondairesVitamineD = mutableListOf("Aucun effet secondaire connu")
-        val effetsSecondairesParacétamol = mutableListOf("Aucun effet secondaire connu")
+        val effetsSecondairesVitamineD = null
+        val effetsSecondairesParacétamol = null
         val effetsSecondairesAntiInflammatoire = mutableListOf("Irritation de l'estomac", "Saignement d'estomac")
         val effetsSecondairesMédicamentY = mutableListOf("Somnolence", "Confusion")
 

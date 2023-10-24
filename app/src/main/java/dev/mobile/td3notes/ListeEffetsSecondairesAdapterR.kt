@@ -33,12 +33,12 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         list.forEach { traitement ->
             traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
                 // Vérifiez si l'effet secondaire est déjà dans la carte.
-                if (effetSecondaire in effetsSecondairesMedicaments) {
+                if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
                     // S'il est présent, ajoutez le traitement à la liste existante.
-                    effetsSecondairesMedicaments[effetSecondaire]!!.add(traitement)
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
                 } else {
                     // S'il n'est pas présent, créez une nouvelle liste et ajoutez le traitement.
-                    effetsSecondairesMedicaments[effetSecondaire] = mutableListOf(traitement)
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()] = mutableListOf(traitement)
                 }
             }
         }
@@ -55,15 +55,23 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
-        val tousLesEffetsSecondaires = list.flatMap { it.effetsSecondaires.orEmpty() }
+        val tousLesEffetsSecondaires = list
+            .flatMap { it.effetsSecondaires.orEmpty() }
+            .map { it.lowercase().trim() }
+            .distinct()
         val item = tousLesEffetsSecondaires.get(position)
-        holder.nomEffet.text = item
+        holder.nomEffet.text = item.substring(0, 1).uppercase() + item.substring(1)
 
         val maList = getListProvenance()[item]
-        var monAffichage = ""
+        var monAffichage = "Provoqué par : "
         if (maList != null) {
             for (medicament in maList) {
-                monAffichage += "${medicament.nomTraitement}/"
+                if (medicament == maList.last()){
+                    monAffichage += "${medicament.nomTraitement}"
+                }else{
+                    monAffichage += "${medicament.nomTraitement}, "
+                }
+
             }
         }
 

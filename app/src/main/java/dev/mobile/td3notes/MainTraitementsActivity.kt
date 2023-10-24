@@ -6,15 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import dev.mobile.td3notes.R
 
 class MainTraitementsActivity : AppCompatActivity() {
-    private lateinit var addTraitementButton: Button
-    private lateinit var traitementsButton: Button
-    private lateinit var journalButton: Button
+    private lateinit var addTraitementButton: LinearLayout
+    private lateinit var traitementsButton: LinearLayout
+    private lateinit var journalButton: LinearLayout
 
     private lateinit var addLauncher: ActivityResultLauncher<Intent>
     private lateinit var traitementLauncher: ActivityResultLauncher<Intent>
@@ -32,9 +33,9 @@ class MainTraitementsActivity : AppCompatActivity() {
         // someButton.setOnClickListener {
         //     // Votre code ici
         // }
-        addTraitementButton = findViewById(R.id.addTraitementButton)
-        traitementsButton = findViewById(R.id.traitementsButton)
-        journalButton = findViewById(R.id.journalButton)
+        addTraitementButton = findViewById(R.id.cardaddtraitements)
+        traitementsButton = findViewById(R.id.cardtraitements)
+        journalButton = findViewById(R.id.cardjournal)
 
 
         addLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
