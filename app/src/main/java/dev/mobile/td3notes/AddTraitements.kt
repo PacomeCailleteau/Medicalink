@@ -27,7 +27,6 @@ class AddTraitements : AppCompatActivity() {
 
     private lateinit var photoLauncher: ActivityResultLauncher<Uri>
     private lateinit var loadLauncher: ActivityResultLauncher<String>
-    private lateinit var manualImportLauncher: ActivityResultLauncher<Intent>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,19 +39,7 @@ class AddTraitements : AppCompatActivity() {
         manualImportButton = findViewById(R.id.manualImportButton)
         annuler = findViewById<ImageView>(R.id.annulerAddTraitement)
 
-        val photoLaunchere = registerForActivityResult(TakePictureContract()) { uri ->
-            if (uri != null) {
-                startActivity(Intent(this, PreviewActivity::class.java)
-                    .putExtra("uri", uri.toString())
-                    .putExtra("type", "photo"))
-            }else{
-                null
-            }
-        }
-
         photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-            Log.d("MedicalinkBug", success.toString())
-            Log.d("MedicalinkBug", currentPhotoPath.toString())
             // Utilise le chemin de l'image capturée (currentPhotoPath)
             if (currentPhotoPath != null) {
                 // L'image a été capturée avec succès, tu peux utiliser currentPhotoPath ici
@@ -61,9 +48,8 @@ class AddTraitements : AppCompatActivity() {
                     .putExtra("uri", currentPhotoPath.toString())
                     .putExtra("type", "photo"))
             } else {
-                Log.d("coucou", "coucou")
+                null
             }
-            Log.d("coucou", "$currentPhotoPath")
         }
 
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
