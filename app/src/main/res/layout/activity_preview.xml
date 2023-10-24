@@ -42,7 +42,7 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/rounded_blue_button_background"
             android:fontFamily="@font/quicksand_semibold"
-            android:text="Prendre une photo"
+            android:text="Prendre une nouvelle photo"
             android:textAllCaps="false"
             android:textColor="#000000"
             android:textSize="20dp"
