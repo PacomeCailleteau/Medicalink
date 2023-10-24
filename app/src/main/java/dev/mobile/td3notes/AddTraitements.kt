@@ -11,6 +11,7 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import java.io.File
@@ -18,9 +19,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class AddTraitements : AppCompatActivity() {
-    private lateinit var photoButton: Button
-    private lateinit var loadButton: Button
-    private lateinit var manualImportButton: Button
+    private lateinit var photoButton: LinearLayout
+    private lateinit var loadButton: LinearLayout
+    private lateinit var manualImportButton: LinearLayout
     private lateinit var annuler : ImageView
 
     private var currentPhotoPath: Uri? = null
@@ -35,9 +36,9 @@ class AddTraitements : AppCompatActivity() {
         setContentView(R.layout.activity_add_traitements)
 
 
-        photoButton = findViewById(R.id.photoButton)
-        loadButton = findViewById(R.id.loadButton)
-        manualImportButton = findViewById(R.id.manualImportButton)
+        photoButton = findViewById(R.id.cardphoto)
+        loadButton = findViewById(R.id.cardload)
+        manualImportButton = findViewById(R.id.cardaddmanually)
         annuler = findViewById<ImageView>(R.id.annulerAddTraitement)
 
         val photoLaunchere = registerForActivityResult(TakePictureContract()) { uri ->

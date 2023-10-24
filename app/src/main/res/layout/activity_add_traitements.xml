@@ -21,51 +21,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/manualImportButton"
-        android:layout_width="325dp"
-        android:layout_height="69dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_blue_button_background"
-        android:text="Ajouter manuellement un traitement"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loadButton" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/photoButton"
-        android:layout_width="325dp"
-        android:layout_height="69dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="37dp"
-        android:background="@drawable/rounded_blue_button_background"
-        android:text="Prendre une photo de l'ordonnance"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loadButton"
-        android:layout_width="325dp"
-        android:layout_height="69dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_blue_button_background"
-        android:text="Charger une ordonnance depuis le téléphone"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoButton" />
-
     <ImageView
         android:id="@+id/annulerAddTraitement"
         android:layout_width="35dp"
@@ -75,5 +30,104 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/annuler" />
+
+    <LinearLayout
+        android:id="@+id/cardphoto"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="37dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            app:srcCompat="@drawable/appareil_photo_du_telephone" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="Prendre une photo de l'ordonnance"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cardload"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardphoto">
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            app:srcCompat="@drawable/importer_1_" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="Charger une ordonnance depuis le téléphone"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cardaddmanually"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardload">
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/noter" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="Ajouter manuellement un traitement"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

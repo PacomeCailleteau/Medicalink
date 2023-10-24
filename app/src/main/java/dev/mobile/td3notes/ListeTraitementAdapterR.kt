@@ -4,6 +4,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +20,8 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         val dateExpirationTraitement = view.findViewById<TextView>(R.id.provoquePar)
         val nbComprimesRestants = view.findViewById<TextView>(R.id.nbComprimesRestants)
         val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
+        val imageView = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
+
 
     }
 
@@ -40,6 +43,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         holder.dosage.text = "${item.dosageNb} par ${item.dosageUnite}"
         if (item.expire){
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_gray_button_background)
+            holder.imageView.setImageResource(R.drawable.medicexpire)
             holder.nbComprimesRestants.text = "Traitement expiré"
             if (item.dateFinTraitement == null){
                 holder.dateExpirationTraitement.text = "Terminé"
@@ -48,6 +52,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
             }
         }else{
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
+            holder.imageView.setImageResource(R.drawable.medicencours)
             holder.nbComprimesRestants.text = "${item.comprimesRestants} comprimés restants"
             if (item.dateFinTraitement == null){
                 holder.dateExpirationTraitement.text = "Indéterminé"

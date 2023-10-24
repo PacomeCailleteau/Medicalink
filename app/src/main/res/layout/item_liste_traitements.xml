@@ -9,35 +9,29 @@
 
     <TextView
         android:id="@+id/nomEffet"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/quicksand_bold"
         android:text="Nom_Médicament"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/itemListeTraitementsImage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/dosage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:fontFamily="@font/quicksand_semibold"
         android:text="5 par jours"
         android:textColor="#000000"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/provoquePar"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/nomEffet" />
 
     <TextView
@@ -70,5 +64,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/provoquePar" />
+
+    <ImageView
+        android:id="@+id/itemListeTraitementsImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/medicencours" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
