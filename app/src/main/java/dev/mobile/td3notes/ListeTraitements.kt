@@ -44,6 +44,8 @@ class ListeTraitements : AppCompatActivity() {
             Traitement("Médicament Y", 21, "An", LocalDate.of(2024, 1, 20), 10, false, effetsSecondairesMédicamentY)
         )
 
+        
+
 
         val traitementsTries = lp.sortedBy { it.expire }.toMutableList()
         println(traitementsTries.first().nomTraitement)

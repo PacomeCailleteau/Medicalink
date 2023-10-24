@@ -1,6 +1,7 @@
 package dev.mobile.td3notes
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,27 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         return list.size
     }
 
+    fun getListProvenance() : MutableMap<String, MutableList<Traitement>> {
+        // Créez une carte (Map) pour stocker les associations entre les effets secondaires et les médicaments.
+        val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
+
+        // Parcourez la liste de traitements (lp).
+        list.forEach { traitement ->
+            traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
+                // Vérifiez si l'effet secondaire est déjà dans la carte.
+                if (effetSecondaire in effetsSecondairesMedicaments) {
+                    // S'il est présent, ajoutez le traitement à la liste existante.
+                    effetsSecondairesMedicaments[effetSecondaire]!!.add(traitement)
+                } else {
+                    // S'il n'est pas présent, créez une nouvelle liste et ajoutez le traitement.
+                    effetsSecondairesMedicaments[effetSecondaire] = mutableListOf(traitement)
+                }
+            }
+        }
+
+        return effetsSecondairesMedicaments
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
@@ -36,7 +58,17 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         val tousLesEffetsSecondaires = list.flatMap { it.effetsSecondaires.orEmpty() }
         val item = tousLesEffetsSecondaires.get(position)
         holder.nomEffet.text = item
-        holder.provoquePar.text="To be defined"
+
+        val maList = getListProvenance()[item]
+        var monAffichage = ""
+        if (maList != null) {
+            for (medicament in maList) {
+                monAffichage += "${medicament.nomTraitement}/"
+            }
+        }
+
+
+        holder.provoquePar.text="$monAffichage"
 
         /*
         A check pour afficher les détails d'un traitement quand cliqué

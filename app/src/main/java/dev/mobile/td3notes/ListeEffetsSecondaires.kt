@@ -45,6 +45,8 @@ class ListeEffetsSecondaires : AppCompatActivity() {
         )
 
 
+
+
         val traitementsTries = lp.sortedBy { it.expire }.toMutableList()
         println(traitementsTries.first().nomTraitement)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
