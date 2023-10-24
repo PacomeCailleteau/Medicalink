@@ -11,7 +11,11 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class PreviewActivity : AppCompatActivity() {
     private lateinit var buttonTakePicture: Button
@@ -19,7 +23,9 @@ class PreviewActivity : AppCompatActivity() {
     private lateinit var imagePreview: ImageView
     private lateinit var validateButton: Button
 
-    private lateinit var takePictureLauncher: ActivityResultLauncher<Context>
+    private var currentPhotoPath: Uri? = null
+
+    private lateinit var takePictureLauncher: ActivityResultLauncher<Uri>
     private lateinit var chooseFromGalleryLauncher: ActivityResultLauncher<String>
     private lateinit var validateLauncher: ActivityResultLauncher<Intent>
 
@@ -36,16 +42,19 @@ class PreviewActivity : AppCompatActivity() {
         when (intent.getStringExtra("type")) {
             "photo" -> {
                 buttonChooseFromGallery.visibility = Button.GONE
-                takePictureLauncher = registerForActivityResult(TakePictureContract()) { uri ->
-                    if (uri != null) {
-                        displayImage(uri)
+                takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                    if (currentPhotoPath != null) {
+                        displayImage(currentPhotoPath!!)
                     }else{
                         validateButton.visibility = Button.GONE
                     }
                 }
 
                 buttonTakePicture.setOnClickListener {
-                    takePictureLauncher.launch(this)
+                    val uri: Uri = createImageFile()
+                    currentPhotoPath = uri
+                    Log.d("MedicalinkBug", uri.toString())
+                    takePictureLauncher.launch(uri)
                 }
             }
             "charger" -> {
@@ -70,7 +79,6 @@ class PreviewActivity : AppCompatActivity() {
         }
 
         val uri : Uri = intent.getStringExtra("uri")!!.toUri()
-        Log.d("coucou", "phase2 :$uri")
         displayImage(uri)
 
 
@@ -82,5 +90,21 @@ class PreviewActivity : AppCompatActivity() {
         imagePreview.setImageURI(uri)
         imagePreview.visibility = ImageView.VISIBLE
         validateButton.visibility = Button.VISIBLE
+    }
+
+    private fun createImageFile(): Uri {
+        val provider: String = "${applicationContext.packageName}.fileprovider"
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+
+        val image = File.createTempFile(
+            imageFileName, /* prefix */
+            ".jpg", /* suffix */
+            cacheDir      /* directory */
+        ).apply {
+            createNewFile()
+        }
+
+        return FileProvider.getUriForFile(applicationContext, provider, image)
     }
 }
