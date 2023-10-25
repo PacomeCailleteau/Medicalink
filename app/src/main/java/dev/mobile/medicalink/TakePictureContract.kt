@@ -1,4 +1,4 @@
-package dev.mobile.td3notes
+package dev.mobile.medicalink
 
 import android.app.Activity
 import android.content.ContentValues

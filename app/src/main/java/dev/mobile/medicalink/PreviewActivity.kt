@@ -1,7 +1,5 @@
-package dev.mobile.td3notes
+package dev.mobile.medicalink
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher

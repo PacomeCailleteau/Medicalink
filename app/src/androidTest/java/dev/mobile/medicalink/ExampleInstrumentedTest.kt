@@ -1,4 +1,4 @@
-package dev.mobile.td3notes
+package dev.mobile.medicalink
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("dev.mobile.td3notes", appContext.packageName)
+        assertEquals("dev.mobile.medicalink", appContext.packageName)
     }
 }

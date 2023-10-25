@@ -1,16 +1,13 @@
-package dev.mobile.td3notes
+package dev.mobile.medicalink
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import dev.mobile.td3notes.R
+import dev.mobile.medicalink.R
 
 class MainTraitementsActivity : AppCompatActivity() {
     private lateinit var addTraitementButton: LinearLayout

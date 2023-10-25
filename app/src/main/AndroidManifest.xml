@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="dev.mobile.td3notes">
+    package="dev.mobile.medicalink">
 
     <application
         android:allowBackup="true"
@@ -14,9 +14,9 @@
         android:theme="@style/Theme.Td3Notes"
         tools:targetApi="31">
         <activity
-            android:name=".PreviewActivity"/>
+            android:name="dev.mobile.medicalink.PreviewActivity"/>
         <activity
-            android:name=".MainActivity"
+            android:name="dev.mobile.medicalink.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainTraitementsActivity"></activity>
-        <activity android:name=".AddTraitements"></activity>
+        <activity android:name="dev.mobile.medicalink.MainTraitementsActivity"></activity>
+        <activity android:name="dev.mobile.medicalink.AddTraitements"></activity>
         <activity
-            android:name=".ListeTraitements">
+            android:name="dev.mobile.medicalink.ListeTraitements">
         </activity>
         <activity
-            android:name=".ListeEffetsSecondaires">
+            android:name="dev.mobile.medicalink.ListeEffetsSecondaires">
         </activity>
 
         <provider

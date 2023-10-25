@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "dev.mobile.td3notes"
+        applicationId "dev.mobile.medicalink"
         minSdk 23
         targetSdk 32
         versionCode 1

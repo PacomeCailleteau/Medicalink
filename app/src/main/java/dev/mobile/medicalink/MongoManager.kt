@@ -1,4 +1,4 @@
-package dev.mobile.td3notes
+package dev.mobile.medicalink
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.MongoCredential

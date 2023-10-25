@@ -1,17 +1,11 @@
-package dev.mobile.td3notes
+package dev.mobile.medicalink
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
     private lateinit var image_connexion: ImageView
