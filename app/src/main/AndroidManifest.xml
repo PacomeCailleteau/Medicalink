@@ -24,14 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="dev.mobile.medicalink.MainTraitementsActivity"></activity>
-        <activity android:name="dev.mobile.medicalink.AddTraitements"></activity>
         <activity
-            android:name="dev.mobile.medicalink.ListeTraitements">
-        </activity>
+            android:name="dev.mobile.medicalink.MainTraitementsActivity" />
         <activity
-            android:name="dev.mobile.medicalink.ListeEffetsSecondaires">
-        </activity>
+            android:name="dev.mobile.medicalink.AddTraitements" />
+        <activity
+            android:name="dev.mobile.medicalink.ListeTraitements" />
+        <activity
+            android:name="dev.mobile.medicalink.ListeEffetsSecondaires" />
+        <activity
+            android:name="dev.mobile.medicalink.MainFragment" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

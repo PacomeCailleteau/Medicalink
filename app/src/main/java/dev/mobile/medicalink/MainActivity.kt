@@ -1,9 +1,9 @@
 package dev.mobile.medicalink
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
         buttonConnexion.setOnClickListener {
-            val intent = Intent(this, MainTraitementsActivity::class.java)
+            val intent = Intent(this, MainFragment::class.java)
             startActivity(intent)
         }
 
