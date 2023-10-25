@@ -16,9 +16,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -71,14 +69,24 @@ class CreerProfilActivity : AppCompatActivity() {
             showDatePickerDialog()
         }
 
-        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail)
-        for (editText in editTextList) {
-            editText.addTextChangedListener(textWatcher)
-        }
+        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail, radioButtonUtilisateur, radioButtonProfessionnel)
 
         checkboxRgpd.setOnCheckedChangeListener { buttonView, isChecked ->
-            updateButtonState(editTextList, checkboxRgpd, buttonCreerProfil)
+            updateButtonState()
         }
+
+        radioButtonUtilisateur.setOnCheckedChangeListener { buttonView, isChecked ->
+            updateButtonState()
+        }
+
+        radioButtonProfessionnel.setOnCheckedChangeListener { buttonView, isChecked ->
+            updateButtonState()
+        }
+
+        inputNom.addTextChangedListener(textWatcher)
+        inputPrenom.addTextChangedListener(textWatcher)
+        inputDateDeNaissance.addTextChangedListener(textWatcher)
+        inputEmail.addTextChangedListener(textWatcher)
 
         buttonCreerProfil.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -86,6 +94,7 @@ class CreerProfilActivity : AppCompatActivity() {
         }
 
     }
+
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             // Ne fait rien
@@ -96,37 +105,28 @@ class CreerProfilActivity : AppCompatActivity() {
         }
 
         override fun afterTextChanged(editable: Editable?) {
-            // Vérifie si tous les champs obligatoires sont remplis
-            val isFieldsNotEmpty =
-                !inputNom.text.isNullOrBlank() &&
-                        !inputPrenom.text.isNullOrBlank() &&
-                        !inputDateDeNaissance.text.isNullOrBlank() &&
-                        !inputEmail.text.isNullOrBlank() &&
-                        checkboxRgpd.isChecked
-
-            // Active ou désactive le bouton "Créer mon profil" en fonction de la validité des champs
-            buttonCreerProfil.alpha = if (isFieldsNotEmpty) 1.toFloat() else 0.3.toFloat()
-            buttonCreerProfil.isEnabled = isFieldsNotEmpty
-
-            // Vérifie si au moins un champ est vide, puis réactive le bouton
-            if (inputNom.text.isNullOrBlank() || inputPrenom.text.isNullOrBlank() || inputDateDeNaissance.text.isNullOrBlank() || inputEmail.text.isNullOrBlank() || !checkboxRgpd.isChecked) {
-                buttonCreerProfil.isEnabled = false
-                buttonCreerProfil.alpha = 0.3.toFloat()
-            }
+            updateButtonState()
         }
     }
 
-    private fun updateButtonState(editTextList: List<EditText>, checkboxRgpd: CheckBox, buttonCreerProfil: Button) {
-        val allFieldsFilled = editTextList.all { it.text.isNotBlank() }
+    private fun updateButtonState() {
         val isCheckboxChecked = checkboxRgpd.isChecked
-        buttonCreerProfil.isEnabled = allFieldsFilled && isCheckboxChecked
-        buttonCreerProfil.isVisible = allFieldsFilled && isCheckboxChecked
-        if (allFieldsFilled && isCheckboxChecked) {
-            buttonCreerProfil.alpha = 1.0.toFloat()
-        }else{
-            buttonCreerProfil.alpha = 0.3.toFloat()
+        val isRadioButtonSelected = radioButtonUtilisateur.isChecked || radioButtonProfessionnel.isChecked
+
+        val allFieldsFilled = inputNom.text!!.isNotBlank() &&
+                inputPrenom.text!!.isNotBlank() &&
+                inputDateDeNaissance.text!!.isNotBlank() &&
+                inputEmail.text!!.isNotBlank()
+
+        if (isCheckboxChecked && isRadioButtonSelected && allFieldsFilled) {
+            buttonCreerProfil.isEnabled = true
+            buttonCreerProfil.alpha = 1.0f
+        } else {
+            buttonCreerProfil.isEnabled = false
+            buttonCreerProfil.alpha = 0.3f
         }
     }
+
 
     private fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
