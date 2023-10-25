@@ -1,5 +1,6 @@
 package dev.mobile.medicalink
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
@@ -18,12 +19,15 @@ class AddTraitements : AppCompatActivity() {
     private lateinit var photoButton: LinearLayout
     private lateinit var loadButton: LinearLayout
     private lateinit var manualImportButton: LinearLayout
+
     private lateinit var annuler : ImageView
 
     private var currentPhotoPath: Uri? = null
 
     private lateinit var photoLauncher: ActivityResultLauncher<Uri>
     private lateinit var loadLauncher: ActivityResultLauncher<String>
+    private lateinit var addManuallyLauncher: ActivityResultLauncher<Intent>
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +37,8 @@ class AddTraitements : AppCompatActivity() {
 
         photoButton = findViewById(R.id.cardphoto)
         loadButton = findViewById(R.id.cardload)
+        manualImportButton = findViewById(R.id.cardaddmanually)
+
         manualImportButton = findViewById(R.id.cardaddmanually)
         annuler = findViewById<ImageView>(R.id.annulerAddTraitement)
 
@@ -59,6 +65,15 @@ class AddTraitements : AppCompatActivity() {
             }
         }
 
+        addManuallyLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Gérez l'activité de résultat ici
+            }
+        }
+
+
+
+
         photoButton.setOnClickListener {
             val uri: Uri = createImageFile()
             currentPhotoPath = uri
@@ -69,6 +84,12 @@ class AddTraitements : AppCompatActivity() {
         loadButton.setOnClickListener {
             loadLauncher.launch("image/*")
         }
+
+        manualImportButton.setOnClickListener {
+            val intent = Intent(this, AjoutManuelSearch::class.java)
+            addManuallyLauncher.launch(intent)
+        }
+
 
         annuler.setOnClickListener {
             finish()

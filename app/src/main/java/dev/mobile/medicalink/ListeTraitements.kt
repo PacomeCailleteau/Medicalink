@@ -49,7 +49,7 @@ class ListeTraitements : AppCompatActivity() {
 
         val traitementsTries = lp.sortedBy { it.expire }.toMutableList()
         println(traitementsTries.first().nomTraitement)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewListeAddManuallySearch)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = ListeTraitementAdapterR(traitementsTries)
 

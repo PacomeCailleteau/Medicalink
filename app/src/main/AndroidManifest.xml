@@ -14,9 +14,17 @@
         android:theme="@style/Theme.Td3Notes"
         tools:targetApi="31">
         <activity
-            android:name="dev.mobile.medicalink.PreviewActivity"/>
+            android:name=".AjoutManuelSchemaPrise"
+            android:exported="false" />
         <activity
-            android:name="dev.mobile.medicalink.MainActivity"
+            android:name=".AjoutManuelAnomalies"
+            android:exported="false" />
+        <activity
+            android:name=".AjoutManuelSearch"
+            android:exported="false" />
+        <activity android:name=".PreviewActivity" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,25 +32,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="dev.mobile.medicalink.MainTraitementsActivity"></activity>
-        <activity android:name="dev.mobile.medicalink.AddTraitements"></activity>
-        <activity
-            android:name="dev.mobile.medicalink.ListeTraitements">
-        </activity>
-        <activity
-            android:name="dev.mobile.medicalink.ListeEffetsSecondaires">
-        </activity>
+        <activity android:name=".MainTraitementsActivity" />
+        <activity android:name=".AddTraitements" />
+        <activity android:name=".ListeTraitements" />
+        <activity android:name=".ListeEffetsSecondaires" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>
