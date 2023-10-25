@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         image_connexion = findViewById(R.id.image_connexion)
-        textBienvenue = findViewById(R.id.texte_bienvenue)
+        textBienvenue = findViewById(R.id.text_bienvenue)
         buttonConnexion = findViewById(R.id.button_connexion)
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonChangerUtilisateur.setOnClickListener {
-            val intent = Intent(this, AddTraitements::class.java)
+            val intent = Intent(this, CreerProfilActivity::class.java)
             startActivity(intent)
         }
     }

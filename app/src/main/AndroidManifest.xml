@@ -16,6 +16,8 @@
         <activity
             android:name="dev.mobile.medicalink.PreviewActivity"/>
         <activity
+            android:name="dev.mobile.medicalink.CreerProfilActivity"/>
+        <activity
             android:name="dev.mobile.medicalink.MainActivity"
             android:exported="true">
             <intent-filter>

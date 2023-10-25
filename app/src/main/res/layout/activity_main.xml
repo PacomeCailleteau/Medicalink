@@ -27,7 +27,7 @@
             app:srcCompat="@drawable/photo_famille" />
 
         <TextView
-            android:id="@+id/texte_bienvenue"
+            android:id="@+id/text_bienvenue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"

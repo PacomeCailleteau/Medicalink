@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_medicalink"
         android:layout_width="127dp"
         android:layout_height="32dp"
         android:layout_marginTop="20dp"
@@ -35,7 +35,7 @@
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/text_medicalink" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addTraitementButton2"
@@ -60,7 +60,7 @@
         android:layout_width="29dp"
         android:layout_height="29dp"
         android:layout_marginStart="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/text_medicalink"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/cloche" />
 
