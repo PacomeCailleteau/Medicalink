@@ -2,16 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout_creer_profil"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true">
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addTraitementButton3"
+        android:id="@+id/button_creer_profil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:alpha="0.3"
         android:background="@drawable/rounded_blue_button_background"
+        android:enabled="false"
         android:fontFamily="@font/quicksand_bold"
         android:paddingLeft="30dp"
         android:paddingTop="15dp"
@@ -24,12 +28,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5
-"        app:layout_constraintVertical_bias="0.5"
+"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_rgpd"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_medicalink"
         android:layout_width="139dp"
         android:layout_height="36dp"
         android:layout_marginTop="24dp"
@@ -45,22 +50,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="89dp"
-        android:layout_height="22dp"
+        android:id="@+id/text_votre_profil"
+        android:layout_width="104dp"
+        android:layout_height="21dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="Votre profil"
+        android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        app:layout_constraintTop_toBottomOf="@+id/image_profil" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/text_statut"
         android:layout_width="53dp"
         android:layout_height="23dp"
         android:layout_marginStart="46dp"
@@ -72,10 +78,10 @@
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/text_votre_profil" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/text_informations_personnelles"
         android:layout_width="260dp"
         android:layout_height="22dp"
         android:layout_marginTop="28dp"
@@ -85,86 +91,85 @@
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+        app:layout_constraintStart_toStartOf="@+id/text_statut"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group_statut" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="123dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="11dp"
-        android:textSize="14dp"
-        android:fontFamily="@font/quicksand_semibold"
-        android:text="Utilisateur"
-
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="220dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="14dp"
-        android:fontFamily="@font/quicksand_semibold"
-        android:text="Professionnel de santé"
-
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="409dp"
+    <RadioGroup
+        android:id="@+id/radio_group_statut"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="222dp">
+        app:layout_constraintStart_toStartOf="@+id/text_statut"
+        app:layout_constraintTop_toBottomOf="@+id/text_statut">
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <RadioButton
+            android:id="@+id/radio_button_professionnel"
+            android:layout_width="220dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/quicksand_semibold"
+
+            android:text="Professionnel de santé"
+            android:textSize="14dp" />
+
+        <RadioButton
+            android:id="@+id/radio_button_utilisateur"
+            android:layout_width="123dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="11dp"
+            android:fontFamily="@font/quicksand_semibold"
+            android:text="Utilisateur"
+            android:textSize="14dp"
+
+            />
+    </RadioGroup>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText"
+        android:id="@+id/input_nom"
         android:layout_width="325dp"
         android:layout_height="50dp"
         android:layout_marginTop="7dp"
-        android:fontFamily="@font/quicksand_semibold"
-
         android:background="@drawable/rounded_white_black_stroke_button_background"
+
+        android:fontFamily="@font/quicksand_semibold"
         android:hint="Nom"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/text_informations_personnelles" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText"
+        android:id="@+id/input_prenom"
         android:layout_width="325dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/quicksand_semibold"
         android:background="@drawable/rounded_white_black_stroke_button_background"
+        android:fontFamily="@font/quicksand_semibold"
         android:hint="Prénom"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/input_nom" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText2"
+        android:id="@+id/input_date_de_naissance"
         android:layout_width="325dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
+        android:clickable="true"
+        android:focusable="false"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Date de naissance"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/input_prenom" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText3"
+        android:id="@+id/input_email"
         android:layout_width="325dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -175,27 +180,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/input_date_de_naissance" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkbox_rgpd"
         android:layout_width="316dp"
         android:layout_height="51dp"
         android:layout_marginTop="5dp"
 
         android:text="J'accepte les conditions en matière de protection des données relatives au RGPD."
-        app:layout_constraintStart_toStartOf="@+id/editText3"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintStart_toStartOf="@+id/input_email"
+        app:layout_constraintTop_toBottomOf="@+id/input_email" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/image_profil"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/text_medicalink"
         app:srcCompat="@drawable/utilisateur"
         tools:layout_editor_absoluteX="169dp" />
 

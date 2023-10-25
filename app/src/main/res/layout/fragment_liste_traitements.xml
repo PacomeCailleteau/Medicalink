@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/text_medicalink"
+        android:id="@+id/textView"
         android:layout_width="127dp"
         android:layout_height="32dp"
         android:layout_marginTop="20dp"
@@ -30,12 +30,12 @@
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Journal des effets secondaires"
+        android:text="Mes traitements"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_medicalink" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addTraitementButton2"
@@ -60,12 +60,12 @@
         android:layout_width="29dp"
         android:layout_height="29dp"
         android:layout_marginStart="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_medicalink"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/cloche" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewListeAddManuallySearch"
+        android:id="@+id/recyclerViewListeEffetsSecondaires"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"

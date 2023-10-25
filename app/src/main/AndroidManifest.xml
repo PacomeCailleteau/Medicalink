@@ -17,14 +17,9 @@
             android:name=".AjoutManuelSchemaPrise"
             android:exported="false" />
         <activity
-            android:name=".AjoutManuelAnomalies"
-            android:exported="false" />
+            android:name="dev.mobile.medicalink.CreerProfilActivity"/>
         <activity
-            android:name=".AjoutManuelSearch"
-            android:exported="false" />
-        <activity android:name=".PreviewActivity" />
-        <activity
-            android:name=".MainActivity"
+            android:name="dev.mobile.medicalink.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,20 +27,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainTraitementsActivity" />
-        <activity android:name=".AddTraitements" />
-        <activity android:name=".ListeTraitements" />
-        <activity android:name=".ListeEffetsSecondaires" />
+        <activity
+            android:name="dev.mobile.medicalink.MainTraitementsActivity" />
+        <activity
+            android:name="dev.mobile.medicalink.AddTraitements" />
+        <activity
+            android:name="dev.mobile.medicalink.ListeTraitements" />
+        <activity
+            android:name="dev.mobile.medicalink.ListeEffetsSecondaires" />
+        <activity
+            android:name="dev.mobile.medicalink.MainFragment" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            android:exported="false">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>
