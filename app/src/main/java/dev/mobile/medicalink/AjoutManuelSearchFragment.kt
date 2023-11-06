@@ -46,8 +46,10 @@ class AjoutManuelSearchFragment : Fragment() {
 
 
         addManuallyButton.setOnClickListener {
-            val intent = Intent(this, AjoutManuelSchemaPrise::class.java)
-            addManuallyButtonLauncher.launch(intent)
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, AjoutManuelSchemaPriseFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
         }
 
         retour = view.findViewById(R.id.retour_schema_prise)

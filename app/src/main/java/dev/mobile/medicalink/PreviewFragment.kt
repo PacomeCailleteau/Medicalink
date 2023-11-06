@@ -38,15 +38,19 @@ class PreviewFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_preview, container, false)
 
-        // Get the intent that started this activity TODO : Pacôme has to check if it's the right way to do it
-        val intent = activity?.intent!!
-
         buttonTakePicture = view.findViewById(R.id.button_take_picture)
         buttonChooseFromGallery = view.findViewById(R.id.button_choose_from_gallery)
         imagePreview = view.findViewById(R.id.image_preview)
         validateButton = view.findViewById(R.id.validate_button)
 
-        when (intent.getStringExtra("type")) {
+        val data = arguments?.getString("uri")
+
+        val uri : Uri = data!!.toUri()
+        displayImage(uri)
+        Log.d("test", uri.toString())
+
+
+        when (arguments?.getString("type")) {
             "photo" -> {
                 buttonChooseFromGallery.visibility = Button.GONE
                 takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -81,12 +85,11 @@ class PreviewFragment : Fragment() {
         }
 
         validateButton.setOnClickListener {
-            val localIntent = Intent(this, ListeTraitements::class.java)
-            startActivity(localIntent)
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
         }
-
-        val uri : Uri = intent.getStringExtra("uri")!!.toUri()
-        displayImage(uri)
 
         return view
     }
@@ -98,9 +101,13 @@ class PreviewFragment : Fragment() {
     }
 
     private fun createImageFile(): Uri {
-        val provider: String = "${applicationContext.packageName}.fileprovider"
+        val provider: String = "${view?.context?.applicationContext?.packageName}.fileprovider"
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
+
+        val context = view?.context ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
+
+        val cacheDir = context.cacheDir
 
         val image = File.createTempFile(
             imageFileName, /* prefix */
@@ -110,6 +117,6 @@ class PreviewFragment : Fragment() {
             createNewFile()
         }
 
-        return FileProvider.getUriForFile(applicationContext, provider, image)
+        return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
 }

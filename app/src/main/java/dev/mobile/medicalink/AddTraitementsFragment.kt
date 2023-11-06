@@ -41,9 +41,6 @@ class AddTraitementsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_traitements, container, false)
 
-        // Get the intent that started this activity TODO : Pacôme has to check if it's the right way to do it
-        val intent = activity?.intent!!
-
         photoButton = view.findViewById(R.id.cardphoto)
         loadButton = view.findViewById(R.id.cardload)
         manualImportButton = view.findViewById(R.id.cardaddmanually)
@@ -56,21 +53,32 @@ class AddTraitementsFragment : Fragment() {
             if (currentPhotoPath != null) {
                 // L'image a été capturée avec succès, tu peux utiliser currentPhotoPath ici
                 // Ensuite, lance une autre activité pour afficher l'image ou effectuer d'autres actions
-                startActivity(Intent(this, PreviewActivity::class.java)
-                    .putExtra("uri", currentPhotoPath.toString())
-                    .putExtra("type", "photo"))
-            } else {
-                null
+                //On appelle le parent pour changer de fragment
+                val bundle = Bundle()
+                bundle.putString("uri", currentPhotoPath.toString())
+                Log.d("test", currentPhotoPath.toString())
+                bundle.putString("type", "photo")
+                val destinationFragment = PreviewFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }
         }
 
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                startActivity(Intent(this, PreviewActivity::class.java)
-                    .putExtra("uri", uri.toString())
-                    .putExtra("type", "charger"))
-            }else{
-                null
+                val bundle = Bundle()
+                bundle.putString("uri", uri.toString())
+                Log.d("test", uri.toString())
+                bundle.putString("type", "charger")
+                val destinationFragment = PreviewFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }
         }
 
@@ -96,8 +104,10 @@ class AddTraitementsFragment : Fragment() {
 
         //TODO: Ajouter un traitement manuellement en fragment
         manualImportButton.setOnClickListener {
-            val intent = Intent(this, AjoutManuelSearch::class.java)
-            addManuallyLauncher.launch(intent)
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, AjoutManuelSearchFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
         }
 
         //Retour à la page précédente (MainTraitementsFragment)
@@ -115,9 +125,13 @@ class AddTraitementsFragment : Fragment() {
 
 
     private fun createImageFile(): Uri {
-        val provider: String = "${applicationContext.packageName}.fileprovider"
+        val provider: String = "${view?.context?.applicationContext?.packageName}.fileprovider"
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
+
+        val context = view?.context ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
+
+        val cacheDir = context.cacheDir
 
         val image = File.createTempFile(
             imageFileName, /* prefix */
@@ -127,7 +141,7 @@ class AddTraitementsFragment : Fragment() {
             createNewFile()
         }
 
-        return FileProvider.getUriForFile(applicationContext, provider, image)
+        return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
 
 }
