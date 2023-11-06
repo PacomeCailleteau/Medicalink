@@ -58,10 +58,7 @@ class PreviewFragment : Fragment() {
                 }
 
                 buttonTakePicture.setOnClickListener {
-                    val uri: Uri = createImageFile()
-                    currentPhotoPath = uri
-                    Log.d("MedicalinkBug", uri.toString())
-                    takePictureLauncher.launch(uri)
+
                 }
             }
             "charger" -> {
@@ -81,8 +78,7 @@ class PreviewFragment : Fragment() {
         }
 
         validateButton.setOnClickListener {
-            val localIntent = Intent(this, ListeTraitements::class.java)
-            startActivity(localIntent)
+
         }
 
         val uri : Uri = intent.getStringExtra("uri")!!.toUri()
@@ -97,19 +93,5 @@ class PreviewFragment : Fragment() {
         validateButton.visibility = Button.VISIBLE
     }
 
-    private fun createImageFile(): Uri {
-        val provider: String = "${applicationContext.packageName}.fileprovider"
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
 
-        val image = File.createTempFile(
-            imageFileName, /* prefix */
-            ".jpg", /* suffix */
-            cacheDir      /* directory */
-        ).apply {
-            createNewFile()
-        }
-
-        return FileProvider.getUriForFile(applicationContext, provider, image)
-    }
 }

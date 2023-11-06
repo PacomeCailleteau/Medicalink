@@ -56,9 +56,7 @@ class AddTraitementsFragment : Fragment() {
             if (currentPhotoPath != null) {
                 // L'image a été capturée avec succès, tu peux utiliser currentPhotoPath ici
                 // Ensuite, lance une autre activité pour afficher l'image ou effectuer d'autres actions
-                startActivity(Intent(this, PreviewActivity::class.java)
-                    .putExtra("uri", currentPhotoPath.toString())
-                    .putExtra("type", "photo"))
+
             } else {
                 null
             }
@@ -66,9 +64,6 @@ class AddTraitementsFragment : Fragment() {
 
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                startActivity(Intent(this, PreviewActivity::class.java)
-                    .putExtra("uri", uri.toString())
-                    .putExtra("type", "charger"))
             }else{
                 null
             }
@@ -84,10 +79,7 @@ class AddTraitementsFragment : Fragment() {
 
 
         photoButton.setOnClickListener {
-            val uri: Uri = createImageFile()
-            currentPhotoPath = uri
-            Log.d("MedicalinkBug", uri.toString())
-            photoLauncher.launch(uri)
+
         }
 
         loadButton.setOnClickListener {
@@ -96,8 +88,7 @@ class AddTraitementsFragment : Fragment() {
 
         //TODO: Ajouter un traitement manuellement en fragment
         manualImportButton.setOnClickListener {
-            val intent = Intent(this, AjoutManuelSearch::class.java)
-            addManuallyLauncher.launch(intent)
+
         }
 
         //Retour à la page précédente (MainTraitementsFragment)
@@ -111,23 +102,6 @@ class AddTraitementsFragment : Fragment() {
 
 
         return view
-    }
-
-
-    private fun createImageFile(): Uri {
-        val provider: String = "${applicationContext.packageName}.fileprovider"
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-
-        val image = File.createTempFile(
-            imageFileName, /* prefix */
-            ".jpg", /* suffix */
-            cacheDir      /* directory */
-        ).apply {
-            createNewFile()
-        }
-
-        return FileProvider.getUriForFile(applicationContext, provider, image)
     }
 
 }

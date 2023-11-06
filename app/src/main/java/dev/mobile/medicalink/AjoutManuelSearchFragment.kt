@@ -46,8 +46,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
 
         addManuallyButton.setOnClickListener {
-            val intent = Intent(this, AjoutManuelSchemaPrise::class.java)
-            addManuallyButtonLauncher.launch(intent)
+
         }
 
         retour = view.findViewById(R.id.retour_schema_prise)
