@@ -80,13 +80,13 @@
 
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/imageViewAccueil"
             android:layout_width="37dp"
             android:layout_height="37dp"
             app:srcCompat="@drawable/importer_1_" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textViewAccueil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

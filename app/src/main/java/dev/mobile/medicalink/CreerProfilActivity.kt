@@ -1,5 +1,6 @@
 package dev.mobile.medicalink
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
@@ -38,6 +39,7 @@ class CreerProfilActivity : AppCompatActivity() {
     private lateinit var checkboxRgpd: CheckBox
     private lateinit var buttonCreerProfil: Button
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creer_profile)

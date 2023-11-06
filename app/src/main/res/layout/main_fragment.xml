@@ -2,58 +2,156 @@
 <!-- Ce fichier est le layout de notre fragment principal. Il y a la barre de navigation en bas et le fragment principal au milieu. -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
              android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/FL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#BDBDBD"
+        android:layout_height="75dp"
+        android:background="@drawable/rounded_on_top_blue_button_background"
         android:padding="15dp"
-        android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <LinearLayout
             android:id="@+id/btnAccueilNav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:text="Accueil" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnTraitementsNav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+
+            <ImageView
+                android:id="@+id/imageViewAccueil"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/accueil" />
+
+            <TextView
+                android:id="@+id/textViewAccueil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="center"
+                android:text="Accueil"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/btnTraitementsNav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:text="Traitements" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="100dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnMessagesNav"
+            app:layout_constraintStart_toStartOf="@+id/btnAccueilNav"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+
+            <ImageView
+                android:id="@+id/imageViewTraitement"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/traitements" />
+
+            <TextView
+                android:id="@+id/textViewTraitement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="center"
+                android:text="Traitements"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/btnMessagesNav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Messages" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="100dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnPlusNav"
+            app:layout_constraintStart_toStartOf="@+id/btnTraitementsNav"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+
+            <ImageView
+                android:id="@+id/imageViewMessages"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/messages" />
+
+            <TextView
+                android:id="@+id/textViewMessages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="center"
+                android:text="Messages"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/btnPlusNav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Plus" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="100dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/btnMessagesNav"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageViewPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/plus" />
+
+            <TextView
+                android:id="@+id/textViewPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="center"
+                android:text="Plus"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

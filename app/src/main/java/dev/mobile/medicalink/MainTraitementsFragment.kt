@@ -41,6 +41,14 @@ class MainTraitementsFragment : Fragment() {
             fragTransaction.commit()
         }
 
+        journalButton.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, ListeEffetsSecondairesFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
 
         return view
     }
