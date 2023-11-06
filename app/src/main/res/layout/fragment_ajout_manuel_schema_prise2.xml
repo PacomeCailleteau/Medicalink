@@ -24,72 +24,18 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="281dp"
-        android:layout_height="57dp"
+        android:layout_width="322dp"
+        android:layout_height="52dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Schéma de prise du traitement"
+        android:text="Schéma de prise du \ntraitement"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/intervalle_regulier_button"
-        android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_white_button_blue_stroke_background"
-        android:fontFamily="@font/quicksand_bold"
-
-        android:text="Intervalle régulier"
-        android:textAllCaps="false"
-        android:textColor="#3F4791"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/quotidiennement_button" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/quotidiennement_button"
-        android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_blue_button_blue_stroke_background"
-        android:fontFamily="@font/quicksand_bold"
-
-        android:text="Quotidiennement"
-        android:textAllCaps="false"
-        android:textColor="#3F4791"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/au_besoin_button"
-        android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="17dp"
-        android:background="@drawable/rounded_white_button_blue_stroke_background"
-        android:fontFamily="@font/quicksand_bold"
-
-        android:text="Au besoin"
-        android:textAllCaps="false"
-        android:textColor="#3F4791"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/intervalle_regulier_button" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/suivant"
@@ -109,6 +55,24 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView10" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add_nouvelle_prise"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+
+        android:background="@drawable/rounded_white_button_light_blue_stroke_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Ajouter une nouvelle prise"
+        android:textAllCaps="false"
+        android:textColor="#6A93D1"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="29dp"
@@ -127,5 +91,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView10"
         app:srcCompat="@drawable/annuler" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

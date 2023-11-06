@@ -54,11 +54,11 @@ class AjoutManuelSearchFragment : Fragment() {
 
         retour = view.findViewById(R.id.retour_schema_prise)
 
-        //On retourne au fragment précédent TODO : choisir le fragment précédent (je sais pas c quoi)
+        //On retourne au fragment précédent
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, MainTraitementsFragment())
+            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
