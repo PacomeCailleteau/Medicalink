@@ -14,6 +14,11 @@ import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import android.graphics.Bitmap
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -142,6 +147,34 @@ class AddTraitementsFragment : Fragment() {
         }
 
         return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
+    }
+
+    fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
+        val textRecognizer: TextRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+        val image = com.google.mlkit.vision.common.InputImage.fromBitmap(bitmap, 0)
+
+        textRecognizer.process(image)
+            .addOnSuccessListener { texts ->
+                val extractedText = processTextRecognitionResult(texts)
+                onTextExtracted(extractedText)
+            }
+            .addOnFailureListener { e ->
+                // Gérer les erreurs ici
+            }
+    }
+
+    private fun processTextRecognitionResult(texts: Text): String {
+        val result = StringBuilder()
+        for (block in texts.textBlocks) {
+            for (line in block.lines) {
+                for (element in line.elements) {
+                    result.append(element.text).append(" ")
+                }
+                result.append("\n")
+            }
+        }
+        return result.toString()
     }
 
 }
