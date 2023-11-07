@@ -41,6 +41,15 @@ class MainFragment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
 
+        //masquer la barre de titre
+        supportActionBar?.hide()
+
+        // TEST NOTIF
+        // Dans votre activité principale (ou autre composant), programmez l'alarme comme suit :
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
 
 
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
