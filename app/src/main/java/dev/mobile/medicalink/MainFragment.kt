@@ -1,5 +1,9 @@
 package dev.mobile.medicalink
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
@@ -10,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import dev.mobile.medicalink.utils.AlarmReceiver
+import java.util.Calendar
 
 //MainFragement n'est pas un fragment mais une activité
 //Ici on va gérer les fragments
@@ -34,6 +40,26 @@ class MainFragment : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
+
+        // TEST NOTIF
+        // Dans votre activité principale (ou autre composant), programmez l'alarme comme suit :
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 4)
+        calendar.set(Calendar.MINUTE, 20)
+        calendar.set(Calendar.SECOND, 0)
+
+        alarmManager.setRepeating(
+            AlarmManager.RTC,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmIntent
+        )
+        // FIN TEST NOTIF
 
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
         imageAccueil=findViewById(R.id.imageViewAccueil)
