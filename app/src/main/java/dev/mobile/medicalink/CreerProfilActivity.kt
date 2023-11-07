@@ -111,7 +111,7 @@ class CreerProfilActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateEmail(email: String) {
+    private fun validateEmail(email: String) : Boolean {
         val pattern = Patterns.EMAIL_ADDRESS
         val isValidEmail = pattern.matcher(email).matches()
 
@@ -120,13 +120,14 @@ class CreerProfilActivity : AppCompatActivity() {
         } else {
             inputEmail.error = null
         }
+        return isValidEmail
     }
 
     private fun updateButtonState() {
         val isCheckboxChecked = checkboxRgpd.isChecked
         val isRadioButtonSelected = radioButtonUtilisateur.isChecked || radioButtonProfessionnel.isChecked
 
-        val isEmailValid = isEmailValid(inputEmail.text.toString())
+        val isEmailValid = validateEmail(inputEmail.text.toString())
 
         val allFieldsFilled = inputNom.text!!.isNotBlank() &&
                 inputPrenom.text!!.isNotBlank() &&
@@ -140,11 +141,6 @@ class CreerProfilActivity : AppCompatActivity() {
             buttonCreerProfil.isEnabled = false
             buttonCreerProfil.alpha = 0.3f
         }
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        val pattern = Patterns.EMAIL_ADDRESS
-        return pattern.matcher(email).matches()
     }
 
     private fun clearFocusAndHideKeyboard(view: View) {
