@@ -31,10 +31,14 @@ class AjoutManuelSearchFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
 
+        var nom_traitement = arguments?.getString("nom_traitement")
+        var schema_prise1 = arguments?.getString("schema_prise1")
+
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
 
+        addManuallySearchBar.setText(nom_traitement)
         addManuallyButtonLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // Gérez l'activité de résultat ici
@@ -45,9 +49,13 @@ class AjoutManuelSearchFragment : Fragment() {
 
 
         addManuallyButton.setOnClickListener {
-
+            val bundle = Bundle()
+            bundle.putString("nom_traitement", "${addManuallySearchBar.text}")
+            bundle.putString("schema_prise1", "$schema_prise1")
+            val destinationFragment = AjoutManuelSchemaPriseFragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSchemaPriseFragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

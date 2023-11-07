@@ -109,8 +109,13 @@ class AddTraitementsFragment : Fragment() {
 
         //TODO: Ajouter un traitement manuellement en fragment
         manualImportButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("nom_traitement", "")
+            bundle.putString("schema_prise1", "Quotidiennement")
+            val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSearchFragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

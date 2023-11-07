@@ -30,7 +30,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise, container, false)
-
+        val nom_traitement = arguments?.getString("nom_traitement")
+        var schema_prise1  = arguments?.getString("schema_prise1")
 
         quotidiennementButton = view.findViewById(R.id.quotidiennement_button)
         intervalleRegulierButton = view.findViewById(R.id.intervalle_regulier_button)
@@ -38,7 +39,6 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
         suivant = view.findViewById(R.id.suivant1)
         retour = view.findViewById(R.id.retour_schema_prise2)
-
 
 
         val textePrincipal = "Quotidiennement"
@@ -78,23 +78,47 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         auBesoinButton.text = texteComplet3
 
 
+        when (schema_prise1) {
+            "Quotidiennement" -> {
+                quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+                intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            }
+            "Intervalle" -> {
+                quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+                auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            }
+            "auBesoin" -> {
+                quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            }
+        }
+
+
 
         quotidiennementButton.setOnClickListener {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            schema_prise1 = "Quotidiennement"
         }
 
         intervalleRegulierButton.setOnClickListener {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            schema_prise1 = "Intervalle"
+
         }
 
         auBesoinButton.setOnClickListener {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            schema_prise1 = "auBesoin"
+
         }
 
         suivant.setOnClickListener {
@@ -109,8 +133,14 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         //On retourne au fragment précédent
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("nom_traitement", "$nom_traitement")
+            val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSearchFragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
