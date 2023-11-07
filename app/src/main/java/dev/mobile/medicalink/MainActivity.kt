@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //masquer la barre de titre
+        supportActionBar?.hide()
+
         image_connexion = findViewById(R.id.image_connexion)
         textBienvenue = findViewById(R.id.text_bienvenue)
         buttonConnexion = findViewById(R.id.button_connexion)

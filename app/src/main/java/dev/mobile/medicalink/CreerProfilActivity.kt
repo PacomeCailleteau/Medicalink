@@ -139,7 +139,7 @@ class CreerProfilActivity : AppCompatActivity() {
             buttonCreerProfil.alpha = 1.0f
         } else {
             buttonCreerProfil.isEnabled = false
-            buttonCreerProfil.alpha = 0.3f
+            buttonCreerProfil.alpha = 0.3.toFloat()
         }
     }
 
