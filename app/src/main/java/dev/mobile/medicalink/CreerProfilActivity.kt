@@ -44,6 +44,8 @@ class CreerProfilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creer_profile)
 
+        //TODO : Mettre le RGPD en lien cliquable
+
         textMedicalink = findViewById(R.id.text_medicalink)
         imageProfil = findViewById(R.id.image_profil)
         textVotreProfil =findViewById(R.id.text_votre_profil)

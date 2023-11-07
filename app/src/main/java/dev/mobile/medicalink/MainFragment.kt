@@ -41,25 +41,7 @@ class MainFragment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
 
-        // TEST NOTIF
-        // Dans votre activité principale (ou autre composant), programmez l'alarme comme suit :
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        }
 
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 4)
-        calendar.set(Calendar.MINUTE, 20)
-        calendar.set(Calendar.SECOND, 0)
-
-        alarmManager.setRepeating(
-            AlarmManager.RTC,
-            calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            alarmIntent
-        )
-        // FIN TEST NOTIF
 
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
         imageAccueil=findViewById(R.id.imageViewAccueil)
@@ -75,38 +57,18 @@ class MainFragment : AppCompatActivity() {
         textPlus=findViewById(R.id.textViewPlus)
 
 
-        imageAccueil.setImageResource(R.drawable.accueilreverse)
-        imageTraitements.setImageResource(R.drawable.traitements)
-        imageMessages.setImageResource(R.drawable.messages)
-        imagePlus.setImageResource(R.drawable.plus)
-
-        // Chargement du fragment par défaut
+        // Chargement du fragment par défaut et des bonnes couleurs
         loadFrag(HomeFragment(), 0)
+        changeMenu(0)
 
         btnAccueilNav.setOnClickListener {
-            imageAccueil.setImageResource(R.drawable.accueilreverse)
-            imageTraitements.setImageResource(R.drawable.traitements)
-            imageMessages.setImageResource(R.drawable.messages)
-            imagePlus.setImageResource(R.drawable.plus)
-
-            textAccueil.setTextColor(android.graphics.Color.parseColor("#3F4791"))
-            textTraitements.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textMessages.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textPlus.setTextColor(android.graphics.Color.parseColor("#000000"))
+            changeMenu(0)
 
             loadFrag(HomeFragment(), 1)
         }
 
         btnTraitementsNav.setOnClickListener {
-            imageAccueil.setImageResource(R.drawable.accueil)
-            imageTraitements.setImageResource(R.drawable.documentsreverse)
-            imageMessages.setImageResource(R.drawable.messages)
-            imagePlus.setImageResource(R.drawable.plus)
-
-            textAccueil.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textTraitements.setTextColor(android.graphics.Color.parseColor("#3F4791"))
-            textMessages.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textPlus.setTextColor(android.graphics.Color.parseColor("#000000"))
+            changeMenu(1)
 
             loadFrag(MainTraitementsFragment(), 1)
 
@@ -115,28 +77,12 @@ class MainFragment : AppCompatActivity() {
 
 
         btnMessagesNav.setOnClickListener {
-            imageAccueil.setImageResource(R.drawable.accueil)
-            imageTraitements.setImageResource(R.drawable.traitements)
-            imageMessages.setImageResource(R.drawable.enveloppereverse)
-            imagePlus.setImageResource(R.drawable.plus)
-
-            textAccueil.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textTraitements.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textMessages.setTextColor(android.graphics.Color.parseColor("#3F4791"))
-            textPlus.setTextColor(android.graphics.Color.parseColor("#000000"))
+            changeMenu(2)
 
         }
 
         btnPlusNav.setOnClickListener {
-            imageAccueil.setImageResource(R.drawable.accueil)
-            imageTraitements.setImageResource(R.drawable.traitements)
-            imageMessages.setImageResource(R.drawable.messages)
-            imagePlus.setImageResource(R.drawable.plusreverse)
-
-            textAccueil.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textTraitements.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textMessages.setTextColor(android.graphics.Color.parseColor("#000000"))
-            textPlus.setTextColor(android.graphics.Color.parseColor("#3F4791"))
+            changeMenu(3)
 
         }
 
@@ -157,5 +103,40 @@ class MainFragment : AppCompatActivity() {
         }
 
         ft.commit()
+    }
+
+    private fun changeMenu(dest : Int) {
+        // On remet tous à la normal
+        imageAccueil.setImageResource(R.drawable.accueil)
+        imageTraitements.setImageResource(R.drawable.traitements)
+        imageMessages.setImageResource(R.drawable.messages)
+        imagePlus.setImageResource(R.drawable.plus)
+
+        textAccueil.setTextColor(Color.parseColor("#000000"))
+        textTraitements.setTextColor(Color.parseColor("#000000"))
+        textMessages.setTextColor(Color.parseColor("#000000"))
+        textPlus.setTextColor(Color.parseColor("#000000"))
+
+        // On met en surbrillance le bouton cliqué
+        when (dest) {
+            0 -> {
+                imageAccueil.setImageResource(R.drawable.accueilreverse)
+                textAccueil.setTextColor(Color.parseColor("#3F4791"))
+            }
+            1 -> {
+                imageTraitements.setImageResource(R.drawable.documentsreverse)
+                textTraitements.setTextColor(Color.parseColor("#3F4791"))
+            }
+            2 -> {
+                imageMessages.setImageResource(R.drawable.enveloppereverse)
+                textMessages.setTextColor(Color.parseColor("#3F4791"))
+            }
+            3 -> {
+                imagePlus.setImageResource(R.drawable.plusreverse)
+                textPlus.setTextColor(Color.parseColor("#3F4791"))
+            }
+        }
+
+
     }
 }
