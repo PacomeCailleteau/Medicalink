@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
@@ -46,13 +45,14 @@ class AjoutManuelSearchFragment : Fragment() {
 
 
         addManuallyButton.setOnClickListener {
+
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, AjoutManuelSchemaPriseFragment())
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
 
-        retour = view.findViewById(R.id.retour_schema_prise)
+        retour = view.findViewById(R.id.retour_schema_prise2)
 
         //On retourne au fragment précédent
         retour.setOnClickListener {

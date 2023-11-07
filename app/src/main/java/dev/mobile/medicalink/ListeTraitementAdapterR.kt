@@ -15,7 +15,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomTraitement = view.findViewById<TextView>(R.id.nomEffet)
+        val nomTraitement = view.findViewById<TextView>(R.id.numeroPrise)
         val dosage = view.findViewById<TextView>(R.id.dosage)
         val dateExpirationTraitement = view.findViewById<TextView>(R.id.provoquePar)
         val nbComprimesRestants = view.findViewById<TextView>(R.id.nbComprimesRestants)

@@ -5,16 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Intent
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
 
 
 class AjoutManuelSchemaPriseFragment : Fragment() {
@@ -23,9 +20,9 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     private lateinit var intervalleRegulierButton: Button
     private lateinit var auBesoinButton: Button
 
+    private lateinit var suivant : Button
     private lateinit var retour: ImageView
 
-    private lateinit var nextLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +36,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         intervalleRegulierButton = view.findViewById(R.id.intervalle_regulier_button)
         auBesoinButton = view.findViewById(R.id.au_besoin_button)
 
-        retour = view.findViewById(R.id.retour_schema_prise)
+        suivant = view.findViewById(R.id.suivant1)
+        retour = view.findViewById(R.id.retour_schema_prise2)
 
 
 
@@ -97,6 +95,13 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+        }
+
+        suivant.setOnClickListener {
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, AjoutManuelSchemaPrise2Fragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
         }
 
 

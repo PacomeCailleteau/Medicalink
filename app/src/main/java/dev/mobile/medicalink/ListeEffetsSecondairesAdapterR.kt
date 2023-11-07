@@ -14,7 +14,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
     RecyclerView.Adapter<ListeEffetsSecondairesAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomEffet = view.findViewById<TextView>(R.id.nomEffet)
+        val nomEffet = view.findViewById<TextView>(R.id.numeroPrise)
         val provoquePar = view.findViewById<TextView>(R.id.provoquePar)
         val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
 

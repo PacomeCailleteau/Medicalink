@@ -8,7 +8,7 @@
     android:background="@drawable/rounded_blue_button_background">
 
     <TextView
-        android:id="@+id/nomEffet"
+        android:id="@+id/numeroPrise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -32,7 +32,7 @@
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/provoquePar"
-        app:layout_constraintStart_toStartOf="@+id/nomEffet" />
+        app:layout_constraintStart_toStartOf="@+id/numeroPrise" />
 
     <TextView
         android:id="@+id/provoquePar"
@@ -47,7 +47,7 @@
         app:layout_constraintBottom_toTopOf="@+id/nbComprimesRestants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/nomEffet" />
+        app:layout_constraintStart_toStartOf="@+id/numeroPrise" />
 
     <TextView
         android:id="@+id/nbComprimesRestants"
