@@ -61,7 +61,6 @@ class AddTraitementsFragment : Fragment() {
                 //On appelle le parent pour changer de fragment
                 val bundle = Bundle()
                 bundle.putString("uri", currentPhotoPath.toString())
-                Log.d("test", currentPhotoPath.toString())
                 bundle.putString("type", "photo")
                 val destinationFragment = PreviewFragment()
                 destinationFragment.arguments = bundle
