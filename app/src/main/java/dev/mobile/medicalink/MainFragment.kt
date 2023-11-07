@@ -49,6 +49,11 @@ class MainFragment : AppCompatActivity() {
         textPlus=findViewById(R.id.textViewPlus)
 
 
+        imageAccueil.setImageResource(R.drawable.accueilreverse)
+        imageTraitements.setImageResource(R.drawable.traitements)
+        imageMessages.setImageResource(R.drawable.messages)
+        imagePlus.setImageResource(R.drawable.plus)
+
         // Chargement du fragment par défaut
         loadFrag(HomeFragment(), 0)
 
