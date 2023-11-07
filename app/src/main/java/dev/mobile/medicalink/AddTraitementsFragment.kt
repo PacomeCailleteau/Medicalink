@@ -95,7 +95,7 @@ class AddTraitementsFragment : Fragment() {
 
 
 
-
+        //TODO : regler bug fleche retour pendant qu'on prend une photo
         photoButton.setOnClickListener {
             val uri: Uri = createImageFile()
             currentPhotoPath = uri

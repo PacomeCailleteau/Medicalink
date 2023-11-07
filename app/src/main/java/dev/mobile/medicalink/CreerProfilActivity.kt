@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -44,6 +45,8 @@ class CreerProfilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creer_profile)
 
+        //TODO : Mettre le RGPD en lien cliquable
+
         textMedicalink = findViewById(R.id.text_medicalink)
         imageProfil = findViewById(R.id.image_profil)
         textVotreProfil =findViewById(R.id.text_votre_profil)
@@ -70,8 +73,6 @@ class CreerProfilActivity : AppCompatActivity() {
         inputDateDeNaissance.setOnClickListener {
             showDatePickerDialog()
         }
-
-        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail, radioButtonUtilisateur, radioButtonProfessionnel)
 
         checkboxRgpd.setOnCheckedChangeListener { buttonView, isChecked ->
             updateButtonState()
@@ -108,27 +109,41 @@ class CreerProfilActivity : AppCompatActivity() {
 
         override fun afterTextChanged(editable: Editable?) {
             updateButtonState()
+            validateEmail(inputEmail.text.toString())
         }
+    }
+
+    private fun validateEmail(email: String) : Boolean {
+        val pattern = Patterns.EMAIL_ADDRESS
+        val isValidEmail = pattern.matcher(email).matches()
+
+        if (!isValidEmail) {
+            inputEmail.error = "Adresse e-mail non valide"
+        } else {
+            inputEmail.error = null
+        }
+        return isValidEmail
     }
 
     private fun updateButtonState() {
         val isCheckboxChecked = checkboxRgpd.isChecked
         val isRadioButtonSelected = radioButtonUtilisateur.isChecked || radioButtonProfessionnel.isChecked
 
+        val isEmailValid = validateEmail(inputEmail.text.toString())
+
         val allFieldsFilled = inputNom.text!!.isNotBlank() &&
                 inputPrenom.text!!.isNotBlank() &&
                 inputDateDeNaissance.text!!.isNotBlank() &&
                 inputEmail.text!!.isNotBlank()
 
-        if (isCheckboxChecked && isRadioButtonSelected && allFieldsFilled) {
+        if (isCheckboxChecked && isRadioButtonSelected && allFieldsFilled && isEmailValid) {
             buttonCreerProfil.isEnabled = true
             buttonCreerProfil.alpha = 1.0f
         } else {
             buttonCreerProfil.isEnabled = false
-            buttonCreerProfil.alpha = 0.3f
+            buttonCreerProfil.alpha = 0.3.toFloat()
         }
     }
-
 
     private fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
@@ -144,15 +159,23 @@ class CreerProfilActivity : AppCompatActivity() {
 
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH)
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener {
-                view, selectedYear, selectedMonth, selectedDay ->
-            val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
-            inputDateDeNaissance.setText(formattedDate)
-        }, year, month, day)
+        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, selectedYear, selectedMonth, selectedDay ->
+            if (selectedYear > currentYear ||
+                (selectedYear == currentYear && selectedMonth > currentMonth) ||
+                (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)) {
+                // La date sélectionnée est future, ne faites rien ou montrez un message à l'utilisateur
+            } else {
+                val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
+                inputDateDeNaissance.setText(formattedDate)
+            }
+        }, currentYear, currentMonth, currentDay)
+
+        // Configurez les limites du DatePickerDialog pour empêcher la sélection de dates futures
+        datePickerDialog.datePicker.maxDate = calendar.timeInMillis
 
         datePickerDialog.show()
     }
