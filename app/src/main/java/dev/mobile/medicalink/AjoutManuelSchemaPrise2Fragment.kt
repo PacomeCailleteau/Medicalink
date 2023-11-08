@@ -21,6 +21,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
     private lateinit var addNouvellePrise: Button
     private lateinit var retour: ImageView
+    private lateinit var suivant : Button
 
     private var numeroPrise : Int = 1
     @RequiresApi(Build.VERSION_CODES.O)
@@ -41,10 +42,12 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         */
         addNouvellePrise = view.findViewById(R.id.btn_add_nouvelle_prise)
         retour = view.findViewById(R.id.retour_schema_prise2)
+        suivant = view.findViewById(R.id.suivant1)
 
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var schema_prise1  = arguments?.getString("schema_prise1")
+        var provenance  = arguments?.getString("provenance")
 
         var listePrise : MutableList<Prise>? = traitement.prises
         if (listePrise == null){
@@ -70,12 +73,37 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         }
 
+
+
+        suivant.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,listePrise))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            var destinationFragment = AjoutManuelDateSchemaPrise()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
             bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,listePrise))
             bundle.putString("schema_prise1", "$schema_prise1")
-            val destinationFragment = AjoutManuelSchemaPriseFragment()
+            var destinationFragment = Fragment()
+            when (provenance){
+                "quotidiennement" -> {
+                    destinationFragment = AjoutManuelSchemaPriseFragment()
+
+                }
+                "intervalleRegulier" -> {
+                    destinationFragment = AjoutManuelIntervalleRegulier()
+                }
+            }
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

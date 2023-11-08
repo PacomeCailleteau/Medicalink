@@ -28,9 +28,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
-class AjoutManuelIntervalleRegulier : Fragment() {
+class AjoutManuelDateSchemaPrise : Fragment() {
 
-    private lateinit var inputIntervalle: TextInputEditText
     private lateinit var retour: ImageView
     private lateinit var suivant : Button
 
@@ -41,21 +40,21 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_ajout_manuel_intervalle_regulier, container, false)
+        val view = inflater.inflate(R.layout.fragment_ajout_manuel_date_schema_prise, container, false)
 
-        inputIntervalle = view.findViewById(R.id.inputIntervalle)
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var schema_prise1  = arguments?.getString("schema_prise1")
+        var provenance  = arguments?.getString("provenance")
 
 
 
         suivant.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
-            bundle.putString("provenance", "intervalleRegulier")
+            bundle.putString("provenance", "$provenance")
             bundle.putString("schema_prise1", "$schema_prise1")
 
             val destinationFragment = AjoutManuelSchemaPrise2Fragment()
@@ -73,7 +72,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")
-            val destinationFragment = AjoutManuelSchemaPriseFragment()
+            bundle.putString("provenance", "$provenance")
+            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

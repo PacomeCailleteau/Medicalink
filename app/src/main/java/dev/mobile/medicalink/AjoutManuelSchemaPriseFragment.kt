@@ -130,8 +130,22 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "quotidiennement")
+            var destinationFragment = Fragment()
+            when (schema_prise1){
+                "Quotidiennement" -> {
+                    destinationFragment = AjoutManuelSchemaPrise2Fragment()
 
-            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
+                }
+                "Intervalle" -> {
+                    destinationFragment = AjoutManuelIntervalleRegulier()
+
+                }
+                "auBesoin" -> {
+                    destinationFragment = AjoutManuelSchemaPrise2Fragment()
+
+                }
+            }
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
