@@ -61,7 +61,7 @@ class CreerProfilActivity : AppCompatActivity() {
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
 
-        val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil) // Remplace "constraintLayout" par l'ID de ta disposition racine
+        val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 // L'utilisateur a cliqué sur la page
@@ -144,8 +144,7 @@ class CreerProfilActivity : AppCompatActivity() {
             buttonCreerProfil.alpha = 0.3.toFloat()
         }
     }
-
-    private fun clearFocusAndHideKeyboard(view: View) {
+    fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
         val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail) // Ajoute tous tes champs ici
         for (editText in editTextList) {
