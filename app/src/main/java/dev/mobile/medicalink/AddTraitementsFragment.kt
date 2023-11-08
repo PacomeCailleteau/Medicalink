@@ -35,7 +35,6 @@ class AddTraitementsFragment : Fragment() {
 
     private lateinit var photoLauncher: ActivityResultLauncher<Uri>
     private lateinit var loadLauncher: ActivityResultLauncher<String>
-    private lateinit var addManuallyLauncher: ActivityResultLauncher<Intent>
 
 
 
@@ -55,9 +54,8 @@ class AddTraitementsFragment : Fragment() {
 
         photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             // Utilise le chemin de l'image capturée (currentPhotoPath)
+            Log.d("tesst", currentPhotoPath.toString())
             if (currentPhotoPath != null) {
-                // L'image a été capturée avec succès, tu peux utiliser currentPhotoPath ici
-                // Ensuite, lance une autre activité pour afficher l'image ou effectuer d'autres actions
                 //On appelle le parent pour changer de fragment
                 val bundle = Bundle()
                 bundle.putString("uri", currentPhotoPath.toString())
@@ -71,11 +69,12 @@ class AddTraitementsFragment : Fragment() {
             }
         }
 
+
+
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
                 val bundle = Bundle()
                 bundle.putString("uri", uri.toString())
-                Log.d("test", uri.toString())
                 bundle.putString("type", "charger")
                 val destinationFragment = PreviewFragment()
                 destinationFragment.arguments = bundle
@@ -86,22 +85,14 @@ class AddTraitementsFragment : Fragment() {
             }
         }
 
-        addManuallyLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // Gérez l'activité de résultat ici
-            }
-        }
-
-
-
         //TODO : regler bug fleche retour pendant qu'on prend une photo
         photoButton.setOnClickListener {
             val uri: Uri = createImageFile()
             currentPhotoPath = uri
-            Log.d("MedicalinkBug", uri.toString())
             photoLauncher.launch(uri)
         }
 
+        // Bouton charger
         loadButton.setOnClickListener {
             loadLauncher.launch("image/*")
         }
