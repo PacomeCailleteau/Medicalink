@@ -1,5 +1,6 @@
 package dev.mobile.medicalink
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +11,10 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 
 
 class AjoutManuelSchemaPriseFragment : Fragment() {
@@ -24,13 +27,15 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     private lateinit var retour: ImageView
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise, container, false)
-
+        val traitement = arguments?.getSerializable("traitement") as Traitement
+        var schema_prise1  = arguments?.getString("schema_prise1")
 
         quotidiennementButton = view.findViewById(R.id.quotidiennement_button)
         intervalleRegulierButton = view.findViewById(R.id.intervalle_regulier_button)
@@ -38,7 +43,6 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
         suivant = view.findViewById(R.id.suivant1)
         retour = view.findViewById(R.id.retour_schema_prise2)
-
 
 
         val textePrincipal = "Quotidiennement"
@@ -78,28 +82,59 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         auBesoinButton.text = texteComplet3
 
 
+        when (schema_prise1) {
+            "Quotidiennement" -> {
+                quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+                intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            }
+            "Intervalle" -> {
+                quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+                auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            }
+            "auBesoin" -> {
+                quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            }
+        }
+
+
 
         quotidiennementButton.setOnClickListener {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            schema_prise1 = "Quotidiennement"
         }
 
         intervalleRegulierButton.setOnClickListener {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            schema_prise1 = "Intervalle"
+
         }
 
         auBesoinButton.setOnClickListener {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            schema_prise1 = "auBesoin"
+
         }
 
         suivant.setOnClickListener {
+            Log.d("test","TEST")
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putString("schema_prise1", "$schema_prise1")
+
+            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSchemaPrise2Fragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -109,8 +144,14 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         //On retourne au fragment précédent
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSearchFragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

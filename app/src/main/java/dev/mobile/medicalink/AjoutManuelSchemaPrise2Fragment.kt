@@ -31,8 +31,13 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
 
 
+        val traitement = arguments?.getSerializable("traitement") as Traitement
+        var schema_prise1  = arguments?.getString("schema_prise1")
 
-        var listePrise = mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,"Comprimé"))
+        var listePrise : MutableList<Prise>? = traitement.prises
+        if (listePrise == null){
+            listePrise= mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,"Comprimé"))
+        }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewAjoutPrise)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -48,8 +53,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             numeroPrise=listePrise.size+1
             var nouvellePrise = Prise(numeroPrise,"17h00",1,"Comprimé")
             listePrise.add(nouvellePrise)
-            Log.d("test lilian",listePrise.toString())
-            Log.d("test lilian",numeroPrise.toString())
             ajoutManuelAdapter.notifyDataSetChanged()
 
 
@@ -57,8 +60,14 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,listePrise))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            val destinationFragment = AjoutManuelSchemaPriseFragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSchemaPriseFragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

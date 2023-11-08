@@ -15,6 +15,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import android.graphics.Bitmap
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
@@ -38,6 +40,7 @@ class AddTraitementsFragment : Fragment() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,8 +102,13 @@ class AddTraitementsFragment : Fragment() {
 
         //TODO: Ajouter un traitement manuellement en fragment
         manualImportButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement("",0,"Comprimé",null,25,false,null,null))
+            bundle.putString("schema_prise1", "Quotidiennement")
+            val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AjoutManuelSearchFragment())
+            fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
