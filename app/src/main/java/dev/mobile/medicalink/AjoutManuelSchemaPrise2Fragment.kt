@@ -30,16 +30,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise2, container, false)
-        /*
-        val rootLayout = view.findViewById<View>(R.id.constraint_layout_ajout_shema_prise_2)
-        rootLayout.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                // L'utilisateur a cliqué sur la page
-                clearFocusAndHideKeyboard(v)
-            }
-            return@setOnTouchListener false
-        }
-        */
+
         addNouvellePrise = view.findViewById(R.id.btn_add_nouvelle_prise)
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
@@ -117,18 +108,4 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         return view
     }
-    //TODO: Remplacer les noms par les inputs qui sont dans le recycler view
-    /*
-    fun clearFocusAndHideKeyboard(view: View) {
-        // Parcours tous les champs de texte, efface le focus
-        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail) // Ajoute tous tes champs ici
-        for (editText in editTextList) {
-            editText.clearFocus()
-        }
-
-        // Cache le clavier
-        val imm = getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-    */
 }
