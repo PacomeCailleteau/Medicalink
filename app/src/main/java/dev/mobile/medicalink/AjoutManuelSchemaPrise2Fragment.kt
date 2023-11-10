@@ -36,7 +36,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             if (event.action == MotionEvent.ACTION_DOWN) {
                 // L'utilisateur a cliqué sur la page
                 clearFocusAndHideKeyboard(v)
-            }
+            }0
             return@setOnTouchListener false
         }
         */
