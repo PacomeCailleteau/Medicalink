@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
@@ -22,6 +23,11 @@ class ListeTraitementsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
+
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.VISIBLE
+        }
 
         val effetsSecondairesDoliprane = mutableListOf("Nausées", "Vomissements", "Maux de tête")
         val effetsSecondairesAspirine = mutableListOf("Irritation de l'estomac", "Hémorragie")

@@ -126,7 +126,6 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         }
 
         suivant.setOnClickListener {
-            Log.d("test","TEST")
             val bundle = Bundle()
             bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")

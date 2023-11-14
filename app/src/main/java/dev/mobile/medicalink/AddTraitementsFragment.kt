@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +24,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.File
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -62,8 +64,9 @@ class AddTraitementsFragment : Fragment() {
 
         photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             // Utilise le chemin de l'image capturée (currentPhotoPath)
-            Log.d("tesst", currentPhotoPath.toString())
+            Log.d("photoPath", currentPhotoPath.toString())
             if (currentPhotoPath != null) {
+                processImageAndExtractText(currentPhotoPath!!)
                 //On appelle le parent pour changer de fragment
                 val bundle = Bundle()
                 bundle.putString("uri", currentPhotoPath.toString())
@@ -81,6 +84,7 @@ class AddTraitementsFragment : Fragment() {
 
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
+                processImageAndExtractText(uri)
                 val bundle = Bundle()
                 bundle.putString("uri", uri.toString())
                 bundle.putString("type", "charger")
@@ -178,6 +182,18 @@ class AddTraitementsFragment : Fragment() {
             }
         }
         return result.toString()
+    }
+
+    private fun processImageAndExtractText(uri: Uri) {
+        // Convertir l'URI de l'image en Bitmap
+        val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+
+        // Appeler la fonction pour extraire le texte
+        extractTextFromImage(bitmap) { extractedText ->
+            // Traiter le texte extrait ici (peut-être l'afficher dans un TextView, etc.)
+            Log.d("Texte extrait", extractedText)
+        }
     }
 
 }

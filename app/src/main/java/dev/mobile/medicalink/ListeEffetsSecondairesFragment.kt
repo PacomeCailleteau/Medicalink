@@ -62,7 +62,6 @@ class ListeEffetsSecondairesFragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
 
-        //On retourne au fragment précédent TODO : choisir le fragment précédent (je sais pas c quoi)
         annuler.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
