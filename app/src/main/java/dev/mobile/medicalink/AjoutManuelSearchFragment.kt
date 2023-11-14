@@ -9,6 +9,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,11 +35,15 @@ class AjoutManuelSearchFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
+        val fragment = inflater.inflate(R.layout.main_fragment, container, false)
 
         var traitement = arguments?.getSerializable("traitement") as Traitement
 
         var schema_prise1 = arguments?.getString("schema_prise1")
 
+
+        var fragmentBas = fragment.findViewById<FrameLayout>(R.id.linearLayout)
+        fragmentBas.visibility = View.GONE
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
