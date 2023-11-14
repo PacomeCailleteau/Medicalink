@@ -39,8 +39,6 @@ class AddTraitementsFragment : Fragment() {
     private lateinit var photoLauncher: ActivityResultLauncher<Uri>
     private lateinit var loadLauncher: ActivityResultLauncher<String>
 
-    private lateinit var menu: ConstraintLayout
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -50,8 +48,10 @@ class AddTraitementsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_traitements, container, false)
 
-        val fragmentMenu = inflater.inflate(R.layout.main_fragment, container, false)
-        menu = fragmentMenu.findViewById(R.id.fragmentDuBas)
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.VISIBLE
+        }
 
         photoButton = view.findViewById(R.id.cardphoto)
         loadButton = view.findViewById(R.id.cardload)
@@ -113,7 +113,6 @@ class AddTraitementsFragment : Fragment() {
             val destinationFragment = AjoutManuelSearchFragment()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
-            menu.visibility=View.GONE
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()

@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
 import java.io.Serializable
 
@@ -27,7 +29,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
     private lateinit var retour: ImageView
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +37,13 @@ class AjoutManuelSearchFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
 
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
+    /*
+        activity?.findViewById<FrameLayout>(R.id.fragmentDuBas)?.visibility = View.GONE
+*/
         var traitement = arguments?.getSerializable("traitement") as Traitement
 
         var schema_prise1 = arguments?.getString("schema_prise1")
