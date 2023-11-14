@@ -6,11 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -23,6 +26,7 @@ class MainFragment : AppCompatActivity() {
 
     private val rootFrag = "root_fragment"
 
+    private lateinit var menu : ConstraintLayout
     private lateinit var btnAccueilNav: LinearLayout
     private lateinit var imageAccueil: ImageView
     private lateinit var textAccueil: TextView
@@ -51,6 +55,7 @@ class MainFragment : AppCompatActivity() {
             PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
 
+        menu=findViewById(R.id.fragmentDuBas)
 
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
         imageAccueil=findViewById(R.id.imageViewAccueil)
@@ -113,7 +118,16 @@ class MainFragment : AppCompatActivity() {
 
         ft.commit()
     }
-
+    fun changeVisibility(){
+        when (menu.isGone) {
+            true -> {
+                menu.visibility= View.VISIBLE
+            }
+            false -> {
+                menu.visibility= View.GONE
+            }
+        }
+    }
     private fun changeMenu(dest : Int) {
         // On remet tous à la normal
         imageAccueil.setImageResource(R.drawable.accueil)
