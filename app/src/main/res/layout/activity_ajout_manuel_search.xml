@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="127dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"

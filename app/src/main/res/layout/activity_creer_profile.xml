@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/text_medicalink"
-        android:layout_width="139dp"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/quicksand_bold"
@@ -51,7 +51,7 @@
 
     <TextView
         android:id="@+id/text_votre_profil"
-        android:layout_width="104dp"
+        android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
@@ -67,9 +67,8 @@
 
     <TextView
         android:id="@+id/text_statut"
-        android:layout_width="53dp"
+        android:layout_width="wrap_content"
         android:layout_height="23dp"
-        android:layout_marginStart="46dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
@@ -77,12 +76,12 @@
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/radio_group_statut"
         app:layout_constraintTop_toBottomOf="@+id/text_votre_profil" />
 
     <TextView
         android:id="@+id/text_informations_personnelles"
-        android:layout_width="260dp"
+        android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/quicksand_bold"
@@ -91,20 +90,20 @@
         android:textColor="#000000"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/text_statut"
+        app:layout_constraintStart_toStartOf="@+id/input_nom"
         app:layout_constraintTop_toBottomOf="@+id/radio_group_statut" />
 
     <RadioGroup
         android:id="@+id/radio_group_statut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/text_statut"
+        android:layout_width="320dp"
+        android:layout_height="69dp"
+        app:layout_constraintStart_toStartOf="@+id/text_informations_personnelles"
         app:layout_constraintTop_toBottomOf="@+id/text_statut">
 
         <RadioButton
             android:id="@+id/radio_button_professionnel"
-            android:layout_width="220dp"
-            android:layout_height="19dp"
+            android:layout_width="218dp"
+            android:layout_height="23dp"
             android:layout_marginTop="14dp"
             android:fontFamily="@font/quicksand_semibold"
 
@@ -134,7 +133,6 @@
         android:hint="Nom"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_informations_personnelles" />
 
@@ -147,9 +145,7 @@
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Prénom"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/input_nom"
         app:layout_constraintTop_toBottomOf="@+id/input_nom" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -163,9 +159,7 @@
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Date de naissance"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/input_prenom"
         app:layout_constraintTop_toBottomOf="@+id/input_prenom" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -177,17 +171,15 @@
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Adresse Email"
         android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/input_date_de_naissance"
         app:layout_constraintTop_toBottomOf="@+id/input_date_de_naissance" />
 
     <CheckBox
         android:id="@+id/checkbox_rgpd"
-        android:layout_width="316dp"
+        android:layout_width="350dp"
         android:layout_height="51dp"
-        android:layout_marginTop="5dp"
 
+        android:layout_marginTop="5dp"
         android:text="J'accepte les conditions en matière de protection des données relatives au RGPD."
         app:layout_constraintStart_toStartOf="@+id/input_email"
         app:layout_constraintTop_toBottomOf="@+id/input_email" />
