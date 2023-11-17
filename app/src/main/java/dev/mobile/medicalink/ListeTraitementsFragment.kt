@@ -2,6 +2,7 @@ package dev.mobile.medicalink
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +25,9 @@ class ListeTraitementsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
 
+        var isAddingTraitement  = arguments?.getString("isAddingTraitement")
 
-        //var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
+
 
 
         if (activity != null) {
@@ -56,11 +58,16 @@ class ListeTraitementsFragment : Fragment() {
             Traitement("Anti-inflammatoire", 7, "Jours", LocalDate.of(2023, 12, 1), "Comprimé",15, false, effetsSecondairesAntiInflammatoire),
             Traitement("Médicament Y", 21, "An", LocalDate.of(2024, 1, 20), "Comprimé",10, false, effetsSecondairesMédicamentY)
         )
-        /*
-        if (newTraitement.nomTraitement!=""){
+
+        if (isAddingTraitement=="true"){
+            var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
+            Log.d("test",newTraitement.nomTraitement)
             lp.add(newTraitement)
         }
-        */
+
+
+
+
         val traitementsTries = lp.sortedBy { it.expire }.toMutableList()
         println(traitementsTries.first().nomTraitement)
 

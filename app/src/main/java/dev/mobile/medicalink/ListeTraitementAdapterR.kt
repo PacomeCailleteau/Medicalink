@@ -53,7 +53,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         }else{
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
-            holder.nbComprimesRestants.text = "${item.comprimesRestants} comprimés restants"
+            holder.nbComprimesRestants.text = "${item.comprimesRestants} ${item.typeComprime}s restants"
             if (item.dateFinTraitement == null){
                 holder.dateExpirationTraitement.text = "Indéterminé"
             }else{
