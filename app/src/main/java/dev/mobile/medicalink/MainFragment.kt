@@ -39,6 +39,9 @@ class MainFragment : AppCompatActivity() {
     private lateinit var imageTraitements: ImageView
     private lateinit var btnMessagesNav: LinearLayout
     private lateinit var imageMessages: ImageView
+    private lateinit var textAccueil: TextView
+    private lateinit var textTraitements: TextView
+    private lateinit var textMessages: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +80,9 @@ class MainFragment : AppCompatActivity() {
         imageTraitements=findViewById(R.id.imageViewTraitement)
         btnMessagesNav = findViewById(R.id.btnMessagesNav)
         imageMessages=findViewById(R.id.imageViewMessages)
+        textAccueil=findViewById(R.id.textViewAccueil)
+        textTraitements=findViewById(R.id.textViewTraitement)
+        textMessages=findViewById(R.id.textViewMessages)
 
 
         // Chargement du fragment par défaut et des bonnes couleurs
@@ -121,32 +127,30 @@ class MainFragment : AppCompatActivity() {
 
         ft.commit()
     }
-    fun changeVisibility(){
-        when (menu.isGone) {
-            true -> {
-                menu.visibility= View.VISIBLE
-            }
-            false -> {
-                menu.visibility= View.GONE
-            }
-        }
-    }
+
     private fun changeMenu(dest : Int) {
         // On remet tous à la normal
         imageAccueil.setImageResource(R.drawable.accueil)
         imageTraitements.setImageResource(R.drawable.traitements)
         imageMessages.setImageResource(R.drawable.messages)
+        textAccueil.setTextColor(Color.parseColor("#000000"))
+        textTraitements.setTextColor(Color.parseColor("#000000"))
+        textMessages.setTextColor(Color.parseColor("#000000"))
+
 
         // On met en surbrillance le bouton cliqué
         when (dest) {
             0 -> {
                 imageAccueil.setImageResource(R.drawable.accueilreverse)
+                textAccueil.setTextColor(Color.parseColor("#3F4791"))
             }
             1 -> {
                 imageTraitements.setImageResource(R.drawable.documentsreverse)
+                textTraitements.setTextColor(Color.parseColor("#3F4791"))
             }
             2 -> {
                 imageMessages.setImageResource(R.drawable.enveloppereverse)
+                textMessages.setTextColor(Color.parseColor("#3F4791"))
             }
         }
 
