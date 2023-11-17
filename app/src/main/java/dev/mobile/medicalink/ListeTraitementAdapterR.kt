@@ -40,7 +40,12 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val item = list.get(position)
         holder.nomTraitement.text = item.nomTraitement
-        holder.dosage.text = "${item.dosageNb} par ${item.dosageUnite}"
+        if (item.dosageUnite=="auBesoin"){
+            holder.dosage.text = "Au besoin"
+        }else{
+            holder.dosage.text = "${item.dosageNb} par ${item.dosageUnite}"
+        }
+
         if (item.expire){
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_gray_button_background)
             holder.imageView.setImageResource(R.drawable.medicexpire)
@@ -53,7 +58,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         }else{
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
-            holder.nbComprimesRestants.text = "${item.comprimesRestants} ${item.typeComprime}s restants"
+            holder.nbComprimesRestants.text = "${item.comprimesRestants} ${item.typeComprime.lowercase()}s restants"
             if (item.dateFinTraitement == null){
                 holder.dateExpirationTraitement.text = "Indéterminé"
             }else{
