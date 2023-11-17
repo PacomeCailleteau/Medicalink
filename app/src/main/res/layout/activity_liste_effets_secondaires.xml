@@ -8,12 +8,12 @@
 
     <TextView
         android:id="@+id/text_medicalink"
-        android:layout_width="127dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="Medicalink"
-        android:fontFamily="@font/quicksand_bold"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -65,7 +65,7 @@
         app:srcCompat="@drawable/cloche" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewListeAddManuallySearch"
+        android:id="@+id/recyclerViewTypeMedic"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"

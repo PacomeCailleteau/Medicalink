@@ -9,6 +9,16 @@
     >
 
     <ImageView
+        android:id="@+id/annulerPreview"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/image_preview"
+        app:layout_constraintEnd_toEndOf="@+id/image_preview"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:srcCompat="@drawable/annuler" />
+
+    <ImageView
         android:id="@+id/image_preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -16,7 +26,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintDimensionRatio="1.5:2"
@@ -28,6 +37,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"

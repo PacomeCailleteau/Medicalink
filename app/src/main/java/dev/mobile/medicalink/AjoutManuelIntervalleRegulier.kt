@@ -49,14 +49,18 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var schema_prise1  = arguments?.getString("schema_prise1")
+        var dureePriseDbt = arguments?.getString("dureePriseDbt")
+        var dureePriseFin = arguments?.getString("dureePriseFin")
 
 
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
             bundle.putString("provenance", "intervalleRegulier")
             bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
 
             val destinationFragment = AjoutManuelSchemaPrise2Fragment()
             destinationFragment.arguments = bundle
@@ -71,8 +75,10 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putSerializable("addTraitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
             val destinationFragment = AjoutManuelSchemaPriseFragment()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
