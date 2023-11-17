@@ -29,16 +29,10 @@ class MainFragment : AppCompatActivity() {
     private lateinit var menu : ConstraintLayout
     private lateinit var btnAccueilNav: LinearLayout
     private lateinit var imageAccueil: ImageView
-    private lateinit var textAccueil: TextView
     private lateinit var btnTraitementsNav: LinearLayout
     private lateinit var imageTraitements: ImageView
-    private lateinit var textTraitements: TextView
     private lateinit var btnMessagesNav: LinearLayout
     private lateinit var imageMessages: ImageView
-    private lateinit var textMessages: TextView
-    private lateinit var btnPlusNav: LinearLayout
-    private lateinit var imagePlus: ImageView
-    private lateinit var textPlus: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,16 +53,10 @@ class MainFragment : AppCompatActivity() {
 
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
         imageAccueil=findViewById(R.id.imageViewAccueil)
-        textAccueil=findViewById(R.id.textViewAccueil)
         btnTraitementsNav = findViewById(R.id.btnTraitementsNav)
         imageTraitements=findViewById(R.id.imageViewTraitement)
-        textTraitements=findViewById(R.id.textViewTraitement)
         btnMessagesNav = findViewById(R.id.btnMessagesNav)
         imageMessages=findViewById(R.id.imageViewMessages)
-        textMessages=findViewById(R.id.textViewMessages)
-        btnPlusNav = findViewById(R.id.btnPlusNav)
-        imagePlus=findViewById(R.id.imageViewPlus)
-        textPlus=findViewById(R.id.textViewPlus)
 
 
         // Chargement du fragment par défaut et des bonnes couleurs
@@ -92,11 +80,6 @@ class MainFragment : AppCompatActivity() {
 
         btnMessagesNav.setOnClickListener {
             changeMenu(2)
-
-        }
-
-        btnPlusNav.setOnClickListener {
-            changeMenu(3)
 
         }
 
@@ -133,30 +116,17 @@ class MainFragment : AppCompatActivity() {
         imageAccueil.setImageResource(R.drawable.accueil)
         imageTraitements.setImageResource(R.drawable.traitements)
         imageMessages.setImageResource(R.drawable.messages)
-        imagePlus.setImageResource(R.drawable.plus)
-
-        textAccueil.setTextColor(Color.parseColor("#000000"))
-        textTraitements.setTextColor(Color.parseColor("#000000"))
-        textMessages.setTextColor(Color.parseColor("#000000"))
-        textPlus.setTextColor(Color.parseColor("#000000"))
 
         // On met en surbrillance le bouton cliqué
         when (dest) {
             0 -> {
                 imageAccueil.setImageResource(R.drawable.accueilreverse)
-                textAccueil.setTextColor(Color.parseColor("#3F4791"))
             }
             1 -> {
                 imageTraitements.setImageResource(R.drawable.documentsreverse)
-                textTraitements.setTextColor(Color.parseColor("#3F4791"))
             }
             2 -> {
                 imageMessages.setImageResource(R.drawable.enveloppereverse)
-                textMessages.setTextColor(Color.parseColor("#3F4791"))
-            }
-            3 -> {
-                imagePlus.setImageResource(R.drawable.plusreverse)
-                textPlus.setTextColor(Color.parseColor("#3F4791"))
             }
         }
 

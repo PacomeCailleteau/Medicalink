@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/annulerPreview"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/image_preview"
         app:layout_constraintEnd_toEndOf="@+id/image_preview"

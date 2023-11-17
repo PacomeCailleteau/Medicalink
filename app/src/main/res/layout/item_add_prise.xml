@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="118dp">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/heurePriseInput"
@@ -15,9 +15,9 @@
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="17h15"
-        android:textColorHint="#000000"
         android:padding="15dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColorHint="#000000"
+        app:layout_constraintStart_toStartOf="@+id/numeroPrise"
         app:layout_constraintTop_toBottomOf="@+id/numeroPrise" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -29,8 +29,8 @@
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="1 Comprimé(s)"
-        android:textColorHint="#000000"
         android:padding="15dp"
+        android:textColorHint="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/heurePriseInput"
         app:layout_constraintStart_toEndOf="@+id/heurePriseInput" />
 
@@ -38,6 +38,7 @@
         android:id="@+id/numeroPrise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
         android:fontFamily="@font/quicksand_bold"
         android:text="Prise X"
         android:textColor="#000000"
@@ -64,7 +65,7 @@
         android:id="@+id/supprimerlayout"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="25dp"
         android:background="@drawable/rounded_red_button_no_stroke_background"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/quantiteInput"

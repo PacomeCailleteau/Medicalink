@@ -52,7 +52,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         recyclerView.adapter = ajoutManuelAdapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
-        val espacementEnDp = 5
+        val espacementEnDp = 20
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
         addNouvellePrise.setOnClickListener {

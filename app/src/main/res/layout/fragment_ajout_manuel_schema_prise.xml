@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
@@ -32,7 +32,7 @@
         android:gravity="start"
         android:text="Schéma de prise du traitement"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -108,15 +108,6 @@
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView10" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cloche" />
 
     <ImageView
         android:id="@+id/retour_schema_prise2"
