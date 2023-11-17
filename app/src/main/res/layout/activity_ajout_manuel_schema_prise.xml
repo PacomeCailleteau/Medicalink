@@ -53,10 +53,10 @@
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/quotidiennement_button" />
+        app:layout_constraintTop_toBottomOf="@+id/debutAjd" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/quotidiennement_button"
+        android:id="@+id/debutAjd"
         android:layout_width="0dp"
         android:layout_height="73dp"
         android:layout_alignParentEnd="true"

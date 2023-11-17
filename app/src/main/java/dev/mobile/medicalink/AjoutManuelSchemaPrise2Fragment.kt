@@ -39,10 +39,16 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var schema_prise1  = arguments?.getString("schema_prise1")
         var provenance  = arguments?.getString("provenance")
+        var dureePriseDbt = arguments?.getString("dureePriseDbt")
+        var dureePriseFin = arguments?.getString("dureePriseFin")
 
         var listePrise : MutableList<Prise>? = traitement.prises
         if (listePrise == null){
-            listePrise= mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,"Comprimé"))
+            listePrise= mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,traitement.typeComprime))
+        }else{
+            for (prise in listePrise){
+                prise.dosageUnite=traitement.dosageUnite
+            }
         }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewAjoutPrise)
@@ -57,20 +63,26 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         addNouvellePrise.setOnClickListener {
             numeroPrise=listePrise.size+1
-            var nouvellePrise = Prise(numeroPrise,"17h00",1,"Comprimé")
+            var nouvellePrise = Prise(numeroPrise,"17h00",1,traitement.typeComprime)
             listePrise.add(nouvellePrise)
             ajoutManuelAdapter.notifyDataSetChanged()
-
-
         }
 
 
 
         suivant.setOnClickListener {
+            var dosageNB = 0
+            if (listePrise!=null){
+                for (prise in listePrise){
+                    dosageNB+=prise.quantite
+                }
+            }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,listePrise))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, dosageNB,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
             var destinationFragment = AjoutManuelDateSchemaPrise()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
@@ -81,10 +93,17 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
 
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
+            var dosageNB = 0
+            if (listePrise!=null){
+                for (prise in listePrise){
+                    dosageNB+=prise.quantite
+                }
+            }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,listePrise))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,dosageNB,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise))
             bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
             var destinationFragment = Fragment()
             when (provenance){
                 "quotidiennement" -> {
