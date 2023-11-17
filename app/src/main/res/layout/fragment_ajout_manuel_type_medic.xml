@@ -44,7 +44,7 @@
         android:gravity="start"
         android:text="Type de comprimé"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />

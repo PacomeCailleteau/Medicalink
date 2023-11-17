@@ -109,7 +109,6 @@ class AddTraitementsFragment : Fragment() {
             loadLauncher.launch("image/*")
         }
 
-        //TODO: Ajouter un traitement manuellement en fragment
         manualImportButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable("traitement", Traitement("",1,"Jour",null,"Comprimé",25,false,null,null))
