@@ -47,14 +47,14 @@ class MainActivity : AppCompatActivity() {
             // Dans la méthode `onCreate` de votre MainActivity
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val notificationIntent = Intent(this, NotificationService::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            //val pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             // Calculer le temps actuel + 1 minutes
             val currentTimeMillis = System.currentTimeMillis()
             val oneMinutesMillis = 6000
             val futureTimeMillis = currentTimeMillis + oneMinutesMillis
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, futureTimeMillis, pendingIntent)
+            //alarmManager.set(AlarmManager.RTC_WAKEUP, futureTimeMillis, pendingIntent)
 
         }
 

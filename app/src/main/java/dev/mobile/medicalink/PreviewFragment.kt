@@ -12,6 +12,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import java.io.File
@@ -30,6 +31,7 @@ class PreviewFragment : Fragment() {
     private lateinit var takePictureLauncher: ActivityResultLauncher<Uri>
     private lateinit var chooseFromGalleryLauncher: ActivityResultLauncher<String>
 
+    private lateinit var retour: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,13 @@ class PreviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_preview, container, false)
+
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
+
+        retour = view.findViewById(R.id.annulerPreview)
 
         buttonTakePicture = view.findViewById(R.id.button_take_picture)
         buttonChooseFromGallery = view.findViewById(R.id.button_choose_from_gallery)
@@ -87,6 +96,15 @@ class PreviewFragment : Fragment() {
         validateButton.setOnClickListener {
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        //Retour à la page précédente (AddTraitementsFragment)
+        retour.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

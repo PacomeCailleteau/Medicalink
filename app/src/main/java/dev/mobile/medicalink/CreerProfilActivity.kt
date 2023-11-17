@@ -45,6 +45,9 @@ class CreerProfilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creer_profile)
 
+        //masquer la barre de titre
+        supportActionBar?.hide()
+
         //TODO : Mettre le RGPD en lien cliquable
 
         textMedicalink = findViewById(R.id.text_medicalink)
