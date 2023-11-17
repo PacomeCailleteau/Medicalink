@@ -41,9 +41,7 @@ class AjoutManuelSearchFragment : Fragment() {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
             navBarre.visibility = View.GONE
         }
-    /*
-        activity?.findViewById<FrameLayout>(R.id.fragmentDuBas)?.visibility = View.GONE
-*/
+
         var traitement = arguments?.getSerializable("traitement") as Traitement
 
         var schema_prise1 = arguments?.getString("schema_prise1")
@@ -64,9 +62,9 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),traitement.dosageNb,"Jour",null,"Comprimé",25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")
-            val destinationFragment = AjoutManuelSchemaPriseFragment()
+            val destinationFragment = AjoutManuelTypeMedic()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

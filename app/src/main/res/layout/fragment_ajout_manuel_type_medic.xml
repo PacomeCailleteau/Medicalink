@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".AjoutManuelSearchFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTypeMedic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="30dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/suivant1"
+        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
@@ -24,13 +36,13 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="281dp"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Schéma de prise du traitement"
+        android:text="Type de comprimé"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="normal"

@@ -11,7 +11,6 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
@@ -36,8 +35,10 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise, container, false)
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var schema_prise1  = arguments?.getString("schema_prise1")
+        var dureePriseDbt = arguments?.getString("dureePriseDbt")
+        var dureePriseFin = arguments?.getString("dureePriseFin")
 
-        quotidiennementButton = view.findViewById(R.id.quotidiennement_button)
+        quotidiennementButton = view.findViewById(R.id.debutAjd)
         intervalleRegulierButton = view.findViewById(R.id.intervalle_regulier_button)
         auBesoinButton = view.findViewById(R.id.au_besoin_button)
 
@@ -106,6 +107,9 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            if (schema_prise1 != "Quotidiennement"){
+                traitement.prises=null
+            }
             schema_prise1 = "Quotidiennement"
         }
 
@@ -113,6 +117,9 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            if (schema_prise1 != "Intervalle"){
+                traitement.prises=null
+            }
             schema_prise1 = "Intervalle"
 
         }
@@ -121,15 +128,34 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            if (schema_prise1 != "auBesoin"){
+                traitement.prises=null
+            }
             schema_prise1 = "auBesoin"
 
         }
 
         suivant.setOnClickListener {
+            var dosageUnite = ""
+            if (schema_prise1!=null){
+                when (schema_prise1) {
+                    "Quotidiennement" -> {
+                        dosageUnite="Jour"
+                    }
+                    "Intervalle" -> {
+                        dosageUnite="Semaine"
+                    }
+                    "auBesoin" -> {
+                        dosageUnite="auBesoin"
+                    }
+                }
+            }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "quotidiennement")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
             var destinationFragment = Fragment()
             when (schema_prise1){
                 "Quotidiennement" -> {
@@ -156,11 +182,26 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
         //On retourne au fragment précédent
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
+            var dosageUnite = ""
+            if (schema_prise1!=null){
+                when (schema_prise1) {
+                    "Quotidiennement" -> {
+                        dosageUnite="Jour"
+                    }
+                    "Intervalle" -> {
+                        dosageUnite="Semaine"
+                    }
+                    "auBesoin" -> {
+                        dosageUnite="auBesoin"
+                    }
+                }
+            }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,0,"Comprimé",null,25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
             bundle.putString("schema_prise1", "$schema_prise1")
-            val destinationFragment = AjoutManuelSearchFragment()
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelTypeMedic()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

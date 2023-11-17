@@ -1,59 +1,104 @@
 package dev.mobile.medicalink
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
+import android.graphics.Bitmap
+import android.os.Build
+import android.widget.Button
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AjoutManuelTypeMedic.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AjoutManuelTypeMedic : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var retour: ImageView
+    private lateinit var suivant : Button
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AjoutManuelTypeMedic.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AjoutManuelTypeMedic().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        retour = view.findViewById(R.id.retour_schema_prise2)
+        suivant = view.findViewById(R.id.suivant1)
+
+        val traitement = arguments?.getSerializable("traitement") as Traitement
+        var schema_prise1  = arguments?.getString("schema_prise1")
+        var dureePriseDbt = arguments?.getString("dureePriseDbt")
+        var dureePriseFin = arguments?.getString("dureePriseFin")
+
+        var listeTypeMedic : MutableList<String> =
+            mutableListOf("Comprimé","Gellule","Sachet","Sirop","Pipette","Seringue","Bonbon")
+
+        var selected = traitement.typeComprime
+
+        val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
+        recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
+
+
+        var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic,selected)
+        recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
+
+        // Gestion de l'espacement entre les éléments du RecyclerView
+        val espacement = 20
+        recyclerViewTypeMedic.addItemDecoration(SpacingRecyclerView(espacement))
+
+        suivant.setOnClickListener {
+            val bundle = Bundle()
+            Log.d("LLLL",AjoutManuelTypeMedicAdapter.selected)
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelSchemaPriseFragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+
+
+        retour.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+        return view
     }
 }

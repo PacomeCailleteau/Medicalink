@@ -112,7 +112,7 @@ class AddTraitementsFragment : Fragment() {
         //TODO: Ajouter un traitement manuellement en fragment
         manualImportButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement("",0,"Comprimé",null,25,false,null,null))
+            bundle.putSerializable("traitement", Traitement("",1,"Jour",null,"Comprimé",25,false,null,null))
             bundle.putString("schema_prise1", "Quotidiennement")
             val destinationFragment = AjoutManuelSearchFragment()
             destinationFragment.arguments = bundle
