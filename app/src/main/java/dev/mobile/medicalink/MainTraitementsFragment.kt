@@ -2,12 +2,17 @@ package dev.mobile.medicalink
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.room.Room
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.db.local.repository.UserRepository
 
 class MainTraitementsFragment : Fragment() {
     private lateinit var addTraitementButton: LinearLayout
@@ -20,6 +25,15 @@ class MainTraitementsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_traitements, container, false)
+
+        val cc = AppDatabase.getInstance(view.context.applicationContext)
+        val userRepo = UserRepository(cc.userDao())
+        Thread {
+            userRepo.getAllUsers().forEach {
+                Log.d("User2", "User: ${it.firstName} ${it.lastName}")
+            }
+        }.start()
+
 
         addTraitementButton = view.findViewById(R.id.cardaddtraitements)
         traitementsButton = view.findViewById(R.id.cardtraitements)
