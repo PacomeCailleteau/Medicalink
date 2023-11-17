@@ -23,7 +23,9 @@ class ListeTraitementsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
-        var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
+
+
+        //var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
 
 
         if (activity != null) {
@@ -54,11 +56,11 @@ class ListeTraitementsFragment : Fragment() {
             Traitement("Anti-inflammatoire", 7, "Jours", LocalDate.of(2023, 12, 1), "Comprimé",15, false, effetsSecondairesAntiInflammatoire),
             Traitement("Médicament Y", 21, "An", LocalDate.of(2024, 1, 20), "Comprimé",10, false, effetsSecondairesMédicamentY)
         )
-
+        /*
         if (newTraitement.nomTraitement!=""){
             lp.add(newTraitement)
         }
-
+        */
         val traitementsTries = lp.sortedBy { it.expire }.toMutableList()
         println(traitementsTries.first().nomTraitement)
 
