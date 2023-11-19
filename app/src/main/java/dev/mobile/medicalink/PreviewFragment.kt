@@ -56,7 +56,6 @@ class PreviewFragment : Fragment() {
 
         val uri : Uri = data!!.toUri()
         displayImage(uri)
-        Log.d("test", uri.toString())
 
 
         when (arguments?.getString("type")) {
@@ -73,7 +72,6 @@ class PreviewFragment : Fragment() {
                 buttonTakePicture.setOnClickListener {
                     val uri: Uri = createImageFile()
                     currentPhotoPath = uri
-                    Log.d("MedicalinkBug", uri.toString())
                     takePictureLauncher.launch(uri)
                 }
             }

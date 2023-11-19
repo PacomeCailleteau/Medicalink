@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
@@ -63,6 +64,18 @@ class CreerProfilActivity : AppCompatActivity() {
         inputEmail = findViewById(R.id.input_email)
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
+
+        val allowedChars = "[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]+".toRegex()
+
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            val input = source.subSequence(start, end).toString()
+            val currentText = dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
+            val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
+            if (newText.matches(allowedChars)) null else ""
+        }
+
+        inputNom.filters = arrayOf(filter)
+        inputPrenom.filters = arrayOf(filter)
 
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
