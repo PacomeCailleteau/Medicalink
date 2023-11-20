@@ -183,10 +183,18 @@ class AddTraitementsFragment : Fragment() {
         return result.toString()
     }
 
+    //TODO("Gérer le BitMap null pour éviter de crash")
     private fun processImageAndExtractText(uri: Uri) {
         // Convertir l'URI de l'image en Bitmap
         val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)
         val bitmap = BitmapFactory.decodeStream(inputStream)
+        Log.d("bitmap",bitmap.toString())
+        if (bitmap == null) {
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
 
         // Appeler la fonction pour extraire le texte
         extractTextFromImage(bitmap) { extractedText ->
