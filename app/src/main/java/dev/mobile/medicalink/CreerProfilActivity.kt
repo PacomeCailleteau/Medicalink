@@ -5,9 +5,9 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.TextWatcher
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
 import android.view.MotionEvent
@@ -68,6 +68,32 @@ class CreerProfilActivity : AppCompatActivity() {
         inputEmail = findViewById(R.id.input_email)
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
+
+        // Récupérez le texte actuel de la CheckBox
+        val checkBoxText = checkboxRgpd.text.toString()
+
+        // Trouvez la position du mot "RGPD" dans le texte
+        val startIndex = checkBoxText.indexOf("RGPD")
+
+        // Créez une SpannableString pour le texte de la CheckBox
+        val spannableString = SpannableString(checkBoxText)
+
+        // Ajoutez un ClickableSpan au mot "RGPD"
+        val clickableSpanRGPD = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Ouvrez l'URL des termes de la RGPD dans le navigateur
+                val url = "https://www.cnil.fr/fr/reglement-europeen-protection-donnees"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }
+        }
+
+        // Indiquez la position du mot "RGPD" dans la SpannableString
+        spannableString.setSpan(clickableSpanRGPD, startIndex, startIndex + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        // Appliquez la SpannableString à la CheckBox
+        checkboxRgpd.text = spannableString
+        checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
 
         val regex = Regex(pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$", options = setOf(RegexOption.IGNORE_CASE))
 
