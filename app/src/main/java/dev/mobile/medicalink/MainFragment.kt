@@ -51,17 +51,9 @@ class MainFragment : AppCompatActivity() {
         supportActionBar?.hide()
 
 
-        //TEST DATABASE
+        //Create database connexion, use `userDatabaseInterface` to access to the database
         val db = AppDatabase.getInstance(this)
-        //on ajoute un User dans la bd
-        val userRepo = UserRepository(db.userDao())
-        var res : Pair<Boolean, String>
-
-        Thread {
-            userRepo.getAllUsers().forEach {
-                Log.d("User", "User: ${it.firstName} ${it.lastName}")
-            }
-        }.start()
+        val userDatabaseInterface = UserRepository(db.userDao())
 
 
         // TEST NOTIF

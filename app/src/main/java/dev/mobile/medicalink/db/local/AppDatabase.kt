@@ -12,6 +12,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object : SingletonHolder<AppDatabase, Context>({
-        Room.databaseBuilder(it.applicationContext, AppDatabase::class.java, "train.db").build()
+        Room.databaseBuilder(it.applicationContext, AppDatabase::class.java, "ttest.db").build()
     })
 }

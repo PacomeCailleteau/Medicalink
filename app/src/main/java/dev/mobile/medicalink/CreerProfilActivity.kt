@@ -19,8 +19,12 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -116,6 +120,32 @@ class CreerProfilActivity : AppCompatActivity() {
         inputEmail.addTextChangedListener(textWatcher)
 
         buttonCreerProfil.setOnClickListener {
+            val db = AppDatabase.getInstance(this)
+            val userDatabaseInterface = UserRepository(db.userDao())
+            var res : Pair<Boolean, String>? = null
+            val uuid = java.util.UUID.randomUUID().toString()
+            val statut = if (radioButtonUtilisateur.isChecked) "Utilisateur" else "Professionnel"
+            val nom = inputNom.text.toString()
+            val prenom = inputPrenom.text.toString()
+            val dateNaissance = inputDateDeNaissance.text.toString()
+            val email = inputEmail.text.toString()
+            val user = User(
+                uuid,
+                statut,
+                nom,
+                prenom,
+                dateNaissance,
+                email
+            )
+            Log.d("CREER", "Utilisateur : $user")
+            Thread {
+                res = userDatabaseInterface.insertUser(user)
+                if (res!!.first) {
+                    Log.d("CREER_PROFIL", res!!.second)
+                } else {
+                    Log.d("CREER_PROFIL", res!!.second)
+                }
+            }.start()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -211,4 +241,6 @@ class CreerProfilActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH)
         return dateFormat.format(calendar.time)
     }
+
+
 }
