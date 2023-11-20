@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
+import android.text.InputFilter
 import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -51,6 +53,23 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButton = view.findViewById(R.id.add_manually_button)
 
         addManuallySearchBar.setText(traitement.nomTraitement)
+
+        val regex = Regex(pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$", options = setOf(RegexOption.IGNORE_CASE))
+
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            val input = source.subSequence(start, end).toString()
+            val currentText = dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
+            val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
+
+            if (regex.matches(newText)) {
+                null // Caractères autorisés
+            } else {
+                dest.subSequence(dstart, dend)
+            }
+        }
+
+        addManuallySearchBar.filters = arrayOf(filter)
+
         addManuallyButtonLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // Gérez l'activité de résultat ici
@@ -85,5 +104,24 @@ class AjoutManuelSearchFragment : Fragment() {
 
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Code à exécuter lorsque le bouton de retour arrière est pressé
+                // Vous pouvez appeler la même logique que le bouton de retour dans le fragment
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
 
 }
