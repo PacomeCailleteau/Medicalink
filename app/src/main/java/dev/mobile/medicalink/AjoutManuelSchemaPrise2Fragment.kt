@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -31,6 +33,11 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise2, container, false)
 
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
+
         addNouvellePrise = view.findViewById(R.id.btn_add_nouvelle_prise)
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
@@ -47,7 +54,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             listePrise= mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,traitement.typeComprime))
         }else{
             for (prise in listePrise){
-                prise.dosageUnite=traitement.dosageUnite
+                prise.dosageUnite=traitement.typeComprime
             }
         }
 
@@ -127,4 +134,57 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                // Code à exécuter lorsque le bouton de retour arrière est pressé
+                val traitement = arguments?.getSerializable("traitement") as Traitement
+                val schema_prise1 = arguments?.getString("schema_prise1")
+                val provenance = arguments?.getString("provenance")
+                val dureePriseDbt = arguments?.getString("dureePriseDbt")
+                val dureePriseFin = arguments?.getString("dureePriseFin")
+                var listePrise: MutableList<Prise>? = traitement.prises
+
+                if (listePrise == null) {
+                    listePrise = mutableListOf<Prise>(Prise(1, "17h00", 1, traitement.typeComprime))
+                } else {
+                    for (prise in listePrise) {
+                        prise.dosageUnite = traitement.dosageUnite
+                    }
+                }
+
+                val bundle = Bundle()
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise))
+                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("provenance", "$provenance")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+                var destinationFragment: Fragment = AjoutManuelSchemaPriseFragment()
+
+                when (provenance) {
+                    "quotidiennement" -> {
+                        destinationFragment = AjoutManuelSchemaPriseFragment()
+                    }
+                    "intervalleRegulier" -> {
+                        destinationFragment = AjoutManuelIntervalleRegulier()
+                    }
+                }
+
+                destinationFragment.arguments = bundle
+
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
 }

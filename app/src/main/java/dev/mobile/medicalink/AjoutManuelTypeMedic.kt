@@ -17,7 +17,9 @@ import androidx.core.content.FileProvider
 import android.graphics.Bitmap
 import android.os.Build
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -43,6 +45,11 @@ class AjoutManuelTypeMedic : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
+
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
 
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
@@ -101,4 +108,42 @@ class AjoutManuelTypeMedic : Fragment() {
         }
         return view
     }
+    override fun onResume() {
+        super.onResume()
+
+        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                // Code à exécuter lorsque le bouton de retour arrière est pressé
+                val traitement = arguments?.getSerializable("traitement") as Traitement
+                val schema_prise1 = arguments?.getString("schema_prise1")
+                val dureePriseDbt = arguments?.getString("dureePriseDbt")
+                val dureePriseFin = arguments?.getString("dureePriseFin")
+                var listeTypeMedic : MutableList<String> =
+                    mutableListOf("Comprimé","Gellule","Sachet","Sirop","Pipette","Seringue","Bonbon")
+
+                var selected = traitement.typeComprime
+                var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic,selected)
+
+                val bundle = Bundle()
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, AjoutManuelTypeMedicAdapter.selected, 25, false, null, traitement.prises))
+                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+
+                val destinationFragment = AjoutManuelSearchFragment()
+                destinationFragment.arguments = bundle
+
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+
 }

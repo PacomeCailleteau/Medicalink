@@ -87,8 +87,6 @@ class CreerProfilActivity : AppCompatActivity() {
 
         inputPrenom.filters = arrayOf(filter)
 
-        //Todo("Faire le pattern du mail")
-
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
