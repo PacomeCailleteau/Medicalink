@@ -65,17 +65,25 @@ class CreerProfilActivity : AppCompatActivity() {
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
 
-        val allowedChars = "[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]+".toRegex()
+        val regex = Regex(pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$", options = setOf(RegexOption.IGNORE_CASE))
 
         val filter = InputFilter { source, start, end, dest, dstart, dend ->
             val input = source.subSequence(start, end).toString()
             val currentText = dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
             val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
-            if (newText.matches(allowedChars)) null else ""
+
+            if (regex.matches(newText)) {
+                null // Caractères autorisés
+            } else {
+                dest.subSequence(dstart, dend)
+            }
         }
 
         inputNom.filters = arrayOf(filter)
+
         inputPrenom.filters = arrayOf(filter)
+
+        //Todo("Faire le pattern du mail")
 
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
