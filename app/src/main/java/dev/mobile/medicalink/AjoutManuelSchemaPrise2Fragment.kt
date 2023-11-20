@@ -54,7 +54,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             listePrise= mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,traitement.typeComprime))
         }else{
             for (prise in listePrise){
-                prise.dosageUnite=traitement.dosageUnite
+                prise.dosageUnite=traitement.typeComprime
             }
         }
 
