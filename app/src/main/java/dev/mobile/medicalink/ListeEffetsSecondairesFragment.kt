@@ -52,7 +52,6 @@ class ListeEffetsSecondairesFragment : Fragment() {
         )
 
         val traitementsTries = lp.sortedBy { it.expire }.toMutableList()
-        println(traitementsTries.first().nomTraitement)
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)

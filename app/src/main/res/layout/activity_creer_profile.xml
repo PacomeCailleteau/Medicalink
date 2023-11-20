@@ -125,13 +125,17 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_nom"
         android:layout_width="325dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
 
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Nom"
+        android:textSize="16sp"
+        android:inputType="textCapCharacters"
+        android:scrollHorizontally="false"
         android:padding="15dp"
+        android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_informations_personnelles" />
@@ -139,25 +143,30 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_prenom"
         android:layout_width="325dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Prénom"
+        android:inputType="textCapWords"
+        android:textSize="16sp"
+        android:scrollHorizontally="false"
         android:padding="15dp"
         app:layout_constraintStart_toStartOf="@+id/input_nom"
-        app:layout_constraintTop_toBottomOf="@+id/input_nom" />
+        app:layout_constraintTop_toBottomOf="@+id/input_nom"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_date_de_naissance"
         android:layout_width="325dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:clickable="true"
         android:focusable="false"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Date de naissance"
+        android:textSize="16sp"
+        android:scrollHorizontally="false"
         android:padding="15dp"
         app:layout_constraintStart_toStartOf="@+id/input_prenom"
         app:layout_constraintTop_toBottomOf="@+id/input_prenom" />
@@ -165,11 +174,14 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_email"
         android:layout_width="325dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Adresse Email"
+        android:textSize="16sp"
+        android:inputType="textEmailAddress"
+        android:scrollHorizontally="false"
         android:padding="15dp"
         app:layout_constraintStart_toStartOf="@+id/input_date_de_naissance"
         app:layout_constraintTop_toBottomOf="@+id/input_date_de_naissance" />

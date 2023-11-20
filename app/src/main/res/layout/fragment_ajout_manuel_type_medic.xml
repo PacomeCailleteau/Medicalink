@@ -68,16 +68,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView10" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView9"
-        app:srcCompat="@drawable/parametres" />
-
-    <ImageView
         android:id="@+id/retour_schema_prise2"
         android:layout_width="27dp"
         android:layout_height="27dp"
