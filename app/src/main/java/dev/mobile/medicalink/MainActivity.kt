@@ -3,7 +3,6 @@ package dev.mobile.medicalink
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.os.Bundle
 import android.widget.Button
@@ -17,7 +16,7 @@ import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.utils.NotificationService
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var image_connexion: ImageView
+    private lateinit var imageConnexion: ImageView
     private lateinit var textBienvenue: TextView
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         //masquer la barre de titre
         supportActionBar?.hide()
 
-        image_connexion = findViewById(R.id.image_connexion)
+        imageConnexion = findViewById(R.id.image_connexion)
         textBienvenue = findViewById(R.id.text_bienvenue)
         buttonConnexion = findViewById(R.id.button_connexion)
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)

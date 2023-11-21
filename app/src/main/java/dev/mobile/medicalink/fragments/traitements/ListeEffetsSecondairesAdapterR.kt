@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
@@ -15,9 +14,8 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
     RecyclerView.Adapter<ListeEffetsSecondairesAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomEffet = view.findViewById<TextView>(R.id.numeroPrise)
-        val provoquePar = view.findViewById<TextView>(R.id.provoquePar)
-        val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
+        val nomEffet : TextView= view.findViewById(R.id.numeroPrise)
+        val provoquePar : TextView= view.findViewById(R.id.provoquePar)
 
     }
 
@@ -89,6 +87,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         }
          */
 
+        //TODO("faire ça plus proprement")
         holder.view.setOnLongClickListener {
             notifyDataSetChanged()
 

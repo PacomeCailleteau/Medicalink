@@ -26,7 +26,7 @@ class ListeTraitementsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
 
-        var isAddingTraitement  = arguments?.getString("isAddingTraitement")
+        val isAddingTraitement  = arguments?.getString("isAddingTraitement")
 
 
 
@@ -39,29 +39,29 @@ class ListeTraitementsFragment : Fragment() {
         val effetsSecondairesDoliprane = mutableListOf("Nausées", "Vomissements", "Maux de tête")
         val effetsSecondairesAspirine = mutableListOf("Irritation de l'estomac", "Hémorragie")
         val effetsSecondairesVitamineC = mutableListOf("Aucun effet secondaire connu")
-        val effetsSecondairesIbuprofène = mutableListOf("Maux d'estomac", "Saignement d'estomac")
+        val effetsSecondairesIbuprofene = mutableListOf("Maux d'estomac", "Saignement d'estomac")
         val effetsSecondairesAntibiotique = mutableListOf("Réaction allergique", "Diarrhée")
-        val effetsSecondairesMédicamentX = mutableListOf("Somnolence", "Vertiges")
+        val effetsSecondairesMedicamentX = mutableListOf("Somnolence", "Vertiges")
         val effetsSecondairesVitamineD = mutableListOf("Aucun effet secondaire connu")
-        val effetsSecondairesParacétamol = mutableListOf("Aucun effet secondaire connu")
+        val effetsSecondairesParacetamol = mutableListOf("Aucun effet secondaire connu")
         val effetsSecondairesAntiInflammatoire = mutableListOf("Irritation de l'estomac", "Saignement d'estomac")
-        val effetsSecondairesMédicamentY = mutableListOf("Somnolence", "Confusion")
+        val effetsSecondairesMedicamentY = mutableListOf("Somnolence", "Confusion")
 
         val lp = mutableListOf(
             Traitement("Doliprane", 4, "Jours", LocalDate.of(2023, 5, 25), "Comprimé",15, false, effetsSecondairesDoliprane),
             Traitement("Aspirine", 7, "Mois", LocalDate.of(2023, 6, 10), "Comprimé",10, false, effetsSecondairesAspirine),
             Traitement("Vitamine C", 30, "An", null, "Comprimé",20, false, effetsSecondairesVitamineC),
-            Traitement("Ibuprofène", 5, "Jours", LocalDate.of(2023, 8, 15), "Comprimé",12, false, effetsSecondairesIbuprofène),
+            Traitement("Ibuprofène", 5, "Jours", LocalDate.of(2023, 8, 15), "Comprimé",12, false, effetsSecondairesIbuprofene),
             Traitement("Antibiotique", 10, "Mois", null, "Comprimé",1, false, effetsSecondairesAntibiotique),
-            Traitement("Médicament X", 14, "Jours", LocalDate.of(2023, 10, 5), "Comprimé",8, false, effetsSecondairesMédicamentX),
+            Traitement("Médicament X", 14, "Jours", LocalDate.of(2023, 10, 5), "Comprimé",8, false, effetsSecondairesMedicamentX),
             Traitement("Vitamine D", 60, "An", LocalDate.of(2023, 9, 1), "Comprimé",25, false, effetsSecondairesVitamineD),
-            Traitement("Paracétamol", 3, "Mois", null, "Comprimé",18, false, effetsSecondairesParacétamol),
+            Traitement("Paracétamol", 3, "Mois", null, "Comprimé",18, false, effetsSecondairesParacetamol),
             Traitement("Anti-inflammatoire", 7, "Jours", LocalDate.of(2023, 12, 1), "Comprimé",15, false, effetsSecondairesAntiInflammatoire),
-            Traitement("Médicament Y", 21, "An", LocalDate.of(2024, 1, 20), "Comprimé",10, false, effetsSecondairesMédicamentY)
+            Traitement("Médicament Y", 21, "An", LocalDate.of(2024, 1, 20), "Comprimé",10, false, effetsSecondairesMedicamentY)
         )
 
         if (isAddingTraitement=="true"){
-            var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
+            val newTraitement = arguments?.getSerializable("newTraitement") as Traitement
             Log.d("test",newTraitement.nomTraitement)
             lp.add(newTraitement)
         }

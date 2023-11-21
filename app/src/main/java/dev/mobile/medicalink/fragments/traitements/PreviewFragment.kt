@@ -60,7 +60,7 @@ class PreviewFragment : Fragment() {
         when (arguments?.getString("type")) {
             "photo" -> {
                 buttonChooseFromGallery.visibility = Button.GONE
-                takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
                     if (currentPhotoPath != null) {
                         displayImage(currentPhotoPath!!)
                     }else{
@@ -69,16 +69,16 @@ class PreviewFragment : Fragment() {
                 }
 
                 buttonTakePicture.setOnClickListener {
-                    val uri: Uri = createImageFile()
-                    currentPhotoPath = uri
-                    takePictureLauncher.launch(uri)
+                    val uriImageAppareilPhoto: Uri = createImageFile()
+                    currentPhotoPath = uriImageAppareilPhoto
+                    takePictureLauncher.launch(uriImageAppareilPhoto)
                 }
             }
             "charger" -> {
                 buttonTakePicture.visibility = Button.GONE
-                chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-                    if (uri != null) {
-                        displayImage(uri)
+                chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uriImageDepuisGalerie ->
+                    if (uriImageDepuisGalerie != null) {
+                        displayImage(uriImageDepuisGalerie)
                     }else{
                         validateButton.visibility = Button.GONE
                     }
@@ -116,7 +116,7 @@ class PreviewFragment : Fragment() {
     }
 
     private fun createImageFile(): Uri {
-        val provider: String = "${view?.context?.applicationContext?.packageName}.fileprovider"
+        val provider = "${view?.context?.applicationContext?.packageName}.fileprovider"
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
 

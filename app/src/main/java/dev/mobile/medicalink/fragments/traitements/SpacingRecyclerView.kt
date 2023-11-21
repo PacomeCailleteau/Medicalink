@@ -5,8 +5,8 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class SpacingRecyclerView(private val espacementEnDp: Int) : RecyclerView.ItemDecoration() {
-    private val espacementPx: Int = dpToPx(espacementEnDp)
+class SpacingRecyclerView(private val espacementPx: Int) : RecyclerView.ItemDecoration() {
+
 
     private fun dpToPx(dp: Int): Int {
         val density = Resources.getSystem().displayMetrics.density

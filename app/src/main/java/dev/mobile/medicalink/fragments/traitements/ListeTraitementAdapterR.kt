@@ -16,13 +16,12 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomTraitement = view.findViewById<TextView>(R.id.numeroPrise)
-        val dosage = view.findViewById<TextView>(R.id.dosage)
-        val dateExpirationTraitement = view.findViewById<TextView>(R.id.provoquePar)
-        val nbComprimesRestants = view.findViewById<TextView>(R.id.nbComprimesRestants)
-        val constraintLayout = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
-        val imageView = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
-
+        val nomTraitement : TextView= view.findViewById(R.id.numeroPrise)
+        val dosage : TextView= view.findViewById(R.id.dosage)
+        val dateExpirationTraitement : TextView = view.findViewById(R.id.provoquePar)
+        val nbComprimesRestants : TextView= view.findViewById(R.id.nbComprimesRestants)
+        val constraintLayout : ConstraintLayout = view.findViewById(R.id.constraintLayout)
+        val imageView : ImageView= view.findViewById(R.id.itemListeTraitementsImage)
 
     }
 
@@ -79,6 +78,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         }
          */
 
+        //TODO("faire ça plus proprement")
         holder.view.setOnLongClickListener {
             item.enMajuscule()
             notifyDataSetChanged()

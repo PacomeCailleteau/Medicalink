@@ -15,11 +15,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -37,7 +35,7 @@ class CreerProfilActivity : AppCompatActivity() {
     private lateinit var textStatut: TextView
     private lateinit var radioButtonUtilisateur: RadioButton
     private lateinit var radioButtonProfessionnel: RadioButton
-    private lateinit var text_informations_personnelles: TextView
+    private lateinit var textInformationsPersonnelles: TextView
     private lateinit var inputNom: TextInputEditText
     private lateinit var inputPrenom: TextInputEditText
     private lateinit var inputDateDeNaissance: TextInputEditText
@@ -61,7 +59,7 @@ class CreerProfilActivity : AppCompatActivity() {
         textStatut = findViewById(R.id.text_statut)
         radioButtonUtilisateur = findViewById(R.id.radio_button_utilisateur)
         radioButtonProfessionnel = findViewById(R.id.radio_button_professionnel)
-        text_informations_personnelles = findViewById(R.id.text_informations_personnelles)
+        textInformationsPersonnelles = findViewById(R.id.text_informations_personnelles)
         inputNom = findViewById(R.id.input_nom)
         inputPrenom = findViewById(R.id.input_prenom)
         inputDateDeNaissance = findViewById(R.id.input_date_de_naissance)
@@ -126,15 +124,16 @@ class CreerProfilActivity : AppCompatActivity() {
             showDatePickerDialog()
         }
 
-        checkboxRgpd.setOnCheckedChangeListener { buttonView, isChecked ->
+        // Was buttonView, isChecked
+        checkboxRgpd.setOnCheckedChangeListener { _, _ ->
             updateButtonState()
         }
 
-        radioButtonUtilisateur.setOnCheckedChangeListener { buttonView, isChecked ->
+        radioButtonUtilisateur.setOnCheckedChangeListener { _, _ ->
             updateButtonState()
         }
 
-        radioButtonProfessionnel.setOnCheckedChangeListener { buttonView, isChecked ->
+        radioButtonProfessionnel.setOnCheckedChangeListener { _, _ ->
             updateButtonState()
         }
 
@@ -146,7 +145,7 @@ class CreerProfilActivity : AppCompatActivity() {
         buttonCreerProfil.setOnClickListener {
             val db = AppDatabase.getInstance(this)
             val userDatabaseInterface = UserRepository(db.userDao())
-            var res : Pair<Boolean, String>? = null
+            var res : Pair<Boolean, String>?
             val uuid = java.util.UUID.randomUUID().toString()
             val statut = if (radioButtonUtilisateur.isChecked) "Utilisateur" else "Professionnel"
             val nom = inputNom.text.toString()
@@ -240,7 +239,7 @@ class CreerProfilActivity : AppCompatActivity() {
         val currentMonth = calendar.get(Calendar.MONTH)
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, selectedYear, selectedMonth, selectedDay ->
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
             if (selectedYear > currentYear ||
                 (selectedYear == currentYear && selectedMonth > currentMonth) ||
                 (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)) {
