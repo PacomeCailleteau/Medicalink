@@ -1,4 +1,4 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +16,7 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import dev.mobile.medicalink.R
 
 
 class AjoutManuelSchemaPriseFragment : Fragment() {

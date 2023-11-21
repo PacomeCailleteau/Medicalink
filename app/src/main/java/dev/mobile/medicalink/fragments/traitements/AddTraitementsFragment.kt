@@ -1,7 +1,5 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +21,7 @@ import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import dev.mobile.medicalink.R
 import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat
