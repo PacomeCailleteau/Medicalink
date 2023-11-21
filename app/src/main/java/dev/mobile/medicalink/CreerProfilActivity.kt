@@ -53,8 +53,6 @@ class CreerProfilActivity : AppCompatActivity() {
         //masquer la barre de titre
         supportActionBar?.hide()
 
-        //TODO : Mettre le RGPD en lien cliquable
-
         textMedicalink = findViewById(R.id.text_medicalink)
         imageProfil = findViewById(R.id.image_profil)
         textVotreProfil =findViewById(R.id.text_votre_profil)
@@ -69,29 +67,22 @@ class CreerProfilActivity : AppCompatActivity() {
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
 
-        // Récupérez le texte actuel de la CheckBox
         val checkBoxText = checkboxRgpd.text.toString()
 
-        // Trouvez la position du mot "RGPD" dans le texte
         val startIndex = checkBoxText.indexOf("RGPD")
 
-        // Créez une SpannableString pour le texte de la CheckBox
         val spannableString = SpannableString(checkBoxText)
 
-        // Ajoutez un ClickableSpan au mot "RGPD"
         val clickableSpanRGPD = object : ClickableSpan() {
             override fun onClick(view: View) {
-                // Ouvrez l'URL des termes de la RGPD dans le navigateur
                 val url = "https://www.cnil.fr/fr/reglement-europeen-protection-donnees"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 startActivity(intent)
             }
         }
 
-        // Indiquez la position du mot "RGPD" dans la SpannableString
         spannableString.setSpan(clickableSpanRGPD, startIndex, startIndex + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        // Appliquez la SpannableString à la CheckBox
         checkboxRgpd.text = spannableString
         checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
 
@@ -116,7 +107,6 @@ class CreerProfilActivity : AppCompatActivity() {
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                // L'utilisateur a cliqué sur la page
                 clearFocusAndHideKeyboard(v)
             }
             return@setOnTouchListener false
@@ -244,14 +234,12 @@ class CreerProfilActivity : AppCompatActivity() {
             if (selectedYear > currentYear ||
                 (selectedYear == currentYear && selectedMonth > currentMonth) ||
                 (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)) {
-                // La date sélectionnée est future, ne faites rien ou montrez un message à l'utilisateur
             } else {
                 val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
                 inputDateDeNaissance.setText(formattedDate)
             }
         }, currentYear, currentMonth, currentDay)
 
-        // Configurez les limites du DatePickerDialog pour empêcher la sélection de dates futures
         datePickerDialog.datePicker.maxDate = calendar.timeInMillis
 
         datePickerDialog.show()
