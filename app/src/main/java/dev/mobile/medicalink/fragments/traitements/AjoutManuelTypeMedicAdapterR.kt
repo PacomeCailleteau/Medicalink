@@ -1,4 +1,4 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.util.Log
@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
+import dev.mobile.medicalink.R
 
 
 class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>,var selected : String) :

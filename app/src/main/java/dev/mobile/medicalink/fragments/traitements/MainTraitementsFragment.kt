@@ -1,15 +1,14 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 
 class MainTraitementsFragment : Fragment() {

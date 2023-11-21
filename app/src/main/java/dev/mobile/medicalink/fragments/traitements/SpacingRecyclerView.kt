@@ -1,4 +1,4 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.content.res.Resources
 import android.graphics.Rect

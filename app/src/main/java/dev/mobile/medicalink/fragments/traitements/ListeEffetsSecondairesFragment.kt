@@ -1,4 +1,4 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.mobile.medicalink.R
 import java.time.LocalDate
 
 class ListeEffetsSecondairesFragment : Fragment() {

@@ -1,4 +1,4 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.mobile.medicalink.R
 import java.time.LocalDate
 
 

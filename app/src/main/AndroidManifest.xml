@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="dev.mobile.medicalink.MainFragment" />
+            android:name="dev.mobile.medicalink.fragments.MainFragment" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

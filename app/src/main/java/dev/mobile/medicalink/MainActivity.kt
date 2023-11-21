@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
+import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.utils.NotificationService
 
 class MainActivity : AppCompatActivity() {

@@ -1,20 +1,19 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import dev.mobile.medicalink.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date

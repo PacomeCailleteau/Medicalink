@@ -1,4 +1,4 @@
-package dev.mobile.medicalink
+package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.text.InputFilter
-import android.util.Log
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -19,7 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
-import java.io.Serializable
+import dev.mobile.medicalink.R
 
 
 class AjoutManuelSearchFragment : Fragment() {
