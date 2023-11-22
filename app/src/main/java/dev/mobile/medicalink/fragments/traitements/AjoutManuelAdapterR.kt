@@ -53,7 +53,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 
-        holder.textNumeroPrise.text="Prise ${item.numeroPrise}"
+        holder.textNumeroPrise.text="Prise"
 
         holder.heurePriseInput.setText("${item.heurePrise}")
 
@@ -71,7 +71,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
         holder.supprimer.setOnClickListener {
             list.remove(item)
-            notifyItemRemoved(position)
+            notifyDataSetChanged()
         }
         /*
         A check pour afficher les détails d'un traitement quand cliqué

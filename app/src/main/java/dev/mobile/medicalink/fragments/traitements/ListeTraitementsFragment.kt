@@ -100,6 +100,7 @@ class ListeTraitementsFragment : Fragment() {
 
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
 
+        //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread{
             val listeTraitement : MutableList<Traitement> = mutableListOf()
 
