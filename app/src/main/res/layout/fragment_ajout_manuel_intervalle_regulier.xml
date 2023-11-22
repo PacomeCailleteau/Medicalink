@@ -19,8 +19,8 @@
         android:hint="Intervalle"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
         android:id="@+id/textView9"
@@ -39,16 +39,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="281dp"
-        android:layout_height="57dp"
+        android:id="@+id/textView11"
+        android:layout_width="273dp"
+        android:layout_height="30dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="Schéma de prise du traitement"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -69,16 +69,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textView10" />
+        app:layout_constraintStart_toStartOf="@+id/textView11" />
 
     <ImageView
         android:id="@+id/retour_schema_prise2"
         android:layout_width="27dp"
         android:layout_height="27dp"
         android:layout_marginEnd="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView10"
+        app:layout_constraintTop_toTopOf="@+id/textView11"
         app:srcCompat="@drawable/annuler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
