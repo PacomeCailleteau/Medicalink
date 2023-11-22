@@ -16,7 +16,9 @@ class Prise(var numeroPrise : Int, var heurePrise: String, var quantite : Int, v
         return heurePrise
     }
 
-
+    override fun toString(): String {
+        return "$numeroPrise;$heurePrise;$quantite;$dosageUnite"
+    }
     init {
 
     }

@@ -5,20 +5,28 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.room.ColumnInfo
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.Medoc
+import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.AlarmReceiver
 
 //MainFragement n'est pas un fragment mais une activité
@@ -39,6 +47,7 @@ class MainFragment : AppCompatActivity() {
     private lateinit var textMessages: TextView
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
@@ -50,9 +59,26 @@ class MainFragment : AppCompatActivity() {
         //Create database connexion, use `userDatabaseInterface` to access to the database
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
+        val medocDatabaseInterface = MedocRepository(db.medocDao())
         Thread {
             userDatabaseInterface.getAllUsers()
-        }
+            var monUser = User("111111","Professionnel","DENIS","Jack","3 Novembre 1978","l@gmail.com")
+            userDatabaseInterface.insertUser(monUser)
+            /*
+
+            var monTraitement = Traitement("Vitamine C", 30, "An", null, "Comprimé",20, false, mutableListOf("Somnolence", "Confusion"))
+            var medocTest = Medoc("2485868",monUser.uuid,monTraitement.nomTraitement,monTraitement.dosageNb.toString(),monTraitement.dosageUnite,monTraitement.dateFinTraitement.toString(),monTraitement.typeComprime,monTraitement.comprimesRestants,monTraitement.expire,monTraitement.effetsSecondaires.toString(),monTraitement.prises.toString())
+            val res2 = medocDatabaseInterface.insertMedoc(medocTest)
+            val res = medocDatabaseInterface.getAllMedocs()
+            for (element in res){
+                Log.d("testAllMedoc",element.toString())
+            }*/
+
+
+
+
+
+        }.start()
 
 
         // TEST NOTIF

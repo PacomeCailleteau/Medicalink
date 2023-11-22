@@ -48,7 +48,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         holder.quantiteInput.setText("${item.quantite} ${item.dosageUnite}(s)")
         holder.supprimer.setOnClickListener {
             list.remove(item)
-            notifyDataSetChanged()
+            notifyItemRemoved(position)
         }
         /*
         A check pour afficher les détails d'un traitement quand cliqué
