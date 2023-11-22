@@ -59,7 +59,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("provenance", "intervalleRegulier")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -78,7 +78,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
@@ -145,7 +145,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             // Mettre à jour l'interface utilisateur
             // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
             // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
-            inputIntervalle.setText("${traitement.dosageNb} ${traitement.dosageUnite}")
+            inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
 
             intervalleRegulierDialog.dismiss()
         }
@@ -193,7 +193,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, traitement.prises))
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, traitement.prises,traitement.totalQuantite))
                 bundle.putString("provenance", "intervalleRegulier")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")

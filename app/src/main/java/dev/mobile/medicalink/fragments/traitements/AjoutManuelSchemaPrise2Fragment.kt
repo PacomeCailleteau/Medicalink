@@ -77,14 +77,14 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
 
         suivant.setOnClickListener {
-            var dosageNB = 0
+            var totalQuantite = 0
             if (listePrise!=null){
                 for (prise in listePrise){
-                    dosageNB+=prise.quantite
+                    totalQuantite+=prise.quantite
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, dosageNB,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -99,14 +99,14 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
 
         retour.setOnClickListener {
-            var dosageNB = 0
+            var totalQuantite = 0
             if (listePrise!=null){
                 for (prise in listePrise){
-                    dosageNB+=prise.quantite
+                    totalQuantite+=prise.quantite
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,dosageNB,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
@@ -153,12 +153,12 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                     listePrise = mutableListOf<Prise>(Prise(1, "17h00", 1, traitement.typeComprime))
                 } else {
                     for (prise in listePrise) {
-                        prise.dosageUnite = traitement.dosageUnite
+                        prise.dosageUnite = traitement.typeComprime
                     }
                 }
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise))
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise,traitement.totalQuantite))
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("provenance", "$provenance")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")

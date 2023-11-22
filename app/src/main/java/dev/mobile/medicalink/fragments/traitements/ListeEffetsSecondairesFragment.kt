@@ -65,14 +65,15 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
-                    medoc.dosageNB.toInt(),
+                    medoc.dosageNB?.toInt(),
                     medoc.dosageUnite,
                     LocalDate.of(2023,12,12),
                     medoc.typeComprime,
                     medoc.comprimesRestants,
                     medoc.expire,
                     listeEffetsSec,
-                    listePrise
+                    listePrise,
+                    medoc.totalQuantite
                 )
 
                 listeTraitement.add(traitement)

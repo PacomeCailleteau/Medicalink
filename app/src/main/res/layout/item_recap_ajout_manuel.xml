@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_recap"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/squared_white_button_blue_stroke_background"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/sous_para_deux"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="SousParaDeux"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@+id/titre_para_deux"
+        app:layout_constraintTop_toBottomOf="@+id/titre_para_deux" />
+
+    <TextView
+        android:id="@+id/titre_para_deux"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="TitreParaDeux"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/titre_para_un"
+        app:layout_constraintTop_toTopOf="@+id/titre_para_un" />
+
+    <TextView
+        android:id="@+id/nom_categorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="NomCategorie"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sous_nom_categorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="SousNomCategorie"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/imageview"
+        app:layout_constraintTop_toTopOf="@+id/nom_categorie" />
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sous_nom_categorie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/right_arrow" />
+
+    <TextView
+        android:id="@+id/titre_para_un"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="TitreParaUn"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@+id/nom_categorie"
+        app:layout_constraintTop_toBottomOf="@+id/nom_categorie" />
+
+    <TextView
+        android:id="@+id/sous_para_un"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="SousParaUn"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@+id/titre_para_un"
+        app:layout_constraintTop_toBottomOf="@+id/titre_para_un" />
+</androidx.constraintlayout.widget.ConstraintLayout>

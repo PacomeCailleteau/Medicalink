@@ -39,11 +39,12 @@ class ListeTraitementsFragment : Fragment() {
 
 
 
-
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
             navBarre.visibility = View.VISIBLE
         }
+
+
 
 
         if (isAddingTraitement=="true"){
@@ -86,7 +87,8 @@ class ListeTraitementsFragment : Fragment() {
                 newTraitement.comprimesRestants,
                 newTraitement.expire,
                 newTraitementEffetsSec,
-                newTraitementPrises
+                newTraitementPrises,
+                newTraitement.totalQuantite
             )
 
             val queue2 = LinkedBlockingQueue<Boolean>()
@@ -127,14 +129,15 @@ class ListeTraitementsFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
-                    medoc.dosageNB.toInt(),
+                    medoc.dosageNB?.toInt(),
                     medoc.dosageUnite,
                     LocalDate.of(2023,12,12),
                     medoc.typeComprime,
                     medoc.comprimesRestants,
                     medoc.expire,
                     listeEffetsSec,
-                    listePrise
+                    listePrise,
+                    medoc.totalQuantite
                 )
 
                 listeTraitement.add(traitement)

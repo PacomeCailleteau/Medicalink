@@ -10,14 +10,16 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.textfield.TextInputEditText
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
-class AjoutManuelStock : Fragment() {
+
+
+class AjoutManuelRecapitulatif : Fragment() {
+
     private lateinit var retour: ImageView
     private lateinit var suivant : Button
-
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -25,7 +27,7 @@ class AjoutManuelStock : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_ajout_manuel_stock, container, false)
+        val view = inflater.inflate(R.layout.fragment_ajout_manuel_recapitulatif, container, false)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -42,8 +44,67 @@ class AjoutManuelStock : Fragment() {
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
 
+        var schemaPriseFormatee = ""
+        if (schema_prise1!=null){
+            when (schema_prise1) {
+                "Quotidiennement" -> {
+                    schemaPriseFormatee="${traitement.totalQuantite} par Jour"
+                }
+                "Intervalle" -> {
+                    schemaPriseFormatee="Tous les ${traitement.dosageNb} ${traitement.dosageUnite}"
+                }
+                "auBesoin" -> {
+                    schemaPriseFormatee="Au besoin"
+                }
+            }
+        }
+        /*
+        var listeElementRecap : MutableList<MutableList<String?>> = mutableListOf(
+            mutableListOf(
+                "Nom du traitement",
+                null,
+                null,
+                "${traitement.nomTraitement}",
+                null,
+                null
+            ),
+            mutableListOf(
+                "Périodicité",
+                "$schema_prise1",
+                null,
+                "${traitement.nomTraitement}",
+                null,
+                null
+            ),
+            mutableListOf(
+                "Réapprovisionnement",
+                null,
+                "Quantité restante",
+                "${traitement.comprimesRestants}",
+                null,
+                null
+            ),
+            mutableListOf(
+                "Notice",
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        )
+        */
+        /*
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecap)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
+        var recapAdapter = RecapAdapterR(listeElementRecap)
+        recyclerView.adapter = recapAdapter
 
+        // Gestion de l'espacement entre les éléments du RecyclerView
+        val espacementEnDp = 5
+        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+        */
 
         suivant.setOnClickListener {
             val bundle = Bundle()
@@ -52,7 +113,7 @@ class AjoutManuelStock : Fragment() {
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
-            var destinationFragment = AjoutManuelRecapitulatif()
+            var destinationFragment = AjoutManuelDateSchemaPrise()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

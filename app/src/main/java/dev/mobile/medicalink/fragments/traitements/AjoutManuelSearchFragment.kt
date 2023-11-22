@@ -91,7 +91,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),traitement.dosageNb,"Jour",null,"Comprimé",25,false,null,traitement.prises))
+            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),traitement.dosageNb,"Jour",null,"Comprimé",25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             val destinationFragment = AjoutManuelTypeMedic()
             destinationFragment.arguments = bundle

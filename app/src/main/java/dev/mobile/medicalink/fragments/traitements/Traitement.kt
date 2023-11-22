@@ -16,7 +16,8 @@ class Traitement (
     var comprimesRestants : Int?,
     var expire : Boolean = true,
     var effetsSecondaires : MutableList<String>?,
-    var prises : MutableList<Prise>? = null
+    var prises : MutableList<Prise>? = null,
+    var totalQuantite : Int?
 ) : Serializable{
 
     fun enMajuscule() {

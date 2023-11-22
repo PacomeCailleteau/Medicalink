@@ -16,6 +16,7 @@ import java.time.LocalDate
     )]
 )
 
+//TODO("rajouter un uuid lié au médicament dans la base de donnée médicamenteuse")
 data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") val uuidUser: String,
@@ -28,4 +29,5 @@ data class Medoc(
     @ColumnInfo(name = "expire") val expire : Boolean,
     @ColumnInfo(name = "effetsSecondaires") val effetsSecondaires : String?,
     @ColumnInfo(name = "prises") val prises : String?,
+    @ColumnInfo(name = "totalQuantite") val totalQuantite : Int?,
     )

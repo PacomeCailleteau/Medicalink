@@ -20,7 +20,7 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         val dosage : TextView= view.findViewById(R.id.dosage)
         val dateExpirationTraitement : TextView = view.findViewById(R.id.provoquePar)
         val nbComprimesRestants : TextView= view.findViewById(R.id.nbComprimesRestants)
-        val constraintLayout : ConstraintLayout = view.findViewById(R.id.constraintLayout)
+        val constraintLayout : ConstraintLayout = view.findViewById(R.id.layout_item_recap)
         val imageView : ImageView= view.findViewById(R.id.itemListeTraitementsImage)
 
     }
@@ -42,8 +42,10 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         holder.nomTraitement.text = item.nomTraitement
         if (item.dosageUnite=="auBesoin"){
             holder.dosage.text = "Au besoin"
+        }else if (item.dosageUnite=="quotidiennement"){
+            holder.dosage.text = "${item.dosageNb} par Jour"
         }else{
-            holder.dosage.text = "${item.dosageNb} par ${item.dosageUnite}"
+            holder.dosage.text = "${item.totalQuantite} tous les ${item.dosageNb} ${item.dosageUnite}"
         }
 
         if (item.expire){
