@@ -5,8 +5,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class SpacingRecyclerView(private val espacementPx: Int) : RecyclerView.ItemDecoration() {
-
+class SpacingRecyclerView(private val espacementDp: Int) : RecyclerView.ItemDecoration() {
 
     private fun dpToPx(dp: Int): Int {
         val density = Resources.getSystem().displayMetrics.density
@@ -14,6 +13,6 @@ class SpacingRecyclerView(private val espacementPx: Int) : RecyclerView.ItemDeco
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        outRect.bottom = espacementPx
+        outRect.bottom = dpToPx(espacementDp)
     }
 }
