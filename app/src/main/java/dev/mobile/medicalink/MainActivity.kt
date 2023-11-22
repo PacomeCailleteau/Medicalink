@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        /*
         creerCanalNotification()
 
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             pendingIntent
         )
         //FIN DU OMG ÇA MARCHE ET C'EST TROP COOL
-
+*/
         //masquer la barre de titre
         supportActionBar?.hide()
 
