@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.os.Build
+import android.text.InputFilter
+import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.NumberPicker
@@ -50,6 +52,17 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
+
+        inputIntervalle.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputIntervalle.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
         inputIntervalle.setOnClickListener {
             val traitement = arguments?.getSerializable("traitement") as Traitement

@@ -26,6 +26,8 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import android.text.InputFilter
+import android.text.Spanned
 
 class CreerProfilActivity : AppCompatActivity() {
 
@@ -60,7 +62,7 @@ class CreerProfilActivity : AppCompatActivity() {
         textInformationsPersonnelles = findViewById(R.id.text_informations_personnelles)
         inputNom = findViewById(R.id.input_nom)
         inputPrenom = findViewById(R.id.input_prenom)
-        inputDateDeNaissance = findViewById(R.id.input_date_de_naissance)
+        inputDateDeNaissance = findViewById(R.id.input_date_de_debut)
         inputEmail = findViewById(R.id.input_email)
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
@@ -126,6 +128,47 @@ class CreerProfilActivity : AppCompatActivity() {
         radioButtonProfessionnel.setOnCheckedChangeListener { _, _ ->
             updateButtonState()
         }
+
+        inputNom.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputNom.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
+        inputPrenom.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputPrenom.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
+        inputDateDeNaissance.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputDateDeNaissance.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
+        inputEmail.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputEmail.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
         inputNom.addTextChangedListener(textWatcher)
         inputPrenom.addTextChangedListener(textWatcher)

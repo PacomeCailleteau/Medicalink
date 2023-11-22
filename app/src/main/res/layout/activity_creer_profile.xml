@@ -156,7 +156,7 @@
         app:layout_constraintTop_toBottomOf="@+id/input_nom"/>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_date_de_naissance"
+        android:id="@+id/input_date_de_debut"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -183,8 +183,8 @@
         android:inputType="textEmailAddress"
         android:scrollHorizontally="false"
         android:padding="15dp"
-        app:layout_constraintStart_toStartOf="@+id/input_date_de_naissance"
-        app:layout_constraintTop_toBottomOf="@+id/input_date_de_naissance" />
+        app:layout_constraintStart_toStartOf="@+id/input_date_de_debut"
+        app:layout_constraintTop_toBottomOf="@+id/input_date_de_debut" />
 
     <CheckBox
         android:id="@+id/checkbox_rgpd"

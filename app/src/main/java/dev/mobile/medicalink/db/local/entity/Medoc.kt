@@ -3,6 +3,7 @@ package dev.mobile.medicalink.db.local.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import dev.mobile.medicalink.fragments.traitements.Prise
 import java.time.LocalDate
@@ -13,7 +14,8 @@ import java.time.LocalDate
         parentColumns = ["uuid"],
         childColumns = ["uuidUser"],
         onDelete = ForeignKey.CASCADE
-    )]
+    )],
+    indices = [Index(value = ["uuidUser"])]
 )
 
 //TODO("rajouter un uuid lié au médicament dans la base de donnée médicamenteuse")

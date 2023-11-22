@@ -31,6 +31,7 @@ class ParametreFragement : Fragment() {
                 //Call tsarBomba function to clear all tables :)
                 //ça va faire boum badaboum
                 db.tsarBomba()
+                Log.d("TSAR BOMBA", "BOUM BADABOUM")
             }.start()
         }
 
