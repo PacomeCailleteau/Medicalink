@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
@@ -51,8 +53,9 @@ class MainFragment : AppCompatActivity() {
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
         Thread {
-            userDatabaseInterface.getAllUsers()
-        }
+            val res = userDatabaseInterface.getAllUsers()
+            Log.d("USER", "res: $res")
+        }.start()
 
 
         // TEST NOTIF
