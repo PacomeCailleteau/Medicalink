@@ -1,0 +1,28 @@
+<!-- res/values/arrays.xml -->
+
+<resources>
+
+    <!-- Tableau des entiers de 2 à 99 -->
+    <integer-array name="entiers_de_2_a_99">
+        <item>2</item>
+        <item>3</item>
+        <!-- Ajoutez d'autres éléments au besoin -->
+        <item>99</item>
+    </integer-array>
+
+    <!-- Tableau des jours, semaines, mois -->
+    <string-array name="jours_semaines_mois">
+        <item>Jours</item>
+        <item>Semaines</item>
+        <item>Mois</item>
+    </string-array>
+
+    <!-- Tableau des entiers de 1 à 52 -->
+    <integer-array name="entiers_de_1_a_52">
+        <item>1</item>
+        <item>2</item>
+        <!-- Ajoutez d'autres éléments au besoin -->
+        <item>52</item>
+    </integer-array>
+
+</resources>
