@@ -105,10 +105,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.okButton)
 
-        // Configuration du premier NumberPicker (de 2 à 99 par défaut)
-        firstNumberPicker.minValue = 2
-        firstNumberPicker.maxValue = 99
-        firstNumberPicker.value = traitement.dosageNb
+        firstNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+        secondNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
 
         // Configuration du deuxième NumberPicker (jours, semaines, mois)
         secondNumberPicker.displayedValues = arrayOf("Jours", "Semaines", "Mois")
@@ -119,6 +117,15 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             "Semaines" -> 1
             "Mois" -> 2
             else -> 0
+        }
+
+        // Mise à jour des valeurs du premier NumberPicker en fonction de la sélection du deuxième
+        updateFirstNumberPickerValues(firstNumberPicker, secondNumberPicker.value, traitement.dosageNb)
+
+        // Écouteur de changement de valeur pour le deuxième NumberPicker
+        secondNumberPicker.setOnValueChangedListener { _, _, newVal ->
+            // Mise à jour des valeurs du premier NumberPicker en fonction de la nouvelle sélection
+            updateFirstNumberPickerValues(firstNumberPicker, newVal, traitement.dosageNb)
         }
 
         annulerButton.setOnClickListener {
@@ -138,13 +145,37 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             // Mettre à jour l'interface utilisateur
             // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
             // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
-            // holder.inputIntervalle.setText("${traitement.intervalleJour} ${traitement.intervalleType}(s)")
+            inputIntervalle.setText("${traitement.dosageNb} ${traitement.dosageUnite}(s)")
 
             intervalleRegulierDialog.dismiss()
         }
 
         intervalleRegulierDialog.show()
     }
+
+    private fun updateFirstNumberPickerValues(firstNumberPicker: NumberPicker, selectedValue: Int, currentDosage: Int) {
+        when (selectedValue) {
+            0 -> {
+                firstNumberPicker.minValue = 2
+                firstNumberPicker.maxValue = 99
+            }
+            1 -> {
+                firstNumberPicker.minValue = 1
+                firstNumberPicker.maxValue = 52
+            }
+            2 -> {
+                firstNumberPicker.minValue = 1
+                firstNumberPicker.maxValue = 12
+            }
+            else -> {
+                firstNumberPicker.minValue = 2
+                firstNumberPicker.maxValue = 99
+            }
+        }
+
+        firstNumberPicker.value = currentDosage.coerceIn(firstNumberPicker.minValue, firstNumberPicker.maxValue)
+    }
+
 
 
 
