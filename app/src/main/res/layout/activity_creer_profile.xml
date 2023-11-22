@@ -52,7 +52,7 @@
     <TextView
         android:id="@+id/text_votre_profil"
         android:layout_width="wrap_content"
-        android:layout_height="21dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="Votre profil"
@@ -68,7 +68,7 @@
     <TextView
         android:id="@+id/text_statut"
         android:layout_width="wrap_content"
-        android:layout_height="23dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/text_informations_personnelles"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
