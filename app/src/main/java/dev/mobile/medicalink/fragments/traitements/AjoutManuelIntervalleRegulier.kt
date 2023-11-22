@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.os.Build
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +47,48 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
+        // Dans votre fragment ou activité
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(dialogView)
+
+        val intervalleRegulierDialog = builder.create()
+
+        // Obtenez les références des Spinners
+        val firstSpinner = dialogView.findViewById<Spinner>(R.id.firstSpinner)
+        val secondSpinner = dialogView.findViewById<Spinner>(R.id.secondSpinner)
+        val thirdSpinner = dialogView.findViewById<Spinner>(R.id.thirdSpinner)
+
+        // Remplissez les Spinners avec les données appropriées
+        val firstAdapter = ArrayAdapter.createFromResource(view.context, R.array.entiers_de_2_a_99, android.R.layout.simple_spinner_item)
+        val secondAdapter = ArrayAdapter.createFromResource(view.context, R.array.jours_semaines_mois, android.R.layout.simple_spinner_item)
+        val thirdAdapter = ArrayAdapter.createFromResource(view.context, R.array.entiers_de_1_a_52, android.R.layout.simple_spinner_item)
+
+        firstSpinner.adapter = firstAdapter
+        secondSpinner.adapter = secondAdapter
+        thirdSpinner.adapter = thirdAdapter
+
+        // Configurez les écouteurs de clic pour les boutons Annuler et OK
+        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
+        val okButton = dialogView.findViewById<Button>(R.id.okButton)
+
+        annulerButton.setOnClickListener {
+            intervalleRegulierDialog.dismiss()
+        }
+
+        okButton.setOnClickListener {
+            // Obtenez les valeurs sélectionnées des Spinners
+            val selectedFirstValue = firstSpinner.selectedItem.toString().toInt()
+            val selectedSecondValue = secondSpinner.selectedItem.toString()
+            val selectedThirdValue = thirdSpinner.selectedItem.toString().toInt()
+
+            // Faites quelque chose avec les valeurs sélectionnées
+            // ...
+
+            intervalleRegulierDialog.dismiss()
+        }
+
+        intervalleRegulierDialog.show()
 
 
         suivant.setOnClickListener {
