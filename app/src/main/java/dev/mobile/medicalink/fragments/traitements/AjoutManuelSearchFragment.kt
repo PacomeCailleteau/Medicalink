@@ -9,6 +9,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.text.InputFilter
+import android.text.InputType
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -55,6 +56,17 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButton = view.findViewById(R.id.add_manually_button)
 
         addManuallySearchBar.setText(traitement.nomTraitement)
+
+        addManuallySearchBar.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        addManuallySearchBar.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
         val rootLayout = view.findViewById<View>(R.id.constraint_layout_ajout_manuel_search)
         rootLayout.setOnTouchListener { v, event ->

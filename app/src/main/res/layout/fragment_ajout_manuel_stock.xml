@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout_ajout_shema_prise_2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.traitements.AjoutManuelSearchFragment">
@@ -14,7 +13,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
-        android:text="@string/app_name"
+        android:text="Medicalink"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -25,13 +24,13 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="322dp"
-        android:layout_height="wrap_content"
+        android:layout_width="273dp"
+        android:layout_height="30dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Schéma de prise du \ntraitement"
+        android:text="Rappel réappriovisionnement"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
@@ -43,9 +42,9 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-
         android:layout_marginBottom="30dp"
         android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
+
         android:fontFamily="@font/quicksand_bold"
         android:text="Suivant"
         android:textAllCaps="false"
@@ -55,24 +54,6 @@
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView11" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_add_nouvelle_prise"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_white_button_light_blue_stroke_background"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="Ajouter une nouvelle prise"
-        android:textAllCaps="false"
-        android:textColor="#6A93D1"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <ImageView
         android:id="@+id/retour_schema_prise2"
@@ -84,15 +65,45 @@
         app:layout_constraintTop_toTopOf="@+id/textView11"
         app:srcCompat="@drawable/annuler" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAjoutPrise"
-        android:layout_width="359dp"
-        android:layout_height="375dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/suivant1"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_white_button_blue_stroke_background"
+        android:padding="15dp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_nouvelle_prise" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Stock faible"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/quicksand_semibold"
+            android:text="Vous recevrez un rappel lorsque votre médicament sera bientôt épuisé"
+            app:layout_constraintEnd_toStartOf="@+id/chip4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip4"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
