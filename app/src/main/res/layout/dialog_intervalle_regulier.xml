@@ -17,23 +17,16 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Premier menu déroulant (entiers de 2 à 99) -->
-    <Spinner
-        android:id="@+id/firstSpinner"
+    <!-- Premier NumberPicker (entiers de 2 à 99) -->
+    <NumberPicker
+        android:id="@+id/firstNumberPicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Deuxième menu déroulant (jours, semaines, mois) -->
-    <Spinner
-        android:id="@+id/secondSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Troisième menu déroulant (entiers de 1 à 52, ou de 1 à 12) -->
-    <Spinner
-        android:id="@+id/thirdSpinner"
+    <!-- Deuxième NumberPicker (jours, semaines, mois) -->
+    <NumberPicker
+        android:id="@+id/secondNumberPicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
