@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 
 
@@ -38,6 +39,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         addNouvellePrise = view.findViewById(R.id.btn_add_nouvelle_prise)
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
+
 
 
         val traitement = arguments?.getSerializable("traitement") as Traitement

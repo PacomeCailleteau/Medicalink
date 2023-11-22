@@ -5,14 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import dev.mobile.medicalink.R
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
 
     override fun onCreateView(
@@ -20,7 +16,39 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        //Get elements from view
+        val paramBtn : ImageView = view.findViewById(R.id.btnParam)
+
+        //Set click listener
+        paramBtn.setOnClickListener {
+            //Navigate to parametre fragment
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, ParametreFragement())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        return view
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

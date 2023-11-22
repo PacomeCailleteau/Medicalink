@@ -9,8 +9,9 @@ import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.User
 
-@Database(entities = [User::class, Medoc::class], version = 1)
+@Database(entities = [User::class, Medoc::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun userDao(): UserDao
     abstract fun medocDao(): MedocDao
 
@@ -18,4 +19,9 @@ abstract class AppDatabase : RoomDatabase() {
     companion object : SingletonHolder<AppDatabase, Context>({
         Room.databaseBuilder(it.applicationContext, AppDatabase::class.java, "test.db").build()
     })
+
+    fun tsarBomba() {
+        clearAllTables()
+    }
+
 }

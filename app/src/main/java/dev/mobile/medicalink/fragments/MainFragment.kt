@@ -61,23 +61,11 @@ class MainFragment : AppCompatActivity() {
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         Thread {
-            userDatabaseInterface.getAllUsers()
+            val res = userDatabaseInterface.getAllUsers()
+            Log.d("USER", "res: $res")
+
             var monUser = User("111111","Professionnel","DENIS","Jack","3 Novembre 1978","l@gmail.com")
             userDatabaseInterface.insertUser(monUser)
-            /*
-
-            var monTraitement = Traitement("Vitamine C", 30, "An", null, "Comprimé",20, false, mutableListOf("Somnolence", "Confusion"))
-            var medocTest = Medoc("2485868",monUser.uuid,monTraitement.nomTraitement,monTraitement.dosageNb.toString(),monTraitement.dosageUnite,monTraitement.dateFinTraitement.toString(),monTraitement.typeComprime,monTraitement.comprimesRestants,monTraitement.expire,monTraitement.effetsSecondaires.toString(),monTraitement.prises.toString())
-            val res2 = medocDatabaseInterface.insertMedoc(medocTest)
-            val res = medocDatabaseInterface.getAllMedocs()
-            for (element in res){
-                Log.d("testAllMedoc",element.toString())
-            }*/
-
-
-
-
-
         }.start()
 
 

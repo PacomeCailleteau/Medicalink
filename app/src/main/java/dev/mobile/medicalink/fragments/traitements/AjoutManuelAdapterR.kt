@@ -1,15 +1,27 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.app.AlertDialog
+import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Build
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
@@ -39,13 +51,24 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
-        val item = list.get(position)
+        val item = list[position]
 
         holder.textNumeroPrise.text="Prise ${item.numeroPrise}"
 
         holder.heurePriseInput.setText("${item.heurePrise}")
 
         holder.quantiteInput.setText("${item.quantite} ${item.dosageUnite}(s)")
+
+        holder.heurePriseInput.setOnClickListener {
+            // Utilisez la vue parente de l'élément du RecyclerView pour obtenir le contexte
+            val context = holder.itemView.context
+            showTimePickerDialog(context, holder.heurePriseInput, item)
+        }
+
+        holder.quantiteInput.setOnClickListener {
+            showDosageDialog(holder, holder.itemView.context, item)
+        }
+
         holder.supprimer.setOnClickListener {
             list.remove(item)
             notifyItemRemoved(position)
@@ -70,4 +93,98 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         }
     }
 
+    private fun showTimePickerDialog(context: Context, heurePriseInput: TextInputEditText, item: Prise) {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            context,
+            { _, selectedHour, selectedMinute ->
+                val formattedTime = formatTime(selectedHour, selectedMinute)
+                heurePriseInput.setText(formattedTime)
+
+                item.heurePrise = formattedTime
+            },
+            currentHour,
+            currentMinute,
+            true
+        )
+
+        timePickerDialog.show()
     }
+
+    private fun formatTime(hour: Int, minute: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
+        return timeFormat.format(calendar.time)
+    }
+
+    private fun showDosageDialog(holder: AjoutManuelViewHolder, context: Context, prise: Prise) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_dosage, null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(dialogView)
+
+        val dosageDialog = builder.create()
+
+        val titreDosage = dialogView.findViewById<TextView>(R.id.titreDosage)
+        val quantiteInput = dialogView.findViewById<EditText>(R.id.quantiteDialogInput)
+        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
+        val okButton = dialogView.findViewById<Button>(R.id.okButton)
+
+        titreDosage.text = "Dosage"
+        // Utilisez cette ligne pour appliquer le filtre à l'EditText
+        quantiteInput.filters = arrayOf(RangeInputFilter(1, 99))
+        quantiteInput.setText(prise.quantite.toString())
+
+        annulerButton.setOnClickListener {
+            dosageDialog.dismiss()
+        }
+
+        okButton.setOnClickListener {
+            // Mettez à jour la quantité dans l'objet Prise avec la nouvelle valeur
+            val nouvelleQuantite = quantiteInput.text.toString().toIntOrNull() ?: 1
+
+            prise.quantite = nouvelleQuantite
+
+            // Mettez à jour l'interface utilisateur (par exemple, TextInputEditText)
+            holder.quantiteInput.setText("$nouvelleQuantite ${prise.dosageUnite}(s)")
+
+            dosageDialog.dismiss()
+        }
+
+        dosageDialog.show()
+    }
+
+    class RangeInputFilter(private val minValue: Int, private val maxValue: Int) : InputFilter {
+
+        override fun filter(
+            source: CharSequence?,
+            start: Int,
+            end: Int,
+            dest: Spanned?,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            try {
+                val input = (dest?.toString()?.substring(0, dstart)
+                        + source?.subSequence(start, end)
+                        + dest?.toString()?.substring(dend))?.toInt()
+
+                if (isInRange(minValue, maxValue, input)) {
+                    return null
+                }
+            } catch (e: NumberFormatException) {
+                // Handle the exception if conversion to Int fails
+            }
+
+            return ""
+        }
+
+        private fun isInRange(min: Int, max: Int, value: Int?): Boolean {
+            return value != null && value in min..max
+        }
+    }
+}

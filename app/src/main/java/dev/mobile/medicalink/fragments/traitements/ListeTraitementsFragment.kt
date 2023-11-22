@@ -38,6 +38,8 @@ class ListeTraitementsFragment : Fragment() {
         var isAddingTraitement  = arguments?.getString("isAddingTraitement")
 
 
+
+
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
             navBarre.visibility = View.VISIBLE
