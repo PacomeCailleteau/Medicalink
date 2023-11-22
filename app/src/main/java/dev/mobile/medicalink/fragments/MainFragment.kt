@@ -50,6 +50,9 @@ class MainFragment : AppCompatActivity() {
         //Create database connexion, use `userDatabaseInterface` to access to the database
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
+        Thread {
+            userDatabaseInterface.getAllUsers()
+        }
 
 
         // TEST NOTIF

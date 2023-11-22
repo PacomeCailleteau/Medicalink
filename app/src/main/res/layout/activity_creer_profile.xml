@@ -192,7 +192,7 @@
         android:layout_height="51dp"
 
         android:layout_marginTop="5dp"
-        android:text="J'accepte les conditions en matière de protection des données relatives au RGPD."
+        android:text="J'accepte les conditions en matière de protection des données relatives au RGPD"
         app:layout_constraintStart_toStartOf="@+id/input_email"
         app:layout_constraintTop_toBottomOf="@+id/input_email" />
 
