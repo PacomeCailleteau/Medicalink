@@ -1,9 +1,6 @@
 package dev.mobile.medicalink.fragments
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
+
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -17,11 +14,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
-import dev.mobile.medicalink.utils.AlarmReceiver
 
 //MainFragement n'est pas un fragment mais une activité
 //Ici on va gérer les fragments
@@ -57,13 +52,6 @@ class MainFragment : AppCompatActivity() {
             Log.d("USER", "res: $res")
         }.start()
 
-
-        // TEST NOTIF
-        // Dans votre activité principale (ou autre composant), programmez l'alarme comme suit :
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        }
 
         menu=findViewById(R.id.fragmentDuBas)
 

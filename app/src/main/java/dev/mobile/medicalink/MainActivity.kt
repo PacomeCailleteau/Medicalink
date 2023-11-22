@@ -3,6 +3,7 @@ package dev.mobile.medicalink
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Bundle
 import android.widget.Button
@@ -25,39 +26,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Dans la méthode `onCreate` de votre MainActivity
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "channel_id"
-            val channelName = "Nom du canal"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance)
+        creerCanalNotification()
 
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
 
-            val notificationBuilder = NotificationCompat.Builder(this, "channel_id")
-                .setSmallIcon(R.drawable.cloche)
-                .setContentTitle("Notification immédiate")
-                .setContentText("Cette notification est envoyée immédiatement.")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        //OMG ÇA MARCHE ET C'EST TROP COOL
+        val notificationIntent = Intent(this, NotificationService::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        // Définissez le délai en millisecondes (par exemple, 10 secondes)
+        val delayMillis = 10000
 
-            notificationManager.notify(1, notificationBuilder.build())
-
-            // Dans la méthode `onCreate` de votre MainActivity
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val notificationIntent = Intent(this, NotificationService::class.java)
-            //val pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            // Calculer le temps actuel + 1 minutes
-            val currentTimeMillis = System.currentTimeMillis()
-            val oneMinutesMillis = 6000
-            val futureTimeMillis = currentTimeMillis + oneMinutesMillis
-
-            //alarmManager.set(AlarmManager.RTC_WAKEUP, futureTimeMillis, pendingIntent)
-
-        }
-
+        // Configurez l'alarme avec le délai
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + delayMillis,
+            pendingIntent
+        )
+        //FIN DU OMG ÇA MARCHE ET C'EST TROP COOL
 
         //masquer la barre de titre
         supportActionBar?.hide()
@@ -78,4 +68,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun creerCanalNotification() {
+        // Créez le canal de notification (pour les API > Oreo donc > 26)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "soleil123"
+            val channelName = "canal de notification"
+            val channelDescription = "canal de notification pour les notifications de l'application"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = channelDescription
+            }
+            // Enregistrez le canal auprès du gestionnaire de notifications
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
 }
+
+
+
