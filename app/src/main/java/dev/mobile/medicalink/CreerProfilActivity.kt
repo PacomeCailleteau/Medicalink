@@ -150,7 +150,6 @@ class CreerProfilActivity : AppCompatActivity() {
                 dateNaissance,
                 email
             )
-            Log.d("CREER", "Utilisateur : $user")
             Thread {
                 res = userDatabaseInterface.insertUser(user)
                 if (res!!.first) {

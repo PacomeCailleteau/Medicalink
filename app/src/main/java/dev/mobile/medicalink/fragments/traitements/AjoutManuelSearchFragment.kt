@@ -9,13 +9,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.text.InputFilter
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 
@@ -51,6 +55,14 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButton = view.findViewById(R.id.add_manually_button)
 
         addManuallySearchBar.setText(traitement.nomTraitement)
+
+        val rootLayout = view.findViewById<View>(R.id.constraint_layout_ajout_manuel_search)
+        rootLayout.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                clearFocusAndHideKeyboard(v)
+            }
+            return@setOnTouchListener false
+        }
 
         val regex = Regex(pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$", options = setOf(RegexOption.IGNORE_CASE))
 
@@ -101,6 +113,18 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         return view
+    }
+
+    fun clearFocusAndHideKeyboard(view: View) {
+        // Parcours tous les champs de texte, efface le focus
+        val editTextList = listOf(addManuallySearchBar) // Ajoute tous tes champs ici
+        for (editText in editTextList) {
+            editText.clearFocus()
+        }
+
+        // Cache le clavier
+        val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onResume() {
