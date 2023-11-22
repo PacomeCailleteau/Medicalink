@@ -137,15 +137,15 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             traitement.dosageNb = firstNumberPicker.value
             traitement.dosageUnite = when (secondNumberPicker.value) {
                 0 -> "Jours"
-                1 -> "Semaines"
+                1 -> "Semaine(s)"
                 2 -> "Mois"
-                else -> "Jours"
+                else -> "Jour"
             }
 
             // Mettre à jour l'interface utilisateur
             // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
             // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
-            inputIntervalle.setText("${traitement.dosageNb} ${traitement.dosageUnite}(s)")
+            inputIntervalle.setText("${traitement.dosageNb} ${traitement.dosageUnite}")
 
             intervalleRegulierDialog.dismiss()
         }
