@@ -8,29 +8,36 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/heurePriseInput"
-        android:layout_width="80dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
+        android:clickable="true"
+        android:focusable="false"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="17h15"
         android:padding="15dp"
+        android:scrollHorizontally="false"
         android:textColorHint="#000000"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/numeroPrise"
         app:layout_constraintTop_toBottomOf="@+id/numeroPrise" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/quantiteInput"
-        android:layout_width="153dp"
-        android:layout_height="50dp"
-
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
+        android:clickable="true"
+        android:focusable="false"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="1 Comprimé(s)"
         android:padding="15dp"
+        android:scrollHorizontally="false"
         android:textColorHint="#000000"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/heurePriseInput"
         app:layout_constraintStart_toEndOf="@+id/heurePriseInput" />
 
@@ -65,7 +72,7 @@
         android:id="@+id/supprimerlayout"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="10dp"
         android:background="@drawable/rounded_red_button_no_stroke_background"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/quantiteInput"
