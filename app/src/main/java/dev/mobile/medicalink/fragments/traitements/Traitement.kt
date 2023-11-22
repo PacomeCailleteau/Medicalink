@@ -7,7 +7,17 @@ import java.util.*
 import java.io.Serializable
 
 @RequiresApi(Build.VERSION_CODES.O)
-class Traitement (var nomTraitement: String, var dosageNb : Int, var dosageUnite : String, var dateFinTraitement : LocalDate?, var typeComprime : String = "Comprimé",var comprimesRestants : Int?, var expire : Boolean = true,var effetsSecondaires : MutableList<String>?, var prises : MutableList<Prise>? = null) : Serializable{
+class Traitement (
+    var nomTraitement: String,
+    var dosageNb : Int,
+    var dosageUnite : String,
+    var dateFinTraitement : LocalDate?,
+    var typeComprime : String = "Comprimé",
+    var comprimesRestants : Int?,
+    var expire : Boolean = true,
+    var effetsSecondaires : MutableList<String>?,
+    var prises : MutableList<Prise>? = null
+) : Serializable{
 
     fun enMajuscule() {
         nomTraitement = nomTraitement.uppercase(Locale.getDefault())

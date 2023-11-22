@@ -150,7 +150,7 @@
         android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
 
         android:fontFamily="@font/quicksand_bold"
-        android:text="Suivant"
+        android:text="Valider"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
