@@ -2,7 +2,6 @@ package dev.mobile.medicalink
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -29,7 +28,6 @@ import java.util.Calendar
 import java.util.Locale
 import android.text.InputFilter
 import android.text.Spanned
-import android.widget.EditText
 
 class CreerProfilActivity : AppCompatActivity() {
 
@@ -64,7 +62,7 @@ class CreerProfilActivity : AppCompatActivity() {
         textInformationsPersonnelles = findViewById(R.id.text_informations_personnelles)
         inputNom = findViewById(R.id.input_nom)
         inputPrenom = findViewById(R.id.input_prenom)
-        inputDateDeNaissance = findViewById(R.id.input_date_de_naissance)
+        inputDateDeNaissance = findViewById(R.id.input_date_de_debut)
         inputEmail = findViewById(R.id.input_email)
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
