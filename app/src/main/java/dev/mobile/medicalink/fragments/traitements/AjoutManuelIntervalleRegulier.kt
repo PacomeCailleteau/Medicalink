@@ -53,7 +53,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         inputIntervalle.setOnClickListener {
             val traitement = arguments?.getSerializable("traitement") as Traitement
-            //showIntervalleRegulierDialog(traitement, context)
+            showIntervalleRegulierDialog(traitement, view.context)
         }
 
 
@@ -92,7 +92,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         }
         return view
     }
-/*
+
     private fun showIntervalleRegulierDialog(traitement: Traitement, context: Context) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
         val builder = AlertDialog.Builder(context)
@@ -108,13 +108,13 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         // Configuration du premier NumberPicker (de 2 à 99 par défaut)
         firstNumberPicker.minValue = 2
         firstNumberPicker.maxValue = 99
-        firstNumberPicker.value = traitement.intervalleJour
+        firstNumberPicker.value = traitement.dosageNb
 
         // Configuration du deuxième NumberPicker (jours, semaines, mois)
         secondNumberPicker.displayedValues = arrayOf("Jours", "Semaines", "Mois")
         secondNumberPicker.minValue = 0
         secondNumberPicker.maxValue = 2
-        secondNumberPicker.value = when (traitement.intervalleType) {
+        secondNumberPicker.value = when (traitement.dosageUnite) {
             "Jours" -> 0
             "Semaines" -> 1
             "Mois" -> 2
@@ -127,8 +127,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         okButton.setOnClickListener {
             // Mettre à jour les valeurs de l'objet Traitement avec les nouvelles valeurs
-            traitement.intervalleJour = firstNumberPicker.value
-            traitement.intervalleType = when (secondNumberPicker.value) {
+            traitement.dosageNb = firstNumberPicker.value
+            traitement.dosageUnite = when (secondNumberPicker.value) {
                 0 -> "Jours"
                 1 -> "Semaines"
                 2 -> "Mois"
@@ -145,7 +145,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         intervalleRegulierDialog.show()
     }
-*/
+
 
 
     override fun onResume() {

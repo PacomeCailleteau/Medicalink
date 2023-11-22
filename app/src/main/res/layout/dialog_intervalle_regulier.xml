@@ -16,20 +16,30 @@
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"/>
-
-    <!-- Premier NumberPicker (entiers de 2 à 99) -->
-    <NumberPicker
-        android:id="@+id/firstNumberPicker"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="horizontal">
 
-    <!-- Deuxième NumberPicker (jours, semaines, mois) -->
-    <NumberPicker
-        android:id="@+id/secondNumberPicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        <!-- Premier NumberPicker -->
+        <NumberPicker
+            android:id="@+id/firstNumberPicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent" />
+
+        <!-- Deuxième NumberPicker -->
+        <NumberPicker
+            android:id="@+id/secondNumberPicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <!-- Boutons Annuler et OK -->
     <LinearLayout
