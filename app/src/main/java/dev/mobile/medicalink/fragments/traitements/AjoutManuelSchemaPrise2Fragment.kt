@@ -69,9 +69,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         addNouvellePrise.setOnClickListener {
             numeroPrise=listePrise.size+1
-            var nouvellePrise = Prise(numeroPrise,"17h00",1,traitement.typeComprime)
+            var nouvellePrise = Prise(listePrise.size+1,"17h00",1,traitement.typeComprime)
             listePrise.add(nouvellePrise)
-            ajoutManuelAdapter.notifyItemInserted(0)
+            ajoutManuelAdapter.notifyItemInserted(listePrise.size-1)
         }
 
 

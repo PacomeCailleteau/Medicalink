@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,12 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
             .flatMap { it.effetsSecondaires.orEmpty() }
             .map { it.lowercase().trim() }
             .distinct()
+        Log.d("test",tousLesEffetsSecondaires.toString())
+        if (tousLesEffetsSecondaires.isEmpty() || position >= tousLesEffetsSecondaires.size) {
+            // Rendre la vue invisible si la liste est vide
+            holder.view.visibility = View.GONE
+            return
+        }
         val item = tousLesEffetsSecondaires.get(position)
         holder.nomEffet.text = item.substring(0, 1).uppercase() + item.substring(1)
 
@@ -75,6 +82,10 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
 
 
         holder.provoquePar.text="$monAffichage"
+
+
+
+
 
         /*
         A check pour afficher les détails d'un traitement quand cliqué

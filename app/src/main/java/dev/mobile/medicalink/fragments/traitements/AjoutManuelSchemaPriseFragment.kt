@@ -159,24 +159,31 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "quotidiennement")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
             var destinationFragment = Fragment()
             when (schema_prise1){
                 "Quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
-
+                    bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
+                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("provenance", "quotidiennement")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
                 }
                 "Intervalle" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
-
+                    bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises))
+                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("provenance", "quotidiennement")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
                 }
                 "auBesoin" -> {
-                    destinationFragment = AjoutManuelSchemaPrise2Fragment()
-
+                    destinationFragment = AjoutManuelDateSchemaPrise()
+                    bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,"auBesoin",null,traitement.typeComprime,25,false,null,traitement.prises))
+                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("provenance", "quotidiennement")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
                 }
             }
             destinationFragment.arguments = bundle
