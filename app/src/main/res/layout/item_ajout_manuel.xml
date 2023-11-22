@@ -16,7 +16,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:text="Nom_Médicament"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -53,7 +53,7 @@
     <TextView
         android:id="@+id/textView10"
         android:layout_width="278dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
