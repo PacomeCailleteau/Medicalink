@@ -25,11 +25,13 @@ class ParametreFragement : Fragment() {
 
         //Set click listener
         btnTsarBomba.setOnClickListener {
-            //Create database connexion, use `userDatabaseInterface` to access to the database
-            val db = AppDatabase.getInstance(view.context.applicationContext)
-            //Call tsarBomba function to clear all tables :)
-            //ça va faire boum badaboum
-            db.tsarBomba()
+            Thread {
+                //Create database connexion, use `userDatabaseInterface` to access to the database
+                val db = AppDatabase.getInstance(view.context.applicationContext)
+                //Call tsarBomba function to clear all tables :)
+                //ça va faire boum badaboum
+                db.tsarBomba()
+            }
         }
 
         return view
