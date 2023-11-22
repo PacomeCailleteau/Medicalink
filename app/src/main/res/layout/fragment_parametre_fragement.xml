@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnTsraBomba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:enabled="true"
+        android:fontFamily="@font/quicksand_bold"
         android:text="@string/delete_all_data"
+        android:textAllCaps="false"
         android:textColor="@color/red"
-        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

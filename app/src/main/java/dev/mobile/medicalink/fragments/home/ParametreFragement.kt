@@ -1,12 +1,12 @@
 package dev.mobile.medicalink.fragments.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 
@@ -31,7 +31,7 @@ class ParametreFragement : Fragment() {
                 //Call tsarBomba function to clear all tables :)
                 //ça va faire boum badaboum
                 db.tsarBomba()
-            }
+            }.start()
         }
 
         return view
