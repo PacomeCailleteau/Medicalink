@@ -76,7 +76,12 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         nomMedoc.text=traitement.nomTraitement
         textUnite.text= traitement.typeComprime
-        dateFindeTraitement.text="${traitement.dateFinTraitement}"
+        if (traitement.dateFinTraitement==null){
+            dateFindeTraitement.text="Inderterminé"
+        }else{
+            dateFindeTraitement.text="${traitement.dateFinTraitement}"
+        }
+
         sousNomPeriodicite.text=schemaPriseFormatee
 
 

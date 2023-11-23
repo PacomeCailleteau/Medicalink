@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
+import android.util.Log
 import android.widget.Button
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
@@ -175,8 +176,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             val bundle = Bundle()
             //bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises))
             //bundle.putString("isAddingTraitement", "true")
-
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            Log.d("test",dateDeFin.toString()+dateDeDebut.toString())
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,dateDeFin,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -196,7 +197,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateDeFin,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
