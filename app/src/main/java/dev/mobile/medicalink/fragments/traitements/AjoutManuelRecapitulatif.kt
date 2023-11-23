@@ -2,24 +2,34 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
-
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.db.local.repository.UserRepository
 
 
 class AjoutManuelRecapitulatif : Fragment() {
 
     private lateinit var retour: ImageView
     private lateinit var suivant : Button
+
+    private lateinit var nomMedoc: TextView
+    private lateinit var textUnite: TextView
+    private lateinit var dateFindeTraitement: TextView
+    private lateinit var sousNomPeriodicite: TextView
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -44,11 +54,16 @@ class AjoutManuelRecapitulatif : Fragment() {
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
 
+        nomMedoc = view.findViewById(R.id.nomMedoc)
+        textUnite = view.findViewById(R.id.textUnite)
+        dateFindeTraitement = view.findViewById(R.id.dateFinTraitementText)
+        sousNomPeriodicite = view.findViewById(R.id.sousNomPeriodicite)
+
         var schemaPriseFormatee = ""
         if (schema_prise1!=null){
             when (schema_prise1) {
                 "Quotidiennement" -> {
-                    schemaPriseFormatee="${traitement.totalQuantite} par Jour"
+                    schemaPriseFormatee="Quotidiennement"
                 }
                 "Intervalle" -> {
                     schemaPriseFormatee="Tous les ${traitement.dosageNb} ${traitement.dosageUnite}"
@@ -58,53 +73,26 @@ class AjoutManuelRecapitulatif : Fragment() {
                 }
             }
         }
-        /*
-        var listeElementRecap : MutableList<MutableList<String?>> = mutableListOf(
-            mutableListOf(
-                "Nom du traitement",
-                null,
-                null,
-                "${traitement.nomTraitement}",
-                null,
-                null
-            ),
-            mutableListOf(
-                "Périodicité",
-                "$schema_prise1",
-                null,
-                "${traitement.nomTraitement}",
-                null,
-                null
-            ),
-            mutableListOf(
-                "Réapprovisionnement",
-                null,
-                "Quantité restante",
-                "${traitement.comprimesRestants}",
-                null,
-                null
-            ),
-            mutableListOf(
-                "Notice",
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-        )
-        */
-        /*
+
+        nomMedoc.text=traitement.nomTraitement
+        textUnite.text= traitement.typeComprime
+        dateFindeTraitement.text="${traitement.dateFinTraitement}"
+        sousNomPeriodicite.text=schemaPriseFormatee
+
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecap)
         recyclerView.layoutManager = LinearLayoutManager(context)
-
-        var recapAdapter = RecapAdapterR(listeElementRecap)
-        recyclerView.adapter = recapAdapter
-
+        var liste : MutableList<Prise>
+        liste= mutableListOf()
+        if (traitement.prises!=null){
+            liste= traitement.prises!!
+        }
+        Log.d("test",liste.toString())
+        recyclerView.adapter = RecapAdapterR(liste)
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 5
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-        */
+
 
         suivant.setOnClickListener {
             val bundle = Bundle()

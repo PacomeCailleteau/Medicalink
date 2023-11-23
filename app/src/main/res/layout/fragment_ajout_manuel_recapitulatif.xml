@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/rounded_white_button_blue_stroke_background"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <ImageView
                     android:id="@+id/imageview4"
@@ -108,14 +108,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/sous_para_un4"
+                    android:id="@+id/nomMedoc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/quicksand_semibold"
                     android:text="NomMedoc"
                     android:textColor="@color/black"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
 
@@ -150,7 +150,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/sous_para_un4"
+                    android:id="@+id/textUnite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_semibold"
@@ -185,9 +185,10 @@
                     android:id="@+id/imageview4"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
+                    android:layout_marginTop="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sousNomPeriodicite"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/nom_categorie5"
+                    app:layout_constraintTop_toTopOf="@+id/sousNomPeriodicite"
                     app:srcCompat="@drawable/right_arrow" />
 
                 <TextView
@@ -202,7 +203,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/sous_para_un4"
+                    android:id="@+id/dateFinTraitementText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_semibold"
@@ -222,6 +223,18 @@
                     android:textSize="14dp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
+
+                <TextView
+                    android:id="@+id/sousNomPeriodicite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:text="SousNomPeriodicite"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
+                    app:layout_constraintEnd_toStartOf="@+id/imageview4"
+                    app:layout_constraintTop_toTopOf="@+id/nom_categorie5" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -252,6 +265,15 @@
                     android:textSize="18dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewRecap"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="@+id/imageview4"
+                    app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
+                    app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
