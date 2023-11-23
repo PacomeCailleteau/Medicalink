@@ -15,9 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.repository.MedocRepository
-import dev.mobile.medicalink.db.local.repository.UserRepository
 
 
 class AjoutManuelRecapitulatif : Fragment() {
@@ -29,6 +26,14 @@ class AjoutManuelRecapitulatif : Fragment() {
     private lateinit var textUnite: TextView
     private lateinit var dateFindeTraitement: TextView
     private lateinit var sousNomPeriodicite: TextView
+
+    private lateinit var nomLayout: ConstraintLayout
+    private lateinit var caracteristiqueLayout: ConstraintLayout
+    private lateinit var periodiciteLayout: ConstraintLayout
+    private lateinit var priseLayout: ConstraintLayout
+    private lateinit var reapprovisionnementLayout: ConstraintLayout
+
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -59,6 +64,14 @@ class AjoutManuelRecapitulatif : Fragment() {
         dateFindeTraitement = view.findViewById(R.id.dateFinTraitementText)
         sousNomPeriodicite = view.findViewById(R.id.sousNomPeriodicite)
 
+        nomLayout = view.findViewById(R.id.nomLayout)
+        caracteristiqueLayout = view.findViewById(R.id.caracteristiqueLayout)
+        periodiciteLayout = view.findViewById(R.id.periodiciteLayout)
+        priseLayout = view.findViewById(R.id.priseLayout)
+        reapprovisionnementLayout = view.findViewById(R.id.reapprovionnementLayout)
+
+
+
         var schemaPriseFormatee = ""
         if (schema_prise1!=null){
             when (schema_prise1) {
@@ -79,13 +92,13 @@ class AjoutManuelRecapitulatif : Fragment() {
         if (traitement.dateFinTraitement==null){
             dateFindeTraitement.text="Inderterminé"
         }else{
-            dateFindeTraitement.text="${traitement.dateFinTraitement}"
+            dateFindeTraitement.text= "${traitement.dateFinTraitement?.dayOfMonth}/${traitement.dateFinTraitement?.monthValue}/${traitement.dateFinTraitement?.year}"
         }
 
         sousNomPeriodicite.text=schemaPriseFormatee
 
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecap)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_recap)
         recyclerView.layoutManager = LinearLayoutManager(context)
         var liste : MutableList<Prise>
         liste= mutableListOf()
@@ -124,11 +137,96 @@ class AjoutManuelRecapitulatif : Fragment() {
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelStock()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+        //TODO("Si possible opti un peu les duplications")
+        nomLayout.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        caracteristiqueLayout.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelTypeMedic()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+
+        periodiciteLayout.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
             val destinationFragment = AjoutManuelDateSchemaPrise()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
 
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        priseLayout.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        reapprovisionnementLayout.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val bundle = Bundle()
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = AjoutManuelStock()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

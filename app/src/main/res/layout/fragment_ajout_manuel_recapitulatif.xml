@@ -81,7 +81,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nomTraitementLayout"
+                android:id="@+id/nomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/rounded_white_button_blue_stroke_background"
@@ -122,7 +122,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nomTraitementLayout"
+                android:id="@+id/caracteristiqueLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -174,7 +174,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nomTraitementLayout"
+                android:id="@+id/periodiciteLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -239,7 +239,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nomTraitementLayout"
+                android:id="@+id/priseLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -267,7 +267,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewRecap"
+                    android:id="@+id/recycler_view_recap"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -278,7 +278,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nomTraitementLayout"
+                android:id="@+id/reapprovionnementLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

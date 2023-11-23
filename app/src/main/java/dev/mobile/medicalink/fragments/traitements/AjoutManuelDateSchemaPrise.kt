@@ -176,8 +176,18 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             val bundle = Bundle()
             //bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises))
             //bundle.putString("isAddingTraitement", "true")
-            Log.d("test",dateDeFin.toString()+dateDeDebut.toString())
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,dateDeFin,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            Log.d("test",inputDateDeFin.text.toString().split("/").toString())
+            var textFinTraite : LocalDate? = null
+            if ((inputDateDeFin.text!=null) && (inputDateDeFin.text.toString()!="")){
+                textFinTraite = LocalDate.of(inputDateDeFin.text.toString().split("/")[2].toInt(),inputDateDeFin.text.toString().split("/")[1].toInt(),inputDateDeFin.text.toString().split("/")[0].toInt())
+            }
+
+            var textDbtTraite : LocalDate? = null
+            if ((inputDateDeDebut.text!=null) && (inputDateDeDebut.text.toString()!="")){
+                textDbtTraite = LocalDate.of(inputDateDeDebut.text.toString().split("/")[2].toInt(),inputDateDeDebut.text.toString().split("/")[1].toInt(),inputDateDeDebut.text.toString().split("/")[0].toInt())
+            }
+
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -196,8 +206,17 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
+            var textFinTraite : LocalDate? = null
+            if ((inputDateDeFin.text!=null) && (inputDateDeFin.text.toString()!="")){
+                textFinTraite = LocalDate.of(inputDateDeFin.text.toString().split("/")[2].toInt(),inputDateDeFin.text.toString().split("/")[1].toInt(),inputDateDeFin.text.toString().split("/")[0].toInt())
+            }
+
+            var textDbtTraite : LocalDate? = null
+            if ((inputDateDeDebut.text!=null) && (inputDateDeDebut.text.toString()!="")){
+                textDbtTraite = LocalDate.of(inputDateDeDebut.text.toString().split("/")[2].toInt(),inputDateDeDebut.text.toString().split("/")[1].toInt(),inputDateDeDebut.text.toString().split("/")[0].toInt())
+            }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateDeFin,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")

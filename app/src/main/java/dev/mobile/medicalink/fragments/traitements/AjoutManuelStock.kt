@@ -47,7 +47,7 @@ class AjoutManuelStock : Fragment() {
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
