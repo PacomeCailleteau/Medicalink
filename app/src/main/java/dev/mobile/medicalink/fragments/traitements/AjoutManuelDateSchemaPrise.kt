@@ -215,14 +215,17 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateSuivantButtonStatus() {
+        // Ajoutez ici la logique pour vérifier les conditions
+
         // Vérifier si une date de début est sélectionnée
-        if (dureePriseDbt == "date" && dateDeDebut != null) {
+        if (dureePriseDbt == "ajd" || (dureePriseDbt == "date" && dateDeDebut != null)) {
             // Si une date de fin est également sélectionnée
-            if (dureePriseFin == "date" && dateDeFin != null) {
+            if (dureePriseFin == "sf" || (dureePriseFin == "date" && dateDeFin != null)) {
                 // Vérifier si la date de fin est supérieure à la date de début
-                if (dateDeFin!!.isAfter(dateDeDebut)) {
+                if (dateDeFin == null || dateDeFin!!.isAfter(dateDeDebut)) {
                     // Les conditions sont remplies, le bouton peut être activé
                     suivant.isEnabled = true
+                    suivant.alpha = 1f
                     suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
                 } else {
                     // La date de fin n'est pas supérieure à la date de début, désactiver le bouton
@@ -232,11 +235,13 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             } else {
                 // Pas de date de fin sélectionnée, activer le bouton
                 suivant.isEnabled = true
+                suivant.alpha = 1f
                 suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
             }
         } else if (dureePriseFin == "date" && dateDeFin != null) {
             // Pas de date de début sélectionnée, mais une date de fin est sélectionnée
             suivant.isEnabled = true
+            suivant.alpha = 1f
             suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
         } else {
             // Aucune des conditions n'est remplie, désactiver le bouton
@@ -244,6 +249,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             suivant.alpha = 0.3f
         }
     }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -284,7 +290,11 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
         // Afficher le sélecteur de date
         datePickerDialog.show()
+
+        // Ajoutez cet appel pour mettre à jour le statut du bouton après la sélection de la date
+        updateSuivantButtonStatus()
     }
+
 
 
     private fun formatDate(day: Int, month: Int, year: Int): String {
