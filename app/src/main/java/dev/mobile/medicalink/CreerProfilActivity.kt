@@ -100,9 +100,25 @@ class CreerProfilActivity : AppCompatActivity() {
             }
         }
 
-        inputNom.filters = arrayOf(filter)
+        inputNom.filters = arrayOf(filter, InputFilter.AllCaps(), InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
-        inputPrenom.filters = arrayOf(filter)
+        inputPrenom.filters = arrayOf(filter, InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
@@ -129,27 +145,6 @@ class CreerProfilActivity : AppCompatActivity() {
             updateButtonState()
         }
 
-        inputNom.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
-        inputNom.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
-                }
-            }
-            null
-        })
-        inputPrenom.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
-        inputPrenom.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
-                }
-            }
-            null
-        })
-        inputDateDeNaissance.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         inputDateDeNaissance.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {
@@ -159,7 +154,6 @@ class CreerProfilActivity : AppCompatActivity() {
             }
             null
         })
-        inputEmail.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         inputEmail.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {

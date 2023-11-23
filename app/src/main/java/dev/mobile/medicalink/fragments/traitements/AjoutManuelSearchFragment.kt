@@ -57,7 +57,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallySearchBar.setText(traitement.nomTraitement)
 
-        addManuallySearchBar.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         addManuallySearchBar.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {
