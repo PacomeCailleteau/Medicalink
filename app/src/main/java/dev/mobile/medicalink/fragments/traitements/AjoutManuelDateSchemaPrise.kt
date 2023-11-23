@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.os.Build
+import android.text.InputFilter
+import android.text.InputType
 import android.widget.Button
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
@@ -16,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -28,6 +31,10 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     private lateinit var finDate: Button
     private lateinit var inputDateDeDebut: TextInputEditText
     private lateinit var inputDateDeFin: TextInputEditText
+    private var dureePriseDbt: String? = null
+    private var dureePriseFin: String? = null
+    private var dateDeDebut: LocalDate? = null
+    private var dateDeFin: LocalDate? = null
 
     private lateinit var retour: ImageView
     private lateinit var suivant : Button
@@ -52,17 +59,15 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         finDate = view.findViewById(R.id.finDate)
         inputDateDeDebut = view.findViewById(R.id.input_date_de_debut)
         inputDateDeFin = view.findViewById(R.id.input_date_de_fin)
-
-
-
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var schema_prise1  = arguments?.getString("schema_prise1")
         var provenance  = arguments?.getString("provenance")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        dureePriseDbt = arguments?.getString("dureePriseDbt")
+        dureePriseFin = arguments?.getString("dureePriseFin")
+
 
         if (dureePriseDbt==null){
             dureePriseDbt="ajd"
@@ -75,6 +80,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             "ajd" -> {
                 debutAjd.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
                 debutDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+                inputDateDeDebut.visibility = View.GONE
                 dateFinDeTraitement=LocalDate.now()
             }
 
@@ -95,25 +101,43 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             }
         }
 
+        inputDateDeDebut.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputDateDeDebut.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
-        debutDate.setOnClickListener {
-            showDatePicker()
-        }
-
-        finDate.setOnClickListener {
-            showDatePicker()
-        }
+        inputDateDeFin.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputDateDeFin.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
 
         debutAjd.setOnClickListener {
             debutAjd.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            inputDateDeDebut.visibility = View.GONE
             debutDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            inputDateDeDebut.visibility = View.GONE
+            suivant.alpha = 1f
+            suivant.isEnabled = true
+            inputDateDeDebut.text = null
             dureePriseDbt = "ajd"
         }
 
         debutDate.setOnClickListener {
+            inputDateDeDebut.visibility = View.VISIBLE
             debutAjd.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             debutDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            showDatePicker(inputDateDeDebut)
             dureePriseDbt = "date"
 
         }
@@ -121,16 +145,30 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         finSF.setOnClickListener {
             finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             finDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            inputDateDeFin.visibility = View.GONE
+            suivant.alpha = 1f
+            suivant.isEnabled = true
+            inputDateDeFin.text = null
             dureePriseFin = "sf"
             dateFinDeTraitement=null
 
         }
 
         finDate.setOnClickListener {
+            inputDateDeFin.visibility = View.VISIBLE
             finSF.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             finDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            showDatePicker(inputDateDeFin)
             dureePriseFin = "date"
             dateFinDeTraitement=LocalDate.now()
+        }
+
+        inputDateDeDebut.setOnClickListener {
+            showDatePicker(inputDateDeDebut)
+        }
+
+        inputDateDeFin.setOnClickListener {
+            showDatePicker(inputDateDeFin)
         }
 
         suivant.setOnClickListener {
@@ -174,27 +212,79 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         return view
     }
 
-    private fun showDatePicker() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateSuivantButtonStatus() {
+        // Vérifier si une date de début est sélectionnée
+        if (dureePriseDbt == "date" && dateDeDebut != null) {
+            // Si une date de fin est également sélectionnée
+            if (dureePriseFin == "date" && dateDeFin != null) {
+                // Vérifier si la date de fin est supérieure à la date de début
+                if (dateDeFin!!.isAfter(dateDeDebut)) {
+                    // Les conditions sont remplies, le bouton peut être activé
+                    suivant.isEnabled = true
+                    suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
+                } else {
+                    // La date de fin n'est pas supérieure à la date de début, désactiver le bouton
+                    suivant.isEnabled = false
+                    suivant.alpha = 0.3f
+                }
+            } else {
+                // Pas de date de fin sélectionnée, activer le bouton
+                suivant.isEnabled = true
+                suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
+            }
+        } else if (dureePriseFin == "date" && dateDeFin != null) {
+            // Pas de date de début sélectionnée, mais une date de fin est sélectionnée
+            suivant.isEnabled = true
+            suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
+        } else {
+            // Aucune des conditions n'est remplie, désactiver le bouton
+            suivant.isEnabled = false
+            suivant.alpha = 0.3f
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showDatePicker(element: TextInputEditText) {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = calendar.get(Calendar.MONTH)
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
+        // Définissez la date minimale à partir de demain
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val minDate = calendar.timeInMillis
+
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { _: DatePicker, year: Int, month: Int, day: Int ->
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 // Mettez à jour la valeur de input_date_de_debut avec la date sélectionnée
                 val selectedDate = formatDate(day, month, year)
-                inputDateDeDebut.setText(selectedDate)
+                element.setText(selectedDate)
+
+                // Mettez à jour la variable de dateDeDebut ou dateDeFin en fonction de l'élément
+                if (element == inputDateDeDebut) {
+                    dateDeDebut = LocalDate.of(year, month + 1, day)
+                } else if (element == inputDateDeFin) {
+                    dateDeFin = LocalDate.of(year, month + 1, day)
+                }
+
+                // Vérifiez les conditions et mettez à jour le statut du bouton Suivant
+                updateSuivantButtonStatus()
             },
             currentYear,
             currentMonth,
             currentDay
         )
 
+        // Limitez la sélection aux dates supérieures ou égales à la date de demain
+        datePickerDialog.datePicker.minDate = minDate
+
         // Afficher le sélecteur de date
         datePickerDialog.show()
     }
+
 
     private fun formatDate(day: Int, month: Int, year: Int): String {
         val calendar = Calendar.getInstance()
