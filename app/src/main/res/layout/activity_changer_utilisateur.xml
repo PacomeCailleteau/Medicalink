@@ -31,24 +31,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="50dp"
                 android:layout_marginEnd="50dp"
+                app:layout_constraintBottom_toTopOf="@+id/boutonAjouterProfilChangerUtilisateur"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3">
 
                 <ImageView
                     android:id="@+id/imageViewChangerUtilisateur"
                     android:layout_width="0dp"
                     android:layout_height="59dp"
-                    android:src="@drawable/utilisateur" />
+                    android:src="@drawable/utilisateur"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textViewChangerUtilisateur"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
-                    android:text="Sélectionner un profil"
+                    android:text="@string/selectionner_un_profil"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +78,7 @@
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/rounded_blue_button_background"
                 android:padding="15dp"
-                android:text="Ajouter un profil"
+                android:text="@string/ajouter_un_profil"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16dp"

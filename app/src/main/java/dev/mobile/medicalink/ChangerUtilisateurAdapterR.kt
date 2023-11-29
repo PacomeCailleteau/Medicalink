@@ -1,14 +1,12 @@
-package dev.mobile.medicalink.fragments.home
+package dev.mobile.medicalink
 
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.User
 
 

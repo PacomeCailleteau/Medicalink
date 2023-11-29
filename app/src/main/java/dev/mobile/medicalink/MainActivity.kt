@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
         /*
         creerCanalNotification()
 
@@ -84,7 +84,8 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 buttonChangerUtilisateur.setOnClickListener {
-                    //TODO("Faire le changement d'utilisateur")
+                    val intent = Intent(this, ChangerUtilisateur::class.java)
+                    startActivity(intent)
                 }
             }
             else {

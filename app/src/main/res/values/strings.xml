@@ -9,5 +9,7 @@
     <string name="me_connecter">Me connecter</string>
     <string name="creer_mon_profil">Créer mon profil</string>
     <string name="changer_utilisateur">Changer d\'utilisateur</string>
+    <string name="selectionner_un_profil">Sélectionner un profil</string>
+    <string name="ajouter_un_profil">Ajouter un profil</string>
 
 </resources>
