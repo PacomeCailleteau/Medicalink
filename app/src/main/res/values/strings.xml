@@ -4,5 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="param_buttun">Bouton Paremètre</string>
     <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
+    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
+    <string name="bienvenue">Bienvenue</string>
+    <string name="me_connecter">Me connecter</string>
+    <string name="creer_mon_profil">Créer mon profil</string>
+    <string name="changer_utilisateur">Changer d\'utilisateur</string>
 
 </resources>

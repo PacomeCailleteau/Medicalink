@@ -15,6 +15,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE uuid IN (:uuid)")
     fun getById(uuid : String): List<User>
 
+    @Query("SELECT * FROM user WHERE isConnected IN (:isConnected)")
+    fun getByConnected(isConnected : Boolean): List<User>
+
     @Insert
     fun insertAll(vararg users: User)
 
