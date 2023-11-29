@@ -3,13 +3,14 @@ package dev.mobile.medicalink.fragments.traitements
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -18,6 +19,7 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -75,6 +77,8 @@ class ListeTraitementsFragment : Fragment() {
                 newTraitementPrises=chaineDeChar
             }
 
+
+
             //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
             newMedoc = Medoc(
                 newTraitmentUUID,
@@ -127,11 +131,24 @@ class ListeTraitementsFragment : Fragment() {
                     }
                 }
 
+                var newTraitementFinDeTraitement : LocalDate? = null
+
+                if (medoc.dateFinTraitement!="null") {
+                    Log.d("test",medoc.dateFinTraitement.toString())
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = medoc.dateFinTraitement
+
+                    //convert String to LocalDate
+
+                    //convert String to LocalDate
+                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
+                }
+
                 val traitement = Traitement(
                     medoc.nom,
                     medoc.dosageNB?.toInt(),
                     medoc.dosageUnite,
-                    LocalDate.of(2023,12,12),
+                    newTraitementFinDeTraitement,
                     medoc.typeComprime,
                     medoc.comprimesRestants,
                     medoc.expire,
@@ -170,6 +187,23 @@ class ListeTraitementsFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, MainTraitementsFragment())
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
 }
