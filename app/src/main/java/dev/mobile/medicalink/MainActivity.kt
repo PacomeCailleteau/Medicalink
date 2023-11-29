@@ -25,30 +25,38 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*
-        creerCanalNotification()
+
+        var userId : String? = null
+        val intent = intent
+        if (intent.hasExtra("userId")) {
+            // Récupérer la valeur associée à la clé "userId"
+            userId = intent.getStringExtra("userId")
+        }
+
+            /*
+            creerCanalNotification()
 
 
-        //OMG ÇA MARCHE ET C'EST TROP COOL
-        val notificationIntent = Intent(this, NotificationService::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        // Définissez le délai en millisecondes (par exemple, 10 secondes)
-        val delayMillis = 10000
+            //OMG ÇA MARCHE ET C'EST TROP COOL
+            val notificationIntent = Intent(this, NotificationService::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            // Définissez le délai en millisecondes (par exemple, 10 secondes)
+            val delayMillis = 10000
 
-        // Configurez l'alarme avec le délai
-        alarmManager.set(
-            AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + delayMillis,
-            pendingIntent
-        )
-        //FIN DU OMG ÇA MARCHE ET C'EST TROP COOL
-*/
+            // Configurez l'alarme avec le délai
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + delayMillis,
+                pendingIntent
+            )
+            //FIN DU OMG ÇA MARCHE ET C'EST TROP COOL
+    */
 
         //masquer la barre de titre
         supportActionBar?.hide()
@@ -62,10 +70,19 @@ class MainActivity : AppCompatActivity() {
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
         Thread {
+
             //TODO : enlever Pierre Denis pour la version finale
             //On créer un User connecté pour tester
             val user = User("111111","Professionnel","BOUTET","Paul","01/01/2000","pierre.denis@gmail","123456",true)
+            val user2 = User("111112","Utilisateur","DUTRONC","Jacques","05/06/2003","jacques.dutronc@gmail","654321",false)
             userDatabaseInterface.insertUser(user)
+            userDatabaseInterface.insertUser(user2)
+
+            if (userId!=null){
+                userDatabaseInterface.setConnected(userDatabaseInterface.getOneUserById(userId).first())
+            }
+
+
             val res = userDatabaseInterface.getUsersConnected()
             if (res.size == 1) {
                 //Changement du texte
@@ -84,7 +101,8 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 buttonChangerUtilisateur.setOnClickListener {
-                    //TODO("Faire le changement d'utilisateur")
+                    val intent = Intent(this, ChangerUtilisateur::class.java)
+                    startActivity(intent)
                 }
             }
             else {

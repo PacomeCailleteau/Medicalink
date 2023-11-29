@@ -207,6 +207,7 @@ class CreerProfilActivity : AppCompatActivity() {
             )
             Thread {
                 res = userDatabaseInterface.insertUser(user)
+                userDatabaseInterface.setConnected(user)
                 if (res!!.first) {
                     Log.d("CREER_PROFIL", res!!.second)
                 } else {

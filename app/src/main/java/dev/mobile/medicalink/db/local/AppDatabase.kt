@@ -17,7 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
 
 
     companion object : SingletonHolder<AppDatabase, Context>({
-        Room.databaseBuilder(it.applicationContext, AppDatabase::class.java, "tttest.db").build()
+        Room.databaseBuilder(it.applicationContext, AppDatabase::class.java, "test.db").build()
     })
 
     fun tsarBomba() {

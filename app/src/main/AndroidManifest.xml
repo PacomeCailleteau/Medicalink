@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name="dev.mobile.medicalink.fragments.MainFragment" />
-
+        <activity
+            android:name="dev.mobile.medicalink.ChangerUtilisateur" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
