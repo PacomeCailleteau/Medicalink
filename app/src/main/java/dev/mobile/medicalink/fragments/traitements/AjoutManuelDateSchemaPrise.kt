@@ -26,8 +26,6 @@ import java.util.Locale
 
 class AjoutManuelDateSchemaPrise : Fragment() {
 
-    private lateinit var debutAjd: Button
-    private lateinit var debutDate: Button
     private lateinit var finSF: Button
     private lateinit var finDate: Button
     private lateinit var inputDateDeDebut: TextInputEditText
@@ -36,6 +34,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     private var dureePriseFin: String? = null
     private var dateDeDebut: LocalDate? = null
     private var dateDeFin: LocalDate? = null
+    private var sansFinClicked = false
+
 
     private lateinit var retour: ImageView
     private lateinit var suivant : Button
@@ -54,8 +54,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             navBarre.visibility = View.GONE
         }
 
-        debutAjd = view.findViewById(R.id.debutAjd)
-        debutDate = view.findViewById(R.id.debutDate)
         finSF = view.findViewById(R.id.finSF)
         finDate = view.findViewById(R.id.finDate)
         inputDateDeDebut = view.findViewById(R.id.input_date_de_debut)
@@ -77,19 +75,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             dureePriseFin="date"
         }
         var dateFinDeTraitement : LocalDate? = null
-        when (dureePriseDbt) {
-            "ajd" -> {
-                debutAjd.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-                debutDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-                inputDateDeDebut.visibility = View.GONE
-                dateFinDeTraitement=LocalDate.now()
-            }
-
-            "date" -> {
-                debutAjd.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-                debutDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            }
-        }
         when (dureePriseFin) {
             "sf" -> {
                 finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
@@ -124,45 +109,32 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             null
         })
 
-        debutAjd.setOnClickListener {
-            debutAjd.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            debutDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            inputDateDeDebut.visibility = View.GONE
-            suivant.alpha = 1f
-            suivant.isEnabled = true
-            inputDateDeDebut.text = null
-            dureePriseDbt = "ajd"
-        }
-
-        debutDate.setOnClickListener {
-            inputDateDeDebut.visibility = View.VISIBLE
-            debutAjd.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            debutDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            showDatePicker(inputDateDeDebut)
-            dureePriseDbt = "date"
-
-        }
-
         finSF.setOnClickListener {
+            sansFinClicked = true
             finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             finDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             inputDateDeFin.visibility = View.GONE
             suivant.alpha = 1f
             suivant.isEnabled = true
             inputDateDeFin.text = null
+            dateDeFin = null
             dureePriseFin = "sf"
-            dateFinDeTraitement=null
+            dateFinDeTraitement = null
 
+            // Mettez à jour le statut du bouton suivant
+            updateSuivantButtonStatus()
         }
 
         finDate.setOnClickListener {
+            sansFinClicked = false
             inputDateDeFin.visibility = View.VISIBLE
             finSF.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             finDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             showDatePicker(inputDateDeFin)
             dureePriseFin = "date"
-            dateFinDeTraitement=LocalDate.now()
+            dateFinDeTraitement = LocalDate.now()
         }
+
 
         inputDateDeDebut.setOnClickListener {
             showDatePicker(inputDateDeDebut)
@@ -234,10 +206,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateSuivantButtonStatus() {
-        // Ajoutez ici la logique pour vérifier les conditions
-
-        // Vérifier si une date de début est sélectionnée
-        if (dureePriseDbt == "ajd" || (dureePriseDbt == "date" && dateDeDebut != null)) {
+        // Vérifier si une date de début n'est pas null
+        if (dateDeDebut != null) {
             // Si une date de fin est également sélectionnée
             if (dureePriseFin == "sf" || (dureePriseFin == "date" && dateDeFin != null)) {
                 // Vérifier si la date de fin est supérieure à la date de début
@@ -257,16 +227,27 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 suivant.alpha = 1f
                 suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
             }
-        } else if (dureePriseFin == "date" && dateDeFin != null) {
-            // Pas de date de début sélectionnée, mais une date de fin est sélectionnée
-            suivant.isEnabled = true
-            suivant.alpha = 1f
-            suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
         } else {
             // Aucune des conditions n'est remplie, désactiver le bouton
             suivant.isEnabled = false
             suivant.alpha = 0.3f
         }
+
+        if (dateDeDebut != null && dureePriseFin == "sf") {
+            suivant.isEnabled = true
+            suivant.alpha = 1f
+        }
+
+        if (dateDeDebut == null && dateDeFin != null) {
+            suivant.isEnabled = false
+            suivant.alpha = 0.3f
+        }
+
+        if (dateDeDebut != null && dureePriseFin == "date" && dateDeFin == null) {
+            suivant.isEnabled = false
+            suivant.alpha = 0.3f
+        }
+        Log.d("datedefin", dateDeFin.toString())
     }
 
 
@@ -278,8 +259,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         val currentMonth = calendar.get(Calendar.MONTH)
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Définissez la date minimale à partir de demain
-        calendar.add(Calendar.DAY_OF_MONTH, 1)
         val minDate = calendar.timeInMillis
 
         val datePickerDialog = DatePickerDialog(
@@ -313,6 +292,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         // Ajoutez cet appel pour mettre à jour le statut du bouton après la sélection de la date
         updateSuivantButtonStatus()
     }
+
 
 
 

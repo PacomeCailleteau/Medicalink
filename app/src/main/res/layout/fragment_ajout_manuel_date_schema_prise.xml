@@ -30,7 +30,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/input_date_de_debut"
         app:layout_constraintTop_toBottomOf="@+id/input_date_de_debut"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -66,27 +66,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/debutAjd"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-
-        android:background="@drawable/rounded_blue_button_blue_stroke_background"
-        android:fontFamily="@font/quicksand_bold"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="Aujourd'hui"
-        android:textAllCaps="false"
-        android:textColor="#3F4791"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/numeroPrise2" />
-
-    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/finSF"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
 
         android:layout_marginTop="10dp"
@@ -98,83 +80,60 @@
         android:textAllCaps="false"
         android:textColor="#3F4791"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/numeroPrise3"
         app:layout_constraintTop_toBottomOf="@+id/numeroPrise3" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/debutDate"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="30dp"
-
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_white_button_blue_stroke_background"
-        android:fontFamily="@font/quicksand_bold"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text="JJ/MM/AAAA"
-        android:textAllCaps="false"
-        android:textColor="#3F4791"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/debutAjd"
-        app:layout_constraintTop_toBottomOf="@+id/numeroPrise2" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_date_de_debut"
-        android:layout_width="365dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:clickable="true"
-        android:visibility="gone"
         android:focusable="false"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Date de début"
         android:padding="15dp"
         android:scrollHorizontally="false"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/debutDate"
-        app:layout_constraintStart_toStartOf="@+id/debutAjd"
-        app:layout_constraintTop_toBottomOf="@+id/debutDate" />
+        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
+        app:layout_constraintStart_toStartOf="@+id/numeroPrise2"
+        app:layout_constraintTop_toBottomOf="@+id/numeroPrise2" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_date_de_fin"
-        android:layout_width="365dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:clickable="true"
-        android:visibility="gone"
         android:focusable="false"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="Date de fin"
         android:padding="15dp"
         android:scrollHorizontally="false"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/finDate"
         app:layout_constraintStart_toStartOf="@+id/finSF"
         app:layout_constraintTop_toBottomOf="@+id/finDate" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/finDate"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
 
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_white_button_blue_stroke_background"
         android:fontFamily="@font/quicksand_bold"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:text="JJ/MM/AAAA"
+        android:text="Date"
         android:textAllCaps="false"
         android:textColor="#3F4791"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/finSF"
+        app:layout_constraintEnd_toEndOf="@+id/input_date_de_debut"
         app:layout_constraintTop_toBottomOf="@+id/numeroPrise3" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -190,6 +149,8 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
+        android:enabled="false"
+        android:alpha="0.3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
