@@ -74,7 +74,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         if (dureePriseFin==null){
             dureePriseFin="date"
         }
-        var dateFinDeTraitement : LocalDate? = null
         when (dureePriseFin) {
             "sf" -> {
                 finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
@@ -119,7 +118,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             inputDateDeFin.text = null
             dateDeFin = null
             dureePriseFin = "sf"
-            dateFinDeTraitement = null
 
             // Mettez à jour le statut du bouton suivant
             updateSuivantButtonStatus()
@@ -132,7 +130,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             finDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             showDatePicker(inputDateDeFin)
             dureePriseFin = "date"
-            dateFinDeTraitement = LocalDate.now()
+
+            updateSuivantButtonStatus()
         }
 
 
