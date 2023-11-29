@@ -42,6 +42,7 @@ class CreerProfilActivity : AppCompatActivity() {
     private lateinit var inputPrenom: TextInputEditText
     private lateinit var inputDateDeNaissance: TextInputEditText
     private lateinit var inputEmail: TextInputEditText
+    private lateinit var inputMotDePasse: TextInputEditText
     private lateinit var checkboxRgpd: CheckBox
     private lateinit var buttonCreerProfil: Button
 
@@ -64,6 +65,7 @@ class CreerProfilActivity : AppCompatActivity() {
         inputPrenom = findViewById(R.id.input_prenom)
         inputDateDeNaissance = findViewById(R.id.input_date_de_debut)
         inputEmail = findViewById(R.id.input_email)
+        inputMotDePasse = findViewById(R.id.input_password)
         checkboxRgpd = findViewById(R.id.checkbox_rgpd)
         buttonCreerProfil = findViewById(R.id.button_creer_profil)
 
@@ -164,10 +166,21 @@ class CreerProfilActivity : AppCompatActivity() {
             null
         })
 
+        inputMotDePasse.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            source?.let {
+                if (it.contains("\n")) {
+                    // Bloquer le collage de texte
+                    return@InputFilter ""
+                }
+            }
+            null
+        })
+
         inputNom.addTextChangedListener(textWatcher)
         inputPrenom.addTextChangedListener(textWatcher)
         inputDateDeNaissance.addTextChangedListener(textWatcher)
         inputEmail.addTextChangedListener(textWatcher)
+        inputMotDePasse.addTextChangedListener(textWatcher)
 
         buttonCreerProfil.setOnClickListener {
             val db = AppDatabase.getInstance(this)
@@ -180,7 +193,7 @@ class CreerProfilActivity : AppCompatActivity() {
             val dateNaissance = inputDateDeNaissance.text.toString()
             val email = inputEmail.text.toString()
             //TODO("Mettre le champs texte dans password et réfléchir à isConnected=true or false")
-            val password = ""
+            val password = inputMotDePasse.text.toString()
             val isConnected = true
             val user = User(
                 uuid,
@@ -242,7 +255,8 @@ class CreerProfilActivity : AppCompatActivity() {
         val allFieldsFilled = inputNom.text!!.isNotBlank() &&
                 inputPrenom.text!!.isNotBlank() &&
                 inputDateDeNaissance.text!!.isNotBlank() &&
-                inputEmail.text!!.isNotBlank()
+                inputEmail.text!!.isNotBlank() &&
+                inputMotDePasse.text!!.isNotBlank()
 
         if (isCheckboxChecked && isRadioButtonSelected && allFieldsFilled && isEmailValid) {
             buttonCreerProfil.isEnabled = true
@@ -254,7 +268,7 @@ class CreerProfilActivity : AppCompatActivity() {
     }
     fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
-        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail) // Ajoute tous tes champs ici
+        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail, inputMotDePasse) // Ajoute tous tes champs ici
         for (editText in editTextList) {
             editText.clearFocus()
         }

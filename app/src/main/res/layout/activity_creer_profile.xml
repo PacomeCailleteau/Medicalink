@@ -8,31 +8,6 @@
     android:focusable="true">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_creer_profil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:alpha="0.3"
-        android:background="@drawable/rounded_blue_button_background"
-        android:enabled="false"
-        android:fontFamily="@font/quicksand_bold"
-        android:paddingLeft="30dp"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingBottom="15dp"
-        android:text="Créer mon profil"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5
-"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkbox_rgpd"
-        app:layout_constraintVertical_bias="0.5" />
-
     <TextView
         android:id="@+id/text_medicalink"
         android:layout_width="wrap_content"
@@ -48,6 +23,17 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_profil"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_medicalink"
+        app:srcCompat="@drawable/utilisateur" />
 
     <TextView
         android:id="@+id/text_votre_profil"
@@ -65,148 +51,197 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_profil" />
 
-    <TextView
-        android:id="@+id/text_statut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/quicksand_bold"
-        android:gravity="start"
-        android:text="Statut"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/radio_group_statut"
-        app:layout_constraintTop_toBottomOf="@+id/text_votre_profil" />
-
-    <TextView
-        android:id="@+id/text_informations_personnelles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/quicksand_bold"
-        android:gravity="start"
-        android:text="Informations personnelles"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/input_nom"
-        app:layout_constraintTop_toBottomOf="@+id/radio_group_statut" />
-
-    <RadioGroup
-        android:id="@+id/radio_group_statut"
-        android:layout_width="320dp"
-        android:layout_height="69dp"
-        app:layout_constraintStart_toStartOf="@+id/text_informations_personnelles"
-        app:layout_constraintTop_toBottomOf="@+id/text_statut">
-
-        <RadioButton
-            android:id="@+id/radio_button_professionnel"
-            android:layout_width="218dp"
-            android:layout_height="23dp"
-            android:layout_marginTop="14dp"
-            android:fontFamily="@font/quicksand_semibold"
-
-            android:text="Professionnel de santé"
-            android:textSize="14dp" />
-
-        <RadioButton
-            android:id="@+id/radio_button_utilisateur"
-            android:layout_width="123dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="11dp"
-            android:fontFamily="@font/quicksand_semibold"
-            android:text="Utilisateur"
-            android:textSize="14dp"
-
-            />
-    </RadioGroup>
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_nom"
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/rounded_white_black_stroke_button_background"
-
-        android:fontFamily="@font/quicksand_semibold"
-        android:hint="Nom"
-        android:textSize="16sp"
-        android:inputType="textNoSuggestions|textCapCharacters"
-        android:scrollHorizontally="false"
-        android:padding="15dp"
-        android:textAllCaps="true"
+    <ScrollView
+        android:layout_width="393dp"
+        android:layout_height="562dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_informations_personnelles" />
+        app:layout_constraintTop_toBottomOf="@+id/text_votre_profil">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_prenom"
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_white_black_stroke_button_background"
-        android:fontFamily="@font/quicksand_semibold"
-        android:hint="Prénom"
-        android:inputType="textNoSuggestions|textCapWords"
-        android:textSize="16sp"
-        android:scrollHorizontally="false"
-        android:padding="15dp"
-        app:layout_constraintStart_toStartOf="@+id/input_nom"
-        app:layout_constraintTop_toBottomOf="@+id/input_nom"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_date_de_debut"
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_white_black_stroke_button_background"
-        android:clickable="true"
-        android:focusable="false"
-        android:inputType="date"
-        android:fontFamily="@font/quicksand_semibold"
-        android:hint="Date de naissance"
-        android:textSize="16sp"
-        android:scrollHorizontally="false"
-        android:padding="15dp"
-        app:layout_constraintStart_toStartOf="@+id/input_prenom"
-        app:layout_constraintTop_toBottomOf="@+id/input_prenom" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_email"
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_white_black_stroke_button_background"
-        android:fontFamily="@font/quicksand_semibold"
-        android:hint="Adresse Email"
-        android:textSize="16sp"
-        android:inputType="textEmailAddress"
-        android:scrollHorizontally="false"
-        android:padding="15dp"
-        app:layout_constraintStart_toStartOf="@+id/input_date_de_debut"
-        app:layout_constraintTop_toBottomOf="@+id/input_date_de_debut" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_email"
+                    android:layout_width="325dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_black_stroke_button_background"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:hint="Adresse Email"
+                    android:inputType="textEmailAddress"
+                    android:padding="15dp"
+                    android:scrollHorizontally="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_date_de_debut" />
 
-    <CheckBox
-        android:id="@+id/checkbox_rgpd"
-        android:layout_width="350dp"
-        android:layout_height="51dp"
+                <RadioGroup
+                    android:id="@+id/radio_group_statut"
+                    android:layout_width="320dp"
+                    android:layout_height="69dp"
+                    app:layout_constraintStart_toStartOf="@+id/text_informations_personnelles"
+                    app:layout_constraintTop_toBottomOf="@+id/text_statut">
 
-        android:layout_marginTop="5dp"
-        android:text="J'accepte les conditions en matière de protection des données relatives au RGPD"
-        app:layout_constraintStart_toStartOf="@+id/input_email"
-        app:layout_constraintTop_toBottomOf="@+id/input_email" />
+                    <RadioButton
+                        android:id="@+id/radio_button_professionnel"
+                        android:layout_width="218dp"
+                        android:layout_height="23dp"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/quicksand_semibold"
 
-    <ImageView
-        android:id="@+id/image_profil"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_medicalink"
-        app:srcCompat="@drawable/utilisateur"
-        tools:layout_editor_absoluteX="169dp" />
+                        android:text="Professionnel de santé"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_utilisateur"
+                        android:layout_width="123dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="11dp"
+                        android:fontFamily="@font/quicksand_semibold"
+                        android:text="Utilisateur"
+                        android:textSize="14dp"
+
+                        />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/text_informations_personnelles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="start"
+                    android:text="Informations personnelles"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/input_nom"
+                    app:layout_constraintTop_toBottomOf="@+id/radio_group_statut" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_creer_profil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:alpha="0.3"
+                    android:background="@drawable/rounded_blue_button_background"
+                    android:enabled="false"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="15dp"
+                    android:text="Créer mon profil"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_rgpd" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_password"
+                    android:layout_width="325dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_black_stroke_button_background"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:hint="Mot de passe"
+                    android:inputType="textPassword"
+                    android:padding="15dp"
+                    android:scrollHorizontally="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_email" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_nom"
+                    android:layout_width="325dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:background="@drawable/rounded_white_black_stroke_button_background"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:hint="Nom"
+                    android:inputType="textNoSuggestions|textCapCharacters"
+                    android:padding="15dp"
+                    android:scrollHorizontally="false"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_informations_personnelles" />
+
+                <TextView
+                    android:id="@+id/text_statut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="start"
+                    android:text="Statut"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/radio_group_statut"
+                    tools:layout_editor_absoluteY="173dp" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_rgpd"
+                    android:layout_width="350dp"
+                    android:layout_height="51dp"
+
+                    android:layout_marginTop="5dp"
+                    android:text="J'accepte les conditions en matière de protection des données relatives au RGPD"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/input_password"
+                    app:layout_constraintTop_toBottomOf="@+id/input_password" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_prenom"
+                    android:layout_width="325dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_black_stroke_button_background"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:hint="Prénom"
+                    android:inputType="textNoSuggestions|textCapWords"
+                    android:padding="15dp"
+                    android:scrollHorizontally="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_nom" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_date_de_debut"
+                    android:layout_width="325dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_black_stroke_button_background"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:hint="Date de naissance"
+                    android:inputType="date"
+                    android:padding="15dp"
+                    android:scrollHorizontally="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_prenom" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

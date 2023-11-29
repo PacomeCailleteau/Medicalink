@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
                 //On met les bons listeners
                 buttonConnexion.setOnClickListener {
-                    val intent = Intent(this, MainFragment::class.java)
+                    val intent = Intent(this, CreerProfilActivity::class.java)
                     startActivity(intent)
                 }
                 buttonChangerUtilisateur.setOnClickListener {
