@@ -1,9 +1,7 @@
 package dev.mobile.medicalink.utils
 
 
-import android.app.AlarmManager
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,12 +11,16 @@ import dev.mobile.medicalink.R
 
 
 class NotificationService : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context?,  intent: Intent?) {
+        // Obtenez le titre et le contenu de l'intent
+        val title = intent?.getStringExtra("title") ?: "Titre par défaut"
+        val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
+
         // C'est ici que vous affichez la notification
-        showNotification(context)
+        showNotification(context, title, content)
     }
 
-    private fun showNotification(context: Context?) {
+    private fun showNotification(context: Context?, titre: String, contenu: String) {
         // Code pour afficher la notification
         val notificationManager = ContextCompat.getSystemService(
             context!!,
@@ -27,9 +29,9 @@ class NotificationService : BroadcastReceiver() {
 
         val channelId = "soleil123" // Remplacez par votre propre ID de canal
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.cloche)
-            .setContentTitle("Titre de la notification")
-            .setContentText("Contenu de la notification")
+            .setSmallIcon(R.drawable.logo_medicalink)
+            .setContentTitle(titre)
+            .setContentText(contenu)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         // Affichez la notification
