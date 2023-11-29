@@ -88,4 +88,26 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
+    fun setConnected(user: User) : Pair<Boolean,String> {
+        return try {
+            for (userCourant in userDao.getByConnected(true)){
+                val newUser = userCourant
+                newUser.isConnected=false
+                userDao.update(newUser)
+            }
+            val newUser = user
+            newUser.isConnected=true
+            userDao.update(newUser)
+            userDao.update(user)
+            Pair(true, "Success")
+
+        } catch (e: SQLiteConstraintException) {
+            Pair(false, "User doesn't exist")
+        } catch (e: SQLiteException) {
+            Pair(false, "Database Error : ${e.message}")
+        } catch (e: Exception) {
+            Pair(false, "Unknown Error : ${e.message}")
+        }
+    }
+
 }

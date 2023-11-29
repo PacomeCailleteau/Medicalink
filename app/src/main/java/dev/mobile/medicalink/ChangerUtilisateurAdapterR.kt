@@ -1,11 +1,14 @@
 package dev.mobile.medicalink
 
+import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.entity.User
 
@@ -32,14 +35,15 @@ class ChangerUtilisateurAdapterR(private val list: List<User>) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
-
         holder.nomUtilisateur.text="${item.prenom} ${item.nom}"
         holder.statutUtilisateur.text="${item.statut}"
 
-        holder.view.setOnLongClickListener {
-
+        holder.view.setOnClickListener {
+            Log.d("test","cc")
             val context = holder.itemView.context
-            true
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("userId", item.uuid)
+            context.startActivity(intent)
         }
     }
 
