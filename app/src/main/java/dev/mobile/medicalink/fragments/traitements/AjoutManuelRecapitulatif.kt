@@ -114,12 +114,13 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putString("isAddingTraitement", "true")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
-            var destinationFragment = AjoutManuelDateSchemaPrise()
+            var destinationFragment = ListeTraitementsFragment()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
@@ -141,7 +142,6 @@ class AjoutManuelRecapitulatif : Fragment() {
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -175,7 +175,6 @@ class AjoutManuelRecapitulatif : Fragment() {
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -230,6 +229,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
+
         return view
     }
 }
