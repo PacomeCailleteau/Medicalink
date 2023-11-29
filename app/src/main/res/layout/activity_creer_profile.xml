@@ -8,56 +8,13 @@
     android:focusable="true">
 
 
-    <TextView
-        android:id="@+id/text_medicalink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/quicksand_bold"
-        android:gravity="start"
-        android:text="Medicalink"
-        android:textColor="#000000"
-        android:textSize="26dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/image_profil"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_medicalink"
-        app:srcCompat="@drawable/utilisateur" />
-
-    <TextView
-        android:id="@+id/text_votre_profil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_bold"
-        android:gravity="start"
-        android:text="Votre profil"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_profil" />
-
     <ScrollView
         android:layout_width="393dp"
-        android:layout_height="562dp"
+        android:layout_height="785dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_votre_profil">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,6 +24,46 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_medicalink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="start"
+                    android:text="Medicalink"
+                    android:textColor="#000000"
+                    android:textSize="26dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_profil"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_medicalink"
+                    app:srcCompat="@drawable/utilisateur" />
+
+                <TextView
+                    android:id="@+id/text_votre_profil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:gravity="start"
+                    android:text="Votre profil"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_profil" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_email"
@@ -132,6 +129,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
                     android:alpha="0.3"
                     android:background="@drawable/rounded_blue_button_background"
                     android:enabled="false"
@@ -169,7 +168,7 @@
                     android:id="@+id/input_nom"
                     android:layout_width="325dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
 
                     android:background="@drawable/rounded_white_black_stroke_button_background"
                     android:fontFamily="@font/quicksand_semibold"
@@ -187,6 +186,7 @@
                     android:id="@+id/text_statut"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/quicksand_bold"
                     android:gravity="start"
                     android:text="Statut"
@@ -194,7 +194,7 @@
                     android:textSize="16dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/radio_group_statut"
-                    tools:layout_editor_absoluteY="173dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_votre_profil" />
 
                 <CheckBox
                     android:id="@+id/checkbox_rgpd"
