@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- res/values/styles.xml -->
+    <style name="RoundedDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/rounded_white_button_no_stroke_background</item>
+    </style>
+</resources>

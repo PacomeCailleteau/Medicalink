@@ -40,7 +40,7 @@ class ChangerUtilisateur : Activity() {
 
         val mesUsers = queue.take()
 
-
+        /*
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewChangerUtilisateur)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -49,7 +49,7 @@ class ChangerUtilisateur : Activity() {
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
+        */
         boutonAjouterProfil.setOnClickListener {
             val intent = Intent(this, CreerProfilActivity::class.java)
             startActivity(intent)

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
@@ -13,12 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.entity.User
 
 
-class ChangerUtilisateurAdapterR(private val list: List<User>) :
+class ChangerUtilisateurAdapterR(private val list: List<User>,private val onItemClick: (User) -> Unit) :
     RecyclerView.Adapter<ChangerUtilisateurAdapterR.AjoutManuelViewHolder>() {
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val nomUtilisateur = view.findViewById<TextView>(R.id.nomUtilisateur)
         val statutUtilisateur = view.findViewById<TextView>(R.id.statutUtilisateur)
+    }
+
+    interface onItemClickListener {
+        fun onItemClick(user: User)
+    }
+
+    fun setOnItemClickListener(listener: AdapterView.OnItemClickListener) {
+        this.setOnItemClickListener(listener)
     }
 
     override fun getItemCount(): Int {
@@ -39,11 +48,9 @@ class ChangerUtilisateurAdapterR(private val list: List<User>) :
         holder.statutUtilisateur.text="${item.statut}"
 
         holder.view.setOnClickListener {
-            Log.d("test","cc")
-            val context = holder.itemView.context
-            val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("userId", item.uuid)
-            context.startActivity(intent)
+
+            onItemClick.invoke(item)
+
         }
     }
 

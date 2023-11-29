@@ -78,11 +78,10 @@ class ListeTraitementsFragment : Fragment() {
             }
 
 
-
             //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
             newMedoc = Medoc(
                 newTraitmentUUID,
-                "111111",
+                "",
                 newTraitement.nomTraitement,
                 newTraitement.dosageNb.toString(),
                 newTraitement.dosageUnite,
@@ -97,6 +96,8 @@ class ListeTraitementsFragment : Fragment() {
 
             val queue2 = LinkedBlockingQueue<Boolean>()
             Thread{
+                var uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
+                newMedoc.uuidUser=uuidUserCourant
                 medocDatabaseInterface.insertMedoc(newMedoc)
                 queue2.add(true)
             }.start()
@@ -111,7 +112,7 @@ class ListeTraitementsFragment : Fragment() {
             val listeTraitement : MutableList<Traitement> = mutableListOf()
 
             //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId("111111")
+            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(userDatabaseInterface.getUsersConnected(true).first().uuid)
 
             for (medoc in listeMedoc){
 
