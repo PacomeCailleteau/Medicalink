@@ -179,13 +179,18 @@ class CreerProfilActivity : AppCompatActivity() {
             val prenom = inputPrenom.text.toString()
             val dateNaissance = inputDateDeNaissance.text.toString()
             val email = inputEmail.text.toString()
+            //TODO("Mettre le champs texte dans password et réfléchir à isConnected=true or false")
+            val password = ""
+            val isConnected = true
             val user = User(
                 uuid,
                 statut,
                 nom,
                 prenom,
                 dateNaissance,
-                email
+                email,
+                password,
+                isConnected
             )
             Thread {
                 res = userDatabaseInterface.insertUser(user)
