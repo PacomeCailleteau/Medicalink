@@ -1,12 +1,13 @@
 package dev.mobile.medicalink
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
@@ -15,6 +16,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
+import dev.mobile.medicalink.utils.NotificationService
 
 class MainActivity : AppCompatActivity() {
     private lateinit var imageConnexion: ImageView
@@ -33,30 +35,28 @@ class MainActivity : AppCompatActivity() {
             userId = intent.getStringExtra("userId")
         }
 
-            /*
-            creerCanalNotification()
+        creerCanalNotification()
 
+        val notificationIntent = Intent(this, NotificationService::class.java)
+            .putExtra("title", "OH LA LA !")
+            .putExtra("content", "Comment ça marche trop bien en fait !!!!!!!")
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        // Définissez le délai en millisecondes (par exemple, 10 secondes)
+        val delayMillis = 10000
 
-            //OMG ÇA MARCHE ET C'EST TROP COOL
-            val notificationIntent = Intent(this, NotificationService::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(
-                this,
-                0,
-                notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-            // Définissez le délai en millisecondes (par exemple, 10 secondes)
-            val delayMillis = 10000
+        // Configurez l'alarme avec le délai
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + delayMillis,
+            pendingIntent
+        )
 
-            // Configurez l'alarme avec le délai
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + delayMillis,
-                pendingIntent
-            )
-            //FIN DU OMG ÇA MARCHE ET C'EST TROP COOL
-    */
 
         //masquer la barre de titre
         supportActionBar?.hide()
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
                 //On met les bons listeners
                 buttonConnexion.setOnClickListener {
-                    val intent = Intent(this, CreerProfilActivity::class.java)
+                    val intent = Intent(this, MainFragment::class.java)
                     startActivity(intent)
                 }
                 buttonChangerUtilisateur.setOnClickListener {
