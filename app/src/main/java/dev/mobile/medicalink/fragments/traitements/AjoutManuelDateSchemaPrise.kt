@@ -246,7 +246,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             suivant.isEnabled = false
             suivant.alpha = 0.3f
         }
-        Log.d("datedefin", dateDeFin.toString())
     }
 
 

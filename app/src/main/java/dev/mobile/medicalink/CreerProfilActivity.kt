@@ -28,6 +28,7 @@ import java.util.Calendar
 import java.util.Locale
 import android.text.InputFilter
 import android.text.Spanned
+import android.widget.Toast
 
 class CreerProfilActivity : AppCompatActivity() {
 
@@ -210,12 +211,12 @@ class CreerProfilActivity : AppCompatActivity() {
                 userDatabaseInterface.setConnected(user)
                 if (res!!.first) {
                     Log.d("CREER_PROFIL", res!!.second)
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 } else {
                     Log.d("CREER_PROFIL", res!!.second)
                 }
             }.start()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
 
     }
