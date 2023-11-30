@@ -40,6 +40,7 @@ class AjoutManuelTypeMedic : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
+        var isAddingTraitement  = arguments?.getString("isAddingTraitement")
         var schema_prise1  = arguments?.getString("schema_prise1")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
@@ -63,7 +64,8 @@ class AjoutManuelTypeMedic : Fragment() {
         suivant.setOnClickListener {
             val bundle = Bundle()
             Log.d("LLLL",AjoutManuelTypeMedicAdapter.selected)
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
@@ -79,7 +81,8 @@ class AjoutManuelTypeMedic : Fragment() {
 
         retour.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
@@ -102,6 +105,7 @@ class AjoutManuelTypeMedic : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
+                var isAddingTraitement  = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
@@ -112,7 +116,8 @@ class AjoutManuelTypeMedic : Fragment() {
                 var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic,selected)
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, AjoutManuelTypeMedicAdapter.selected, 25, false, null, traitement.prises,traitement.totalQuantite))
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, AjoutManuelTypeMedicAdapter.selected, 25, false, null, traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+                bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")
                 bundle.putString("dureePriseFin", "$dureePriseFin")

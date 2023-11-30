@@ -43,6 +43,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
+        var isAddingTraitement = arguments?.getString("isAddingTraitement")
         var schema_prise1  = arguments?.getString("schema_prise1")
         var provenance  = arguments?.getString("provenance")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
@@ -84,7 +85,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -106,8 +108,10 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
             var destinationFragment = Fragment()
@@ -143,6 +147,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
+                var isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val provenance = arguments?.getString("provenance")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
@@ -158,7 +163,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise,traitement.totalQuantite))
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+                bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("provenance", "$provenance")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")

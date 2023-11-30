@@ -62,6 +62,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
+        var isAddingTraitement = arguments?.getString("isAddingTraitement")
         var schema_prise1  = arguments?.getString("schema_prise1")
         var provenance  = arguments?.getString("provenance")
         dureePriseDbt = arguments?.getString("dureePriseDbt")
@@ -158,7 +159,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 textDbtTraite = LocalDate.of(inputDateDeDebut.text.toString().split("/")[2].toInt(),inputDateDeDebut.text.toString().split("/")[1].toInt(),inputDateDeDebut.text.toString().split("/")[0].toInt())
             }
 
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -187,12 +189,26 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 textDbtTraite = LocalDate.of(inputDateDeDebut.text.toString().split("/")[2].toInt(),inputDateDeDebut.text.toString().split("/")[1].toInt(),inputDateDeDebut.text.toString().split("/")[0].toInt())
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
-            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
+
+            var destinationFragment = Fragment()
+            when (provenance){
+                "quotidiennement" -> {
+                    destinationFragment = AjoutManuelSchemaPrise2Fragment()
+
+                }
+                "intervalleRegulier" -> {
+                    destinationFragment = AjoutManuelSchemaPrise2Fragment()
+                }
+                "auBesoin" -> {
+                    destinationFragment = AjoutManuelSchemaPriseFragment()
+                }
+            }
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

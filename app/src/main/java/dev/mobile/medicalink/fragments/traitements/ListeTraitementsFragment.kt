@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.mobile.medicalink.ChangerUtilisateurAdapterR
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
@@ -38,6 +39,7 @@ class ListeTraitementsFragment : Fragment() {
         val medocDatabaseInterface = MedocRepository(db.medocDao())
 
         var isAddingTraitement  = arguments?.getString("isAddingTraitement")
+        var uuidUpdateTraitement  = arguments?.getString("uuidUpdateTraitement")
 
 
 
@@ -49,12 +51,19 @@ class ListeTraitementsFragment : Fragment() {
 
 
 
-        if (isAddingTraitement=="true"){
+        if (isAddingTraitement=="true" || isAddingTraitement=="false"){
             var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
 
             var newMedoc : Medoc
-
-            var newTraitmentUUID = UUID.randomUUID().toString()
+            var traitementUUID : String = UUID.randomUUID().toString()
+            when (isAddingTraitement){
+                "true" -> {
+                    traitementUUID = UUID.randomUUID().toString()
+                }
+                "false" -> {
+                    traitementUUID=newTraitement.UUID.toString()
+                }
+            }
 
             var newTraitementEffetsSec : String? = null
             if (newTraitement.effetsSecondaires!=null){
@@ -78,9 +87,8 @@ class ListeTraitementsFragment : Fragment() {
             }
 
 
-            //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
             newMedoc = Medoc(
-                newTraitmentUUID,
+                traitementUUID,
                 "",
                 newTraitement.nomTraitement,
                 newTraitement.dosageNb.toString(),
@@ -98,7 +106,14 @@ class ListeTraitementsFragment : Fragment() {
             Thread{
                 var uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
                 newMedoc.uuidUser=uuidUserCourant
-                medocDatabaseInterface.insertMedoc(newMedoc)
+                when (isAddingTraitement){
+                    "true" -> {
+                        medocDatabaseInterface.insertMedoc(newMedoc)
+                    }
+                    "false" -> {
+                        medocDatabaseInterface.updateMedoc(newMedoc)
+                    }
+                }
                 queue2.add(true)
             }.start()
             queue2.take()
@@ -111,7 +126,6 @@ class ListeTraitementsFragment : Fragment() {
         Thread{
             val listeTraitement : MutableList<Traitement> = mutableListOf()
 
-            //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(userDatabaseInterface.getUsersConnected(true).first().uuid)
 
             for (medoc in listeMedoc){
@@ -155,7 +169,9 @@ class ListeTraitementsFragment : Fragment() {
                     medoc.expire,
                     listeEffetsSec,
                     listePrise,
-                    medoc.totalQuantite
+                    medoc.totalQuantite,
+                    medoc.uuid,
+                    medoc.uuidUser
                 )
 
                 listeTraitement.add(traitement)
@@ -172,7 +188,50 @@ class ListeTraitementsFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ListeTraitementAdapterR(traitementsTries)
+        recyclerView.adapter = ListeTraitementAdapterR(traitementsTries) { clickedTraitement ->
+
+            val bundle = Bundle()
+
+            bundle.putString("isAddingTraitement", "false")
+            bundle.putString("uuidUpdateTraitement", "$")
+
+
+            bundle.putSerializable("traitement", Traitement(clickedTraitement.nomTraitement, clickedTraitement.dosageNb,clickedTraitement.dosageUnite,clickedTraitement.dateFinTraitement,clickedTraitement.typeComprime,clickedTraitement.comprimesRestants,clickedTraitement.expire,clickedTraitement.effetsSecondaires,clickedTraitement.prises,clickedTraitement.totalQuantite,clickedTraitement.UUID,clickedTraitement.UUIDUSER))
+
+            val schema_prise1 : String
+            val provenance : String
+            if (clickedTraitement.dosageUnite=="auBesoin"){
+                schema_prise1 = "auBesoin"
+                provenance = "auBesoin"
+            }else if (clickedTraitement.dosageUnite=="quotidiennement"){
+                schema_prise1 = "Quotidiennement"
+                provenance = "quotidiennement"
+            }else{
+                schema_prise1 = "Intervalle"
+                provenance = "intervalleRegulier"
+            }
+            var dureePriseFin : String
+
+            if (clickedTraitement.dateFinTraitement==null) {
+                dureePriseFin = "sf"
+            }else{
+                dureePriseFin = "date"
+            }
+            //TODO("fusionner schema_prise1 et provenance dans le processus d'add traitement")
+            bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "ajd")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+
+
+            val destinationFragment = AjoutManuelRecapitulatif()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+
+        }
 
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 22

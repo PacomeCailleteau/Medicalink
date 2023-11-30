@@ -110,9 +110,11 @@ class AddTraitementsFragment : Fragment() {
 
         manualImportButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement("",1,"Jour",null,"Comprimé",25,false,null,null,null))
+            bundle.putSerializable("traitement", Traitement("",2,"Semaines",null,"Comprimé",25,false,null,null,null,null,null))
+            bundle.putString("isAddingTraitement", "true")
             bundle.putString("schema_prise1", "Quotidiennement")
             val destinationFragment = AjoutManuelSearchFragment()
+            destinationFragment.arguments = bundle
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)

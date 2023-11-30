@@ -73,7 +73,9 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     medoc.expire,
                     listeEffetsSec,
                     listePrise,
-                    medoc.totalQuantite
+                    medoc.totalQuantite,
+                    medoc.uuid,
+                    medoc.uuidUser
                 )
 
                 listeTraitement.add(traitement)
