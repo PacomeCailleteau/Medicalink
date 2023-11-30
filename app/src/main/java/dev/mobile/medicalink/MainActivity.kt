@@ -51,28 +51,10 @@ class MainActivity : AppCompatActivity() {
             userId = intent.getStringExtra("userId")
         }
 
+        //On ne le fait qu'une seule fois dans toute l'application
         creerCanalNotification()
 
-        val notificationIntent = Intent(this, NotificationService::class.java)
-            .putExtra("title", "OH LA LA !")
-            .putExtra("content", "Comment ça marche trop bien en fait !!!!!!!")
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        // Définissez le délai en millisecondes (par exemple, 10 secondes)
-        val delayMillis = 10000
-
-        // Configurez l'alarme avec le délai
-        alarmManager.set(
-            AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + delayMillis,
-            pendingIntent
-        )
-
+        NotificationService.sendNotification(this, "Youpi", "Ça rime avec Tchoupi", 5000)
 
         //masquer la barre de titre
         supportActionBar?.hide()
@@ -158,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     private fun creerCanalNotification() {
         // Créez le canal de notification (pour les API > Oreo donc > 26)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "soleil123"
+            val channelId = "medicalinkNotificationChannel"
             val channelName = "canal de notification"
             val channelDescription = "canal de notification pour les notifications de l'application"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
