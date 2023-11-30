@@ -30,8 +30,6 @@
         </activity>
         <activity
             android:name="dev.mobile.medicalink.fragments.MainFragment" />
-        <activity
-            android:name="dev.mobile.medicalink.ChangerUtilisateur" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -45,7 +43,13 @@
         <receiver
             android:name=".utils.NotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
 
     </application>

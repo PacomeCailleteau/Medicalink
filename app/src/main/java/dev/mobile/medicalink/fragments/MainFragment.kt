@@ -21,6 +21,7 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
+import dev.mobile.medicalink.utils.NotificationService
 
 //MainFragement n'est pas un fragment mais une activité
 //Ici on va gérer les fragments
@@ -44,6 +45,8 @@ class MainFragment : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
+
+        NotificationService.sendNotification(this, "depuis Main Frag", "Ça rime PAS avec Tchoupi", 5000)
 
         //masquer la barre de titre
         supportActionBar?.hide()

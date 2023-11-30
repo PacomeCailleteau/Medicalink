@@ -65,17 +65,25 @@ class AddTraitementsFragment : Fragment() {
             // Utilise le chemin de l'image capturée (currentPhotoPath)
             Log.d("photoPath", currentPhotoPath.toString())
             if (currentPhotoPath != null) {
-                processImageAndExtractText(currentPhotoPath!!)
-                //On appelle le parent pour changer de fragment
-                val bundle = Bundle()
-                bundle.putString("uri", currentPhotoPath.toString())
-                bundle.putString("type", "photo")
-                val destinationFragment = PreviewFragment()
-                destinationFragment.arguments = bundle
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                val res = processImageAndExtractText(currentPhotoPath!!)
+                if (res == "false") {
+                    //Si on reçoit "false" en retour, c'est que le bitmap est null et donc que l'utilisateur a annulé la prise de photo
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                } else {
+                    //On appelle le parent pour changer de fragment
+                    val bundle = Bundle()
+                    bundle.putString("uri", currentPhotoPath.toString())
+                    bundle.putString("type", "photo")
+                    val destinationFragment = PreviewFragment()
+                    destinationFragment.arguments = bundle
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, destinationFragment)
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                }
             }
         }
 
@@ -96,7 +104,6 @@ class AddTraitementsFragment : Fragment() {
             }
         }
 
-        //TODO : regler bug fleche retour pendant qu'on prend une photo
         photoButton.setOnClickListener {
             val uri: Uri = createImageFile()
             currentPhotoPath = uri
@@ -156,7 +163,7 @@ class AddTraitementsFragment : Fragment() {
         return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
 
-    fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
+    private fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
         val textRecognizer: TextRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         val image = com.google.mlkit.vision.common.InputImage.fromBitmap(bitmap, 0)
@@ -184,23 +191,21 @@ class AddTraitementsFragment : Fragment() {
         return result.toString()
     }
 
-    //TODO("Gérer le BitMap null pour éviter de crash")
-    private fun processImageAndExtractText(uri: Uri) {
+    private fun processImageAndExtractText(uri: Uri) : String {
         // Convertir l'URI de l'image en Bitmap
         val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)
         val bitmap = BitmapFactory.decodeStream(inputStream)
-        Log.d("bitmap",bitmap.toString())
-        if (bitmap == null) {
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
-        }
-
-        // Appeler la fonction pour extraire le texte
-        extractTextFromImage(bitmap) { extractedText ->
-            // Traiter le texte extrait ici (peut-être l'afficher dans un TextView, etc.)
-            Log.d("Texte extrait", extractedText)
+        return if (bitmap == null) {
+            "false"
+        }else {
+            var textExtraitImage = ""
+            // Appeler la fonction pour extraire le texte
+            extractTextFromImage(bitmap) { extractedText ->
+                // Traiter le texte extrait ici (peut-être l'afficher dans un TextView, etc.)
+                Log.d("Texte extrait", extractedText)
+                textExtraitImage = extractedText
+            }
+            textExtraitImage
         }
     }
 
