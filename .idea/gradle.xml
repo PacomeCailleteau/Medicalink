@@ -10,8 +10,8 @@
         <option name="gradleJvm" value="JDK" />
         <option name="modules">
           <set>
-            <option value="/var/home/E211556C/reseau/Perso/Annee info 3/SAE1/sae_medicalink" />
-            <option value="/var/home/E211556C/reseau/Perso/Annee info 3/SAE1/sae_medicalink/app" />
+            <option value="/var/home/E212406B/reseau/Perso/Documents/IUT/troisieme annee/SAE MEDICALINK/sae_medicalink" />
+            <option value="/var/home/E212406B/reseau/Perso/Documents/IUT/troisieme annee/SAE MEDICALINK/sae_medicalink/app" />
           </set>
         </option>
       </GradleProjectSettings>
