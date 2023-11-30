@@ -161,7 +161,7 @@ class AddTraitementsFragment : Fragment() {
         return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
 
-    fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
+    private fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
         val textRecognizer: TextRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         val image = com.google.mlkit.vision.common.InputImage.fromBitmap(bitmap, 0)
