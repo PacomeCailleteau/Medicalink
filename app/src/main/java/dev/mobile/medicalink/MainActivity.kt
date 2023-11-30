@@ -11,15 +11,20 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.os.Build
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -31,6 +36,7 @@ import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedicAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
     private lateinit var boutonAjouterProfil : Button
+    private val BIOMETRIC_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,8 +106,7 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
-                val intent = Intent(this, MainFragment::class.java)
-                startActivity(intent)
+                authenticateWithBiometric()
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)
@@ -136,6 +142,95 @@ class MainActivity : AppCompatActivity() {
             }
         this.onBackPressedDispatcher.addCallback(this, callback)
     }
+
+    private fun authenticateWithBiometric() {
+        val biometricManager = BiometricManager.from(this)
+
+        when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> showBiometricPrompt()
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                // L'appareil ne prend pas en charge la biométrie
+                // Gérez le cas où la biométrie n'est pas disponible
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                // La biométrie n'est pas disponible pour le moment
+                // Gérez le cas où la biométrie n'est pas disponible
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                // Aucune empreinte n'a été enregistrée sur l'appareil
+                // Gérez le cas où aucune empreinte n'est enregistrée
+            }
+        }
+    }
+
+    private fun showBiometricPrompt() {
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Authentification biométrique")
+            .setSubtitle("Utilisez votre empreinte digitale pour vous authentifier")
+            .setNegativeButtonText("Annuler")
+            .setConfirmationRequired(false)
+            .build()
+
+        val biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    // Gérer les erreurs d'authentification ici
+                    if (errorCode == BiometricPrompt.ERROR_USER_CANCELED) {
+                        // L'utilisateur a annulé l'authentification, ajoutez votre logique ici
+                    }
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    // L'authentification a réussi, ouvrez votre intent ici
+                    val intent = Intent(this@MainActivity, MainFragment::class.java)
+                    startActivity(intent)
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    // L'authentification a échoué, demandez à l'utilisateur de réessayer
+                    showPasswordDialog()
+                }
+            })
+
+        // Afficher la boîte de dialogue de la biométrie
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    private fun showPasswordDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Utiliser le mot de passe")
+        builder.setMessage("Veuillez entrer votre mot de passe")
+
+        val input = EditText(this)
+        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        builder.setView(input)
+
+        builder.setPositiveButton("Valider") { _, _ ->
+            val password = input.text.toString()
+            // Vérifiez le mot de passe manuellement ici
+            if (isValidPassword(password)) {
+                // Le mot de passe est valide, effectuez votre action
+                val intent = Intent(this@MainActivity, MainFragment::class.java)
+                startActivity(intent)
+            } else {
+                // Le mot de passe n'est pas valide, gérer en conséquence
+                // Vous pouvez afficher un message d'erreur, etc.
+            }
+        }
+
+        builder.setNegativeButton("Annuler") { dialog, _ -> dialog.cancel() }
+
+        builder.show()
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        // Ajoutez votre logique de validation du mot de passe ici
+        return true // Modifiez en fonction de votre logique de validation
+    }
+
 
     private fun creerCanalNotification() {
         // Créez le canal de notification (pour les API > Oreo donc > 26)
