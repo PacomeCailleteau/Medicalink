@@ -76,7 +76,7 @@ class ListeTraitementsFragment : Fragment() {
             }
 
             var newTraitementPrises : String? = null
-
+            Log.d("test",newTraitement.prises.toString())
             if (newTraitement.prises!=null){
                 var chaineDeChar = ""
                 for (prise in newTraitement.prises!!){
