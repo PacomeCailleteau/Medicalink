@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.ListeTraitementAdapterR
 
 
 class HomeFragment : Fragment() {
@@ -20,6 +23,12 @@ class HomeFragment : Fragment() {
 
         //Get elements from view
         val paramBtn : ImageView = view.findViewById(R.id.btnParam)
+        /*
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = ListeTraitementAdapterR(traitementsTries)
+        */
+
 
         //Set click listener
         paramBtn.setOnClickListener {
