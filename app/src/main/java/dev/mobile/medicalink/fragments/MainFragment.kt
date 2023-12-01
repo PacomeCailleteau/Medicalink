@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -41,12 +40,11 @@ class MainFragment : AppCompatActivity() {
     private lateinit var textMessages: TextView
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
 
-        NotificationService.sendNotification(this, "depuis Main Frag", "Ça rime PAS avec Tchoupi", 5000)
+        //NotificationService.sendNotification(this, "depuis Main Frag", "Ça rime PAS avec Tchoupi", 5000)
 
         //masquer la barre de titre
         supportActionBar?.hide()
