@@ -156,7 +156,7 @@
                     android:background="@drawable/rounded_white_black_stroke_button_background"
                     android:fontFamily="@font/quicksand_semibold"
                     android:hint="Mot de passe"
-                    android:inputType="textPassword"
+                    android:inputType="numberPassword"
                     android:padding="15dp"
                     android:scrollHorizontally="false"
                     android:textSize="16sp"
