@@ -32,4 +32,5 @@ data class Medoc(
     @ColumnInfo(name = "effetsSecondaires") val effetsSecondaires : String?,
     @ColumnInfo(name = "prises") val prises : String?,
     @ColumnInfo(name = "totalQuantite") val totalQuantite : Int?,
+    @ColumnInfo(name = "dateDbtTraitement") val dateDbtTraitement : String?,
     )

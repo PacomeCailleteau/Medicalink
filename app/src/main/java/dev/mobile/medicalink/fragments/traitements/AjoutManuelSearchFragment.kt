@@ -48,8 +48,11 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         var traitement = arguments?.getSerializable("traitement") as Traitement
-
-        var schema_prise1 = arguments?.getString("schema_prise1")
+        var isAddingTraitement = arguments?.getString("isAddingTraitement")
+        var schema_prise1  = arguments?.getString("schema_prise1")
+        var provenance  = arguments?.getString("provenance")
+        var dureePriseDbt = arguments?.getString("dureePriseDbt")
+        var dureePriseFin = arguments?.getString("dureePriseFin")
 
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
@@ -102,8 +105,11 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),traitement.dosageNb,"Jour",null,"Comprimé",25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,traitement.expire,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
             val destinationFragment = AjoutManuelTypeMedic()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()

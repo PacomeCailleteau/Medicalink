@@ -10,9 +10,10 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.entity.User
 
 
-class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
+class ListeTraitementAdapterR(private val list: MutableList<Traitement>,private val onItemClick: (Traitement) -> Unit) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -80,13 +81,10 @@ class ListeTraitementAdapterR(private val list: MutableList<Traitement>) :
         }
          */
 
-        //TODO("faire ça plus proprement")
-        holder.view.setOnLongClickListener {
-            item.enMajuscule()
-            notifyDataSetChanged()
+        holder.view.setOnClickListener {
 
-            val context = holder.itemView.context
-            true
+            onItemClick.invoke(item)
+
         }
     }
 

@@ -27,5 +27,7 @@ interface MedocDao {
     @Update
     fun update(Medoc: Medoc)
 
+    @Query("SELECT Medoc.prises FROM Medoc WHERE uuidUser IN (:uuidUser)")
+    fun getAllPrisesForAllMedocsOfOneUser(uuidUser : String): List<String>
 
 }

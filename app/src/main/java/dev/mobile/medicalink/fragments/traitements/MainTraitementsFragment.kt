@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -35,6 +36,7 @@ class MainTraitementsFragment : Fragment() {
         //Si on clique sur le bouton "Ajouter un traitement" alors on change le fragment actuel (MainTraitementsFragment) par le fragment AddTraitementsFragment
         addTraitementButton.setOnClickListener {
             //On appelle le parent pour changer de fragment
+
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, AddTraitementsFragment())
             fragTransaction.addToBackStack(null)
@@ -58,6 +60,16 @@ class MainTraitementsFragment : Fragment() {
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    // Ne rien faire ici pour désactiver le bouton de retour arrière
+                }
+            }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
 
 
         return view

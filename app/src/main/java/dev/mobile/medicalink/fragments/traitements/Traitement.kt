@@ -17,7 +17,11 @@ class Traitement (
     var expire : Boolean = true,
     var effetsSecondaires : MutableList<String>?,
     var prises : MutableList<Prise>? = null,
-    var totalQuantite : Int?
+    var totalQuantite : Int?,
+    var UUID : String?,
+    var UUIDUSER : String?,
+    var dateDbtTraitement : LocalDate?
+
 ) : Serializable{
 
     fun enMajuscule() {

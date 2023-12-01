@@ -71,4 +71,8 @@ class MedocRepository(private val medocDao: MedocDao) {
             Pair(false, "Unknown Error : ${e.message}")
         }
     }
+
+    fun getAllPrisesForAllMedocsOfOneUser(uuidUser: String): List<String> {
+        return medocDao.getAllPrisesForAllMedocsOfOneUser(uuidUser)
+    }
 }

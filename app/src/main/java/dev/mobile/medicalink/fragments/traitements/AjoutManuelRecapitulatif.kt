@@ -53,10 +53,12 @@ class AjoutManuelRecapitulatif : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var schema_prise1  = arguments?.getString("schema_prise1")
-        var provenance  = arguments?.getString("provenance")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val isAddingTraitement  = arguments?.getString("isAddingTraitement")
+        val schema_prise1  = arguments?.getString("schema_prise1")
+        val provenance  = arguments?.getString("provenance")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
+
 
 
         nomMedoc = view.findViewById(R.id.nomMedoc)
@@ -97,25 +99,29 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         sousNomPeriodicite.text=schemaPriseFormatee
 
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_recap)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        var liste : MutableList<Prise>
-        liste= mutableListOf()
-        if (traitement.prises!=null){
-            liste= traitement.prises!!
+        if (schemaPriseFormatee!="Au besoin"){
+            val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_recap)
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            var liste : MutableList<Prise>
+            liste= mutableListOf()
+            if (traitement.prises!=null){
+                liste= traitement.prises!!
+            }
+            Log.d("test",liste.toString())
+            recyclerView.adapter = RecapAdapterR(liste)
+            // Gestion de l'espacement entre les éléments du RecyclerView
+            val espacementEnDp = 5
+            recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+        }else{
+            priseLayout.visibility=View.GONE
         }
-        Log.d("test",liste.toString())
-        recyclerView.adapter = RecapAdapterR(liste)
-        // Gestion de l'espacement entre les éléments du RecyclerView
-        val espacementEnDp = 5
-        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+
 
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
-            bundle.putString("isAddingTraitement", "true")
+            bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -133,7 +139,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -149,7 +156,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         nomLayout.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -166,7 +174,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         caracteristiqueLayout.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -183,7 +192,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         periodiciteLayout.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -200,7 +210,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         priseLayout.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -217,7 +228,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         reapprovisionnementLayout.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")

@@ -11,26 +11,35 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.os.Build
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
+import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.utils.NotificationService
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedicAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
     private lateinit var boutonAjouterProfil : Button
+    private val BIOMETRIC_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,8 +109,8 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
-                val intent = Intent(this, MainFragment::class.java)
-                startActivity(intent)
+                showPasswordDialog()
+                authenticateWithBiometric()
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)
@@ -136,6 +146,126 @@ class MainActivity : AppCompatActivity() {
             }
         this.onBackPressedDispatcher.addCallback(this, callback)
     }
+
+    private fun authenticateWithBiometric() {
+        val biometricManager = BiometricManager.from(this)
+
+        when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> showBiometricPrompt()
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                // L'appareil ne prend pas en charge la biométrie
+                // Gérez le cas où la biométrie n'est pas disponible
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                // La biométrie n'est pas disponible pour le moment
+                // Gérez le cas où la biométrie n'est pas disponible
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                // Aucune empreinte n'a été enregistrée sur l'appareil
+                // Gérez le cas où aucune empreinte n'est enregistrée
+            }
+        }
+    }
+
+    private fun showBiometricPrompt() {
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Authentification biométrique")
+            .setSubtitle("Utilisez votre empreinte digitale pour vous authentifier")
+            .setNegativeButtonText("Utiliser le mot de passe")
+            .setConfirmationRequired(false)
+            .build()
+
+        val biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    // Gérer les erreurs d'authentification ici
+                    if (errorCode == BiometricPrompt.ERROR_USER_CANCELED) {
+                        // L'utilisateur a annulé l'authentification, ajoutez votre logique ici
+                    }
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    // L'authentification a réussi, ouvrez votre intent ici
+                    val intent = Intent(this@MainActivity, MainFragment::class.java)
+                    startActivity(intent)
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    // L'authentification a échoué, demandez à l'utilisateur de réessayer
+                }
+            })
+
+        // Afficher la boîte de dialogue de la biométrie
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    private fun showPasswordDialog() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_password, null)
+        dialogBuilder.setView(dialogView)
+
+        val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
+        val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+
+        val alertDialog = dialogBuilder.create()
+
+        editTextPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ne rien faire avant la modification du texte
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ne rien faire lorsqu'il y a un changement dans le texte
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val isValidLength = s?.length == 6
+                buttonValidate.isEnabled = isValidLength
+                if (isValidLength) {
+                    buttonValidate.alpha = 1F
+                }else{
+                    buttonValidate.alpha = 0.3F
+                }
+                if (s?.length ?: 0 > 6) {
+                    // Si la longueur est supérieure à 6, tronquer le texte
+                    editTextPassword.setText(s?.subSequence(0, 6))
+                    editTextPassword.setSelection(6)
+                }
+            }
+        })
+
+        buttonValidate.setOnClickListener {
+            // Gérer la validation du mot de passe ici
+            val password = editTextPassword.text.toString()
+            if (isValidPassword(password)) {
+                // Le mot de passe est valide, effectuez votre action
+                val intent = Intent(this@MainActivity, MainFragment::class.java)
+                startActivity(intent)
+                alertDialog.dismiss()
+            } else {
+                // Le mot de passe n'est pas valide, gérer en conséquence
+                // Vous pouvez afficher un message d'erreur, etc.
+            }
+        }
+
+        buttonCancel.setOnClickListener {
+            // L'utilisateur a annulé, ajoutez votre logique ici
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        // Ajoutez votre logique de validation du mot de passe ici
+        return true // Modifiez en fonction de votre logique de validation
+    }
+
 
     private fun creerCanalNotification() {
         // Créez le canal de notification (pour les API > Oreo donc > 26)
