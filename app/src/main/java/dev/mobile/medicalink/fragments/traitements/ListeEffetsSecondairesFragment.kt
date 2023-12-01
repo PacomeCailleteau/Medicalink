@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.os.Build
+import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.LinkedBlockingQueue
 
 class ListeEffetsSecondairesFragment : Fragment() {
@@ -63,11 +65,37 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     }
                 }
 
+                var newTraitementFinDeTraitement : LocalDate? = null
+
+                if (medoc.dateFinTraitement!="null") {
+                    Log.d("test",medoc.dateFinTraitement.toString())
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = medoc.dateFinTraitement
+
+                    //convert String to LocalDate
+
+                    //convert String to LocalDate
+                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
+                }
+
+                var newTraitementDbtDeTraitement : LocalDate? = null
+
+                if (medoc.dateDbtTraitement!="null") {
+                    Log.d("test",medoc.dateDbtTraitement.toString())
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = medoc.dateDbtTraitement
+
+                    //convert String to LocalDate
+
+                    //convert String to LocalDate
+                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
+                }
+
                 val traitement = Traitement(
                     medoc.nom,
                     medoc.dosageNB?.toInt(),
                     medoc.dosageUnite,
-                    LocalDate.of(2023,12,12),
+                    newTraitementFinDeTraitement,
                     medoc.typeComprime,
                     medoc.comprimesRestants,
                     medoc.expire,
@@ -75,7 +103,8 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     listePrise,
                     medoc.totalQuantite,
                     medoc.uuid,
-                    medoc.uuidUser
+                    medoc.uuidUser,
+                    newTraitementDbtDeTraitement
                 )
 
                 listeTraitement.add(traitement)

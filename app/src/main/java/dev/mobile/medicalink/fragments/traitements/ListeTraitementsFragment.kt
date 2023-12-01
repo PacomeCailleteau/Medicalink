@@ -99,7 +99,8 @@ class ListeTraitementsFragment : Fragment() {
                 newTraitement.expire,
                 newTraitementEffetsSec,
                 newTraitementPrises,
-                newTraitement.totalQuantite
+                newTraitement.totalQuantite,
+                newTraitement.dateDbtTraitement.toString()
             )
 
             val queue2 = LinkedBlockingQueue<Boolean>()
@@ -159,6 +160,19 @@ class ListeTraitementsFragment : Fragment() {
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
+                var newTraitementDbtDeTraitement : LocalDate? = null
+
+                if (medoc.dateDbtTraitement!="null") {
+                    Log.d("test",medoc.dateDbtTraitement.toString())
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = medoc.dateDbtTraitement
+
+                    //convert String to LocalDate
+
+                    //convert String to LocalDate
+                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
+                }
+
                 val traitement = Traitement(
                     medoc.nom,
                     medoc.dosageNB?.toInt(),
@@ -171,7 +185,8 @@ class ListeTraitementsFragment : Fragment() {
                     listePrise,
                     medoc.totalQuantite,
                     medoc.uuid,
-                    medoc.uuidUser
+                    medoc.uuidUser,
+                    newTraitementDbtDeTraitement
                 )
 
                 listeTraitement.add(traitement)
@@ -196,7 +211,7 @@ class ListeTraitementsFragment : Fragment() {
             bundle.putString("uuidUpdateTraitement", "$")
 
 
-            bundle.putSerializable("traitement", Traitement(clickedTraitement.nomTraitement, clickedTraitement.dosageNb,clickedTraitement.dosageUnite,clickedTraitement.dateFinTraitement,clickedTraitement.typeComprime,clickedTraitement.comprimesRestants,clickedTraitement.expire,clickedTraitement.effetsSecondaires,clickedTraitement.prises,clickedTraitement.totalQuantite,clickedTraitement.UUID,clickedTraitement.UUIDUSER))
+            bundle.putSerializable("traitement", Traitement(clickedTraitement.nomTraitement, clickedTraitement.dosageNb,clickedTraitement.dosageUnite,clickedTraitement.dateFinTraitement,clickedTraitement.typeComprime,clickedTraitement.comprimesRestants,clickedTraitement.expire,clickedTraitement.effetsSecondaires,clickedTraitement.prises,clickedTraitement.totalQuantite,clickedTraitement.UUID,clickedTraitement.UUIDUSER,clickedTraitement.dateDbtTraitement))
 
             val schema_prise1 : String
             val provenance : String

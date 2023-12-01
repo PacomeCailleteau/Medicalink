@@ -83,6 +83,19 @@ class HomeFragment : Fragment() {
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
+                var newTraitementDbtDeTraitement : LocalDate? = null
+
+                if (medoc.dateDbtTraitement!="null") {
+                    Log.d("test",medoc.dateDbtTraitement.toString())
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = medoc.dateDbtTraitement
+
+                    //convert String to LocalDate
+
+                    //convert String to LocalDate
+                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
+                }
+
                 val traitement = Traitement(
                     medoc.nom,
                     medoc.dosageNB?.toInt(),
@@ -95,7 +108,8 @@ class HomeFragment : Fragment() {
                     listePrise,
                     medoc.totalQuantite,
                     medoc.uuid,
-                    medoc.uuidUser
+                    medoc.uuidUser,
+                    newTraitementDbtDeTraitement
                 )
                 if (traitement.prises?.size!=0 && traitement.prises!=null){
                     for (prise in traitement.prises!!){

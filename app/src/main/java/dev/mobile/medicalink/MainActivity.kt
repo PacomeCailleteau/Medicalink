@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
 
             val res = userDatabaseInterface.getUsersConnected()
+            Log.d("test",res.toString())
             queue.add(res.first().prenom)
 
         }.start()
@@ -107,7 +108,9 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
-                authenticateWithBiometric()
+                //authenticateWithBiometric()
+                val intent = Intent(this, MainFragment::class.java)
+                startActivity(intent)
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)

@@ -85,7 +85,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
@@ -108,7 +108,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER))
+            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
@@ -163,7 +163,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER))
+                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("provenance", "$provenance")
