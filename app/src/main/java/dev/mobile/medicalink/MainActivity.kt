@@ -31,6 +31,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
+import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.utils.NotificationService
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedicAdapterR
