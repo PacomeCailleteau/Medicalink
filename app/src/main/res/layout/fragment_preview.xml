@@ -15,14 +15,13 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/image_preview"
         app:layout_constraintEnd_toEndOf="@+id/image_preview"
-        app:layout_constraintTop_toTopOf="@+id/textView"
         app:srcCompat="@drawable/annuler" />
 
     <ImageView
         android:id="@+id/image_preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@id/button_choose_from_gallery"
+        android:layout_below="@id/linearLayout"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"

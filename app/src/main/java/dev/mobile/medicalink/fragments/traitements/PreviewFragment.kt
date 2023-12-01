@@ -1,11 +1,14 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.net.Uri
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import android.widget.Button
 import android.widget.ImageView
@@ -13,8 +16,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
 import java.io.File
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -53,20 +62,23 @@ class PreviewFragment : Fragment() {
 
         val data = arguments?.getString("uri")
 
-        val uri : Uri = data!!.toUri()
+        val uri: Uri = data!!.toUri()
         displayImage(uri)
 
+        //Appel de la fonction pour extraire le texte
+        processImageAndExtractText(uri)
 
         when (arguments?.getString("type")) {
             "photo" -> {
                 buttonChooseFromGallery.visibility = Button.GONE
-                takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-                    if (currentPhotoPath != null) {
-                        displayImage(currentPhotoPath!!)
-                    }else{
-                        validateButton.visibility = Button.GONE
+                takePictureLauncher =
+                    registerForActivityResult(ActivityResultContracts.TakePicture()) {
+                        if (currentPhotoPath != null) {
+                            displayImage(currentPhotoPath!!)
+                        } else {
+                            validateButton.visibility = Button.GONE
+                        }
                     }
-                }
 
                 buttonTakePicture.setOnClickListener {
                     val uriImageAppareilPhoto: Uri = createImageFile()
@@ -74,15 +86,17 @@ class PreviewFragment : Fragment() {
                     takePictureLauncher.launch(uriImageAppareilPhoto)
                 }
             }
+
             "charger" -> {
                 buttonTakePicture.visibility = Button.GONE
-                chooseFromGalleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uriImageDepuisGalerie ->
-                    if (uriImageDepuisGalerie != null) {
-                        displayImage(uriImageDepuisGalerie)
-                    }else{
-                        validateButton.visibility = Button.GONE
+                chooseFromGalleryLauncher =
+                    registerForActivityResult(ActivityResultContracts.GetContent()) { uriImageDepuisGalerie ->
+                        if (uriImageDepuisGalerie != null) {
+                            displayImage(uriImageDepuisGalerie)
+                        } else {
+                            validateButton.visibility = Button.GONE
+                        }
                     }
-                }
 
                 buttonChooseFromGallery.setOnClickListener {
                     chooseFromGalleryLauncher.launch("image/*")
@@ -90,12 +104,9 @@ class PreviewFragment : Fragment() {
             }
         }
 
-        validateButton.setOnClickListener {
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
-        }
+        //=================================================================================================================================//
+        //               On met le listener sur le bouton valider dans la fonction processImageAndExtractText                              //
+        //=================================================================================================================================//
 
         //Retour à la page précédente (AddTraitementsFragment)
         retour.setOnClickListener {
@@ -120,7 +131,8 @@ class PreviewFragment : Fragment() {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
 
-        val context = view?.context ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
+        val context = view?.context
+            ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
 
         val cacheDir = context.cacheDir
 
@@ -134,4 +146,67 @@ class PreviewFragment : Fragment() {
 
         return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
+
+
+    //=========================================================================================//
+
+    private fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
+        val textRecognizer: TextRecognizer =
+            TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+
+        val image = InputImage.fromBitmap(bitmap, 0)
+
+        textRecognizer.process(image)
+            .addOnSuccessListener { texts ->
+                val extractedText = processTextRecognitionResult(texts)
+                onTextExtracted(extractedText)
+            }
+            .addOnFailureListener { e ->
+                // Gérer les erreurs ici
+            }
+    }
+
+    private fun processTextRecognitionResult(texts: Text): String {
+        val result = StringBuilder()
+        for (block in texts.textBlocks) {
+            for (line in block.lines) {
+                for (element in line.elements) {
+                    result.append(element.text).append(" ")
+                }
+                result.append("\n")
+            }
+        }
+        return result.toString()
+    }
+
+    private fun processImageAndExtractText(uri: Uri): Boolean {
+        // Convertir l'URI de l'image en Bitmap
+        val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        return if (bitmap == null) {
+            false
+        } else {
+            extractTextFromImage(bitmap) {
+                val text = it
+                // TODO: Il faut créer le traitement et le faire valider par l'utilisateur, on le ramène donc au fragment AjoutManuelRecapitulatifFragment
+                validateButton.setOnClickListener {
+                    createTraitement(text)
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                }
+            }
+            true
+        }
+    }
+
+    // Fonction qui va lire le texte récupéré depuis l'image et en faire un traitement après avoir trié les données
+    private fun createTraitement(text: String) {
+        Log.d("TexteExtrait", text)
+    }
+
+
 }
+
+

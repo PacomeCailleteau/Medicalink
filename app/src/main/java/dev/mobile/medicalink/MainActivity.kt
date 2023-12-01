@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         //On ne le fait qu'une seule fois dans toute l'application
         creerCanalNotification()
 
-        NotificationService.sendNotification(this, "Youpi", "Ça rime avec Tchoupi", 5000)
+        //NotificationService.sendNotification(this, "Youpi", "Ça rime avec Tchoupi", 5000)
 
         //masquer la barre de titre
         supportActionBar?.hide()

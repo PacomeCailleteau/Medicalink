@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -12,18 +13,11 @@ import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.mlkit.vision.text.Text
-import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.TextRecognizer
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
 import java.io.File
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -59,39 +53,36 @@ class AddTraitementsFragment : Fragment() {
         manualImportButton = view.findViewById(R.id.cardaddmanually)
 
         manualImportButton = view.findViewById(R.id.cardaddmanually)
-        annuler = view.findViewById<ImageView>(R.id.annulerAddTraitement)
+        annuler = view.findViewById(R.id.annulerAddTraitement)
 
-        photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { _ -> //was succcess
             // Utilise le chemin de l'image capturée (currentPhotoPath)
             Log.d("photoPath", currentPhotoPath.toString())
-            if (currentPhotoPath != null) {
-                val res = processImageAndExtractText(currentPhotoPath!!)
-                if (res == "false") {
-                    //Si on reçoit "false" en retour, c'est que le bitmap est null et donc que l'utilisateur a annulé la prise de photo
-                    val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-                    fragTransaction.addToBackStack(null)
-                    fragTransaction.commit()
-                } else {
-                    //On appelle le parent pour changer de fragment
-                    val bundle = Bundle()
-                    bundle.putString("uri", currentPhotoPath.toString())
-                    bundle.putString("type", "photo")
-                    val destinationFragment = PreviewFragment()
-                    destinationFragment.arguments = bundle
-                    val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, destinationFragment)
-                    fragTransaction.addToBackStack(null)
-                    fragTransaction.commit()
+            // Le chemin n'étant jamais null, on utilise la fonction testRealImage qui nous renvoie un boolean (vrai si la photo n'est pas null)
+            val trueImage = testRealImage(currentPhotoPath!!)
+            if (trueImage) {
+                //On appelle le parent pour changer de fragment
+                val bundle = Bundle()
+                bundle.putString("uri", currentPhotoPath.toString())
+                bundle.putString("type", "photo")
+                val destinationFragment = PreviewFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
                 }
+            else {
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }
         }
 
 
-
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                processImageAndExtractText(uri)
                 val bundle = Bundle()
                 bundle.putString("uri", uri.toString())
                 bundle.putString("type", "charger")
@@ -99,6 +90,12 @@ class AddTraitementsFragment : Fragment() {
                 destinationFragment.arguments = bundle
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+                }
+            else{
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
                 fragTransaction.addToBackStack(null)
                 fragTransaction.commit()
             }
@@ -142,7 +139,7 @@ class AddTraitementsFragment : Fragment() {
 
 
     private fun createImageFile(): Uri {
-        val provider: String = "${view?.context?.applicationContext?.packageName}.fileprovider"
+        val provider = "${view?.context?.applicationContext?.packageName}.fileprovider"
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
 
@@ -161,50 +158,9 @@ class AddTraitementsFragment : Fragment() {
         return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
 
-    private fun extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit) {
-        val textRecognizer: TextRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-
-        val image = com.google.mlkit.vision.common.InputImage.fromBitmap(bitmap, 0)
-
-        textRecognizer.process(image)
-            .addOnSuccessListener { texts ->
-                val extractedText = processTextRecognitionResult(texts)
-                onTextExtracted(extractedText)
-            }
-            .addOnFailureListener { e ->
-                // Gérer les erreurs ici
-            }
-    }
-
-    private fun processTextRecognitionResult(texts: Text): String {
-        val result = StringBuilder()
-        for (block in texts.textBlocks) {
-            for (line in block.lines) {
-                for (element in line.elements) {
-                    result.append(element.text).append(" ")
-                }
-                result.append("\n")
-            }
-        }
-        return result.toString()
-    }
-
-    private fun processImageAndExtractText(uri: Uri) : String {
-        // Convertir l'URI de l'image en Bitmap
-        val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        return if (bitmap == null) {
-            "false"
-        }else {
-            var textExtraitImage = ""
-            // Appeler la fonction pour extraire le texte
-            extractTextFromImage(bitmap) { extractedText ->
-                // Traiter le texte extrait ici (peut-être l'afficher dans un TextView, etc.)
-                Log.d("Texte extrait", extractedText)
-                textExtraitImage = extractedText
-            }
-            textExtraitImage
-        }
+    private fun testRealImage(uri: Uri): Boolean {
+        val bit = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(uri))
+        return bit != null
     }
 
 }

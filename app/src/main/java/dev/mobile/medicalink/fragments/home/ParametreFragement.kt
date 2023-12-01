@@ -32,7 +32,7 @@ class ParametreFragement : Fragment() {
                 //ça va faire boum badaboum
                 db.tsarBomba()
                 Log.d("TSAR BOMBA", "BOUM BADABOUM")
-            }.start()
+            }//.start()
         }
 
         return view
