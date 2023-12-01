@@ -183,6 +183,25 @@ class CreerProfilActivity : AppCompatActivity() {
         inputEmail.addTextChangedListener(textWatcher)
         inputMotDePasse.addTextChangedListener(textWatcher)
 
+        inputMotDePasse.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ne rien faire avant la modification du texte
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ne rien faire lorsqu'il y a un changement dans le texte
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val isValidLength = s?.length == 6
+                if (s?.length ?: 0 > 6) {
+                    // Si la longueur est supérieure à 6, tronquer le texte
+                    inputMotDePasse.setText(s?.subSequence(0, 6))
+                    inputMotDePasse.setSelection(6)
+                }
+            }
+        })
+
         buttonCreerProfil.setOnClickListener {
             val db = AppDatabase.getInstance(this)
             val userDatabaseInterface = UserRepository(db.userDao())
@@ -253,6 +272,7 @@ class CreerProfilActivity : AppCompatActivity() {
         val isRadioButtonSelected = radioButtonUtilisateur.isChecked || radioButtonProfessionnel.isChecked
 
         val isEmailValid = validateEmail(inputEmail.text.toString())
+        val isPasswordValid = isValidPassword(inputMotDePasse.text.toString())
 
         val allFieldsFilled = inputNom.text!!.isNotBlank() &&
                 inputPrenom.text!!.isNotBlank() &&
@@ -260,7 +280,7 @@ class CreerProfilActivity : AppCompatActivity() {
                 inputEmail.text!!.isNotBlank() &&
                 inputMotDePasse.text!!.isNotBlank()
 
-        if (isCheckboxChecked && isRadioButtonSelected && allFieldsFilled && isEmailValid) {
+        if (isCheckboxChecked && isRadioButtonSelected && allFieldsFilled && isEmailValid && isPasswordValid) {
             buttonCreerProfil.isEnabled = true
             buttonCreerProfil.alpha = 1.0f
         } else {
@@ -268,6 +288,12 @@ class CreerProfilActivity : AppCompatActivity() {
             buttonCreerProfil.alpha = 0.3.toFloat()
         }
     }
+
+    private fun isValidPassword(password: String): Boolean {
+        // Ajoutez votre logique de validation du mot de passe ici
+        return password.length == 6
+    }
+
     fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
         val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail, inputMotDePasse) // Ajoute tous tes champs ici

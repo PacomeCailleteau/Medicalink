@@ -11,7 +11,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.os.Build
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -89,7 +91,6 @@ class MainActivity : AppCompatActivity() {
 
 
             val res = userDatabaseInterface.getUsersConnected()
-            Log.d("test",res.toString())
             queue.add(res.first().prenom)
 
         }.start()
@@ -108,9 +109,8 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
-                //authenticateWithBiometric()
-                val intent = Intent(this, MainFragment::class.java)
-                startActivity(intent)
+                showPasswordDialog()
+                authenticateWithBiometric()
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)
@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Authentification biométrique")
             .setSubtitle("Utilisez votre empreinte digitale pour vous authentifier")
-            .setNegativeButtonText("Annuler")
+            .setNegativeButtonText("Utiliser le mot de passe")
             .setConfirmationRequired(false)
             .build()
 
@@ -195,7 +195,6 @@ class MainActivity : AppCompatActivity() {
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
                     // L'authentification a échoué, demandez à l'utilisateur de réessayer
-                    showPasswordDialog()
                 }
             })
 
@@ -204,30 +203,62 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPasswordDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Utiliser le mot de passe")
-        builder.setMessage("Veuillez entrer votre mot de passe")
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_password, null)
+        dialogBuilder.setView(dialogView)
 
-        val input = EditText(this)
-        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        builder.setView(input)
+        val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
+        val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
 
-        builder.setPositiveButton("Valider") { _, _ ->
-            val password = input.text.toString()
-            // Vérifiez le mot de passe manuellement ici
+        val alertDialog = dialogBuilder.create()
+
+        editTextPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ne rien faire avant la modification du texte
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ne rien faire lorsqu'il y a un changement dans le texte
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val isValidLength = s?.length == 6
+                buttonValidate.isEnabled = isValidLength
+                if (isValidLength) {
+                    buttonValidate.alpha = 1F
+                }else{
+                    buttonValidate.alpha = 0.3F
+                }
+                if (s?.length ?: 0 > 6) {
+                    // Si la longueur est supérieure à 6, tronquer le texte
+                    editTextPassword.setText(s?.subSequence(0, 6))
+                    editTextPassword.setSelection(6)
+                }
+            }
+        })
+
+        buttonValidate.setOnClickListener {
+            // Gérer la validation du mot de passe ici
+            val password = editTextPassword.text.toString()
             if (isValidPassword(password)) {
                 // Le mot de passe est valide, effectuez votre action
                 val intent = Intent(this@MainActivity, MainFragment::class.java)
                 startActivity(intent)
+                alertDialog.dismiss()
             } else {
                 // Le mot de passe n'est pas valide, gérer en conséquence
                 // Vous pouvez afficher un message d'erreur, etc.
             }
         }
 
-        builder.setNegativeButton("Annuler") { dialog, _ -> dialog.cancel() }
+        buttonCancel.setOnClickListener {
+            // L'utilisateur a annulé, ajoutez votre logique ici
+            alertDialog.dismiss()
+        }
 
-        builder.show()
+        alertDialog.show()
     }
 
     private fun isValidPassword(password: String): Boolean {
