@@ -250,6 +250,7 @@ class MainActivity : AppCompatActivity() {
                 alertDialog.dismiss()
             } else {
                 textMotDePasseIncorrect.visibility = View.VISIBLE
+                editTextPassword.text = null
                 // Le mot de passe n'est pas valide, gérer en conséquence
                 // Vous pouvez afficher un message d'erreur, etc.
             }
@@ -265,7 +266,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun isValidPassword(password: String): Boolean {
         // Ajoutez votre logique de validation du mot de passe ici
-        return false // Modifiez en fonction de votre logique de validation
+        if (password == "111111") {
+            return true
+        }else{
+            return false
+        }
+         // Modifiez en fonction de votre logique de validation
     }
 
 
