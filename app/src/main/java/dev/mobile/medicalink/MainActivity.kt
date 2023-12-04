@@ -211,6 +211,7 @@ class MainActivity : AppCompatActivity() {
         val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
         val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
         val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+        val textMotDePasseIncorrect = dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
 
         val alertDialog = dialogBuilder.create()
 
@@ -248,6 +249,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 alertDialog.dismiss()
             } else {
+                textMotDePasseIncorrect.visibility = View.VISIBLE
                 // Le mot de passe n'est pas valide, gérer en conséquence
                 // Vous pouvez afficher un message d'erreur, etc.
             }
@@ -263,7 +265,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun isValidPassword(password: String): Boolean {
         // Ajoutez votre logique de validation du mot de passe ici
-        return true // Modifiez en fonction de votre logique de validation
+        return false // Modifiez en fonction de votre logique de validation
     }
 
 
