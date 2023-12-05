@@ -20,7 +20,7 @@ import dev.mobile.medicalink.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Date
+import java.util.*
 
 
 class AddTraitementsFragment : Fragment() {

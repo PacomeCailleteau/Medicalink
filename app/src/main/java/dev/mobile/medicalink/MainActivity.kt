@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity() {
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
         val queue = LinkedBlockingQueue<Boolean>()
-        Thread{
+        Thread {
             queue.add(userDatabaseInterface.isValidPassword(password).first)
         }.start()
         return queue.take()

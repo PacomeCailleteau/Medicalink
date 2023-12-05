@@ -15,7 +15,7 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 
 
-class HomeAdapterR(private val list: MutableList<Pair<Prise,Traitement>>) :
+class HomeAdapterR(private val list: MutableList<Pair<Prise, Traitement>>) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -41,7 +41,7 @@ class HomeAdapterR(private val list: MutableList<Pair<Prise,Traitement>>) :
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 
-        Log.d("test",item.second.nomTraitement)
+        Log.d("test", item.second.nomTraitement)
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
 

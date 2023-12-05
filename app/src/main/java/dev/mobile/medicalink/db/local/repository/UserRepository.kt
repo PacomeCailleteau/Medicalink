@@ -6,7 +6,7 @@ import android.os.Build
 import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.User
 import java.security.MessageDigest
-import java.util.Base64
+import java.util.*
 
 
 class UserRepository(private val userDao: UserDao) {
@@ -112,7 +112,7 @@ class UserRepository(private val userDao: UserDao) {
 
     fun isValidPassword(pass: String): Pair<Boolean, String> {
         return try {
-            val res = getUsersConnected().first().password==hashPassword(pass)
+            val res = getUsersConnected().first().password == hashPassword(pass)
             Pair(res, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "User already exists")
