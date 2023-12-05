@@ -52,7 +52,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
 
-        inputIntervalle.setText("Toutes les 2 semaines")
+        inputIntervalle.setText("Toutes les 2 Semaines")
         inputIntervalle.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         inputIntervalle.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
@@ -190,7 +190,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             traitement.dosageNb = firstNumberPicker.value
             traitement.dosageUnite = when (secondNumberPicker.value) {
                 0 -> "Jours"
-                1 -> "Semaine(s)"
+                1 -> "Semaines"
                 2 -> "Mois"
                 else -> "Jour"
             }

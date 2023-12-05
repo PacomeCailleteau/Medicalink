@@ -26,7 +26,7 @@ data class Medoc(
     @ColumnInfo(name = "dateFinTraitement") val dateFinTraitement: String?,
     @ColumnInfo(name = "typeComprime") val typeComprime: String,
     @ColumnInfo(name = "comprimesRestants") val comprimesRestants: Int?,
-    @ColumnInfo(name = "expire") val expire: Boolean,
+    @ColumnInfo(name = "expire") var expire: Boolean,
     @ColumnInfo(name = "effetsSecondaires") val effetsSecondaires: String?,
     @ColumnInfo(name = "prises") val prises: String?,
     @ColumnInfo(name = "totalQuantite") val totalQuantite: Int?,

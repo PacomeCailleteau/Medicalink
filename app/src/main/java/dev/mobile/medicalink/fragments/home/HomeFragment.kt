@@ -23,6 +23,7 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -51,6 +52,7 @@ class HomeFragment : Fragment() {
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected(true).first().uuid
             )
+
 
             for (medoc in listeMedoc) {
 
@@ -100,6 +102,12 @@ class HomeFragment : Fragment() {
                     //convert String to LocalDate
                     newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
                 }
+                if ((!medoc.expire) && (newTraitementFinDeTraitement!=null)){
+                    if (LocalDate.now()>newTraitementFinDeTraitement){
+                        medoc.expire=true
+                        medocDatabaseInterface.updateMedoc(medoc)
+                    }
+                }
 
                 val traitement = Traitement(
                     medoc.nom,
@@ -132,8 +140,11 @@ class HomeFragment : Fragment() {
         Log.d("test", listeTraitementPrise.toString())
         var listePriseAffiche : MutableList<Pair<Prise,Traitement>> = mutableListOf()
         var doIaddIt : Boolean = false
+        var dateActuelle = LocalDate.now().plusDays(16)
+        Log.d("Date Actuelle Système","${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}")
         for (element in listeTraitementPrise){
             if ((!element.second.expire)){
+                Log.d("unite",element.second.dosageUnite)
                 when (element.second.dosageUnite) {
                     "auBesoin" -> {
                         doIaddIt=false
@@ -142,26 +153,33 @@ class HomeFragment : Fragment() {
                         doIaddIt=true
                     }
                     else -> {
-                        val jourEntreDeuxDates = Duration.between(element.second.dateDbtTraitement,LocalDate.now()).toDays().toInt()
-                        var tousLesXJours = 0
+                        val jourEntreDeuxDates = ChronoUnit.DAYS.between(element.second.dateDbtTraitement,dateActuelle)
+                        var tousLesXJours : Long = 0L
                         when (element.second.dosageUnite){
                             "Jours" -> {
-                                tousLesXJours=element.second.dosageNb
-                                if (jourEntreDeuxDates%tousLesXJours == 0){
-                                    doIaddIt=true
-                                }
+                                tousLesXJours=element.second.dosageNb.toLong()
+                                doIaddIt = jourEntreDeuxDates%tousLesXJours == 0L
+
                             }
                             "Semaines" -> {
-                                tousLesXJours=element.second.dosageNb*7
-                                if (jourEntreDeuxDates%tousLesXJours == 0){
-                                    doIaddIt=true
-                                }
+                                tousLesXJours=element.second.dosageNb.toLong()*7L
+                                Log.d("s",tousLesXJours.toString())
+                                Log.d("s1",jourEntreDeuxDates.toString())
+                                Log.d("s2",(jourEntreDeuxDates%tousLesXJours).toString())
+                                doIaddIt = jourEntreDeuxDates%tousLesXJours == 0L
+                                Log.d("doIaddIt",doIaddIt.toString())
                             }
                             "Mois" -> {
-                                var moisEntreDeuxDates = Period.between(element.second.dateDbtTraitement,LocalDate.now()).months
-                                if (moisEntreDeuxDates%element.second.dosageNb == 0){
-                                    doIaddIt=true
+                                var moisEntreDeuxDates = Period.between(element.second.dateDbtTraitement,dateActuelle).months
+                                Log.d("m",element.second.dosageNb.toString())
+                                Log.d("m1",moisEntreDeuxDates.toString())
+                                Log.d("m2",(moisEntreDeuxDates%element.second.dosageNb).toString())
+                                if (moisEntreDeuxDates==0){
+                                    doIaddIt = element.second.dateDbtTraitement==dateActuelle
+                                }else{
+                                    doIaddIt = moisEntreDeuxDates%element.second.dosageNb == 0
                                 }
+
                             }
                             else -> doIaddIt=false
                         }

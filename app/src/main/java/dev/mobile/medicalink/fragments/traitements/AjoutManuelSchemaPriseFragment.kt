@@ -185,7 +185,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     }
 
                     "Intervalle" -> {
-                        dosageUnite = "Semaine"
+                        dosageUnite = "Semaines"
                     }
 
                     "auBesoin" -> {
@@ -295,7 +295,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     }
 
                     "Intervalle" -> {
-                        dosageUnite = "Semaine"
+                        dosageUnite = "Semaines"
                     }
 
                     "auBesoin" -> {
