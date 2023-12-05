@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.fragments.home
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +11,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 
 
-class HomeAdapterR(private val list: MutableList<Traitement>) :
+class HomeAdapterR(private val list: MutableList<Pair<Prise,Traitement>>) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -31,7 +33,7 @@ class HomeAdapterR(private val list: MutableList<Traitement>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_recap_ajout_manuel, parent, false)
+            .inflate(R.layout.item_accueil, parent, false)
         return AjoutManuelViewHolder(layout)
     }
 
@@ -39,9 +41,9 @@ class HomeAdapterR(private val list: MutableList<Traitement>) :
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 
-
-        holder.nomMedic.text = item.nomTraitement
-        holder.nbComprime.text = "${item.prises?.first()} ${item.typeComprime}"
+        Log.d("test",item.second.nomTraitement)
+        holder.nomMedic.text = item.second.nomTraitement
+        holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
 
 
         /*

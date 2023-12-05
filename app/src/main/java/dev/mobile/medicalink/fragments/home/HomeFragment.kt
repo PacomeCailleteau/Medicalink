@@ -9,13 +9,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.traitements.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.Prise
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import java.time.Duration
 import java.time.LocalDate
+import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -122,15 +128,59 @@ class HomeFragment : Fragment() {
             queue.add(listeTraitement)
 
         }.start()
-        var x = queue.take()
-        Log.d("test", x.toString())
-        /*
+        var listeTraitementPrise = queue.take()
+        Log.d("test", listeTraitementPrise.toString())
+        var listePriseAffiche : MutableList<Pair<Prise,Traitement>> = mutableListOf()
+        var doIaddIt : Boolean = false
+        for (element in listeTraitementPrise){
+            if ((!element.second.expire)){
+                when (element.second.dosageUnite) {
+                    "auBesoin" -> {
+                        doIaddIt=false
+                    }
+                    "quotidiennement" -> {
+                        doIaddIt=true
+                    }
+                    else -> {
+                        val jourEntreDeuxDates = Duration.between(element.second.dateDbtTraitement,LocalDate.now()).toDays().toInt()
+                        var tousLesXJours = 0
+                        when (element.second.dosageUnite){
+                            "Jours" -> {
+                                tousLesXJours=element.second.dosageNb
+                                if (jourEntreDeuxDates%tousLesXJours == 0){
+                                    doIaddIt=true
+                                }
+                            }
+                            "Semaines" -> {
+                                tousLesXJours=element.second.dosageNb*7
+                                if (jourEntreDeuxDates%tousLesXJours == 0){
+                                    doIaddIt=true
+                                }
+                            }
+                            "Mois" -> {
+                                var moisEntreDeuxDates = Period.between(element.second.dateDbtTraitement,LocalDate.now()).months
+                                if (moisEntreDeuxDates%element.second.dosageNb == 0){
+                                    doIaddIt=true
+                                }
+                            }
+                            else -> doIaddIt=false
+                        }
+                    }
+                }
+            }
+            if (doIaddIt){
+                listePriseAffiche.add(element)
+            }
+        }
+        Log.d("listePrise à afficher",listePriseAffiche.toString())
+        Log.d("text",listePriseAffiche.first().first.quantite.toString())
+        Log.d("test",listePriseAffiche.first().first.dosageUnite)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ListeTraitementAdapterR(traitementsTries)
+        recyclerView.adapter = HomeAdapterR(listePriseAffiche)
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-        */
+
 
 
         //Set click listener
