@@ -110,4 +110,17 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
+    fun isValidPassword(pass: String): Pair<Boolean, String> {
+        return try {
+            val res = getUsersConnected().first().password==hashPassword(pass)
+            Pair(res, "Success")
+        } catch (e: SQLiteConstraintException) {
+            Pair(false, "User already exists")
+        } catch (e: SQLiteException) {
+            Pair(false, "Database Error : ${e.message}")
+        } catch (e: Exception) {
+            Pair(false, "Unknown Error : ${e.message}")
+        }
+    }
+
 }

@@ -275,12 +275,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun isValidPassword(password: String): Boolean {
         // Ajoutez votre logique de validation du mot de passe ici
-        if (password == "111111") {
-            return true
-        } else {
-            return false
-        }
-        // Modifiez en fonction de votre logique de validation
+
+        val db = AppDatabase.getInstance(this)
+        val userDatabaseInterface = UserRepository(db.userDao())
+        val queue = LinkedBlockingQueue<Boolean>()
+        Thread{
+            queue.add(userDatabaseInterface.isValidPassword(password).first)
+        }.start()
+        return queue.take()
     }
 
 
