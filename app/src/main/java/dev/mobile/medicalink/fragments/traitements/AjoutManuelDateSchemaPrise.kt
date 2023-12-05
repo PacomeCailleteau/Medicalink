@@ -1,25 +1,23 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.app.DatePickerDialog
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.os.Build
+import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -38,7 +36,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
 
     private lateinit var retour: ImageView
-    private lateinit var suivant : Button
+    private lateinit var suivant: Button
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,7 +45,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_ajout_manuel_date_schema_prise, container, false)
+        val view =
+            inflater.inflate(R.layout.fragment_ajout_manuel_date_schema_prise, container, false)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -64,16 +63,16 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1  = arguments?.getString("schema_prise1")
-        var provenance  = arguments?.getString("provenance")
+        var schema_prise1 = arguments?.getString("schema_prise1")
+        var provenance = arguments?.getString("provenance")
         dureePriseDbt = arguments?.getString("dureePriseDbt")
         dureePriseFin = arguments?.getString("dureePriseFin")
 
-        if (dureePriseDbt==null){
-            dureePriseDbt="ajd"
+        if (dureePriseDbt == null) {
+            dureePriseDbt = "ajd"
         }
-        if (dureePriseFin==null){
-            dureePriseFin="date"
+        if (dureePriseFin == null) {
+            dureePriseFin = "date"
         }
         when (dureePriseFin) {
             "sf" -> {
@@ -87,9 +86,14 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             }
         }
 
-        inputDateDeDebut.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
+        inputDateDeDebut.inputType =
+            InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         inputDateDeDebut.setText("${traitement.dateDbtTraitement?.dayOfMonth.toString()}/${traitement.dateDbtTraitement?.monthValue}/${traitement.dateDbtTraitement?.year}")
-        dateDeDebut = LocalDate.of(traitement.dateDbtTraitement!!.year, traitement.dateDbtTraitement!!.monthValue, traitement.dateDbtTraitement!!.dayOfMonth)
+        dateDeDebut = LocalDate.of(
+            traitement.dateDbtTraitement!!.year,
+            traitement.dateDbtTraitement!!.monthValue,
+            traitement.dateDbtTraitement!!.dayOfMonth
+        )
         inputDateDeDebut.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {
@@ -150,18 +154,43 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             val bundle = Bundle()
             //bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises))
             //bundle.putString("isAddingTraitement", "true")
-            Log.d("test",inputDateDeFin.text.toString().split("/").toString())
-            var textFinTraite : LocalDate? = null
-            if ((inputDateDeFin.text!=null) && (inputDateDeFin.text.toString()!="")){
-                textFinTraite = LocalDate.of(inputDateDeFin.text.toString().split("/")[2].toInt(),inputDateDeFin.text.toString().split("/")[1].toInt(),inputDateDeFin.text.toString().split("/")[0].toInt())
+            Log.d("test", inputDateDeFin.text.toString().split("/").toString())
+            var textFinTraite: LocalDate? = null
+            if ((inputDateDeFin.text != null) && (inputDateDeFin.text.toString() != "")) {
+                textFinTraite = LocalDate.of(
+                    inputDateDeFin.text.toString().split("/")[2].toInt(),
+                    inputDateDeFin.text.toString().split("/")[1].toInt(),
+                    inputDateDeFin.text.toString().split("/")[0].toInt()
+                )
             }
 
-            var textDbtTraite : LocalDate? = null
-            if ((inputDateDeDebut.text!=null) && (inputDateDeDebut.text.toString()!="")){
-                textDbtTraite = LocalDate.of(inputDateDeDebut.text.toString().split("/")[2].toInt(),inputDateDeDebut.text.toString().split("/")[1].toInt(),inputDateDeDebut.text.toString().split("/")[0].toInt())
+            var textDbtTraite: LocalDate? = null
+            if ((inputDateDeDebut.text != null) && (inputDateDeDebut.text.toString() != "")) {
+                textDbtTraite = LocalDate.of(
+                    inputDateDeDebut.text.toString().split("/")[2].toInt(),
+                    inputDateDeDebut.text.toString().split("/")[1].toInt(),
+                    inputDateDeDebut.text.toString().split("/")[0].toInt()
+                )
             }
 
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,textDbtTraite))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    textFinTraite,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    textDbtTraite
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
@@ -181,17 +210,42 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
-            var textFinTraite : LocalDate? = null
-            if ((inputDateDeFin.text!=null) && (inputDateDeFin.text.toString()!="")){
-                textFinTraite = LocalDate.of(inputDateDeFin.text.toString().split("/")[2].toInt(),inputDateDeFin.text.toString().split("/")[1].toInt(),inputDateDeFin.text.toString().split("/")[0].toInt())
+            var textFinTraite: LocalDate? = null
+            if ((inputDateDeFin.text != null) && (inputDateDeFin.text.toString() != "")) {
+                textFinTraite = LocalDate.of(
+                    inputDateDeFin.text.toString().split("/")[2].toInt(),
+                    inputDateDeFin.text.toString().split("/")[1].toInt(),
+                    inputDateDeFin.text.toString().split("/")[0].toInt()
+                )
             }
 
-            var textDbtTraite : LocalDate? = null
-            if ((inputDateDeDebut.text!=null) && (inputDateDeDebut.text.toString()!="")){
-                textDbtTraite = LocalDate.of(inputDateDeDebut.text.toString().split("/")[2].toInt(),inputDateDeDebut.text.toString().split("/")[1].toInt(),inputDateDeDebut.text.toString().split("/")[0].toInt())
+            var textDbtTraite: LocalDate? = null
+            if ((inputDateDeDebut.text != null) && (inputDateDeDebut.text.toString() != "")) {
+                textDbtTraite = LocalDate.of(
+                    inputDateDeDebut.text.toString().split("/")[2].toInt(),
+                    inputDateDeDebut.text.toString().split("/")[1].toInt(),
+                    inputDateDeDebut.text.toString().split("/")[0].toInt()
+                )
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,textFinTraite,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,textDbtTraite))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    textFinTraite,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    textDbtTraite
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
@@ -199,14 +253,16 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             bundle.putString("dureePriseFin", "$dureePriseFin")
 
             var destinationFragment = Fragment()
-            when (provenance){
+            when (provenance) {
                 "quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
 
                 }
+
                 "intervalleRegulier" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
                 }
+
                 "auBesoin" -> {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
                 }
@@ -267,7 +323,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePicker(element: TextInputEditText) {
         val calendar = Calendar.getInstance()
@@ -308,8 +363,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         // Ajoutez cet appel pour mettre à jour le statut du bouton après la sélection de la date
         updateSuivantButtonStatus()
     }
-
-
 
 
     private fun formatDate(day: Int, month: Int, year: Int): String {

@@ -23,7 +23,13 @@ class MongoManager {
             .applyToClusterSettings { builder ->
                 builder.hosts(listOf(ServerAddress(mongoHost, mongoPort)))
             }
-            .credential(MongoCredential.createCredential(username, databaseName, password.toCharArray()))
+            .credential(
+                MongoCredential.createCredential(
+                    username,
+                    databaseName,
+                    password.toCharArray()
+                )
+            )
             .build()
 
         mongoClient = MongoClients.create(clientSettings)

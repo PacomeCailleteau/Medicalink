@@ -2,27 +2,27 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
-import java.io.Serializable
 
 @RequiresApi(Build.VERSION_CODES.O)
-class Traitement (
+class Traitement(
     var nomTraitement: String,
-    var dosageNb : Int,
-    var dosageUnite : String,
-    var dateFinTraitement : LocalDate?,
-    var typeComprime : String = "Comprimé",
-    var comprimesRestants : Int?,
-    var expire : Boolean = true,
-    var effetsSecondaires : MutableList<String>?,
-    var prises : MutableList<Prise>? = null,
-    var totalQuantite : Int?,
-    var UUID : String?,
-    var UUIDUSER : String?,
-    var dateDbtTraitement : LocalDate?
+    var dosageNb: Int,
+    var dosageUnite: String,
+    var dateFinTraitement: LocalDate?,
+    var typeComprime: String = "Comprimé",
+    var comprimesRestants: Int?,
+    var expire: Boolean = true,
+    var effetsSecondaires: MutableList<String>?,
+    var prises: MutableList<Prise>? = null,
+    var totalQuantite: Int?,
+    var UUID: String?,
+    var UUIDUSER: String?,
+    var dateDbtTraitement: LocalDate?
 
-) : Serializable{
+) : Serializable {
 
     fun enMajuscule() {
         nomTraitement = nomTraitement.uppercase(Locale.getDefault())
@@ -34,7 +34,7 @@ class Traitement (
 
 
     init {
-        if (dateFinTraitement!=null){
+        if (dateFinTraitement != null) {
             expire = LocalDate.now() > dateFinTraitement
         }
     }

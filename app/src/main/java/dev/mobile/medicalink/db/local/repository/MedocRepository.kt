@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import dev.mobile.medicalink.db.local.dao.MedocDao
 import dev.mobile.medicalink.db.local.entity.Medoc
-import dev.mobile.medicalink.db.local.entity.User
 
 class MedocRepository(private val medocDao: MedocDao) {
 
@@ -33,7 +32,7 @@ class MedocRepository(private val medocDao: MedocDao) {
         }
     }
 
-    fun insertMedoc(medoc: Medoc) : Pair<Boolean, String> {
+    fun insertMedoc(medoc: Medoc): Pair<Boolean, String> {
         return try {
             medocDao.insertAll(medoc)
             Pair(true, "Success")
@@ -46,7 +45,7 @@ class MedocRepository(private val medocDao: MedocDao) {
         }
     }
 
-    fun deleteMedoc(medoc: Medoc) : Pair<Boolean, String> {
+    fun deleteMedoc(medoc: Medoc): Pair<Boolean, String> {
         return try {
             medocDao.delete(medoc)
             Pair(true, "Success")
@@ -59,7 +58,7 @@ class MedocRepository(private val medocDao: MedocDao) {
         }
     }
 
-    fun updateMedoc(medoc: Medoc) : Pair<Boolean, String> {
+    fun updateMedoc(medoc: Medoc): Pair<Boolean, String> {
         return try {
             medocDao.update(medoc)
             Pair(true, "Success")

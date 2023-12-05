@@ -35,7 +35,7 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun insertUser(user: User) : Pair<Boolean, String> {
+    fun insertUser(user: User): Pair<Boolean, String> {
         val hashedPassword = hashPassword(user.password!!)
         user.password = hashedPassword
         return try {
@@ -50,7 +50,7 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun deleteUser(user: User) : Pair<Boolean, String> {
+    fun deleteUser(user: User): Pair<Boolean, String> {
         return try {
             userDao.delete(user)
             Pair(true, "Success")
@@ -63,7 +63,7 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun updateUser(user: User) : Pair<Boolean, String> {
+    fun updateUser(user: User): Pair<Boolean, String> {
         //TODO("hash password if needed")
         return try {
             userDao.update(user)
@@ -88,15 +88,15 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun setConnected(user: User) : Pair<Boolean,String> {
+    fun setConnected(user: User): Pair<Boolean, String> {
         return try {
-            for (userCourant in userDao.getByConnected(true)){
+            for (userCourant in userDao.getByConnected(true)) {
                 val newUser = userCourant
-                newUser.isConnected=false
+                newUser.isConnected = false
                 userDao.update(newUser)
             }
             val newUser = user
-            newUser.isConnected=true
+            newUser.isConnected = true
             userDao.update(newUser)
             userDao.update(user)
             Pair(true, "Success")

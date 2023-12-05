@@ -2,9 +2,9 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +12,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
-import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import java.io.File
 import java.text.SimpleDateFormat
@@ -28,7 +28,7 @@ class AddTraitementsFragment : Fragment() {
     private lateinit var loadButton: LinearLayout
     private lateinit var manualImportButton: LinearLayout
 
-    private lateinit var annuler : ImageView
+    private lateinit var annuler: ImageView
 
     private var currentPhotoPath: Uri? = null
 
@@ -56,30 +56,30 @@ class AddTraitementsFragment : Fragment() {
         manualImportButton = view.findViewById(R.id.cardaddmanually)
         annuler = view.findViewById(R.id.annulerAddTraitement)
 
-        photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { _ -> //was succcess
-            // Utilise le chemin de l'image capturée (currentPhotoPath)
-            Log.d("photoPath", currentPhotoPath.toString())
-            // Le chemin n'étant jamais null, on utilise la fonction testRealImage qui nous renvoie un boolean (vrai si la photo n'est pas null)
-            val trueImage = testRealImage(currentPhotoPath!!)
-            if (trueImage) {
-                //On appelle le parent pour changer de fragment
-                val bundle = Bundle()
-                bundle.putString("uri", currentPhotoPath.toString())
-                bundle.putString("type", "photo")
-                val destinationFragment = PreviewFragment()
-                destinationFragment.arguments = bundle
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+        photoLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { _ -> //was succcess
+                // Utilise le chemin de l'image capturée (currentPhotoPath)
+                Log.d("photoPath", currentPhotoPath.toString())
+                // Le chemin n'étant jamais null, on utilise la fonction testRealImage qui nous renvoie un boolean (vrai si la photo n'est pas null)
+                val trueImage = testRealImage(currentPhotoPath!!)
+                if (trueImage) {
+                    //On appelle le parent pour changer de fragment
+                    val bundle = Bundle()
+                    bundle.putString("uri", currentPhotoPath.toString())
+                    bundle.putString("type", "photo")
+                    val destinationFragment = PreviewFragment()
+                    destinationFragment.arguments = bundle
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, destinationFragment)
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                } else {
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
                 }
-            else {
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
             }
-        }
 
 
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -93,8 +93,7 @@ class AddTraitementsFragment : Fragment() {
                 fragTransaction.replace(R.id.FL, destinationFragment)
                 fragTransaction.addToBackStack(null)
                 fragTransaction.commit()
-                }
-            else{
+            } else {
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, AddTraitementsFragment())
                 fragTransaction.addToBackStack(null)
@@ -115,7 +114,24 @@ class AddTraitementsFragment : Fragment() {
 
         manualImportButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement("",2,"Semaines",null,"Comprimé",25,false,null,null,null,null,null, LocalDate.now()))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    "",
+                    2,
+                    "Semaines",
+                    null,
+                    "Comprimé",
+                    25,
+                    false,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    LocalDate.now()
+                )
+            )
             bundle.putString("isAddingTraitement", "true")
             bundle.putString("schema_prise1", "Quotidiennement")
             val destinationFragment = AjoutManuelSearchFragment()
@@ -146,7 +162,8 @@ class AddTraitementsFragment : Fragment() {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
 
-        val context = view?.context ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
+        val context = view?.context
+            ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
 
         val cacheDir = context.cacheDir
 

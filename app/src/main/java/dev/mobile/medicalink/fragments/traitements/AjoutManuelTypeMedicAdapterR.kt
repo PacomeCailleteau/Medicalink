@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
 
-class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>,var selected : String) :
+class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var selected: String) :
     RecyclerView.Adapter<AjoutManuelTypeMedicAdapterR.AjoutManuelTypeMedicViewHolder>() {
 
     class AjoutManuelTypeMedicViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -26,7 +26,10 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>,var sel
         return list.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelTypeMedicViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AjoutManuelTypeMedicViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_type_medic, parent, false)
@@ -37,17 +40,17 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>,var sel
     override fun onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int) {
         val item = list.get(position)
 
-        holder.textTypeMedic.text=item
+        holder.textTypeMedic.text = item
 
-        if (selected==item){
+        if (selected == item) {
             holder.layoutTypeMedic.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-        }else{
+        } else {
             holder.layoutTypeMedic.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
         }
 
         holder.layoutTypeMedic.setOnClickListener {
-            selected=item
-            Log.d("LLLL",selected)
+            selected = item
+            Log.d("LLLL", selected)
             notifyDataSetChanged()
         }
 
@@ -65,4 +68,4 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>,var sel
 
     }
 
-    }
+}

@@ -2,20 +2,20 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 
 
@@ -25,7 +25,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     private lateinit var intervalleRegulierButton: Button
     private lateinit var auBesoinButton: Button
 
-    private lateinit var suivant : Button
+    private lateinit var suivant: Button
     private lateinit var retour: ImageView
 
 
@@ -38,7 +38,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise, container, false)
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1  = arguments?.getString("schema_prise1")
+        var schema_prise1 = arguments?.getString("schema_prise1")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
@@ -59,8 +59,18 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val sousTexte = "Même heure, même quantité"
         val spannableTextePrincipal = SpannableString(textePrincipal)
         val spannableSousTexte = SpannableString(sousTexte)
-        spannableSousTexte.setSpan(ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")), 0, sousTexte.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannableSousTexte.setSpan(RelativeSizeSpan(0.8f), 0, sousTexte.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) // Ajustez la taille (0.8f) selon vos besoins
+        spannableSousTexte.setSpan(
+            ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")),
+            0,
+            sousTexte.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableSousTexte.setSpan(
+            RelativeSizeSpan(0.8f),
+            0,
+            sousTexte.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        ) // Ajustez la taille (0.8f) selon vos besoins
         val texteComplet = SpannableStringBuilder()
         texteComplet.append(spannableTextePrincipal)
         texteComplet.append("\n") // Pour ajouter le sous-texte en dessous
@@ -71,20 +81,40 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val sousTexte2 = "Ex : Tous les 3 jours, toutes les 2 semaines"
         val spannableTextePrincipal2 = SpannableString(textePrincipal2)
         val spannableSousTexte2 = SpannableString(sousTexte2)
-        spannableSousTexte2.setSpan(ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")), 0, sousTexte2.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannableSousTexte2.setSpan(RelativeSizeSpan(0.8f), 0, sousTexte2.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) // Ajustez la taille (0.8f) selon vos besoins
+        spannableSousTexte2.setSpan(
+            ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")),
+            0,
+            sousTexte2.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableSousTexte2.setSpan(
+            RelativeSizeSpan(0.8f),
+            0,
+            sousTexte2.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        ) // Ajustez la taille (0.8f) selon vos besoins
         val texteComplet2 = SpannableStringBuilder()
         texteComplet2.append(spannableTextePrincipal2)
         texteComplet2.append("\n") // Pour ajouter le sous-texte en dessous
         texteComplet2.append(spannableSousTexte2)
         intervalleRegulierButton.text = texteComplet2
 
-        val textePrincipal3 ="Au besoin"
+        val textePrincipal3 = "Au besoin"
         val sousTexte3 = "Pas de prise régulière"
         val spannableTextePrincipal3 = SpannableString(textePrincipal3)
         val spannableSousTexte3 = SpannableString(sousTexte3)
-        spannableSousTexte3.setSpan(ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")), 0, sousTexte3.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannableSousTexte3.setSpan(RelativeSizeSpan(0.8f), 0, sousTexte3.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) // Ajustez la taille (0.8f) selon vos besoins
+        spannableSousTexte3.setSpan(
+            ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")),
+            0,
+            sousTexte3.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableSousTexte3.setSpan(
+            RelativeSizeSpan(0.8f),
+            0,
+            sousTexte3.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        ) // Ajustez la taille (0.8f) selon vos besoins
         val texteComplet3 = SpannableStringBuilder()
         texteComplet3.append(spannableTextePrincipal3)
         texteComplet3.append("\n") // Pour ajouter le sous-texte en dessous
@@ -98,11 +128,13 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
                 auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             }
+
             "Intervalle" -> {
                 quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
                 intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
                 auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             }
+
             "auBesoin" -> {
                 quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
                 intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
@@ -116,8 +148,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            if (schema_prise1 != "Quotidiennement"){
-                traitement.prises=null
+            if (schema_prise1 != "Quotidiennement") {
+                traitement.prises = null
             }
             schema_prise1 = "Quotidiennement"
         }
@@ -126,8 +158,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            if (schema_prise1 != "Intervalle"){
-                traitement.prises=null
+            if (schema_prise1 != "Intervalle") {
+                traitement.prises = null
             }
             schema_prise1 = "Intervalle"
 
@@ -137,8 +169,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            if (schema_prise1 != "auBesoin"){
-                traitement.prises=null
+            if (schema_prise1 != "auBesoin") {
+                traitement.prises = null
             }
             schema_prise1 = "auBesoin"
 
@@ -146,43 +178,98 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
         suivant.setOnClickListener {
             var dosageUnite = ""
-            if (schema_prise1!=null){
+            if (schema_prise1 != null) {
                 when (schema_prise1) {
                     "Quotidiennement" -> {
-                        dosageUnite="quotidiennement"
+                        dosageUnite = "quotidiennement"
                     }
+
                     "Intervalle" -> {
-                        dosageUnite="Semaine"
+                        dosageUnite = "Semaine"
                     }
+
                     "auBesoin" -> {
-                        dosageUnite="auBesoin"
+                        dosageUnite = "auBesoin"
                     }
                 }
             }
             val bundle = Bundle()
             var destinationFragment = Fragment()
-            when (schema_prise1){
+            when (schema_prise1) {
                 "Quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
-                    bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                    bundle.putSerializable(
+                        "traitement",
+                        Traitement(
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            dosageUnite,
+                            null,
+                            traitement.typeComprime,
+                            25,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
+                        )
+                    )
                     bundle.putString("isAddingTraitement", "$isAddingTraitement")
                     bundle.putString("schema_prise1", "$schema_prise1")
                     bundle.putString("provenance", "quotidiennement")
                     bundle.putString("dureePriseDbt", "$dureePriseDbt")
                     bundle.putString("dureePriseFin", "$dureePriseFin")
                 }
+
                 "Intervalle" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
-                    bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                    bundle.putSerializable(
+                        "traitement",
+                        Traitement(
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            dosageUnite,
+                            null,
+                            traitement.typeComprime,
+                            25,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
+                        )
+                    )
                     bundle.putString("isAddingTraitement", "$isAddingTraitement")
                     bundle.putString("schema_prise1", "$schema_prise1")
                     bundle.putString("provenance", "intervalleRegulier")
                     bundle.putString("dureePriseDbt", "$dureePriseDbt")
                     bundle.putString("dureePriseFin", "$dureePriseFin")
                 }
+
                 "auBesoin" -> {
                     destinationFragment = AjoutManuelDateSchemaPrise()
-                    bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,"auBesoin",null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                    bundle.putSerializable(
+                        "traitement",
+                        Traitement(
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            "auBesoin",
+                            null,
+                            traitement.typeComprime,
+                            25,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
+                        )
+                    )
                     bundle.putString("isAddingTraitement", "$isAddingTraitement")
                     bundle.putString("schema_prise1", "$schema_prise1")
                     bundle.putString("provenance", "auBesoin")
@@ -198,25 +285,43 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         }
 
 
-
         //On retourne au fragment précédent
         retour.setOnClickListener {
             var dosageUnite = ""
-            if (schema_prise1!=null){
+            if (schema_prise1 != null) {
                 when (schema_prise1) {
                     "Quotidiennement" -> {
-                        dosageUnite="Jour"
+                        dosageUnite = "Jour"
                     }
+
                     "Intervalle" -> {
-                        dosageUnite="Semaine"
+                        dosageUnite = "Semaine"
                     }
+
                     "auBesoin" -> {
-                        dosageUnite="auBesoin"
+                        dosageUnite = "auBesoin"
                     }
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    dosageUnite,
+                    null,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -247,14 +352,40 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
-                var listeTypeMedic : MutableList<String> =
-                    mutableListOf("Comprimé","Gellule","Sachet","Sirop","Pipette","Seringue","Bonbon")
+                var listeTypeMedic: MutableList<String> =
+                    mutableListOf(
+                        "Comprimé",
+                        "Gellule",
+                        "Sachet",
+                        "Sirop",
+                        "Pipette",
+                        "Seringue",
+                        "Bonbon"
+                    )
 
                 var selected = traitement.typeComprime
-                var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic,selected)
+                var AjoutManuelTypeMedicAdapter =
+                    AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, AjoutManuelTypeMedicAdapter.selected, 25, false, null, traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        AjoutManuelTypeMedicAdapter.selected,
+                        25,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")

@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +9,12 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.textfield.TextInputEditText
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 
 class AjoutManuelStock : Fragment() {
     private lateinit var retour: ImageView
-    private lateinit var suivant : Button
-
+    private lateinit var suivant: Button
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -37,8 +35,8 @@ class AjoutManuelStock : Fragment() {
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1  = arguments?.getString("schema_prise1")
-        var provenance  = arguments?.getString("provenance")
+        var schema_prise1 = arguments?.getString("schema_prise1")
+        var provenance = arguments?.getString("provenance")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
@@ -48,7 +46,24 @@ class AjoutManuelStock : Fragment() {
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    traitement.dateFinTraitement,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
@@ -67,7 +82,24 @@ class AjoutManuelStock : Fragment() {
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    traitement.dateFinTraitement,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")

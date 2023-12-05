@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,9 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 
 
@@ -21,9 +20,10 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
     private lateinit var addNouvellePrise: Button
     private lateinit var retour: ImageView
-    private lateinit var suivant : Button
+    private lateinit var suivant: Button
 
-    private var numeroPrise : Int = 1
+    private var numeroPrise: Int = 1
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,20 +41,20 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
 
-
         val traitement = arguments?.getSerializable("traitement") as Traitement
         var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1  = arguments?.getString("schema_prise1")
-        var provenance  = arguments?.getString("provenance")
+        var schema_prise1 = arguments?.getString("schema_prise1")
+        var provenance = arguments?.getString("provenance")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
-        var listePrise : MutableList<Prise>? = traitement.prises
-        if (listePrise == null){
-            listePrise= mutableListOf<Prise>(Prise(numeroPrise,"17h00",1,traitement.typeComprime))
-        }else{
-            for (prise in listePrise){
-                prise.dosageUnite=traitement.typeComprime
+        var listePrise: MutableList<Prise>? = traitement.prises
+        if (listePrise == null) {
+            listePrise =
+                mutableListOf<Prise>(Prise(numeroPrise, "17h00", 1, traitement.typeComprime))
+        } else {
+            for (prise in listePrise) {
+                prise.dosageUnite = traitement.typeComprime
             }
         }
 
@@ -69,23 +69,40 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
         addNouvellePrise.setOnClickListener {
-            numeroPrise=listePrise.size+1
-            var nouvellePrise = Prise(listePrise.size+1,"17h00",1,traitement.typeComprime)
+            numeroPrise = listePrise.size + 1
+            var nouvellePrise = Prise(listePrise.size + 1, "17h00", 1, traitement.typeComprime)
             listePrise.add(nouvellePrise)
-            ajoutManuelAdapter.notifyItemInserted(listePrise.size-1)
+            ajoutManuelAdapter.notifyItemInserted(listePrise.size - 1)
         }
 
 
 
         suivant.setOnClickListener {
             var totalQuantite = 0
-            if (listePrise!=null){
-                for (prise in listePrise){
-                    totalQuantite+=prise.quantite
+            if (listePrise != null) {
+                for (prise in listePrise) {
+                    totalQuantite += prise.quantite
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    null,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    listePrise,
+                    totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
@@ -102,24 +119,42 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         retour.setOnClickListener {
             var totalQuantite = 0
-            if (listePrise!=null){
-                for (prise in listePrise){
-                    totalQuantite+=prise.quantite
+            if (listePrise != null) {
+                for (prise in listePrise) {
+                    totalQuantite += prise.quantite
                 }
             }
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,listePrise,totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    null,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    listePrise,
+                    totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
             var destinationFragment = Fragment()
-            when (provenance){
+            when (provenance) {
                 "quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
 
                 }
+
                 "intervalleRegulier" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
                 }
@@ -163,7 +198,24 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 }
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, listePrise,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        25,
+                        false,
+                        null,
+                        listePrise,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("provenance", "$provenance")
@@ -175,6 +227,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                     "quotidiennement" -> {
                         destinationFragment = AjoutManuelSchemaPriseFragment()
                     }
+
                     "intervalleRegulier" -> {
                         destinationFragment = AjoutManuelIntervalleRegulier()
                     }

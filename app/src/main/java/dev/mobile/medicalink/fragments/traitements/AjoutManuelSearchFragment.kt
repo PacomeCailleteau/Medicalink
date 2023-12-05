@@ -1,16 +1,14 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.text.InputFilter
-import android.text.InputType
+import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
@@ -20,7 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 
@@ -49,8 +47,8 @@ class AjoutManuelSearchFragment : Fragment() {
 
         var traitement = arguments?.getSerializable("traitement") as Traitement
         var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1  = arguments?.getString("schema_prise1")
-        var provenance  = arguments?.getString("provenance")
+        var schema_prise1 = arguments?.getString("schema_prise1")
+        var provenance = arguments?.getString("provenance")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
@@ -60,15 +58,16 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallySearchBar.setText(traitement.nomTraitement)
 
-        addManuallySearchBar.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
+        addManuallySearchBar.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                source?.let {
+                    if (it.contains("\n")) {
+                        // Bloquer le collage de texte
+                        return@InputFilter ""
+                    }
                 }
-            }
-            null
-        })
+                null
+            })
 
         val rootLayout = view.findViewById<View>(R.id.constraint_layout_ajout_manuel_search)
         rootLayout.setOnTouchListener { v, event ->
@@ -78,11 +77,15 @@ class AjoutManuelSearchFragment : Fragment() {
             return@setOnTouchListener false
         }
 
-        val regex = Regex(pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$", options = setOf(RegexOption.IGNORE_CASE))
+        val regex = Regex(
+            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$",
+            options = setOf(RegexOption.IGNORE_CASE)
+        )
 
         val filter = InputFilter { source, start, end, dest, dstart, dend ->
             val input = source.subSequence(start, end).toString()
-            val currentText = dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
+            val currentText =
+                dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
             val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
 
             if (regex.matches(newText)) {
@@ -94,18 +97,36 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallySearchBar.filters = arrayOf(filter)
 
-        addManuallyButtonLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // Gérez l'activité de résultat ici
+        addManuallyButtonLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    // Gérez l'activité de résultat ici
+                }
             }
-        }
 
 
 
 
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(addManuallySearchBar.text.toString(),traitement.dosageNb,traitement.dosageUnite,traitement.dateFinTraitement,traitement.typeComprime,25,traitement.expire,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    addManuallySearchBar.text.toString(),
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    traitement.dateFinTraitement,
+                    traitement.typeComprime,
+                    25,
+                    traitement.expire,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -140,7 +161,8 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         // Cache le clavier
-        val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 

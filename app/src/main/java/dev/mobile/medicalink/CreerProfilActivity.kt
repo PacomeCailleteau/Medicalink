@@ -26,9 +26,6 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import android.text.InputFilter
-import android.text.Spanned
-import android.widget.Toast
 
 class CreerProfilActivity : AppCompatActivity() {
 
@@ -57,7 +54,7 @@ class CreerProfilActivity : AppCompatActivity() {
 
         textMedicalink = findViewById(R.id.text_medicalink)
         imageProfil = findViewById(R.id.image_profil)
-        textVotreProfil =findViewById(R.id.text_votre_profil)
+        textVotreProfil = findViewById(R.id.text_votre_profil)
         textStatut = findViewById(R.id.text_statut)
         radioButtonUtilisateur = findViewById(R.id.radio_button_utilisateur)
         radioButtonProfessionnel = findViewById(R.id.radio_button_professionnel)
@@ -84,16 +81,25 @@ class CreerProfilActivity : AppCompatActivity() {
             }
         }
 
-        spannableString.setSpan(clickableSpanRGPD, startIndex, startIndex + 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(
+            clickableSpanRGPD,
+            startIndex,
+            startIndex + 4,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
 
         checkboxRgpd.text = spannableString
         checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
 
-        val regex = Regex(pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$", options = setOf(RegexOption.IGNORE_CASE))
+        val regex = Regex(
+            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$",
+            options = setOf(RegexOption.IGNORE_CASE)
+        )
 
         val filter = InputFilter { source, start, end, dest, dstart, dend ->
             val input = source.subSequence(start, end).toString()
-            val currentText = dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
+            val currentText =
+                dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
             val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
 
             if (regex.matches(newText)) {
@@ -103,25 +109,29 @@ class CreerProfilActivity : AppCompatActivity() {
             }
         }
 
-        inputNom.filters = arrayOf(filter, InputFilter.AllCaps(), InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
+        inputNom.filters = arrayOf(
+            filter,
+            InputFilter.AllCaps(),
+            InputFilter { source, start, end, dest, dstart, dend ->
+                source?.let {
+                    if (it.contains("\n")) {
+                        // Bloquer le collage de texte
+                        return@InputFilter ""
+                    }
                 }
-            }
-            null
-        })
+                null
+            })
 
-        inputPrenom.filters = arrayOf(filter, InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
+        inputPrenom.filters =
+            arrayOf(filter, InputFilter { source, start, end, dest, dstart, dend ->
+                source?.let {
+                    if (it.contains("\n")) {
+                        // Bloquer le collage de texte
+                        return@InputFilter ""
+                    }
                 }
-            }
-            null
-        })
+                null
+            })
 
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
@@ -148,15 +158,16 @@ class CreerProfilActivity : AppCompatActivity() {
             updateButtonState()
         }
 
-        inputDateDeNaissance.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
+        inputDateDeNaissance.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                source?.let {
+                    if (it.contains("\n")) {
+                        // Bloquer le collage de texte
+                        return@InputFilter ""
+                    }
                 }
-            }
-            null
-        })
+                null
+            })
         inputEmail.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {
@@ -205,7 +216,7 @@ class CreerProfilActivity : AppCompatActivity() {
         buttonCreerProfil.setOnClickListener {
             val db = AppDatabase.getInstance(this)
             val userDatabaseInterface = UserRepository(db.userDao())
-            var res : Pair<Boolean, String>?
+            var res: Pair<Boolean, String>?
             val uuid = java.util.UUID.randomUUID().toString()
             val statut = if (radioButtonUtilisateur.isChecked) "Utilisateur" else "Professionnel"
             val nom = inputNom.text.toString()
@@ -255,7 +266,7 @@ class CreerProfilActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateEmail(email: String) : Boolean {
+    private fun validateEmail(email: String): Boolean {
         val pattern = Patterns.EMAIL_ADDRESS
         val isValidEmail = pattern.matcher(email).matches()
 
@@ -269,7 +280,8 @@ class CreerProfilActivity : AppCompatActivity() {
 
     private fun updateButtonState() {
         val isCheckboxChecked = checkboxRgpd.isChecked
-        val isRadioButtonSelected = radioButtonUtilisateur.isChecked || radioButtonProfessionnel.isChecked
+        val isRadioButtonSelected =
+            radioButtonUtilisateur.isChecked || radioButtonProfessionnel.isChecked
 
         val isEmailValid = validateEmail(inputEmail.text.toString())
         val isPasswordValid = isValidPassword(inputMotDePasse.text.toString())
@@ -296,7 +308,13 @@ class CreerProfilActivity : AppCompatActivity() {
 
     fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
-        val editTextList = listOf(inputNom, inputPrenom, inputDateDeNaissance, inputEmail, inputMotDePasse) // Ajoute tous tes champs ici
+        val editTextList = listOf(
+            inputNom,
+            inputPrenom,
+            inputDateDeNaissance,
+            inputEmail,
+            inputMotDePasse
+        ) // Ajoute tous tes champs ici
         for (editText in editTextList) {
             editText.clearFocus()
         }
@@ -312,15 +330,17 @@ class CreerProfilActivity : AppCompatActivity() {
         val currentMonth = calendar.get(Calendar.MONTH)
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-            if (selectedYear > currentYear ||
-                (selectedYear == currentYear && selectedMonth > currentMonth) ||
-                (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)) {
-            } else {
-                val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
-                inputDateDeNaissance.setText(formattedDate)
-            }
-        }, currentYear, currentMonth, currentDay)
+        val datePickerDialog =
+            DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                if (selectedYear > currentYear ||
+                    (selectedYear == currentYear && selectedMonth > currentMonth) ||
+                    (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)
+                ) {
+                } else {
+                    val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
+                    inputDateDeNaissance.setText(formattedDate)
+                }
+            }, currentYear, currentMonth, currentDay)
 
         datePickerDialog.datePicker.maxDate = calendar.timeInMillis
 

@@ -3,19 +3,16 @@ package dev.mobile.medicalink.fragments.home
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
-import dev.mobile.medicalink.fragments.traitements.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
@@ -37,15 +34,17 @@ class HomeFragment : Fragment() {
         val medocDatabaseInterface = MedocRepository(db.medocDao())
 
         //Get elements from view
-        val paramBtn : ImageView = view.findViewById(R.id.btnParam)
-        Log.d("test","ici")
-        val queue = LinkedBlockingQueue<MutableList<Pair<Prise,Traitement>>>()
+        val paramBtn: ImageView = view.findViewById(R.id.btnParam)
+        Log.d("test", "ici")
+        val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
 
-        Thread{
+        Thread {
 
-            val listeTraitement : MutableList<Pair<Prise,Traitement>> = mutableListOf()
+            val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
 
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(userDatabaseInterface.getUsersConnected(true).first().uuid)
+            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
+                userDatabaseInterface.getUsersConnected(true).first().uuid
+            )
 
             for (medoc in listeMedoc) {
 
@@ -83,10 +82,10 @@ class HomeFragment : Fragment() {
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
-                var newTraitementDbtDeTraitement : LocalDate? = null
+                var newTraitementDbtDeTraitement: LocalDate? = null
 
-                if (medoc.dateDbtTraitement!="null") {
-                    Log.d("test",medoc.dateDbtTraitement.toString())
+                if (medoc.dateDbtTraitement != "null") {
+                    Log.d("test", medoc.dateDbtTraitement.toString())
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateDbtTraitement
 
@@ -111,20 +110,20 @@ class HomeFragment : Fragment() {
                     medoc.uuidUser,
                     newTraitementDbtDeTraitement
                 )
-                if (traitement.prises?.size!=0 && traitement.prises!=null){
-                    for (prise in traitement.prises!!){
-                        listeTraitement.add(Pair(prise,traitement))
+                if (traitement.prises?.size != 0 && traitement.prises != null) {
+                    for (prise in traitement.prises!!) {
+                        listeTraitement.add(Pair(prise, traitement))
                     }
                 }
             }
 
-            Log.d("test",listeTraitement.toString())
+            Log.d("test", listeTraitement.toString())
 
             queue.add(listeTraitement)
 
         }.start()
-        var x=queue.take()
-        Log.d("test",x.toString())
+        var x = queue.take()
+        Log.d("test", x.toString())
         /*
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)

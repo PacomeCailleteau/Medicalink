@@ -13,10 +13,10 @@ interface MedocDao {
     fun getAll(): List<Medoc>
 
     @Query("SELECT * FROM Medoc WHERE uuid IN (:uuid)")
-    fun getById(uuid : String): List<Medoc>
+    fun getById(uuid: String): List<Medoc>
 
     @Query("SELECT * FROM Medoc WHERE uuidUser IN (:uuidUser)")
-    fun getByUser(uuidUser : String): List<Medoc>
+    fun getByUser(uuidUser: String): List<Medoc>
 
     @Insert
     fun insertAll(vararg Medocs: Medoc)
@@ -28,6 +28,6 @@ interface MedocDao {
     fun update(Medoc: Medoc)
 
     @Query("SELECT Medoc.prises FROM Medoc WHERE uuidUser IN (:uuidUser)")
-    fun getAllPrisesForAllMedocsOfOneUser(uuidUser : String): List<String>
+    fun getAllPrisesForAllMedocsOfOneUser(uuidUser: String): List<String>
 
 }

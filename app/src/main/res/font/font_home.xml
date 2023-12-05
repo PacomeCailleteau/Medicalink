@@ -3,6 +3,6 @@
     <font
         android:fontStyle="italic"
         android:fontWeight="400"
-        android:font="@font/quicksand_bold"/>
+        android:font="@font/quicksand_bold" />
 
 </font-family>

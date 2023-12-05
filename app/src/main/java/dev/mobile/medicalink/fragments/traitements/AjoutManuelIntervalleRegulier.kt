@@ -2,22 +2,20 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.InputFilter
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.os.Build
-import android.text.InputFilter
-import android.text.InputType
-import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.NumberPicker
-import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 
@@ -26,8 +24,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
     private lateinit var inputIntervalle: TextInputEditText
     private lateinit var retour: ImageView
-    private lateinit var suivant : Button
-
+    private lateinit var suivant: Button
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -36,7 +33,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_ajout_manuel_intervalle_regulier, container, false)
+        val view =
+            inflater.inflate(R.layout.fragment_ajout_manuel_intervalle_regulier, container, false)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -49,8 +47,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1  = arguments?.getString("schema_prise1")
-        val provenance  = arguments?.getString("provenance")
+        val schema_prise1 = arguments?.getString("schema_prise1")
+        val provenance = arguments?.getString("provenance")
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
 
@@ -73,7 +71,24 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    null,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("provenance", "$provenance")
             bundle.putString("schema_prise1", "$schema_prise1")
@@ -93,7 +108,24 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         retour.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,traitement.typeComprime,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    null,
+                    traitement.typeComprime,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -110,7 +142,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     }
 
     private fun showIntervalleRegulierDialog(traitement: Traitement, context: Context) {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
         val builder = AlertDialog.Builder(context)
         builder.setView(dialogView)
 
@@ -136,7 +169,11 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         }
 
         // Mise à jour des valeurs du premier NumberPicker en fonction de la sélection du deuxième
-        updateFirstNumberPickerValues(firstNumberPicker, secondNumberPicker.value, traitement.dosageNb)
+        updateFirstNumberPickerValues(
+            firstNumberPicker,
+            secondNumberPicker.value,
+            traitement.dosageNb
+        )
 
         // Écouteur de changement de valeur pour le deuxième NumberPicker
         secondNumberPicker.setOnValueChangedListener { _, _, newVal ->
@@ -169,30 +206,36 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         intervalleRegulierDialog.show()
     }
 
-    private fun updateFirstNumberPickerValues(firstNumberPicker: NumberPicker, selectedValue: Int, currentDosage: Int) {
+    private fun updateFirstNumberPickerValues(
+        firstNumberPicker: NumberPicker,
+        selectedValue: Int,
+        currentDosage: Int
+    ) {
         when (selectedValue) {
             0 -> {
                 firstNumberPicker.minValue = 2
                 firstNumberPicker.maxValue = 99
             }
+
             1 -> {
                 firstNumberPicker.minValue = 1
                 firstNumberPicker.maxValue = 52
             }
+
             2 -> {
                 firstNumberPicker.minValue = 1
                 firstNumberPicker.maxValue = 12
             }
+
             else -> {
                 firstNumberPicker.minValue = 2
                 firstNumberPicker.maxValue = 99
             }
         }
 
-        firstNumberPicker.value = currentDosage.coerceIn(firstNumberPicker.minValue, firstNumberPicker.maxValue)
+        firstNumberPicker.value =
+            currentDosage.coerceIn(firstNumberPicker.minValue, firstNumberPicker.maxValue)
     }
-
-
 
 
     override fun onResume() {
@@ -211,7 +254,24 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, traitement.typeComprime, 25, false, null, traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        25,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("provenance", "$provenance")

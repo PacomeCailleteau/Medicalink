@@ -15,8 +15,8 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
     RecyclerView.Adapter<ListeEffetsSecondairesAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomEffet : TextView= view.findViewById(R.id.numeroPrise)
-        val provoquePar : TextView= view.findViewById(R.id.provoquePar)
+        val nomEffet: TextView = view.findViewById(R.id.numeroPrise)
+        val provoquePar: TextView = view.findViewById(R.id.provoquePar)
 
     }
 
@@ -24,7 +24,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         return list.size
     }
 
-    fun getListProvenance() : MutableMap<String, MutableList<Traitement>> {
+    fun getListProvenance(): MutableMap<String, MutableList<Traitement>> {
         // Créez une carte (Map) pour stocker les associations entre les effets secondaires et les médicaments.
         val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
 
@@ -37,7 +37,8 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
                 } else {
                     // S'il n'est pas présent, créez une nouvelle liste et ajoutez le traitement.
-                    effetsSecondairesMedicaments[effetSecondaire.lowercase()] = mutableListOf(traitement)
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()] =
+                        mutableListOf(traitement)
                 }
             }
         }
@@ -58,7 +59,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
             .flatMap { it.effetsSecondaires.orEmpty() }
             .map { it.lowercase().trim() }
             .distinct()
-        Log.d("test",tousLesEffetsSecondaires.toString())
+        Log.d("test", tousLesEffetsSecondaires.toString())
         if (tousLesEffetsSecondaires.isEmpty() || position >= tousLesEffetsSecondaires.size) {
             // Rendre la vue invisible si la liste est vide
             holder.view.visibility = View.GONE
@@ -71,9 +72,9 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         var monAffichage = "Provoqué par : "
         if (maList != null) {
             for (medicament in maList) {
-                if (medicament == maList.last()){
+                if (medicament == maList.last()) {
                     monAffichage += "${medicament.nomTraitement}"
-                }else{
+                } else {
                     monAffichage += "${medicament.nomTraitement}, "
                 }
 
@@ -81,10 +82,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         }
 
 
-        holder.provoquePar.text="$monAffichage"
-
-
-
+        holder.provoquePar.text = "$monAffichage"
 
 
         /*
@@ -107,4 +105,4 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         }
     }
 
-    }
+}

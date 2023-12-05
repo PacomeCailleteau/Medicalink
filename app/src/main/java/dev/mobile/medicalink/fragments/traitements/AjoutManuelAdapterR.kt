@@ -14,8 +14,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
@@ -53,7 +51,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 
-        holder.textNumeroPrise.text="Prise"
+        holder.textNumeroPrise.text = "Prise"
 
         holder.heurePriseInput.setText("${item.heurePrise}")
 
@@ -93,7 +91,11 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         }
     }
 
-    private fun showTimePickerDialog(context: Context, heurePriseInput: TextInputEditText, item: Prise) {
+    private fun showTimePickerDialog(
+        context: Context,
+        heurePriseInput: TextInputEditText,
+        item: Prise
+    ) {
         val calendar = Calendar.getInstance()
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
         val currentMinute = calendar.get(Calendar.MINUTE)
@@ -118,7 +120,8 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
+        val timeFormat =
+            SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
         return timeFormat.format(calendar.time)
     }
 

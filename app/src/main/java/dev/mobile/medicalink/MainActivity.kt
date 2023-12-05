@@ -2,28 +2,23 @@ package dev.mobile.medicalink
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.os.Bundle
-import android.widget.Button
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
-import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -33,13 +28,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
-import dev.mobile.medicalink.fragments.home.HomeFragment
-import dev.mobile.medicalink.utils.NotificationService
-import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
-import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedicAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
-import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity() {
@@ -47,14 +36,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textBienvenue: TextView
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
-    private lateinit var boutonAjouterProfil : Button
+    private lateinit var boutonAjouterProfil: Button
     private val BIOMETRIC_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var userId : String? = null
+        var userId: String? = null
         val intent = intent
         if (intent.hasExtra("userId")) {
             // Récupérer la valeur associée à la clé "userId"
@@ -84,8 +73,26 @@ class MainActivity : AppCompatActivity() {
         Thread {
             //TODO : enlever Pierre Denis et Jacques pour la version finale
             //On créer un User connecté pour tester
-            val user = User("111111","Professionnel","BOUTET","Paul","01/01/2000","pierre.denis@gmail","123456",true)
-            val user2 = User("111112","Utilisateur","DUTRONC","Jacques","05/06/2003","jacques.dutronc@gmail","654321",false)
+            val user = User(
+                "111111",
+                "Professionnel",
+                "BOUTET",
+                "Paul",
+                "01/01/2000",
+                "pierre.denis@gmail",
+                "123456",
+                true
+            )
+            val user2 = User(
+                "111112",
+                "Utilisateur",
+                "DUTRONC",
+                "Jacques",
+                "05/06/2003",
+                "jacques.dutronc@gmail",
+                "654321",
+                false
+            )
             userDatabaseInterface.insertUser(user)
             userDatabaseInterface.insertUser(user2)
 
@@ -95,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
         }.start()
 
-        var prenom=queue.take()
+        var prenom = queue.take()
         if (prenom != null) {
             //Changement du texte
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
@@ -120,8 +127,7 @@ class MainActivity : AppCompatActivity() {
                 */
 
             }
-        }
-        else {
+        } else {
             //Changement du texte
             textBienvenue.text = resources.getString(R.string.bienvenue_sur_medicalink)
 
@@ -156,10 +162,12 @@ class MainActivity : AppCompatActivity() {
                 // L'appareil ne prend pas en charge la biométrie
                 // Gérez le cas où la biométrie n'est pas disponible
             }
+
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
                 // La biométrie n'est pas disponible pour le moment
                 // Gérez le cas où la biométrie n'est pas disponible
             }
+
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Aucune empreinte n'a été enregistrée sur l'appareil
                 // Gérez le cas où aucune empreinte n'est enregistrée
@@ -211,7 +219,8 @@ class MainActivity : AppCompatActivity() {
         val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
         val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
         val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
-        val textMotDePasseIncorrect = dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
+        val textMotDePasseIncorrect =
+            dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
 
         val alertDialog = dialogBuilder.create()
 
@@ -229,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                 buttonValidate.isEnabled = isValidLength
                 if (isValidLength) {
                     buttonValidate.alpha = 1F
-                }else{
+                } else {
                     buttonValidate.alpha = 0.3F
                 }
                 if (s?.length ?: 0 > 6) {
@@ -268,10 +277,10 @@ class MainActivity : AppCompatActivity() {
         // Ajoutez votre logique de validation du mot de passe ici
         if (password == "111111") {
             return true
-        }else{
+        } else {
             return false
         }
-         // Modifiez en fonction de votre logique de validation
+        // Modifiez en fonction de votre logique de validation
     }
 
 
@@ -292,8 +301,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showIntervalleRegulierDialog(context: Context) {
-        val dialog = Dialog(context,R.style.RoundedDialog)
-        val dialogView = LayoutInflater.from(dialog.context).inflate(R.layout.activity_changer_utilisateur, null)
+        val dialog = Dialog(context, R.style.RoundedDialog)
+        val dialogView =
+            LayoutInflater.from(dialog.context).inflate(R.layout.activity_changer_utilisateur, null)
         dialog.setContentView(dialogView)
 
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewChangerUtilisateur)
@@ -308,7 +318,7 @@ class MainActivity : AppCompatActivity() {
         val queue = LinkedBlockingQueue<List<User>>()
 
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
-        Thread{
+        Thread {
             val listeUserBDD = userDatabaseInterface.getAllUsers()
 
             queue.add(listeUserBDD)
@@ -320,19 +330,21 @@ class MainActivity : AppCompatActivity() {
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
             var queue = LinkedBlockingQueue<String>()
-            Thread{
-                userDatabaseInterface.setConnected(userDatabaseInterface.getOneUserById(clickedUser.uuid).first())
+            Thread {
+                userDatabaseInterface.setConnected(
+                    userDatabaseInterface.getOneUserById(clickedUser.uuid).first()
+                )
                 queue.add(clickedUser.prenom)
             }.start()
-            val prenom=queue.take()
-            Log.d("test",prenom.toString())
+            val prenom = queue.take()
+            Log.d("test", prenom.toString())
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
             textBienvenue.text = txtBienvenue
 
             dialog.dismiss()
         }
 
-        recyclerView.adapter=adapter
+        recyclerView.adapter = adapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 22
@@ -344,15 +356,12 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        val width = (resources.displayMetrics.widthPixels*0.9).toInt()
-        val height = (resources.displayMetrics.heightPixels*0.9).toInt()
+        val width = (resources.displayMetrics.widthPixels * 0.9).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.9).toInt()
         dialog.window?.setLayout(width, height)
         dialog.show()
 
     }
-
-
-
 
 
 }

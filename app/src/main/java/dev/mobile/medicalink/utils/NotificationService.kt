@@ -14,7 +14,7 @@ import java.lang.System.currentTimeMillis
 
 
 class NotificationService : BroadcastReceiver() {
-    override fun onReceive(context: Context?,  intent: Intent?) {
+    override fun onReceive(context: Context?, intent: Intent?) {
         // Obtenez le titre et le contenu de l'intent
         val title = intent?.getStringExtra("title") ?: "Titre par défaut"
         val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
@@ -67,7 +67,13 @@ class NotificationService : BroadcastReceiver() {
             )
         }
 
-        fun sendEveryXHoursNotification(context: Context, titre: String, contenu: String, delayMillis: Long, interval: Int) {
+        fun sendEveryXHoursNotification(
+            context: Context,
+            titre: String,
+            contenu: String,
+            delayMillis: Long,
+            interval: Int
+        ) {
             val notificationIntent = Intent(context, NotificationService::class.java)
                 .putExtra("title", titre)
                 .putExtra("content", contenu)
@@ -88,7 +94,13 @@ class NotificationService : BroadcastReceiver() {
             )
         }
 
-        fun sendEveryXDaysNotification(context: Context, titre: String, contenu: String, delayMillis: Long, interval: Int = 1) {
+        fun sendEveryXDaysNotification(
+            context: Context,
+            titre: String,
+            contenu: String,
+            delayMillis: Long,
+            interval: Int = 1
+        ) {
             val notificationIntent = Intent(context, NotificationService::class.java)
                 .putExtra("title", titre)
                 .putExtra("content", contenu)
@@ -109,7 +121,13 @@ class NotificationService : BroadcastReceiver() {
             )
         }
 
-        fun sendEveryXWeeksNotification(context: Context, titre: String, contenu: String, delayMillis: Long, interval: Int = 1) {
+        fun sendEveryXWeeksNotification(
+            context: Context,
+            titre: String,
+            contenu: String,
+            delayMillis: Long,
+            interval: Int = 1
+        ) {
             val notificationIntent = Intent(context, NotificationService::class.java)
                 .putExtra("title", titre)
                 .putExtra("content", contenu)
@@ -130,7 +148,13 @@ class NotificationService : BroadcastReceiver() {
             )
         }
 
-        fun sendEveryXMonthsNotification(context: Context, titre: String, contenu: String, delayMillis: Long, interval: Int = 1) {
+        fun sendEveryXMonthsNotification(
+            context: Context,
+            titre: String,
+            contenu: String,
+            delayMillis: Long,
+            interval: Int = 1
+        ) {
             val notificationIntent = Intent(context, NotificationService::class.java)
                 .putExtra("title", titre)
                 .putExtra("content", contenu)
@@ -150,7 +174,6 @@ class NotificationService : BroadcastReceiver() {
                 pendingIntent
             )
         }
-
 
 
         private fun uniqueId(): Int {

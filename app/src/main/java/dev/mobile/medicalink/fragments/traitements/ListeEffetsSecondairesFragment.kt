@@ -1,14 +1,14 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.os.Build
-import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -41,34 +41,39 @@ class ListeEffetsSecondairesFragment : Fragment() {
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
 
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
-        Thread{
-            val listeTraitement : MutableList<Traitement> = mutableListOf()
+        Thread {
+            val listeTraitement: MutableList<Traitement> = mutableListOf()
 
             //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId("111111")
 
-            for (medoc in listeMedoc){
+            for (medoc in listeMedoc) {
 
-                var listeEffetsSec : MutableList<String>? = null
-                if (medoc.effetsSecondaires!=null){
+                var listeEffetsSec: MutableList<String>? = null
+                if (medoc.effetsSecondaires != null) {
                     listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
                 }
 
 
                 val listePrise = mutableListOf<Prise>()
 
-                if (medoc.prises != null){
-                    for (prise in medoc.prises.split("/")){
-                        val traitementPrise : MutableList<String> = prise.split(";").toMutableList()
-                        val maPrise = Prise(traitementPrise[0].toInt(),traitementPrise[1],traitementPrise[2].toInt(),traitementPrise[3])
+                if (medoc.prises != null) {
+                    for (prise in medoc.prises.split("/")) {
+                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
+                        val maPrise = Prise(
+                            traitementPrise[0].toInt(),
+                            traitementPrise[1],
+                            traitementPrise[2].toInt(),
+                            traitementPrise[3]
+                        )
                         listePrise.add(maPrise)
                     }
                 }
 
-                var newTraitementFinDeTraitement : LocalDate? = null
+                var newTraitementFinDeTraitement: LocalDate? = null
 
-                if (medoc.dateFinTraitement!="null") {
-                    Log.d("test",medoc.dateFinTraitement.toString())
+                if (medoc.dateFinTraitement != "null") {
+                    Log.d("test", medoc.dateFinTraitement.toString())
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateFinTraitement
 
@@ -78,10 +83,10 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
-                var newTraitementDbtDeTraitement : LocalDate? = null
+                var newTraitementDbtDeTraitement: LocalDate? = null
 
-                if (medoc.dateDbtTraitement!="null") {
-                    Log.d("test",medoc.dateDbtTraitement.toString())
+                if (medoc.dateDbtTraitement != "null") {
+                    Log.d("test", medoc.dateDbtTraitement.toString())
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateDbtTraitement
 

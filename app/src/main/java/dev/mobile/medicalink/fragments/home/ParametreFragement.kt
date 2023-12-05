@@ -2,11 +2,11 @@ package dev.mobile.medicalink.fragments.home
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 
@@ -21,7 +21,7 @@ class ParametreFragement : Fragment() {
         val view = inflater.inflate(R.layout.fragment_parametre_fragement, container, false)
 
         //Get elements from view
-        val btnTsarBomba : Button = view.findViewById(R.id.btnTsraBomba)
+        val btnTsarBomba: Button = view.findViewById(R.id.btnTsraBomba)
 
         //Set click listener
         btnTsarBomba.setOnClickListener {

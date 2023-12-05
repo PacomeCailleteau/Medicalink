@@ -15,8 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Medicalink"
         tools:targetApi="31">
-        <activity
-            android:name="dev.mobile.medicalink.CreerProfilActivity"/>
+        <activity android:name="dev.mobile.medicalink.CreerProfilActivity" />
         <activity
             android:name="dev.mobile.medicalink.MainActivity"
             android:exported="true"
@@ -28,8 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="dev.mobile.medicalink.fragments.MainFragment" />
+        <activity android:name="dev.mobile.medicalink.fragments.MainFragment" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -43,7 +42,7 @@
         <receiver
             android:name=".utils.NotificationService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
 

@@ -1,20 +1,20 @@
 package dev.mobile.medicalink
 
-import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.entity.User
 
 
-class ChangerUtilisateurAdapterR(private val list: List<User>,private val onItemClick: (User) -> Unit) :
+class ChangerUtilisateurAdapterR(
+    private val list: List<User>,
+    private val onItemClick: (User) -> Unit
+) :
     RecyclerView.Adapter<ChangerUtilisateurAdapterR.AjoutManuelViewHolder>() {
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -44,8 +44,8 @@ class ChangerUtilisateurAdapterR(private val list: List<User>,private val onItem
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
-        holder.nomUtilisateur.text="${item.prenom} ${item.nom}"
-        holder.statutUtilisateur.text="${item.statut}"
+        holder.nomUtilisateur.text = "${item.prenom} ${item.nom}"
+        holder.statutUtilisateur.text = "${item.statut}"
 
         holder.view.setOnClickListener {
 

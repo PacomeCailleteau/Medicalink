@@ -1,17 +1,17 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.os.Build
 import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -20,7 +20,7 @@ import dev.mobile.medicalink.R
 class AjoutManuelTypeMedic : Fragment() {
 
     private lateinit var retour: ImageView
-    private lateinit var suivant : Button
+    private lateinit var suivant: Button
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -40,13 +40,13 @@ class AjoutManuelTypeMedic : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement  = arguments?.getString("isAddingTraitement")
-        var schema_prise1  = arguments?.getString("schema_prise1")
+        var isAddingTraitement = arguments?.getString("isAddingTraitement")
+        var schema_prise1 = arguments?.getString("schema_prise1")
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
-        var listeTypeMedic : MutableList<String> =
-            mutableListOf("Comprimé","Gellule","Sachet","Sirop","Pipette","Seringue","Bonbon")
+        var listeTypeMedic: MutableList<String> =
+            mutableListOf("Comprimé", "Gellule", "Sachet", "Sirop", "Pipette", "Seringue", "Bonbon")
 
         var selected = traitement.typeComprime
 
@@ -54,7 +54,7 @@ class AjoutManuelTypeMedic : Fragment() {
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
 
 
-        var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic,selected)
+        var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
         recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
@@ -63,8 +63,25 @@ class AjoutManuelTypeMedic : Fragment() {
 
         suivant.setOnClickListener {
             val bundle = Bundle()
-            Log.d("LLLL",AjoutManuelTypeMedicAdapter.selected)
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            Log.d("LLLL", AjoutManuelTypeMedicAdapter.selected)
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    null,
+                    AjoutManuelTypeMedicAdapter.selected,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -81,7 +98,24 @@ class AjoutManuelTypeMedic : Fragment() {
 
         retour.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("traitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,null,AjoutManuelTypeMedicAdapter.selected,25,false,null,traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+            bundle.putSerializable(
+                "traitement",
+                Traitement(
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    null,
+                    AjoutManuelTypeMedicAdapter.selected,
+                    25,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -96,6 +130,7 @@ class AjoutManuelTypeMedic : Fragment() {
         }
         return view
     }
+
     override fun onResume() {
         super.onResume()
 
@@ -105,18 +140,44 @@ class AjoutManuelTypeMedic : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement  = arguments?.getString("isAddingTraitement")
+                var isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
-                var listeTypeMedic : MutableList<String> =
-                    mutableListOf("Comprimé","Gellule","Sachet","Sirop","Pipette","Seringue","Bonbon")
+                var listeTypeMedic: MutableList<String> =
+                    mutableListOf(
+                        "Comprimé",
+                        "Gellule",
+                        "Sachet",
+                        "Sirop",
+                        "Pipette",
+                        "Seringue",
+                        "Bonbon"
+                    )
 
                 var selected = traitement.typeComprime
-                var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic,selected)
+                var AjoutManuelTypeMedicAdapter =
+                    AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
                 val bundle = Bundle()
-                bundle.putSerializable("traitement", Traitement(traitement.nomTraitement, traitement.dosageNb, traitement.dosageUnite, null, AjoutManuelTypeMedicAdapter.selected, 25, false, null, traitement.prises,traitement.totalQuantite,traitement.UUID,traitement.UUIDUSER,traitement.dateDbtTraitement))
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        AjoutManuelTypeMedicAdapter.selected,
+                        25,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")

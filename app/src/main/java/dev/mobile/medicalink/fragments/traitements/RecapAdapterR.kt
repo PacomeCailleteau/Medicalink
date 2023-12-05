@@ -36,9 +36,9 @@ class RecapAdapterR(private val list: MutableList<Prise>) :
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 
-        Log.d("test",item.heurePrise)
-        holder.heurePrise.text=item.heurePrise
-        holder.dosageRecap.text="${item.quantite} ${item.dosageUnite}"
+        Log.d("test", item.heurePrise)
+        holder.heurePrise.text = item.heurePrise
+        holder.dosageRecap.text = "${item.quantite} ${item.dosageUnite}"
 
 
         /*

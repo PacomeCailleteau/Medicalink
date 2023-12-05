@@ -5,8 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import dev.mobile.medicalink.fragments.traitements.Prise
-import java.time.LocalDate
 
 @Entity(
     foreignKeys = [ForeignKey(
@@ -22,15 +20,15 @@ import java.time.LocalDate
 data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") var uuidUser: String,
-    @ColumnInfo(name = "nom") val nom : String,
+    @ColumnInfo(name = "nom") val nom: String,
     @ColumnInfo(name = "dosageNB") val dosageNB: String,
-    @ColumnInfo(name = "dosageUnite") val dosageUnite : String,
-    @ColumnInfo(name = "dateFinTraitement") val dateFinTraitement : String?,
-    @ColumnInfo(name = "typeComprime") val typeComprime : String,
-    @ColumnInfo(name = "comprimesRestants") val comprimesRestants : Int?,
-    @ColumnInfo(name = "expire") val expire : Boolean,
-    @ColumnInfo(name = "effetsSecondaires") val effetsSecondaires : String?,
-    @ColumnInfo(name = "prises") val prises : String?,
-    @ColumnInfo(name = "totalQuantite") val totalQuantite : Int?,
-    @ColumnInfo(name = "dateDbtTraitement") val dateDbtTraitement : String?,
-    )
+    @ColumnInfo(name = "dosageUnite") val dosageUnite: String,
+    @ColumnInfo(name = "dateFinTraitement") val dateFinTraitement: String?,
+    @ColumnInfo(name = "typeComprime") val typeComprime: String,
+    @ColumnInfo(name = "comprimesRestants") val comprimesRestants: Int?,
+    @ColumnInfo(name = "expire") val expire: Boolean,
+    @ColumnInfo(name = "effetsSecondaires") val effetsSecondaires: String?,
+    @ColumnInfo(name = "prises") val prises: String?,
+    @ColumnInfo(name = "totalQuantite") val totalQuantite: Int?,
+    @ColumnInfo(name = "dateDbtTraitement") val dateDbtTraitement: String?,
+)

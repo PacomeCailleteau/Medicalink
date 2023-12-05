@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments
 
 
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -20,7 +19,6 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
-import dev.mobile.medicalink.utils.NotificationService
 
 //MainFragement n'est pas un fragment mais une activité
 //Ici on va gérer les fragments
@@ -28,7 +26,7 @@ class MainFragment : AppCompatActivity() {
 
     private val rootFrag = "root_fragment"
 
-    private lateinit var menu : ConstraintLayout
+    private lateinit var menu: ConstraintLayout
     private lateinit var btnAccueilNav: LinearLayout
     private lateinit var imageAccueil: ImageView
     private lateinit var btnTraitementsNav: LinearLayout
@@ -58,24 +56,26 @@ class MainFragment : AppCompatActivity() {
             val res = userDatabaseInterface.getAllUsers()
             Log.d("USER", "res: $res")
 
-            var monUser = User("111111","Professionnel","DENIS",
-                "Jack","3 Novembre 1978","l@gmail.com", "", false)
+            var monUser = User(
+                "111111", "Professionnel", "DENIS",
+                "Jack", "3 Novembre 1978", "l@gmail.com", "", false
+            )
 
             userDatabaseInterface.insertUser(monUser)
         }.start()
 
 
-        menu=findViewById(R.id.fragmentDuBas)
+        menu = findViewById(R.id.fragmentDuBas)
 
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
-        imageAccueil=findViewById(R.id.imageViewAccueil)
+        imageAccueil = findViewById(R.id.imageViewAccueil)
         btnTraitementsNav = findViewById(R.id.btnTraitementsNav)
-        imageTraitements=findViewById(R.id.imageViewTraitement)
+        imageTraitements = findViewById(R.id.imageViewTraitement)
         btnMessagesNav = findViewById(R.id.btnMessagesNav)
-        imageMessages=findViewById(R.id.imageViewMessages)
-        textAccueil=findViewById(R.id.textViewAccueil)
-        textTraitements=findViewById(R.id.textViewTraitement)
-        textMessages=findViewById(R.id.textViewMessages)
+        imageMessages = findViewById(R.id.imageViewMessages)
+        textAccueil = findViewById(R.id.textViewAccueil)
+        textTraitements = findViewById(R.id.textViewTraitement)
+        textMessages = findViewById(R.id.textViewMessages)
 
 
         // Chargement du fragment par défaut et des bonnes couleurs
@@ -121,7 +121,7 @@ class MainFragment : AppCompatActivity() {
         ft.commit()
     }
 
-    private fun changeMenu(dest : Int) {
+    private fun changeMenu(dest: Int) {
         // On remet tous à la normal
         imageAccueil.setImageResource(R.drawable.accueil)
         imageTraitements.setImageResource(R.drawable.traitements)
@@ -137,10 +137,12 @@ class MainFragment : AppCompatActivity() {
                 imageAccueil.setImageResource(R.drawable.accueilreverse)
                 textAccueil.setTextColor(Color.parseColor("#3F4791"))
             }
+
             1 -> {
                 imageTraitements.setImageResource(R.drawable.documentsreverse)
                 textTraitements.setTextColor(Color.parseColor("#3F4791"))
             }
+
             2 -> {
                 imageMessages.setImageResource(R.drawable.enveloppereverse)
                 textMessages.setTextColor(Color.parseColor("#3F4791"))

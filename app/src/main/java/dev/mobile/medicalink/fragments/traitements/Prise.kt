@@ -6,7 +6,12 @@ import java.io.Serializable
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-class Prise(var numeroPrise : Int, var heurePrise: String, var quantite : Int, var dosageUnite : String) : Serializable{
+class Prise(
+    var numeroPrise: Int,
+    var heurePrise: String,
+    var quantite: Int,
+    var dosageUnite: String
+) : Serializable {
 
     fun enMajuscule() {
         heurePrise = heurePrise.uppercase(Locale.getDefault())
@@ -19,6 +24,7 @@ class Prise(var numeroPrise : Int, var heurePrise: String, var quantite : Int, v
     override fun toString(): String {
         return "$numeroPrise;$heurePrise;$quantite;$dosageUnite"
     }
+
     init {
 
     }

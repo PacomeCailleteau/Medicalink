@@ -12,7 +12,12 @@ class SpacingRecyclerView(private val espacementDp: Int) : RecyclerView.ItemDeco
         return (dp * density).toInt()
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         outRect.bottom = dpToPx(espacementDp)
     }
 }

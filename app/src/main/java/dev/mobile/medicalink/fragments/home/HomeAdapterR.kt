@@ -1,15 +1,12 @@
 package dev.mobile.medicalink.fragments.home
 
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -43,8 +40,8 @@ class HomeAdapterR(private val list: MutableList<Traitement>) :
         val item = list[position]
 
 
-        holder.nomMedic.text=item.nomTraitement
-        holder.nbComprime.text="${item.prises?.first()} ${item.typeComprime}"
+        holder.nomMedic.text = item.nomTraitement
+        holder.nbComprime.text = "${item.prises?.first()} ${item.typeComprime}"
 
 
         /*
@@ -59,9 +56,15 @@ class HomeAdapterR(private val list: MutableList<Traitement>) :
          */
 
         holder.view.setOnClickListener {
-            if (holder.circleTick.drawable.constantState?.equals(ContextCompat.getDrawable(holder.itemView.context, R.drawable.circle)?.constantState) == true){
+            if (holder.circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.circle
+                    )?.constantState
+                ) == true
+            ) {
                 holder.circleTick.setImageResource(R.drawable.correct)
-            }else{
+            } else {
                 holder.circleTick.setImageResource(R.drawable.circle)
             }
 
