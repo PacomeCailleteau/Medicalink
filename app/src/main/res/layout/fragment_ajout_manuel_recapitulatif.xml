@@ -26,7 +26,7 @@
         android:id="@+id/textView11"
         android:layout_width="273dp"
         android:layout_height="30dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
