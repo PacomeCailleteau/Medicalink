@@ -107,6 +107,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
+
                 val traitement = Traitement(
                     medoc.nom,
                     medoc.dosageNB?.toInt(),
@@ -136,15 +137,16 @@ class HomeFragment : Fragment() {
         }.start()
         var listeTraitementPrise = queue.take()
         Log.d("test", listeTraitementPrise.toString())
+        var doIaddIt: Boolean
         var listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-        var doIaddIt: Boolean = false
-        var dateActuelle = LocalDate.now().plusDays(16)
+        var dateActuelle = LocalDate.now()
         Log.d(
             "Date Actuelle Système",
             "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
         )
         for (element in listeTraitementPrise) {
-            if ((!element.second.expire)) {
+            doIaddIt=false
+            if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
                 Log.d("unite", element.second.dosageUnite)
                 when (element.second.dosageUnite) {
                     "auBesoin" -> {
@@ -161,7 +163,6 @@ class HomeFragment : Fragment() {
                             "Jours" -> {
                                 tousLesXJours = element.second.dosageNb.toLong()
                                 doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-
                             }
                             "Semaines" -> {
                                 tousLesXJours = element.second.dosageNb.toLong() * 7L
@@ -210,7 +211,7 @@ class HomeFragment : Fragment() {
         paramBtn.setOnClickListener {
             //Navigate to parametre fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, ParametreFragement())
+            fragTransaction.replace(R.id.FL, ParametreFragment())
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }

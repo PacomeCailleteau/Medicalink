@@ -11,7 +11,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 
 
-class ParametreFragement : Fragment() {
+class ParametreFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

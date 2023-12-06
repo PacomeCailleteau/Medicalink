@@ -12,7 +12,7 @@ interface UserDao {
     fun getById(uuid: String): List<User>
 
     @Query("SELECT * FROM user WHERE isConnected IN (:isConnected)")
-    fun getByConnected(isConnected: Boolean): List<User>
+    fun getByConnected(isConnected: Boolean = true): List<User>
 
     @Insert
     fun insertAll(vararg users: User)

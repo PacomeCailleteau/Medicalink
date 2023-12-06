@@ -90,7 +90,7 @@ class UserRepository(private val userDao: UserDao) {
 
     fun setConnected(user: User): Pair<Boolean, String> {
         return try {
-            for (userCourant in userDao.getByConnected(true)) {
+            for (userCourant in userDao.getByConnected()) {
                 val newUser = userCourant
                 newUser.isConnected = false
                 userDao.update(newUser)

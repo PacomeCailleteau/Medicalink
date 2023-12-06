@@ -14,7 +14,7 @@ class Traitement(
     var dateFinTraitement: LocalDate?,
     var typeComprime: String = "Comprimé",
     var comprimesRestants: Int?,
-    var expire: Boolean = true,
+    var expire: Boolean = false,
     var effetsSecondaires: MutableList<String>?,
     var prises: MutableList<Prise>? = null,
     var totalQuantite: Int?,
@@ -34,8 +34,10 @@ class Traitement(
 
 
     init {
+        /*
         if (dateFinTraitement != null) {
-            expire = LocalDate.now() > dateFinTraitement
+            expire = LocalDate.now().plusDays(1) > dateFinTraitement
         }
+        */
     }
 }

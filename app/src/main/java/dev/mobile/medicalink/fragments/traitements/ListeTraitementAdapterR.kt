@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.media.Image
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import java.time.LocalDate
 
 
 class ListeTraitementAdapterR(
     private val list: MutableList<Traitement>,
-    private val onItemClick: (Traitement) -> Unit
+    private val onItemClick: (Traitement,Boolean) -> Unit,
 ) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
@@ -25,6 +27,8 @@ class ListeTraitementAdapterR(
         val nbComprimesRestants: TextView = view.findViewById(R.id.nbComprimesRestants)
         val constraintLayout: ConstraintLayout = view.findViewById(R.id.layout_item_recap)
         val imageView: ImageView = view.findViewById(R.id.itemListeTraitementsImage)
+        val modifierTraitement: ImageView = view.findViewById(R.id.modifierTraitement)
+        val supprTraitement: ImageView = view.findViewById(R.id.supprTraitement)
 
     }
 
@@ -62,7 +66,15 @@ class ListeTraitementAdapterR(
                 holder.dateExpirationTraitement.text =
                     "Terminé le ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
-        } else {
+        } else if (LocalDate.now() < item.dateDbtTraitement){
+
+            holder.constraintLayout.setBackgroundResource(R.drawable.squared_yellow_button_background)
+            holder.imageView.setImageResource(R.drawable.medicenattente)
+            holder.nbComprimesRestants.text =
+                "${item.comprimesRestants} ${item.typeComprime.lowercase()}s restants"
+            holder.dateExpirationTraitement.text ="Débute le ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
+
+        }else{
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
             holder.nbComprimesRestants.text =
@@ -73,7 +85,6 @@ class ListeTraitementAdapterR(
                 holder.dateExpirationTraitement.text =
                     "Jusqu'au ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
-
         }
 
         /*
@@ -86,11 +97,18 @@ class ListeTraitementAdapterR(
             false
         }
          */
+        holder.modifierTraitement.setOnClickListener {
+            onItemClick.invoke(item,false)
+        }
 
         holder.view.setOnClickListener {
+            onItemClick.invoke(item,false)
+        }
 
-            onItemClick.invoke(item)
-
+        holder.supprTraitement.setOnClickListener {
+            list.remove(item)
+            notifyDataSetChanged()
+            onItemClick.invoke(item,true)
         }
     }
 
