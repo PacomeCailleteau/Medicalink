@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/constraintStock"
     tools:context=".fragments.traitements.AjoutManuelSearchFragment">
 
     <TextView
@@ -66,6 +67,7 @@
         app:srcCompat="@drawable/annuler" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -88,22 +90,98 @@
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="244dp"
+            android:layout_height="57dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="15dp"
             android:fontFamily="@font/quicksand_semibold"
             android:text="Vous recevrez un rappel lorsque votre médicament sera bientôt épuisé"
-            app:layout_constraintEnd_toStartOf="@+id/chip4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip4"
-            android:layout_width="75dp"
+        <Switch
+            android:id="@+id/switchStock"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
+            android:thumbTint="#3E76CD"
+            android:trackTint="@android:color/holo_blue_light"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rounded_white_button_blue_stroke_background"
+        android:padding="15dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <EditText
+            android:id="@+id/stockActuelInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Stock Actuel"
+            android:inputType="number"
+            android:maxLength="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textRappelAvant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Me le rappeler avant"
+            android:fontFamily="@font/quicksand_bold"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/stockActuelInput"
+            app:layout_constraintTop_toBottomOf="@+id/stockActuelInput" />
+
+        <EditText
+            android:id="@+id/jourRappelInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7 jours"
+            android:clickable="true"
+            android:focusable="false"
+            android:textColor="@color/black"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="@+id/stockActuelInput"
+            app:layout_constraintStart_toStartOf="@+id/stockActuelInput"
+            app:layout_constraintTop_toBottomOf="@+id/textRappelAvant" />
+
+        <TextView
+            android:id="@+id/textHeureRappel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Heure de rappel"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/jourRappelInput"
+            app:layout_constraintTop_toBottomOf="@+id/jourRappelInput" />
+
+        <EditText
+            android:id="@+id/heureRappelInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="9h00"
+            android:inputType="text"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/jourRappelInput"
+            app:layout_constraintStart_toStartOf="@+id/jourRappelInput"
+            app:layout_constraintTop_toBottomOf="@+id/textHeureRappel" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Ajoutez le titre avec l'ID titreDosage -->
     <TextView
         android:id="@+id/titreDosage"
         android:layout_width="wrap_content"
@@ -16,7 +15,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp" />
 
-    <!-- Ajoutez l'EditText avec l'ID quantiteDialogInput -->
     <EditText
         android:id="@+id/quantiteDialogInput"
         android:layout_width="match_parent"
@@ -26,13 +24,11 @@
         android:maxLength="2"
         android:layout_marginBottom="16dp" />
 
-    <!-- Ajoutez un espace flexible pour pousser les boutons vers le bas -->
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Ajoutez les boutons Annuler et OK -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

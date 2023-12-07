@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
+    <color name="grisSwitch">#BDBDBD</color>
+    <color name="bleuSwitch">#3E76CD</color>
 </resources>
