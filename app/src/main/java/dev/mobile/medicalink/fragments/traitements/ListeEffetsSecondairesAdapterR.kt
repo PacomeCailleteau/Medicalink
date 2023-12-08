@@ -69,7 +69,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         holder.nomEffet.text = item.substring(0, 1).uppercase() + item.substring(1)
 
         val maList = getListProvenance()[item]
-        var monAffichage = "Provoqué par : "
+        var monAffichage = holder.view.resources.getString(R.string.provoque_par)
         if (maList != null) {
             for (medicament in maList) {
                 if (medicament == maList.last()) {

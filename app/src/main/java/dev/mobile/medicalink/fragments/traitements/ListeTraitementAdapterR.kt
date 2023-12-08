@@ -47,43 +47,43 @@ class ListeTraitementAdapterR(
         val item = list.get(position)
         holder.nomTraitement.text = item.nomTraitement
         if (item.dosageUnite == "auBesoin") {
-            holder.dosage.text = "Au besoin"
+            holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
         } else if (item.dosageUnite == "quotidiennement") {
-            holder.dosage.text = "${item.dosageNb} par Jour"
+            holder.dosage.text = "${item.dosageNb} ${holder.view.resources.getString(R.string.par_jour)}"
         } else {
             holder.dosage.text =
-                "${item.totalQuantite} tous les ${item.dosageNb} ${item.dosageUnite}"
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
         }
 
         if (item.expire) {
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_gray_button_background)
             holder.imageView.setImageResource(R.drawable.medicexpire)
-            holder.nbComprimesRestants.text = "Traitement expiré"
+            holder.nbComprimesRestants.text = holder.view.resources.getString(R.string.traitement_expire)
             if (item.dateFinTraitement == null) {
-                holder.dateExpirationTraitement.text = "Terminé"
+                holder.dateExpirationTraitement.text = holder.view.resources.getString(R.string.termine)
             } else {
                 holder.dateExpirationTraitement.text =
-                    "Terminé le ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
+                    "${holder.view.resources.getString(R.string.termine_le)} ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
         } else if (LocalDate.now() < item.dateDbtTraitement) {
 
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_yellow_button_background)
             holder.imageView.setImageResource(R.drawable.medicenattente)
             holder.nbComprimesRestants.text =
-                "${item.comprimesRestants} ${item.typeComprime.lowercase()}s restants"
+                "${item.comprimesRestants} ${item.typeComprime.lowercase()}${holder.view.resources.getString(R.string.s_restants)}"
             holder.dateExpirationTraitement.text =
-                "Débute le ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
+                "${holder.view.resources.getString(R.string.debute_le)} ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
 
         } else {
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
             holder.nbComprimesRestants.text =
-                "${item.comprimesRestants} ${item.typeComprime.lowercase()}s restants"
+                "${item.comprimesRestants} ${item.typeComprime.lowercase()}${holder.view.resources.getString(R.string.s_restants)}"
             if (item.dateFinTraitement == null) {
-                holder.dateExpirationTraitement.text = "Indéterminé"
+                holder.dateExpirationTraitement.text = holder.view.resources.getString(R.string.indetermine)
             } else {
                 holder.dateExpirationTraitement.text =
-                    "Jusqu'au ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
+                    "${holder.view.resources.getString(R.string.jusquau)} ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
         }
 

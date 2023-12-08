@@ -148,5 +148,14 @@
     <string name="bonbon">Bonbon</string>
     <string name="jour_min">jour</string>
     <string name="jours_min">jours</string>
+    <string name="provoque_par">Provoqué par : </string>
+    <string name="par_jour">par Jour</string>
+    <string name="tous_les_min">tous les</string>
+    <string name="traitement_expire">Traitement expiré</string>
+    <string name="termine">Terminé</string>
+    <string name="termine_le">Terminé le</string>
+    <string name="s_restants">s restants</string>
+    <string name="debute_le">Débute le</string>
+    <string name="jusquau">Jusqu\'au</string>
 
 </resources>
