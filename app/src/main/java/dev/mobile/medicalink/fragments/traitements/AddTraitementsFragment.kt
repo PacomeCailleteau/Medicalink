@@ -119,9 +119,9 @@ class AddTraitementsFragment : Fragment() {
                 Traitement(
                     "",
                     2,
-                    "Semaines",
+                    resources.getString(R.string.semaines),
                     null,
-                    "Comprimé",
+                    resources.getString(R.string.comprime),
                     25,
                     false,
                     null,
