@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -18,11 +19,19 @@ import dev.mobile.medicalink.fragments.traitements.Traitement
 class HomeAdapterR(private val list: MutableList<Pair<Prise, Traitement>>) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
+    var heureCourante = list.first().first.heurePrise.split(":").first()
+
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
         val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
+        val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
         val circleTick = view.findViewById<ImageView>(R.id.circleTick)
+        val imageMedoc = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
+        val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
+        val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
+
+
 
     }
 
@@ -40,10 +49,23 @@ class HomeAdapterR(private val list: MutableList<Pair<Prise, Traitement>>) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
-
-        Log.d("test", item.second.nomTraitement)
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
+        holder.heurePrise.text = item.first.heurePrise
+        holder.mainHeure.text="${item.first.heurePrise.split(":").first()}h"
+
+        if (item==list.first() || item.first.heurePrise.split(":").first()!=heureCourante){
+            holder.mainHeureLayout.visibility=View.VISIBLE
+            heureCourante=item.first.heurePrise.split(":").first()
+        }else{
+            holder.mainHeureLayout.visibility=View.GONE
+        }
+
+
+
+
+
+
 
 
         /*
