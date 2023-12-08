@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Me le rappeler avant"
+        android:text="@string/dialog_me_le_rappeler_avant"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="jours"
+            android:text="@string/dialog_jours"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Annuler"
+            android:text="@string/dialog_annuler"
             android:textColor="@color/black"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="8dp" />
@@ -66,7 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="OK"
+            android:text="@string/dialog_ok"
             android:textColor="@color/black"
             android:background="?android:attr/selectableItemBackgroundBorderless" />
     </LinearLayout>

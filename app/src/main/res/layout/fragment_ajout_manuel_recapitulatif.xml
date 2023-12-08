@@ -13,7 +13,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
-        android:text="Medicalink"
+        android:text="@string/medicalink_title"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -30,7 +30,7 @@
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Récapitulatif du traitement"
+        android:text="@string/recapitulatif_du_traitement"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
@@ -46,10 +46,10 @@
         android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
 
         android:fontFamily="@font/quicksand_bold"
-        android:text="Confirmer"
+        android:text="@string/confirmer"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -101,9 +101,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
-                    android:text="Médicament"
+                    android:text="@string/medicament"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,9 +113,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/quicksand_semibold"
-                    android:text="NomMedoc"
+                    android:text="@string/nommedoc"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
 
@@ -143,9 +143,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
-                    android:text="Caractéristique"
+                    android:text="@string/caracteristique"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,9 +154,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_semibold"
-                    android:text="textUnite"
+                    android:text="@string/textunite"
                     android:textColor="@color/black"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@+id/titre_para_un4"
                     app:layout_constraintTop_toBottomOf="@+id/titre_para_un4" />
 
@@ -166,8 +166,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/quicksand_semibold"
-                    android:text="Unité"
-                    android:textSize="14dp"
+                    android:text="@string/unite"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
 
@@ -196,9 +196,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
-                    android:text="Périodicité"
+                    android:text="@string/periodicit"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -207,9 +207,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_semibold"
-                    android:text="dateFinDeTraitement"
+                    android:text="@string/datefindetraitement"
                     android:textColor="@color/black"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@+id/titre_para_un4"
                     app:layout_constraintTop_toBottomOf="@+id/titre_para_un4" />
 
@@ -219,8 +219,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/quicksand_semibold"
-                    android:text="Date de fin de traitement"
-                    android:textSize="14dp"
+                    android:text="@string/date_de_fin_de_traitement"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
 
@@ -230,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:fontFamily="@font/quicksand_semibold"
-                    android:text="SousNomPeriodicite"
+                    android:text="@string/sousnomperiodicite"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
                     app:layout_constraintEnd_toStartOf="@+id/imageview4"
@@ -260,9 +260,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
-                    android:text="Prises"
+                    android:text="@string/prises"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -299,9 +299,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
-                    android:text="Réapprovisionnement"
+                    android:text="@string/reapprovisionnement"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
