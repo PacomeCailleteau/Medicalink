@@ -55,8 +55,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
 
 
-        val textePrincipal = "Quotidiennement"
-        val sousTexte = "Même heure, même quantité"
+        val textePrincipal = resources.getString(R.string.quotidiennement)
+        val sousTexte = resources.getString(R.string.meme_heure_meme_quanti)
         val spannableTextePrincipal = SpannableString(textePrincipal)
         val spannableSousTexte = SpannableString(sousTexte)
         spannableSousTexte.setSpan(
@@ -77,8 +77,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         texteComplet.append(spannableSousTexte)
         quotidiennementButton.text = texteComplet
 
-        val textePrincipal2 = "Intervalle régulier"
-        val sousTexte2 = "Ex : Tous les 3 jours, toutes les 2 semaines"
+        val textePrincipal2 = resources.getString(R.string.dialog_intervalle_regulier)
+        val sousTexte2 = resources.getString(R.string.tous_les_3_jours_toutes_les_2_semaines)
         val spannableTextePrincipal2 = SpannableString(textePrincipal2)
         val spannableSousTexte2 = SpannableString(sousTexte2)
         spannableSousTexte2.setSpan(
@@ -99,8 +99,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         texteComplet2.append(spannableSousTexte2)
         intervalleRegulierButton.text = texteComplet2
 
-        val textePrincipal3 = "Au besoin"
-        val sousTexte3 = "Pas de prise régulière"
+        val textePrincipal3 = resources.getString(R.string.au_besoin)
+        val sousTexte3 = resources.getString(R.string.pas_de_prise_regu)
         val spannableTextePrincipal3 = SpannableString(textePrincipal3)
         val spannableSousTexte3 = SpannableString(sousTexte3)
         spannableSousTexte3.setSpan(
@@ -181,11 +181,11 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             if (schema_prise1 != null) {
                 when (schema_prise1) {
                     "Quotidiennement" -> {
-                        dosageUnite = "quotidiennement"
+                        dosageUnite = resources.getString(R.string.quoti)
                     }
 
                     "Intervalle" -> {
-                        dosageUnite = "Semaines"
+                        dosageUnite = resources.getString(R.string.semaines)
                     }
 
                     "auBesoin" -> {
@@ -291,11 +291,11 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             if (schema_prise1 != null) {
                 when (schema_prise1) {
                     "Quotidiennement" -> {
-                        dosageUnite = "Jour"
+                        dosageUnite = resources.getString(R.string.jour)
                     }
 
                     "Intervalle" -> {
-                        dosageUnite = "Semaines"
+                        dosageUnite = resources.getString(R.string.semaines)
                     }
 
                     "auBesoin" -> {
@@ -354,13 +354,13 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
                 var listeTypeMedic: MutableList<String> =
                     mutableListOf(
-                        "Comprimé",
-                        "Gellule",
-                        "Sachet",
-                        "Sirop",
-                        "Pipette",
-                        "Seringue",
-                        "Bonbon"
+                        resources.getString(R.string.comprime),
+                        resources.getString(R.string.gellule),
+                        resources.getString(R.string.sachet),
+                        resources.getString(R.string.sirop),
+                        resources.getString(R.string.pipette),
+                        resources.getString(R.string.seringue),
+                        resources.getString(R.string.bonbon),
                     )
 
                 var selected = traitement.typeComprime
