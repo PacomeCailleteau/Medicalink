@@ -114,4 +114,16 @@
     <string name="utilisez_mdp">Utiliser le mot de passe</string>
     <string name="invalid_email">Adresse e-mail non valide</string>
     <string name="rgpd">RGPD</string>
+    <string name="janvier">Janvier</string>
+    <string name="fevrier">Février</string>
+    <string name="mars">Mars</string>
+    <string name="avril">Avril</string>
+    <string name="mai">Mai</string>
+    <string name="juin">Juin</string>
+    <string name="juillet">Juillet</string>
+    <string name="aout">Août</string>
+    <string name="septembre">Septembre</string>
+    <string name="octobre">Octobre</string>
+    <string name="novembre">Novembre</string>
+    <string name="decembre">Décembre</string>
 </resources>
