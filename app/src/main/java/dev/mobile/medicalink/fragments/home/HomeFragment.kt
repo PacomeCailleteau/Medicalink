@@ -108,166 +108,8 @@ class HomeFragment : Fragment() {
         //Get elements from view
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
         Log.d("test", "ici")
-        val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
 
-        Thread {
-
-            val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
-                userDatabaseInterface.getUsersConnected(true).first().uuid
-            )
-
-
-            for (medoc in listeMedoc) {
-
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-
-                val listePrise = mutableListOf<Prise>()
-
-                if (medoc.prises != null) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        val maPrise = Prise(
-                            traitementPrise[0].toInt(),
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            traitementPrise[3]
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    Log.d("test", medoc.dateFinTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateFinTraitement
-
-                    //convert String to LocalDate
-
-                    //convert String to LocalDate
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    Log.d("test", medoc.dateDbtTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateDbtTraitement
-
-                    //convert String to LocalDate
-
-                    //convert String to LocalDate
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
-                if ((!medoc.expire) && (newTraitementFinDeTraitement != null)) {
-                    if (LocalDate.now() > newTraitementFinDeTraitement) {
-                        medoc.expire = true
-                        medocDatabaseInterface.updateMedoc(medoc)
-                    }
-                }
-
-
-                val traitement = Traitement(
-                    medoc.nom,
-                    medoc.dosageNB?.toInt(),
-                    medoc.dosageUnite,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
-                )
-                if (traitement.prises?.size != 0 && traitement.prises != null) {
-                    for (prise in traitement.prises!!) {
-                        listeTraitement.add(Pair(prise, traitement))
-                    }
-                }
-            }
-
-            Log.d("test", listeTraitement.toString())
-
-            queue.add(listeTraitement)
-
-        }.start()
-        var listeTraitementPrise = queue.take()
-        Log.d("test", listeTraitementPrise.toString())
-        var doIaddIt: Boolean
-        var listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-        var dateActuelle = LocalDate.now()
-        Log.d(
-            "Date Actuelle Système",
-            "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
-        )
-        for (element in listeTraitementPrise) {
-            doIaddIt = false
-            if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
-                Log.d("unite", element.second.dosageUnite)
-                when (element.second.dosageUnite) {
-                    "auBesoin" -> {
-                        doIaddIt = false
-                    }
-
-                    "quotidiennement" -> {
-                        doIaddIt = true
-                    }
-
-                    else -> {
-                        val jourEntreDeuxDates =
-                            ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
-                        var tousLesXJours: Long = 0L
-                        when (element.second.dosageUnite) {
-                            "Jours" -> {
-                                tousLesXJours = element.second.dosageNb.toLong()
-                                doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-                            }
-
-                            "Semaines" -> {
-                                tousLesXJours = element.second.dosageNb.toLong() * 7L
-                                Log.d("s", tousLesXJours.toString())
-                                Log.d("s1", jourEntreDeuxDates.toString())
-                                Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
-                                doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-                                Log.d("doIaddIt", doIaddIt.toString())
-                            }
-
-                            "Mois" -> {
-                                var moisEntreDeuxDates = Period.between(
-                                    element.second.dateDbtTraitement,
-                                    dateActuelle
-                                ).months
-                                Log.d("m", element.second.dosageNb.toString())
-                                Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d("m2",(moisEntreDeuxDates % element.second.dosageNb).toString())
-                                if (moisEntreDeuxDates == 0) {
-                                    doIaddIt = element.second.dateDbtTraitement == dateActuelle
-                                } else {
-                                    doIaddIt = moisEntreDeuxDates % element.second.dosageNb == 0
-                                }
-                            }
-
-                            else -> doIaddIt = false
-                        }
-                    }
-                }
-            }
-            if (doIaddIt) {
-                listePriseAffiche.add(element)
-            }
-        }
-        val traitementsTries = listePriseAffiche.sortedBy {it.first.heurePrise.uppercase()}.toMutableList()
+        val traitementsTries = mutableListOf<Pair<Prise,Traitement>>()
 
 
         Log.d("listePrise à afficher", traitementsTries.toString())
@@ -277,6 +119,8 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = homeAdapter
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+
+        updateListePrise(LocalDate.now(),view.context.applicationContext)
 
 
 
@@ -469,14 +313,16 @@ class HomeFragment : Fragment() {
         Log.d("test", listeTraitementPrise.toString())
         var doIaddIt: Boolean
         var listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-        var dateActuelle = jourJ
         Log.d(
             "Date Actuelle Système",
             "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
         )
         for (element in listeTraitementPrise) {
-            doIaddIt = false
+            doIaddIt=false
             if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
+                if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)){
+                    break
+                }
                 Log.d("unite", element.second.dosageUnite)
                 when (element.second.dosageUnite) {
                     "auBesoin" -> {

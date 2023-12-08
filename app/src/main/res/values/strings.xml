@@ -11,5 +11,18 @@
     <string name="changer_utilisateur">Changer d\'utilisateur</string>
     <string name="selectionner_un_profil">Sélectionner un profil</string>
     <string name="ajouter_un_profil">Ajouter un profil</string>
+    <string name="medicalink_title">Medicalink</string>
+    <string name="creer_profil_votre_profil">Votre profil</string>
+    <string name="creer_profil_adresse_email">Adresse Email</string>
+    <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
+    <string name="creer_profil_utilisateur">Utilisateur</string>
+    <string name="creer_profil_informations_personnelles">Informations personnelles</string>
+    <string name="bouton_creer_mon_profil">Créer mon profil</string>
+    <string name="creer_profil_mot_de_passe">Mot de passe</string>
+    <string name="creer_profil_nom">Nom</string>
+    <string name="creer_profil_statut">Statut</string>
+    <string name="creer_profil_rgpd">J\'accepte les conditions en matière de protection des données relatives au RGPD</string>
+    <string name="creer_profil_prenom">Prénom</string>
+    <string name="creer_profil_date_de_naissance">Date de naissance</string>
 
 </resources>
