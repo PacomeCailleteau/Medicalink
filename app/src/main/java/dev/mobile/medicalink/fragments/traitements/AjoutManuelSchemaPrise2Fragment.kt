@@ -51,7 +51,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         var listePrise: MutableList<Prise>? = traitement.prises
         if (listePrise == null) {
             listePrise =
-                mutableListOf<Prise>(Prise(numeroPrise, "17:00", 1, traitement.typeComprime))
+                mutableListOf<Prise>(Prise(numeroPrise, resources.getString(R.string._17_00), 1, traitement.typeComprime))
         } else {
             for (prise in listePrise) {
                 prise.dosageUnite = traitement.typeComprime
@@ -92,7 +92,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         addNouvellePrise.setOnClickListener {
             numeroPrise = listePrise.size + 1
-            var nouvellePrise = Prise(listePrise.size + 1, "17:00", 1, traitement.typeComprime)
+            var nouvellePrise = Prise(listePrise.size + 1, resources.getString(R.string._17_00), 1, traitement.typeComprime)
             listePrise.add(nouvellePrise)
             ajoutManuelAdapter.notifyItemInserted(listePrise.size - 1)
         }
@@ -212,7 +212,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 var listePrise: MutableList<Prise>? = traitement.prises
 
                 if (listePrise == null) {
-                    listePrise = mutableListOf<Prise>(Prise(1, "17:00", 1, traitement.typeComprime))
+                    listePrise = mutableListOf<Prise>(Prise(1, resources.getString(R.string._17_00), 1, traitement.typeComprime))
                 } else {
                     for (prise in listePrise) {
                         prise.dosageUnite = traitement.typeComprime

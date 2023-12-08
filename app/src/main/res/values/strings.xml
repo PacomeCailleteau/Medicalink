@@ -63,6 +63,7 @@
     <string name="prises">Prises</string>
     <string name="reapprovisionnement">Réapprovisionnement</string>
     <string name="quotidiennement">Quotidiennement</string>
+    <string name="quoti">quotidiennement</string>
     <string name="au_besoin">Au besoin</string>
     <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du \ntraitement</string>
     <string name="ajouter_une_nouvelle_prise">Ajouter une nouvelle prise</string>
@@ -134,4 +135,15 @@
     <string name="toutes_les">Toutes les</string>
     <string name="toutes_2_semaines">Toutes les 2 Semaines</string>
     <string name="indetermine">Inderterminé</string>
+    <string name="_17_00">17:00</string>
+    <string name="meme_heure_meme_quanti">Même heure, même quantité</string>
+    <string name="tous_les_3_jours_toutes_les_2_semaines">Ex : Tous les 3 jours, toutes les 2 semaines</string>
+    <string name="pas_de_prise_regu">Pas de prise régulière</string>
+    <string name="comprime">Comprimé</string>
+    <string name="gellule">Gellule</string>
+    <string name="sachet">Sachet</string>
+    <string name="sirop">Sirop</string>
+    <string name="pipette">Pipette</string>
+    <string name="seringue">Seringue</string>
+    <string name="bonbon">Bonbon</string>
 </resources>
