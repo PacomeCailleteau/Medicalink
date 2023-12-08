@@ -47,11 +47,12 @@
             android:id="@+id/revenirDateCourante"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/jourJ"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/previousMonth"
             app:layout_constraintEnd_toEndOf="@+id/jourJ"
             app:layout_constraintStart_toStartOf="@+id/jourJ"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/rechargerbleu" />
 
         <TextView
@@ -183,7 +184,7 @@
             app:layout_constraintVertical_bias="0.533" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/nextMonth"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="15dp"
@@ -192,7 +193,7 @@
             app:srcCompat="@drawable/suivant" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/previousMonth"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="15dp"

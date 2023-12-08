@@ -16,11 +16,13 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 
 
-class HomeAdapterR(private val list: MutableList<Pair<Prise, Traitement>>) :
+class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
     var heureCourante = list.first().first.heurePrise.split(":").first()
-
+    fun updateData(listeTraitementUpdated : MutableList<Pair<Prise, Traitement>>) {
+        list = listeTraitementUpdated
+    }
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
