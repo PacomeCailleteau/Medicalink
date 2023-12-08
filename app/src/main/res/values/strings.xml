@@ -127,4 +127,10 @@
     <string name="novembre">Novembre</string>
     <string name="decembre">Décembre</string>
     <string name="prise">Prise</string>
+    <string name="jours">Jours</string>
+    <string name="jour">Jour</string>
+    <string name="semaines">Semaines</string>
+    <string name="tous_les">Tous les</string>
+    <string name="toutes_les">Toutes les</string>
+    <string name="toutes_2_semaines">Toutes les 2 Semaines</string>
 </resources>
