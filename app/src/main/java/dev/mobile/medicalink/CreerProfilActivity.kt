@@ -64,7 +64,7 @@ class CreerProfilActivity : AppCompatActivity() {
 
         val checkBoxText = checkboxRgpd.text.toString()
 
-        val startIndex = checkBoxText.indexOf("RGPD")
+        val startIndex = checkBoxText.indexOf(resources.getString(R.string.rgpd))
 
         val spannableString = SpannableString(checkBoxText)
 
@@ -266,7 +266,7 @@ class CreerProfilActivity : AppCompatActivity() {
         val isValidEmail = pattern.matcher(email).matches()
 
         if (!isValidEmail) {
-            inputEmail.error = "Adresse e-mail non valide"
+            inputEmail.error = resources.getString(R.string.invalid_email)
         } else {
             inputEmail.error = null
         }

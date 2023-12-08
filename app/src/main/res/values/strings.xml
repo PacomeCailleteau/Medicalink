@@ -109,5 +109,29 @@
     <string name="accueil">Accueil</string>
     <string name="traitements">Traitements</string>
     <string name="messages">Messages</string>
-
+    <string name="authentification_biometrique">Authentification biométrique</string>
+    <string name="utilisez_empreinte_digitale">Utilisez votre empreinte digitale pour vous authentifier</string>
+    <string name="utilisez_mdp">Utiliser le mot de passe</string>
+    <string name="invalid_email">Adresse e-mail non valide</string>
+    <string name="rgpd">RGPD</string>
+    <string name="janvier">Janvier</string>
+    <string name="fevrier">Février</string>
+    <string name="mars">Mars</string>
+    <string name="avril">Avril</string>
+    <string name="mai">Mai</string>
+    <string name="juin">Juin</string>
+    <string name="juillet">Juillet</string>
+    <string name="aout">Août</string>
+    <string name="septembre">Septembre</string>
+    <string name="octobre">Octobre</string>
+    <string name="novembre">Novembre</string>
+    <string name="decembre">Décembre</string>
+    <string name="prise">Prise</string>
+    <string name="jours">Jours</string>
+    <string name="jour">Jour</string>
+    <string name="semaines">Semaines</string>
+    <string name="tous_les">Tous les</string>
+    <string name="toutes_les">Toutes les</string>
+    <string name="toutes_2_semaines">Toutes les 2 Semaines</string>
+    <string name="indetermine">Inderterminé</string>
 </resources>

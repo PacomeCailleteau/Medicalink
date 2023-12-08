@@ -58,7 +58,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 
-        holder.textNumeroPrise.text = "Prise"
+        holder.textNumeroPrise.text = holder.view.resources.getString(R.string.prise)
 
         holder.heurePriseInput.setText("${item.heurePrise}")
 
@@ -154,7 +154,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.okButton)
 
-        titreDosage.text = "Dosage"
+        titreDosage.text = holder.view.resources.getString(R.string.dosage)
         // Utilisez cette ligne pour appliquer le filtre à l'EditText
         quantiteInput.filters = arrayOf(RangeInputFilter(1, 99))
         quantiteInput.setText(prise.quantite.toString())

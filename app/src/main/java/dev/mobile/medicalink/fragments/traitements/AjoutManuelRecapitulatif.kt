@@ -92,7 +92,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         nomMedoc.text = traitement.nomTraitement
         textUnite.text = traitement.typeComprime
         if (traitement.dateFinTraitement == null) {
-            dateFindeTraitement.text = "Inderterminé"
+            dateFindeTraitement.text = resources.getString(R.string.indetermine)
         } else {
             dateFindeTraitement.text =
                 "${traitement.dateFinTraitement?.dayOfMonth}/${traitement.dateFinTraitement?.monthValue}/${traitement.dateFinTraitement?.year}"

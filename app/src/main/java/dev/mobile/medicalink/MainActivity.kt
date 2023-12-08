@@ -177,9 +177,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showBiometricPrompt() {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Authentification biométrique")
-            .setSubtitle("Utilisez votre empreinte digitale pour vous authentifier")
-            .setNegativeButtonText("Utiliser le mot de passe")
+            .setTitle(resources.getString(R.string.authentification_biometrique))
+            .setSubtitle(resources.getString(R.string.utilisez_empreinte_digitale))
+            .setNegativeButtonText(resources.getString(R.string.utilisez_mdp))
             .setConfirmationRequired(false)
             .build()
 

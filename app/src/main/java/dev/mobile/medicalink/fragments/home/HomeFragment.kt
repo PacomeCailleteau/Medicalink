@@ -54,20 +54,8 @@ class HomeFragment : Fragment() {
     private lateinit var jPlus4: LocalDate
     private lateinit var jPlus5: LocalDate
 
-    private var listeMois = mapOf<String, String>(
-        Pair("JANUARY", "Janvier"),
-        Pair("FEBRUARY", "Février"),
-        Pair("MARCH", "Mars"),
-        Pair("APRIL", "Avril"),
-        Pair("MAY", "Mai"),
-        Pair("JUNE", "Juin"),
-        Pair("JULY", "Juillet"),
-        Pair("AUGUST", "Août"),
-        Pair("SEPTEMBER", "Septembre"),
-        Pair("OCTOBER", "Octobre"),
-        Pair("NOVEMBER", "Novembre"),
-        Pair("DECEMBER", "Décembre"),
-    )
+    private lateinit var listeMois : Map<String,String>
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -80,6 +68,20 @@ class HomeFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
+        listeMois= mapOf<String,String>(
+            Pair("JANUARY",resources.getString(R.string.janvier)),
+            Pair("FEBRUARY",resources.getString(R.string.fevrier)),
+            Pair("MARCH",resources.getString(R.string.mars)),
+            Pair("APRIL",resources.getString(R.string.avril)),
+            Pair("MAY",resources.getString(R.string.mai)),
+            Pair("JUNE",resources.getString(R.string.juin)),
+            Pair("JULY",resources.getString(R.string.juillet)),
+            Pair("AUGUST",resources.getString(R.string.aout)),
+            Pair("SEPTEMBER",resources.getString(R.string.septembre)),
+            Pair("OCTOBER",resources.getString(R.string.octobre)),
+            Pair("NOVEMBER",resources.getString(R.string.novembre)),
+            Pair("DECEMBER",resources.getString(R.string.decembre)),
+        )
         calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
 
         jourAvantButton = view.findViewById(R.id.jourAvant)

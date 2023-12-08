@@ -52,7 +52,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
 
-        inputIntervalle.setText("Toutes les 2 Semaines")
+        inputIntervalle.setText(resources.getString(R.string.toutes_2_semaines))
         inputIntervalle.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         inputIntervalle.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
@@ -158,13 +158,13 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         secondNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
 
         // Configuration du deuxième NumberPicker (jours, semaines, mois)
-        secondNumberPicker.displayedValues = arrayOf("Jours", "Semaines", "Mois")
+        secondNumberPicker.displayedValues = arrayOf(resources.getString(R.string.jours), resources.getString(R.string.semaines),resources.getString(R.string.mois))
         secondNumberPicker.minValue = 0
         secondNumberPicker.maxValue = 2
         secondNumberPicker.value = when (traitement.dosageUnite) {
-            "Jours" -> 0
-            "Semaines" -> 1
-            "Mois" -> 2
+            resources.getString(R.string.jours) -> 0
+            resources.getString(R.string.semaines) -> 1
+            resources.getString(R.string.mois) -> 2
             else -> 0
         }
 
@@ -189,27 +189,27 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             // Mettre à jour les valeurs de l'objet Traitement avec les nouvelles valeurs
             traitement.dosageNb = firstNumberPicker.value
             traitement.dosageUnite = when (secondNumberPicker.value) {
-                0 -> "Jours"
-                1 -> "Semaines"
-                2 -> "Mois"
-                else -> "Jour"
+                0 -> resources.getString(R.string.jours)
+                1 -> resources.getString(R.string.semaines)
+                2 -> resources.getString(R.string.mois)
+                else -> resources.getString(R.string.jour)
             }
 
             // Mettre à jour l'interface utilisateur
             // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
             // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
-            if (traitement.dosageNb == 1 && traitement.dosageUnite == "Semaines") {
-                inputIntervalle.setText("Toutes les ${traitement.dosageUnite}")
-            } else if (traitement.dosageNb > 1 && traitement.dosageUnite == "Semaines") {
-                inputIntervalle.setText("Toutes les ${traitement.dosageNb} ${traitement.dosageUnite}")
-            } else if (traitement.dosageNb == 1 && traitement.dosageUnite == "Mois") {
-                inputIntervalle.setText("Tous les ${traitement.dosageUnite}")
-            } else if (traitement.dosageNb > 1 && traitement.dosageUnite == "Mois") {
-                inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
-            } else if (traitement.dosageUnite == "Jours") {
-                inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
-            } else {
-                inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
+            if (traitement.dosageNb == 1 && traitement.dosageUnite == resources.getString(R.string.semaines)){
+                inputIntervalle.setText("${resources.getString(R.string.toutes_les)} ${traitement.dosageUnite}")
+            }else if (traitement.dosageNb > 1 && traitement.dosageUnite == resources.getString(R.string.semaines)) {
+                inputIntervalle.setText("${resources.getString(R.string.toutes_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
+            }else if (traitement.dosageNb == 1 && traitement.dosageUnite == resources.getString(R.string.mois)){
+                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageUnite}")
+            }else if (traitement.dosageNb > 1 && traitement.dosageUnite == resources.getString(R.string.mois)) {
+                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
+            }else if (traitement.dosageUnite == resources.getString(R.string.jours)){
+                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
+            }else{
+                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
             }
 
             intervalleRegulierDialog.dismiss()
