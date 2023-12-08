@@ -3,6 +3,7 @@ package dev.mobile.medicalink.fragments.traitements
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.text.InputFilter
 import android.text.Spanned
@@ -37,6 +38,10 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun getItems(): MutableList<Prise> {
+        return list.toMutableList()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
@@ -87,6 +92,16 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
             val context = holder.itemView.context
             true
+        }
+    }
+
+    fun mettreAJourCouleurTexte(heurePriseInput: TextInputEditText, conditionValidee: Boolean) {
+        if (conditionValidee) {
+            // Mettez la couleur du texte en rouge
+            heurePriseInput.setTextColor(Color.BLACK)
+        } else {
+            // Remettez la couleur du texte à sa valeur normale
+            heurePriseInput.setTextColor(Color.RED)  // Remplacez par la couleur que vous souhaitez utiliser normalement
         }
     }
 

@@ -68,22 +68,15 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         val espacementEnDp = 20
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val totalItemCount = recyclerView.adapter?.itemCount ?: 0
-
-                if (totalItemCount == 0) {
-                    suivant.isEnabled = false
-                    suivant.alpha = 0.3F
-                }else{
-                    suivant.isEnabled = true
-                    suivant.alpha = 1F
-                }
-
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                // Réagissez ici aux changements dans l'adaptateur
+                mettreAJourCouleurs(ajoutManuelAdapter, recyclerView)
             }
-        })
+        }
+
+        ajoutManuelAdapter.registerAdapterDataObserver(observer)
 
         addNouvellePrise.setOnClickListener {
             numeroPrise = listePrise.size + 1
@@ -260,6 +253,48 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    fun mettreAJourCouleurs( ajoutManuelAdapter: AjoutManuelAdapterR, recyclerView: RecyclerView) {
+        val maListePrise = ajoutManuelAdapter.getItems()
+
+        if (maListePrise != null) {
+            for (prisePrincipale in 0 until maListePrise.size) {
+                for (priseCompare in 0 until maListePrise.size) {
+                    if (prisePrincipale !== priseCompare) {
+                        val viewHolderPrincipale =
+                            recyclerView.findViewHolderForAdapterPosition(prisePrincipale)
+                        val viewHolderCompare =
+                            recyclerView.findViewHolderForAdapterPosition(priseCompare)
+                        if (viewHolderPrincipale is AjoutManuelAdapterR.AjoutManuelViewHolder &&
+                            viewHolderCompare is AjoutManuelAdapterR.AjoutManuelViewHolder
+                        ) {
+                            if (maListePrise[prisePrincipale].heurePrise == maListePrise[priseCompare].heurePrise) {
+                                // false veut dire qu'on met la couleur du texte en rouge
+                                ajoutManuelAdapter.mettreAJourCouleurTexte(
+                                    viewHolderPrincipale.heurePriseInput,
+                                    false
+                                )
+                                ajoutManuelAdapter.mettreAJourCouleurTexte(
+                                    viewHolderCompare.heurePriseInput,
+                                    false
+                                )
+                            } else {
+                                // true veut dire qu'on met la couleur du texte en noire
+                                ajoutManuelAdapter.mettreAJourCouleurTexte(
+                                    viewHolderPrincipale.heurePriseInput,
+                                    true
+                                )
+                                ajoutManuelAdapter.mettreAJourCouleurTexte(
+                                    viewHolderCompare.heurePriseInput,
+                                    true
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }
