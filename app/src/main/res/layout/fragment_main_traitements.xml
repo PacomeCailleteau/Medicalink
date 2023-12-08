@@ -11,7 +11,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
-        android:text="Medicalink"
+        android:text="@string/medicalink_title"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -27,7 +27,7 @@
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Importer un traitement"
+        android:text="@string/importer_un_traitement"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
@@ -41,7 +41,7 @@
         android:layout_marginTop="51dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Mes traitements"
+        android:text="@string/mes_traitements"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"
@@ -72,14 +72,14 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
-            android:text="Ajouter un traitement"
+            android:text="@string/ajouter_un_traitement"
             android:textColor="#000000"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -105,14 +105,14 @@
 
         <TextView
             android:id="@+id/textViewAccueil"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
-            android:text="Mes traitements"
+            android:text="@string/mes_traitements"
             android:textColor="#000000"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -138,14 +138,14 @@
 
         <TextView
             android:id="@+id/textView8"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
-            android:text="Journal des effets secondaires"
+            android:text="@string/journal_des_effets_secondaires"
             android:textColor="#000000"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
         android:id="@+id/titreDosage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dosage"
+        android:text="@string/dialog_dosage"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
@@ -19,7 +19,7 @@
         android:id="@+id/quantiteDialogInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Quantité"
+        android:hint="@string/dialog_dosage_quantite"
         android:inputType="number"
         android:maxLength="2"
         android:layout_marginBottom="16dp" />
@@ -41,7 +41,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:text="Annuler"
+            android:text="@string/dialog_annuler"
             android:textColor="@color/black" />
 
         <Button
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:text="OK"
+            android:text="@string/dialog_ok"
             android:textColor="@color/black" />
     </LinearLayout>
 

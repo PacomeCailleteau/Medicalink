@@ -18,17 +18,14 @@
 
         <TextView
             android:id="@+id/nomTypeMedic"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:fontFamily="@font/quicksand_bold"
-            android:gravity="center"
-            android:paddingLeft="30dp"
+            android:paddingStart="30dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="TextView"
-            android:textAlignment="textStart"
+            android:text="@string/textview"
             android:textColor="#3F4791"
             android:textSize="18sp" />
 

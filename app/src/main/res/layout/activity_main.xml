@@ -55,7 +55,7 @@
         android:text="@string/creer_mon_profil"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_item_recap" />
@@ -70,7 +70,7 @@
         android:text="@string/changer_utilisateur"
         android:textAllCaps="false"
         android:textColor="#007362"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

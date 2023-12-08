@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_white_button_no_stroke_background"
-    tools:context=".ChangerUtilisateur">
+    android:background="@drawable/rounded_white_button_no_stroke_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/LayoutDuFront"
@@ -41,7 +40,7 @@
                 android:fontFamily="@font/quicksand_bold"
                 android:text="@string/selectionner_un_profil"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewChangerUtilisateur" />
