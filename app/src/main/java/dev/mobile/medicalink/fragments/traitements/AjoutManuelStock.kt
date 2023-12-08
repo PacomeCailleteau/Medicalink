@@ -211,8 +211,8 @@ class AjoutManuelStock : Fragment() {
         val intervalleRegulierDialog = builder.create()
 
         val firstNumberPicker = dialogView.findViewById<NumberPicker>(R.id.firstNumberPicker)
-        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
-        val okButton = dialogView.findViewById<Button>(R.id.okButton)
+        val annulerButton = dialogView.findViewById<Button>(R.id.nonButton)
+        val okButton = dialogView.findViewById<Button>(R.id.ouiButton)
         val textJour = dialogView.findViewById<TextView>(R.id.textJour)
         var uniteJour = "jours"
 
@@ -298,7 +298,7 @@ class AjoutManuelStock : Fragment() {
         if (isSwitchChecked && !allFieldsFilled) {
             suivant.isEnabled = false
             suivant.alpha = 0.3f
-        } else{
+        } else {
             suivant.isEnabled = true
             suivant.alpha = 1.0F
         }
