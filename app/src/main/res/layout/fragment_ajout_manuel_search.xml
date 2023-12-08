@@ -62,6 +62,8 @@
         android:background="@drawable/rounded_blue_button_blue_stroke_background"
         android:fontFamily="@font/quicksand_bold"
         android:text="Ajouter quand même"
+        android:alpha="0.3"
+        android:enabled="false"
         android:textAllCaps="false"
         android:textColor="#3F4791"
 

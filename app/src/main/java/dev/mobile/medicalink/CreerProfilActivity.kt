@@ -297,7 +297,6 @@ class CreerProfilActivity : AppCompatActivity() {
     }
 
     private fun isValidPassword(password: String): Boolean {
-        // Ajoutez votre logique de validation du mot de passe ici
         return password.length == 6
     }
 

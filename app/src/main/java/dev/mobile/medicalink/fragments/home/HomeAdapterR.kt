@@ -19,7 +19,7 @@ import dev.mobile.medicalink.fragments.traitements.Traitement
 class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
-    var heureCourante = list.first().first.heurePrise.split(":").first()
+    var heureCourante : String? = null
     fun updateData(listeTraitementUpdated : MutableList<Pair<Prise, Traitement>>) {
         list = listeTraitementUpdated
     }
@@ -51,6 +51,9 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
+        if (item == list.first()){
+            list.first().first.heurePrise.split(":").first()
+        }
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
         holder.heurePrise.text = item.first.heurePrise
