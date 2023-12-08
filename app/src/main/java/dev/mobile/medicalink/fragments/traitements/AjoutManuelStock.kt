@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -86,6 +88,7 @@ class AjoutManuelStock : Fragment() {
 
         switchStock.setOnCheckedChangeListener { buttonView, isChecked ->
             updateSwitchAppearance(isChecked, layoutStock)
+            updateButtonState()
         }
 
         updateSwitchAppearance(switchStock.isChecked, layoutStock)
@@ -98,6 +101,9 @@ class AjoutManuelStock : Fragment() {
             showTimePickerDialog(view.context, inputRappelHeure)
         }
 
+        inputStockActuel.addTextChangedListener(textWatcher)
+
+        updateButtonState()
         //TODO("Faire la vérif sur tous les boutons suivant du processus de création de traitement")
         suivant.setOnClickListener {
             val bundle = Bundle()
@@ -269,6 +275,33 @@ class AjoutManuelStock : Fragment() {
         val timeFormat =
             SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
         return timeFormat.format(calendar.time)
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Ne fait rien
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // Ne fait rien
+        }
+
+        override fun afterTextChanged(editable: Editable?) {
+            updateButtonState()
+        }
+    }
+
+    private fun updateButtonState() {
+        val isSwitchChecked = switchStock.isChecked
+        val allFieldsFilled = inputStockActuel.text!!.isNotBlank()
+
+        if (isSwitchChecked && !allFieldsFilled) {
+            suivant.isEnabled = false
+            suivant.alpha = 0.3f
+        } else{
+            suivant.isEnabled = true
+            suivant.alpha = 1.0F
+        }
     }
 
     fun clearFocusAndHideKeyboard(view: View) {
