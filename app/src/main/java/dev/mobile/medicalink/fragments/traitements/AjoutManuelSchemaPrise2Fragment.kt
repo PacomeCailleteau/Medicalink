@@ -68,6 +68,23 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         val espacementEnDp = 20
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val totalItemCount = recyclerView.adapter?.itemCount ?: 0
+
+                if (totalItemCount == 0) {
+                    suivant.isEnabled = false
+                    suivant.alpha = 0.3F
+                }else{
+                    suivant.isEnabled = true
+                    suivant.alpha = 1F
+                }
+
+            }
+        })
+
         addNouvellePrise.setOnClickListener {
             numeroPrise = listePrise.size + 1
             var nouvellePrise = Prise(listePrise.size + 1, "17:00", 1, traitement.typeComprime)
