@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
@@ -15,10 +16,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class AjoutManuelStock : Fragment() {
     private lateinit var retour: ImageView
@@ -68,13 +70,17 @@ class AjoutManuelStock : Fragment() {
 
         if (switchStock.isChecked) {
             // Switch est activé (état "on")
-            switchStock.thumbTintList = ContextCompat.getColorStateList(requireContext(), R.color.bleuSwitch)
-            switchStock.trackTintList = ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
+            switchStock.thumbTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.bleuSwitch)
+            switchStock.trackTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
             layoutStock.visibility = View.VISIBLE
         } else {
             // Switch est désactivé (état "off")
-            switchStock.thumbTintList = ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
-            switchStock.trackTintList = ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
+            switchStock.thumbTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
+            switchStock.trackTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
             layoutStock.visibility = View.GONE
         }
 
@@ -88,8 +94,11 @@ class AjoutManuelStock : Fragment() {
             showJourStockDialog(traitement, view.context)
         }
 
-        //TODO("Faire le hour picker")
+        inputRappelHeure.setOnClickListener {
+            showTimePickerDialog(view.context, inputRappelHeure)
+        }
 
+        //TODO("Faire la vérif sur tous les boutons suivant du processus de création de traitement")
         suivant.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable(
@@ -163,11 +172,17 @@ class AjoutManuelStock : Fragment() {
     }
 
     private fun updateSwitchAppearance(isChecked: Boolean, layoutStock: View) {
-        val thumbColor = ContextCompat.getColorStateList(requireContext(), if (isChecked) R.color.bleuSwitch else R.color.grisSwitch)
+        val thumbColor = ContextCompat.getColorStateList(
+            requireContext(),
+            if (isChecked) R.color.bleuSwitch else R.color.grisSwitch
+        )
         val trackColor = ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
 
         val thumbStateList = ColorStateList(
-            arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf(-android.R.attr.state_checked)),
+            arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+            ),
             intArrayOf(thumbColor!!.defaultColor, trackColor!!.defaultColor)
         )
 
@@ -193,12 +208,13 @@ class AjoutManuelStock : Fragment() {
         val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.okButton)
         val textJour = dialogView.findViewById<TextView>(R.id.textJour)
-        var uniteJour = "jour"
+        var uniteJour = "jours"
 
         firstNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
 
         firstNumberPicker.minValue = 1
         firstNumberPicker.maxValue = 30
+        firstNumberPicker.value = inputRappelJour.text.split(" ")[0].toInt()
         firstNumberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == 1) {
                 textJour.text = "jour"
@@ -213,9 +229,6 @@ class AjoutManuelStock : Fragment() {
         }
 
         okButton.setOnClickListener {
-            if (firstNumberPicker.value == 1){
-
-            }
             // Mettre à jour l'interface utilisateur
             // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
             // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
@@ -225,6 +238,37 @@ class AjoutManuelStock : Fragment() {
         }
 
         intervalleRegulierDialog.show()
+    }
+
+    private fun showTimePickerDialog(
+        context: Context,
+        heurePriseInput: EditText,
+    ) {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            context,
+            { _, selectedHour, selectedMinute ->
+                val formattedTime = formatTime(selectedHour, selectedMinute)
+                heurePriseInput.setText(formattedTime)
+            },
+            currentHour,
+            currentMinute,
+            true
+        )
+
+        timePickerDialog.show()
+    }
+
+    private fun formatTime(hour: Int, minute: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+        val timeFormat =
+            SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
+        return timeFormat.format(calendar.time)
     }
 
     fun clearFocusAndHideKeyboard(view: View) {
@@ -239,7 +283,8 @@ class AjoutManuelStock : Fragment() {
         }
 
         // Cache le clavier
-        val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

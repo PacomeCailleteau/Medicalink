@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.media.Image
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,7 @@ import java.time.LocalDate
 
 class ListeTraitementAdapterR(
     private val list: MutableList<Traitement>,
-    private val onItemClick: (Traitement,Boolean) -> Unit,
+    private val onItemClick: (Traitement, Boolean) -> Unit,
 ) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
@@ -66,15 +65,16 @@ class ListeTraitementAdapterR(
                 holder.dateExpirationTraitement.text =
                     "Terminé le ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
-        } else if (LocalDate.now() < item.dateDbtTraitement){
+        } else if (LocalDate.now() < item.dateDbtTraitement) {
 
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_yellow_button_background)
             holder.imageView.setImageResource(R.drawable.medicenattente)
             holder.nbComprimesRestants.text =
                 "${item.comprimesRestants} ${item.typeComprime.lowercase()}s restants"
-            holder.dateExpirationTraitement.text ="Débute le ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
+            holder.dateExpirationTraitement.text =
+                "Débute le ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
 
-        }else{
+        } else {
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
             holder.nbComprimesRestants.text =
@@ -98,17 +98,17 @@ class ListeTraitementAdapterR(
         }
          */
         holder.modifierTraitement.setOnClickListener {
-            onItemClick.invoke(item,false)
+            onItemClick.invoke(item, false)
         }
 
         holder.view.setOnClickListener {
-            onItemClick.invoke(item,false)
+            onItemClick.invoke(item, false)
         }
 
         holder.supprTraitement.setOnClickListener {
             list.remove(item)
             notifyDataSetChanged()
-            onItemClick.invoke(item,true)
+            onItemClick.invoke(item, true)
         }
     }
 

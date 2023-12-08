@@ -25,7 +25,7 @@ import dev.mobile.medicalink.R
 import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 
 class PreviewFragment : Fragment() {
