@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputFilter
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -52,7 +55,6 @@ class AjoutManuelSearchFragment : Fragment() {
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
-
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
 
@@ -95,16 +97,16 @@ class AjoutManuelSearchFragment : Fragment() {
             }
         }
 
-        addManuallySearchBar.filters = arrayOf(filter)
+        updateButtonState()
 
+        addManuallySearchBar.filters = arrayOf(filter)
+        addManuallySearchBar.addTextChangedListener(textWatcher)
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     // Gérez l'activité de résultat ici
                 }
             }
-
-
 
 
         addManuallyButton.setOnClickListener {
@@ -151,6 +153,32 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         return view
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Ne fait rien
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // Ne fait rien
+        }
+
+        override fun afterTextChanged(editable: Editable?) {
+            updateButtonState()
+        }
+    }
+
+    private fun updateButtonState() {
+        val allFieldsFilled = addManuallySearchBar.text!!.isNotBlank()
+
+        if (allFieldsFilled) {
+            addManuallyButton.isEnabled = true
+            addManuallyButton.alpha = 1.0f
+        } else {
+            addManuallyButton.isEnabled = false
+            addManuallyButton.alpha = 0.3.toFloat()
+        }
     }
 
     fun clearFocusAndHideKeyboard(view: View) {

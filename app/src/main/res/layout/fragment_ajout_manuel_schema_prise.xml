@@ -61,7 +61,7 @@
         android:layout_height="73dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_blue_button_blue_stroke_background"
+        android:background="@drawable/rounded_white_button_blue_stroke_background"
         android:fontFamily="@font/quicksand_bold"
 
         android:text="Quotidiennement"
