@@ -14,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mongodb.client.model.Updates.currentDate
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
@@ -26,7 +25,6 @@ import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.Locale
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -56,21 +54,20 @@ class HomeFragment : Fragment() {
     private lateinit var jPlus4: LocalDate
     private lateinit var jPlus5: LocalDate
 
-    private var listeMois = mapOf<String,String>(
-    Pair("JANUARY","Janvier"),
-    Pair("FEBRUARY","Février"),
-    Pair("MARCH","Mars"),
-    Pair("APRIL","Avril"),
-    Pair("MAY","Mai"),
-    Pair("JUNE","Juin"),
-    Pair("JULY","Juillet"),
-    Pair("AUGUST","Août"),
-    Pair("SEPTEMBER","Septembre"),
-    Pair("OCTOBER","Octobre"),
-    Pair("NOVEMBER","Novembre"),
-    Pair("DECEMBER","Décembre"),
+    private var listeMois = mapOf<String, String>(
+        Pair("JANUARY", "Janvier"),
+        Pair("FEBRUARY", "Février"),
+        Pair("MARCH", "Mars"),
+        Pair("APRIL", "Avril"),
+        Pair("MAY", "Mai"),
+        Pair("JUNE", "Juin"),
+        Pair("JULY", "Juillet"),
+        Pair("AUGUST", "Août"),
+        Pair("SEPTEMBER", "Septembre"),
+        Pair("OCTOBER", "Octobre"),
+        Pair("NOVEMBER", "Novembre"),
+        Pair("DECEMBER", "Décembre"),
     )
-
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -250,7 +247,10 @@ class HomeFragment : Fragment() {
                                 ).months
                                 Log.d("m", element.second.dosageNb.toString())
                                 Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d("m2",(moisEntreDeuxDates % element.second.dosageNb).toString())
+                                Log.d(
+                                    "m2",
+                                    (moisEntreDeuxDates % element.second.dosageNb).toString()
+                                )
                                 if (moisEntreDeuxDates == 0) {
                                     doIaddIt = element.second.dateDbtTraitement == dateActuelle
                                 } else {
@@ -267,7 +267,8 @@ class HomeFragment : Fragment() {
                 listePriseAffiche.add(element)
             }
         }
-        val traitementsTries = listePriseAffiche.sortedBy {it.first.heurePrise.uppercase()}.toMutableList()
+        val traitementsTries =
+            listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
 
 
         Log.d("listePrise à afficher", traitementsTries.toString())
@@ -279,10 +280,8 @@ class HomeFragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
 
-
-
         //Gestion du calendrier
-        revenirDateCourante.visibility=View.GONE
+        revenirDateCourante.visibility = View.GONE
         calendrierMoisTextView.text = listeMois[jourJ.month.toString()]
         jourAvantButton.text = jourAvant.dayOfMonth.toString()
         jourJButton.text = jourJ.dayOfMonth.toString()
@@ -293,39 +292,35 @@ class HomeFragment : Fragment() {
         jPlus5Button.text = jPlus5.dayOfMonth.toString()
 
         jourAvantButton.setOnClickListener {
-            updateCalendrier(jourAvant,view.context.applicationContext)
+            updateCalendrier(jourAvant, view.context.applicationContext)
         }
         jourJButton.setOnClickListener {
-            updateCalendrier(jourJ,view.context.applicationContext)
+            updateCalendrier(jourJ, view.context.applicationContext)
         }
         jPlus1Button.setOnClickListener {
-            updateCalendrier(jPlus1,view.context.applicationContext)
+            updateCalendrier(jPlus1, view.context.applicationContext)
         }
         jPlus2Button.setOnClickListener {
-            updateCalendrier(jPlus2,view.context.applicationContext)
+            updateCalendrier(jPlus2, view.context.applicationContext)
         }
         jPlus3Button.setOnClickListener {
-            updateCalendrier(jPlus3,view.context.applicationContext)
+            updateCalendrier(jPlus3, view.context.applicationContext)
         }
         jPlus4Button.setOnClickListener {
-            updateCalendrier(jPlus4,view.context.applicationContext)
+            updateCalendrier(jPlus4, view.context.applicationContext)
         }
         jPlus5Button.setOnClickListener {
-            updateCalendrier(jPlus5,view.context.applicationContext)
+            updateCalendrier(jPlus5, view.context.applicationContext)
         }
         revenirDateCourante.setOnClickListener {
-            updateCalendrier(LocalDate.now(),view.context.applicationContext)
+            updateCalendrier(LocalDate.now(), view.context.applicationContext)
         }
         nextMonth.setOnClickListener {
-            updateCalendrier(jourJ.plusMonths(1),view.context.applicationContext)
+            updateCalendrier(jourJ.plusMonths(1), view.context.applicationContext)
         }
         previousMonth.setOnClickListener {
-            updateCalendrier(jourJ.minusMonths(1),view.context.applicationContext)
+            updateCalendrier(jourJ.minusMonths(1), view.context.applicationContext)
         }
-
-
-
-
 
 
         //Set click listener
@@ -341,11 +336,11 @@ class HomeFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateCalendrier(dateClique : LocalDate,context : Context){
-        if (dateClique!= LocalDate.now()){
-            revenirDateCourante.visibility=View.VISIBLE
-        }else{
-            revenirDateCourante.visibility=View.GONE
+    fun updateCalendrier(dateClique: LocalDate, context: Context) {
+        if (dateClique != LocalDate.now()) {
+            revenirDateCourante.visibility = View.VISIBLE
+        } else {
+            revenirDateCourante.visibility = View.GONE
         }
         jourAvant = dateClique.minusDays(1)
         jourJ = dateClique
@@ -363,11 +358,11 @@ class HomeFragment : Fragment() {
         jPlus3Button.text = jPlus3.dayOfMonth.toString()
         jPlus4Button.text = jPlus4.dayOfMonth.toString()
         jPlus5Button.text = jPlus5.dayOfMonth.toString()
-        updateListePrise(dateClique,context)
+        updateListePrise(dateClique, context)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateListePrise(dateActuelle : LocalDate,context : Context){
+    fun updateListePrise(dateActuelle: LocalDate, context: Context) {
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
@@ -513,7 +508,10 @@ class HomeFragment : Fragment() {
                                 ).months
                                 Log.d("m", element.second.dosageNb.toString())
                                 Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d("m2",(moisEntreDeuxDates % element.second.dosageNb).toString())
+                                Log.d(
+                                    "m2",
+                                    (moisEntreDeuxDates % element.second.dosageNb).toString()
+                                )
                                 if (moisEntreDeuxDates == 0) {
                                     doIaddIt = element.second.dateDbtTraitement == dateActuelle
                                 } else {
@@ -530,7 +528,8 @@ class HomeFragment : Fragment() {
                 listePriseAffiche.add(element)
             }
         }
-        val traitementsTries = listePriseAffiche.sortedBy {it.first.heurePrise.uppercase()}.toMutableList()
+        val traitementsTries =
+            listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
 
         homeAdapter.updateData(traitementsTries)
         homeAdapter.notifyDataSetChanged()

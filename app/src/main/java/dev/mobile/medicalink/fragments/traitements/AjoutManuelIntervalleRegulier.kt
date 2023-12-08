@@ -198,17 +198,17 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             // Mettre à jour l'interface utilisateur
             // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
             // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
-            if (traitement.dosageNb == 1 && traitement.dosageUnite == "Semaines"){
+            if (traitement.dosageNb == 1 && traitement.dosageUnite == "Semaines") {
                 inputIntervalle.setText("Toutes les ${traitement.dosageUnite}")
-            }else if (traitement.dosageNb > 1 && traitement.dosageUnite == "Semaines") {
+            } else if (traitement.dosageNb > 1 && traitement.dosageUnite == "Semaines") {
                 inputIntervalle.setText("Toutes les ${traitement.dosageNb} ${traitement.dosageUnite}")
-            }else if (traitement.dosageNb == 1 && traitement.dosageUnite == "Mois"){
+            } else if (traitement.dosageNb == 1 && traitement.dosageUnite == "Mois") {
                 inputIntervalle.setText("Tous les ${traitement.dosageUnite}")
-            }else if (traitement.dosageNb > 1 && traitement.dosageUnite == "Mois") {
+            } else if (traitement.dosageNb > 1 && traitement.dosageUnite == "Mois") {
                 inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
-            }else if (traitement.dosageUnite == "Jours"){
+            } else if (traitement.dosageUnite == "Jours") {
                 inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
-            }else{
+            } else {
                 inputIntervalle.setText("Tous les ${traitement.dosageNb} ${traitement.dosageUnite}")
             }
 

@@ -68,15 +68,27 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         val espacementEnDp = 20
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
-        val observer = object : RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                super.onChanged()
-                // Réagissez ici aux changements dans l'adaptateur
+        //TODO("Pour Nicolas : Changer le listener car ça fonctionne mais que lorsque
+        //      les valeurs des heures sont visibles à l'écran")
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val totalItemCount = recyclerView.adapter?.itemCount ?: 0
+
+                if (totalItemCount == 0) {
+                    suivant.isEnabled = false
+                    suivant.alpha = 0.3F
+                } else {
+                    suivant.isEnabled = true
+                    suivant.alpha = 1F
+                }
+
                 mettreAJourCouleurs(ajoutManuelAdapter, recyclerView)
             }
-        }
+        })
 
-        ajoutManuelAdapter.registerAdapterDataObserver(observer)
 
         addNouvellePrise.setOnClickListener {
             numeroPrise = listePrise.size + 1
@@ -255,7 +267,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    fun mettreAJourCouleurs( ajoutManuelAdapter: AjoutManuelAdapterR, recyclerView: RecyclerView) {
+    fun mettreAJourCouleurs(ajoutManuelAdapter: AjoutManuelAdapterR, recyclerView: RecyclerView) {
         val maListePrise = ajoutManuelAdapter.getItems()
 
         if (maListePrise != null) {
@@ -279,6 +291,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                                     viewHolderCompare.heurePriseInput,
                                     false
                                 )
+                                suivant.isEnabled = false
+                                suivant.alpha = 0.3F
                             } else {
                                 // true veut dire qu'on met la couleur du texte en noire
                                 ajoutManuelAdapter.mettreAJourCouleurTexte(
@@ -289,6 +303,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                                     viewHolderCompare.heurePriseInput,
                                     true
                                 )
+
+                                suivant.isEnabled = true
+                                suivant.alpha = 1F
                             }
                         }
                     }
@@ -296,5 +313,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             }
         }
     }
+
 
 }

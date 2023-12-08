@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
@@ -24,6 +25,8 @@ import java.util.*
 
 class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     RecyclerView.Adapter<AjoutManuelAdapterR.AjoutManuelViewHolder>() {
+
+    val listePriseLiveData: MutableLiveData<List<Prise>> = MutableLiveData()
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 

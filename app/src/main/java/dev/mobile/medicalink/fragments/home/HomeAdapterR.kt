@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments.home
 
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,11 @@ import dev.mobile.medicalink.fragments.traitements.Traitement
 class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
-    var heureCourante : String? = null
-    fun updateData(listeTraitementUpdated : MutableList<Pair<Prise, Traitement>>) {
+    var heureCourante: String? = null
+    fun updateData(listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>) {
         list = listeTraitementUpdated
     }
+
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
@@ -32,7 +32,6 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
         val imageMedoc = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
         val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
         val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
-
 
 
     }
@@ -51,26 +50,20 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
-        if (item == list.first()){
+        if (item == list.first()) {
             list.first().first.heurePrise.split(":").first()
         }
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
         holder.heurePrise.text = item.first.heurePrise
-        holder.mainHeure.text="${item.first.heurePrise.split(":").first()}h"
+        holder.mainHeure.text = "${item.first.heurePrise.split(":").first()}h"
 
-        if (item==list.first() || item.first.heurePrise.split(":").first()!=heureCourante){
-            holder.mainHeureLayout.visibility=View.VISIBLE
-            heureCourante=item.first.heurePrise.split(":").first()
-        }else{
-            holder.mainHeureLayout.visibility=View.GONE
+        if (item == list.first() || item.first.heurePrise.split(":").first() != heureCourante) {
+            holder.mainHeureLayout.visibility = View.VISIBLE
+            heureCourante = item.first.heurePrise.split(":").first()
+        } else {
+            holder.mainHeureLayout.visibility = View.GONE
         }
-
-
-
-
-
-
 
 
         /*
