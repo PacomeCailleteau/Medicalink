@@ -146,4 +146,7 @@
     <string name="pipette">Pipette</string>
     <string name="seringue">Seringue</string>
     <string name="bonbon">Bonbon</string>
+    <string name="jour_min">jour</string>
+    <string name="jours_min">jours</string>
+
 </resources>

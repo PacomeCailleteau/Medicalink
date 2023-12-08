@@ -223,11 +223,11 @@ class AjoutManuelStock : Fragment() {
         firstNumberPicker.value = inputRappelJour.text.split(" ")[0].toInt()
         firstNumberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == 1) {
-                textJour.text = "jour"
-                uniteJour = "jour"
+                textJour.text = resources.getString(R.string.jour_min)
+                uniteJour = resources.getString(R.string.jour_min)
             } else {
-                textJour.text = "jours"
-                uniteJour = "jours"
+                textJour.text = resources.getString(R.string.jours_min)
+                uniteJour = resources.getString(R.string.jours_min)
             }
         }
         annulerButton.setOnClickListener {

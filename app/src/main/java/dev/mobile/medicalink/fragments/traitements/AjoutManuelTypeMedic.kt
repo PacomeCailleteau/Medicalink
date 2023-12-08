@@ -46,7 +46,14 @@ class AjoutManuelTypeMedic : Fragment() {
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
         var listeTypeMedic: MutableList<String> =
-            mutableListOf("Comprimé", "Gellule", "Sachet", "Sirop", "Pipette", "Seringue", "Bonbon")
+            mutableListOf(
+                resources.getString(R.string.comprime),
+                resources.getString(R.string.gellule),
+                resources.getString(R.string.sachet),
+                resources.getString(R.string.sirop),
+                resources.getString(R.string.pipette),
+                resources.getString(R.string.seringue),
+                resources.getString(R.string.bonbon),)
 
         var selected = traitement.typeComprime
 
@@ -146,13 +153,13 @@ class AjoutManuelTypeMedic : Fragment() {
                 val dureePriseFin = arguments?.getString("dureePriseFin")
                 var listeTypeMedic: MutableList<String> =
                     mutableListOf(
-                        "Comprimé",
-                        "Gellule",
-                        "Sachet",
-                        "Sirop",
-                        "Pipette",
-                        "Seringue",
-                        "Bonbon"
+                        resources.getString(R.string.comprime),
+                        resources.getString(R.string.gellule),
+                        resources.getString(R.string.sachet),
+                        resources.getString(R.string.sirop),
+                        resources.getString(R.string.pipette),
+                        resources.getString(R.string.seringue),
+                        resources.getString(R.string.bonbon),
                     )
 
                 var selected = traitement.typeComprime
