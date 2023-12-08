@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_item_recap"
     android:layout_width="match_parent"
-    android:layout_height="118dp"
-    android:background="@drawable/squared_blue_button_background">
+    android:layout_height="wrap_content"
+    android:background="@drawable/squared_blue_button_background"
+    android:paddingBottom="20dp">
 
     <TextView
         android:id="@+id/nomMedic"
@@ -12,17 +14,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="Nom_Médicament"
         android:ellipsize="end"
+        android:fontFamily="@font/quicksand_bold"
         android:maxLines="1"
+        android:text="Nom_Médicament"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/circleTick"
         app:layout_constraintStart_toEndOf="@+id/itemListeTraitementsImage"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutMainHeure"
         app:layout_constraintVertical_bias="0.32999998"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -36,6 +38,18 @@
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/nomMedic"
+        app:layout_constraintTop_toBottomOf="@+id/heurePriseAccueil" />
+
+    <TextView
+        android:id="@+id/heurePriseAccueil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="heurePrise"
+        android:textColor="#000000"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/nomMedic"
         app:layout_constraintTop_toBottomOf="@+id/nomMedic" />
 
     <ImageView
@@ -43,9 +57,9 @@
         android:layout_width="50dp"
         android:layout_height="45dp"
         android:layout_marginStart="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/nbComprime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nomMedic"
         app:srcCompat="@drawable/medicament" />
 
     <ImageView
@@ -53,9 +67,48 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/nbComprime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nomMedic"
         app:srcCompat="@drawable/circle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMainHeure"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/squared_gray_button_background"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/mainHeureMedic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/quicksand_bold"
+            android:maxLines="1"
+            android:text="MainHeure"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainHeureMedic"></LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

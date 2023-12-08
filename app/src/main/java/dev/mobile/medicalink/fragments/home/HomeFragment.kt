@@ -179,16 +179,12 @@ class HomeFragment : Fragment() {
                                 ).months
                                 Log.d("m", element.second.dosageNb.toString())
                                 Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d(
-                                    "m2",
-                                    (moisEntreDeuxDates % element.second.dosageNb).toString()
-                                )
+                                Log.d("m2",(moisEntreDeuxDates % element.second.dosageNb).toString())
                                 if (moisEntreDeuxDates == 0) {
                                     doIaddIt = element.second.dateDbtTraitement == dateActuelle
                                 } else {
                                     doIaddIt = moisEntreDeuxDates % element.second.dosageNb == 0
                                 }
-
                             }
                             else -> doIaddIt = false
                         }
@@ -199,10 +195,13 @@ class HomeFragment : Fragment() {
                 listePriseAffiche.add(element)
             }
         }
-        Log.d("listePrise à afficher", listePriseAffiche.toString())
+        val traitementsTries = listePriseAffiche.sortedBy {it.first.heurePrise.uppercase()}.toMutableList()
+
+
+        Log.d("listePrise à afficher", traitementsTries.toString())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = HomeAdapterR(listePriseAffiche)
+        recyclerView.adapter = HomeAdapterR(traitementsTries)
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
