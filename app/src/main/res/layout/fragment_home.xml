@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,29 +33,185 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <LinearLayout
-        android:id="@+id/card"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_white_border_white_home_button_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.753"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalink" />
+        app:layout_constraintTop_toBottomOf="@+id/medicalink">
+
+        <ImageView
+            android:id="@+id/revenirDateCourante"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/jourJ"
+            app:layout_constraintEnd_toEndOf="@+id/jourJ"
+            app:layout_constraintStart_toStartOf="@+id/jourJ"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/rechargerbleu" />
+
+        <TextView
+            android:id="@+id/calendrierMois"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Mois"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/jPlus2"
+            app:layout_constraintEnd_toEndOf="@+id/jPlus2"
+            app:layout_constraintStart_toStartOf="@+id/jPlus2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jourAvant"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jPlus5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/jPlus4"
+            app:layout_constraintStart_toEndOf="@+id/jPlus4"
+            app:layout_constraintTop_toTopOf="@+id/jPlus4" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jPlus3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/jPlus2"
+            app:layout_constraintStart_toEndOf="@+id/jPlus2"
+            app:layout_constraintTop_toTopOf="@+id/jPlus2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jPlus2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/jPlus1"
+            app:layout_constraintStart_toEndOf="@+id/jPlus1"
+            app:layout_constraintTop_toTopOf="@+id/jPlus1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jPlus4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/jPlus3"
+            app:layout_constraintStart_toEndOf="@+id/jPlus3"
+            app:layout_constraintTop_toTopOf="@+id/jPlus3" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jPlus1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/jourJ"
+            app:layout_constraintStart_toEndOf="@+id/jourJ"
+            app:layout_constraintTop_toTopOf="@+id/jourJ" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jourJ"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_calendar_selected_button_background"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/jourAvant"
+            app:layout_constraintStart_toEndOf="@+id/jourAvant"
+            app:layout_constraintTop_toTopOf="@+id/jourAvant"
+            app:layout_constraintVertical_bias="0.533" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/calendrierMois"
+            app:layout_constraintStart_toEndOf="@+id/calendrierMois"
+            app:srcCompat="@drawable/suivant" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/calendrierMois"
+            app:layout_constraintEnd_toStartOf="@+id/calendrierMois"
+            app:srcCompat="@drawable/suivantautresens" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHome"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

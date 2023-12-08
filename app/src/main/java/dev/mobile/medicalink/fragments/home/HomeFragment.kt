@@ -1,13 +1,17 @@
 package dev.mobile.medicalink.fragments.home
 
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +22,7 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import org.w3c.dom.Text
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -26,6 +31,28 @@ import java.util.concurrent.LinkedBlockingQueue
 
 
 class HomeFragment : Fragment() {
+
+    private lateinit var calendrierMoisTextView: TextView
+
+    private lateinit var jourAvantButton: Button
+    private lateinit var jourJButton: Button
+    private lateinit var jPlus1Button: Button
+    private lateinit var jPlus2Button: Button
+    private lateinit var jPlus3Button: Button
+    private lateinit var jPlus4Button: Button
+    private lateinit var jPlus5Button: Button
+    private lateinit var revenirDateCourante: ImageView
+
+    private lateinit var jourAvant: LocalDate
+    private lateinit var jourJ: LocalDate
+    private lateinit var jPlus1: LocalDate
+    private lateinit var jPlus2: LocalDate
+    private lateinit var jPlus3: LocalDate
+    private lateinit var jPlus4: LocalDate
+    private lateinit var jPlus5: LocalDate
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -37,6 +64,26 @@ class HomeFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
+
+        calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
+
+        jourAvantButton = view.findViewById(R.id.jourAvant)
+        jourJButton = view.findViewById(R.id.jourJ)
+        jPlus1Button = view.findViewById(R.id.jPlus1)
+        jPlus2Button = view.findViewById(R.id.jPlus2)
+        jPlus3Button = view.findViewById(R.id.jPlus3)
+        jPlus4Button = view.findViewById(R.id.jPlus4)
+        jPlus5Button = view.findViewById(R.id.jPlus5)
+        revenirDateCourante = view.findViewById(R.id.revenirDateCourante)
+
+
+        jourAvant = LocalDate.now().minusDays(1)
+        jourJ = LocalDate.now()
+        jPlus1 = LocalDate.now().plusDays(1)
+        jPlus2 = LocalDate.now().plusDays(2)
+        jPlus3 = LocalDate.now().plusDays(3)
+        jPlus4 = LocalDate.now().plusDays(4)
+        jPlus5 = LocalDate.now().plusDays(5)
 
         //Get elements from view
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
@@ -211,6 +258,48 @@ class HomeFragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
 
+
+
+        //Gestion du calendrier
+        calendrierMoisTextView.text = jourJ.month.toString()
+        jourAvantButton.text = jourAvant.dayOfMonth.toString()
+        jourJButton.text = jourJ.dayOfMonth.toString()
+        jPlus1Button.text = jPlus1.dayOfMonth.toString()
+        jPlus2Button.text = jPlus2.dayOfMonth.toString()
+        jPlus3Button.text = jPlus3.dayOfMonth.toString()
+        jPlus4Button.text = jPlus4.dayOfMonth.toString()
+        jPlus5Button.text = jPlus5.dayOfMonth.toString()
+
+        jourAvantButton.setOnClickListener {
+            updateCalendrier(jourAvant)
+        }
+        jourJButton.setOnClickListener {
+            updateCalendrier(jourJ)
+        }
+        jPlus1Button.setOnClickListener {
+            updateCalendrier(jPlus1)
+        }
+        jPlus2Button.setOnClickListener {
+            updateCalendrier(jPlus2)
+        }
+        jPlus3Button.setOnClickListener {
+            updateCalendrier(jPlus3)
+        }
+        jPlus4Button.setOnClickListener {
+            updateCalendrier(jPlus4)
+        }
+        jPlus5Button.setOnClickListener {
+            updateCalendrier(jPlus5)
+        }
+        revenirDateCourante.setOnClickListener {
+            updateCalendrier(LocalDate.now())
+        }
+
+
+
+
+
+
         //Set click listener
         paramBtn.setOnClickListener {
             //Navigate to parametre fragment
@@ -221,6 +310,31 @@ class HomeFragment : Fragment() {
         }
 
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateCalendrier(dateClique : LocalDate){
+        if (dateClique!= LocalDate.now()){
+            revenirDateCourante.visibility=View.VISIBLE
+        }else{
+            revenirDateCourante.visibility=View.GONE
+        }
+        jourAvant = dateClique.minusDays(1)
+        jourJ = dateClique
+        jPlus1 = dateClique.plusDays(1)
+        jPlus2 = dateClique.plusDays(2)
+        jPlus3 = dateClique.plusDays(3)
+        jPlus4 = dateClique.plusDays(4)
+        jPlus5 = dateClique.plusDays(5)
+
+        calendrierMoisTextView.text = dateClique.month.toString()
+        jourAvantButton.text = jourAvant.dayOfMonth.toString()
+        jourJButton.text = jourJ.dayOfMonth.toString()
+        jPlus1Button.text = jPlus1.dayOfMonth.toString()
+        jPlus2Button.text = jPlus2.dayOfMonth.toString()
+        jPlus3Button.text = jPlus3.dayOfMonth.toString()
+        jPlus4Button.text = jPlus4.dayOfMonth.toString()
+        jPlus5Button.text = jPlus5.dayOfMonth.toString()
     }
 
 }

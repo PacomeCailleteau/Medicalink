@@ -76,7 +76,7 @@
         android:id="@+id/layoutMainHeure"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/squared_gray_button_background"
+        android:background="@color/white"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
