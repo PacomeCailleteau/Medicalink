@@ -6,7 +6,7 @@ import android.os.Build
 import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.User
 import java.security.MessageDigest
-import java.util.*
+import java.util.Base64
 
 
 class UserRepository(private val userDao: UserDao) {

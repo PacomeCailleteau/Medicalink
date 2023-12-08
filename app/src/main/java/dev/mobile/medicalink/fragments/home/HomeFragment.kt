@@ -145,16 +145,18 @@ class HomeFragment : Fragment() {
             "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
         )
         for (element in listeTraitementPrise) {
-            doIaddIt=false
+            doIaddIt = false
             if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
                 Log.d("unite", element.second.dosageUnite)
                 when (element.second.dosageUnite) {
                     "auBesoin" -> {
                         doIaddIt = false
                     }
+
                     "quotidiennement" -> {
                         doIaddIt = true
                     }
+
                     else -> {
                         val jourEntreDeuxDates =
                             ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
@@ -164,6 +166,7 @@ class HomeFragment : Fragment() {
                                 tousLesXJours = element.second.dosageNb.toLong()
                                 doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
                             }
+
                             "Semaines" -> {
                                 tousLesXJours = element.second.dosageNb.toLong() * 7L
                                 Log.d("s", tousLesXJours.toString())
@@ -172,6 +175,7 @@ class HomeFragment : Fragment() {
                                 doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
                                 Log.d("doIaddIt", doIaddIt.toString())
                             }
+
                             "Mois" -> {
                                 var moisEntreDeuxDates = Period.between(
                                     element.second.dateDbtTraitement,
@@ -186,6 +190,7 @@ class HomeFragment : Fragment() {
                                     doIaddIt = moisEntreDeuxDates % element.second.dosageNb == 0
                                 }
                             }
+
                             else -> doIaddIt = false
                         }
                     }
