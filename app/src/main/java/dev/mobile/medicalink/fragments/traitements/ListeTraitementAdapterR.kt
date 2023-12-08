@@ -1,9 +1,12 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -106,10 +109,39 @@ class ListeTraitementAdapterR(
         }
 
         holder.supprTraitement.setOnClickListener {
+            showConfirmSuppressDialog(holder, holder.itemView.context, item)
+        }
+    }
+
+    private fun showConfirmSuppressDialog(
+        holder: ListeTraitementAdapterR.TraitementViewHolder,
+        context: Context,
+        item: Traitement
+    ) {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_confirmation_suppression, null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(dialogView)
+
+        val dosageDialog = builder.create()
+
+        val titreConfirmationSuppression =
+            dialogView.findViewById<TextView>(R.id.titreConfirmationSuppression)
+        val nonButton = dialogView.findViewById<Button>(R.id.nonButton)
+        val ouiButton = dialogView.findViewById<Button>(R.id.ouiButton)
+
+        nonButton.setOnClickListener {
+            dosageDialog.dismiss()
+        }
+
+        ouiButton.setOnClickListener {
             list.remove(item)
             notifyDataSetChanged()
             onItemClick.invoke(item, true)
+            dosageDialog.dismiss()
         }
+
+        dosageDialog.show()
     }
 
 }

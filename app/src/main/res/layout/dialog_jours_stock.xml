@@ -52,7 +52,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/annulerButton"
+            android:id="@+id/nonButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -62,7 +62,7 @@
             android:layout_marginEnd="8dp" />
 
         <Button
-            android:id="@+id/okButton"
+            android:id="@+id/ouiButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

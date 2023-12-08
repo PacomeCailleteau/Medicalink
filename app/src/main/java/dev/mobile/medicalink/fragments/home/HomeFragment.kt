@@ -54,8 +54,7 @@ class HomeFragment : Fragment() {
     private lateinit var jPlus4: LocalDate
     private lateinit var jPlus5: LocalDate
 
-    private lateinit var listeMois : Map<String,String>
-
+    private lateinit var listeMois: Map<String, String>
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -68,19 +67,19 @@ class HomeFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
-        listeMois= mapOf<String,String>(
-            Pair("JANUARY",resources.getString(R.string.janvier)),
-            Pair("FEBRUARY",resources.getString(R.string.fevrier)),
-            Pair("MARCH",resources.getString(R.string.mars)),
-            Pair("APRIL",resources.getString(R.string.avril)),
-            Pair("MAY",resources.getString(R.string.mai)),
-            Pair("JUNE",resources.getString(R.string.juin)),
-            Pair("JULY",resources.getString(R.string.juillet)),
-            Pair("AUGUST",resources.getString(R.string.aout)),
-            Pair("SEPTEMBER",resources.getString(R.string.septembre)),
-            Pair("OCTOBER",resources.getString(R.string.octobre)),
-            Pair("NOVEMBER",resources.getString(R.string.novembre)),
-            Pair("DECEMBER",resources.getString(R.string.decembre)),
+        listeMois = mapOf<String, String>(
+            Pair("JANUARY", resources.getString(R.string.janvier)),
+            Pair("FEBRUARY", resources.getString(R.string.fevrier)),
+            Pair("MARCH", resources.getString(R.string.mars)),
+            Pair("APRIL", resources.getString(R.string.avril)),
+            Pair("MAY", resources.getString(R.string.mai)),
+            Pair("JUNE", resources.getString(R.string.juin)),
+            Pair("JULY", resources.getString(R.string.juillet)),
+            Pair("AUGUST", resources.getString(R.string.aout)),
+            Pair("SEPTEMBER", resources.getString(R.string.septembre)),
+            Pair("OCTOBER", resources.getString(R.string.octobre)),
+            Pair("NOVEMBER", resources.getString(R.string.novembre)),
+            Pair("DECEMBER", resources.getString(R.string.decembre)),
         )
         calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
 
@@ -108,7 +107,7 @@ class HomeFragment : Fragment() {
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
         Log.d("test", "ici")
 
-        val traitementsTries = mutableListOf<Pair<Prise,Traitement>>()
+        val traitementsTries = mutableListOf<Pair<Prise, Traitement>>()
 
 
         Log.d("listePrise à afficher", traitementsTries.toString())
@@ -119,7 +118,7 @@ class HomeFragment : Fragment() {
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
-        updateListePrise(LocalDate.now(),view.context.applicationContext)
+        updateListePrise(LocalDate.now(), view.context.applicationContext)
 
 
         //Gestion du calendrier
@@ -313,7 +312,7 @@ class HomeFragment : Fragment() {
         for (element in listeTraitementPrise) {
             doIaddIt = false
             if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
-                if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)){
+                if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
                     break
                 }
                 Log.d("unite", element.second.dosageUnite)
@@ -352,7 +351,10 @@ class HomeFragment : Fragment() {
                                 ).months
                                 Log.d("m", element.second.dosageNb.toString())
                                 Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d("m2",(moisEntreDeuxDates % element.second.dosageNb).toString())
+                                Log.d(
+                                    "m2",
+                                    (moisEntreDeuxDates % element.second.dosageNb).toString()
+                                )
                                 if (moisEntreDeuxDates == 0) {
                                     doIaddIt = element.second.dateDbtTraitement == dateActuelle
                                 } else {
