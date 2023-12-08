@@ -100,14 +100,15 @@ class ListeTraitementAdapterR(
             false
         }
          */
+        //TODO("Grossir le bouton modifier et supprimer ?")
         holder.modifierTraitement.setOnClickListener {
             onItemClick.invoke(item, false)
         }
-
+/*
         holder.view.setOnClickListener {
             onItemClick.invoke(item, false)
         }
-
+*/
         holder.supprTraitement.setOnClickListener {
             showConfirmSuppressDialog(holder, holder.itemView.context, item)
         }
