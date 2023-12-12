@@ -188,7 +188,7 @@ class PreviewFragment : Fragment() {
         } else {
             extractTextFromImage(bitmap) {
                 val text = it
-                // TODO: Il faut créer le traitement et le faire valider par l'utilisateur, on le ramène donc au fragment AjoutManuelRecapitulatifFragment
+                // TODO: Il faut créer le traitement et le faire valider par l'utilisateur, on le fait rentrer dans le processus de création manuelle mais les champs sont déjà remplis ou on le ramène au fragment AjoutManuelRecapitulatifFragment
                 validateButton.setOnClickListener {
                     createTraitement(text)
                     val fragTransaction = parentFragmentManager.beginTransaction()

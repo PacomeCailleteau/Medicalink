@@ -53,7 +53,8 @@ class AjoutManuelTypeMedic : Fragment() {
                 resources.getString(R.string.sirop),
                 resources.getString(R.string.pipette),
                 resources.getString(R.string.seringue),
-                resources.getString(R.string.bonbon),)
+                resources.getString(R.string.bonbon),
+            )
 
         var selected = traitement.typeComprime
 

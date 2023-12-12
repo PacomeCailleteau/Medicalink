@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
     private lateinit var boutonAjouterProfil: Button
-    private val BIOMETRIC_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

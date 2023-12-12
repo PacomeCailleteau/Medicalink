@@ -199,7 +199,6 @@ class CreerProfilActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val isValidLength = s?.length == 6
                 if (s?.length ?: 0 > 6) {
                     // Si la longueur est supérieure à 6, tronquer le texte
                     inputMotDePasse.setText(s?.subSequence(0, 6))
@@ -349,6 +348,4 @@ class CreerProfilActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH)
         return dateFormat.format(calendar.time)
     }
-
-
 }
