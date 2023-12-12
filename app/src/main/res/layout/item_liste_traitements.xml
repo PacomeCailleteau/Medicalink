@@ -80,8 +80,8 @@
 
     <ImageView
         android:id="@+id/modifierTraitement"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toStartOf="@+id/supprTraitement"
         app:layout_constraintTop_toTopOf="@+id/numeroPrise"
@@ -89,8 +89,8 @@
 
     <ImageView
         android:id="@+id/supprTraitement"
-        android:layout_width="37dp"
-        android:layout_height="37dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/modifierTraitement"
         app:layout_constraintEnd_toEndOf="parent"
