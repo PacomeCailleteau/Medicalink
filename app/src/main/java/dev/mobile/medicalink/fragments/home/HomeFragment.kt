@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
 
         //Gestion du calendrier
         revenirDateCourante.visibility = View.GONE
-        calendrierMoisTextView.text = listeMois[jourJ.month.toString()]
+        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
         jourAvantButton.text = jourAvant.dayOfMonth.toString()
         jourJButton.text = jourJ.dayOfMonth.toString()
         jPlus1Button.text = jPlus1.dayOfMonth.toString()
@@ -191,7 +191,7 @@ class HomeFragment : Fragment() {
         jPlus4 = dateClique.plusDays(4)
         jPlus5 = dateClique.plusDays(5)
 
-        calendrierMoisTextView.text = listeMois[dateClique.month.toString()]
+        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
         jourAvantButton.text = jourAvant.dayOfMonth.toString()
         jourJButton.text = jourJ.dayOfMonth.toString()
         jPlus1Button.text = jPlus1.dayOfMonth.toString()
