@@ -112,7 +112,6 @@ class ListeTraitementAdapterR(
             false
         }
          */
-        //TODO("Grossir le bouton modifier et supprimer ?")
         holder.modifierTraitement.setOnClickListener {
             onItemClick.invoke(item, false)
         }
@@ -138,9 +137,9 @@ class ListeTraitementAdapterR(
         val dosageDialog = builder.create()
 
         val titreConfirmationSuppression =
-            dialogView.findViewById<TextView>(R.id.titreConfirmationSuppression)
-        val nonButton = dialogView.findViewById<Button>(R.id.nonButton)
-        val ouiButton = dialogView.findViewById<Button>(R.id.ouiButton)
+            dialogView.findViewById<TextView>(R.id.titreHeurePrise)
+        val nonButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val ouiButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         nonButton.setOnClickListener {
             dosageDialog.dismiss()

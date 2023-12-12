@@ -1,9 +1,12 @@
 package dev.mobile.medicalink.fragments.home
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -77,6 +80,10 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
         }
          */
 
+        holder.circleTick.setOnClickListener {
+            showConfirmPriseDialog(parent, holder, holder.itemView.context)
+        }
+
         holder.view.setOnClickListener {
             if (holder.circleTick.drawable.constantState?.equals(
                     ContextCompat.getDrawable(
@@ -92,6 +99,53 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
 
             true
         }
+    }
+
+    private fun showConfirmPriseDialog(
+        parent: ViewGroup,
+        holder: AjoutManuelViewHolder,
+        context: Context
+    ) {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_prendre_la_prise, null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(dialogView)
+
+        val layout = LayoutInflater
+            .from(context)
+            .inflate(R.layout.item_accueil, parent, false)
+
+        val dosageDialog = builder.create()
+
+        val nomMedic = layout.findViewById<TextView>(R.id.nomMedic)
+        val nbComprime = layout.findViewById<TextView>(R.id.nbComprime)
+        val heurePrise = layout.findViewById<TextView>(R.id.heurePriseAccueil)
+        val circleTick = layout.findViewById<ImageView>(R.id.circleTick)
+        val imageMedoc = layout.findViewById<ImageView>(R.id.itemListeTraitementsImage)
+        val mainHeure = layout.findViewById<TextView>(R.id.mainHeureMedic)
+        val mainHeureLayout = layout.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
+
+        val titreHeurePrise = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
+        titreHeurePrise.text = mainHeure.text
+        val croixButton = dialogView.findViewById<ImageView>(R.id.croixButton)
+        val nomMedicament = dialogView.findViewById<Button>(R.id.nom_medicament)
+        nomMedicament.text = nomMedic.text
+        val nombreUnite = dialogView.findViewById<Button>(R.id.nombre_unité)
+        nombreUnite.text = "${nbComprime.text}"
+        val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val plusButton = dialogView.findViewById<Button>(R.id.plusButton)
+        val prendreButton = dialogView.findViewById<Button>(R.id.prendreButton)
+
+        croixButton.setOnClickListener {
+            dosageDialog.dismiss()
+        }
+
+        prendreButton.setOnClickListener {
+            holder.circleTick.setImageResource(R.drawable.correct)
+            dosageDialog.dismiss()
+        }
+
+        dosageDialog.show()
     }
 
 }

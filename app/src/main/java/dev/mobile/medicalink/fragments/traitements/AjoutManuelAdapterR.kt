@@ -149,10 +149,10 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
         val dosageDialog = builder.create()
 
-        val titreDosage = dialogView.findViewById<TextView>(R.id.titreConfirmationSuppression)
+        val titreDosage = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         val quantiteInput = dialogView.findViewById<EditText>(R.id.quantiteDialogInput)
-        val annulerButton = dialogView.findViewById<Button>(R.id.nonButton)
-        val okButton = dialogView.findViewById<Button>(R.id.ouiButton)
+        val annulerButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         titreDosage.text = holder.view.resources.getString(R.string.dosage)
         // Utilisez cette ligne pour appliquer le filtre à l'EditText
