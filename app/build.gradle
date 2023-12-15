@@ -54,6 +54,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
+    // PyTorch
+    implementation("org.pytorch:pytorch_android:2.1.0")
+
 }
 
 kapt {
