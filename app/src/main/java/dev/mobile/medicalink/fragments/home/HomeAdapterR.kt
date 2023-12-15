@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +19,8 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 
 
-class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
+class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
+                   private val parentRecyclerView: RecyclerView) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
     var heureCourante: String? = null
@@ -81,9 +83,9 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
          */
 
         holder.circleTick.setOnClickListener {
-            showConfirmPriseDialog(parent, holder, holder.itemView.context)
+            showConfirmPriseDialog(holder, holder.itemView.context)
         }
-
+/*
         holder.view.setOnClickListener {
             if (holder.circleTick.drawable.constantState?.equals(
                     ContextCompat.getDrawable(
@@ -98,11 +100,10 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
             }
 
             true
-        }
+        }*/
     }
 
     private fun showConfirmPriseDialog(
-        parent: ViewGroup,
         holder: AjoutManuelViewHolder,
         context: Context
     ) {
@@ -113,7 +114,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
 
         val layout = LayoutInflater
             .from(context)
-            .inflate(R.layout.item_accueil, parent, false)
+            .inflate(R.layout.item_accueil, parentRecyclerView, false)
 
         val dosageDialog = builder.create()
 
@@ -128,13 +129,13 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>) :
         val titreHeurePrise = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         titreHeurePrise.text = mainHeure.text
         val croixButton = dialogView.findViewById<ImageView>(R.id.croixButton)
-        val nomMedicament = dialogView.findViewById<Button>(R.id.nom_medicament)
+        val nomMedicament = dialogView.findViewById<TextView>(R.id.nom_medicament)
         nomMedicament.text = nomMedic.text
-        val nombreUnite = dialogView.findViewById<Button>(R.id.nombre_unité)
+        val nombreUnite = dialogView.findViewById<TextView>(R.id.nombre_unité)
         nombreUnite.text = "${nbComprime.text}"
-        val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
-        val plusButton = dialogView.findViewById<Button>(R.id.plusButton)
-        val prendreButton = dialogView.findViewById<Button>(R.id.prendreButton)
+        val sauterButton = dialogView.findViewById<LinearLayout>(R.id.sauterLinear)
+        val plusButton = dialogView.findViewById<LinearLayout>(R.id.plusLinear)
+        val prendreButton = dialogView.findViewById<LinearLayout>(R.id.prendreLinear)
 
         croixButton.setOnClickListener {
             dosageDialog.dismiss()

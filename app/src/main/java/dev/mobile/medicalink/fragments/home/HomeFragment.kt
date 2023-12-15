@@ -113,7 +113,7 @@ class HomeFragment : Fragment() {
         Log.d("listePrise à afficher", traitementsTries.toString())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        homeAdapter = HomeAdapterR(traitementsTries)
+        homeAdapter = HomeAdapterR(traitementsTries, recyclerView)
         recyclerView.adapter = homeAdapter
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
