@@ -109,7 +109,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
     ) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_prendre_la_prise, null)
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val layout = LayoutInflater
@@ -133,14 +133,11 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
         nomMedicament.text = nomMedic.text
         val nombreUnite = dialogView.findViewById<TextView>(R.id.nombre_unité)
         nombreUnite.text = "${nbComprime.text}"
-        val sauterLayout = dialogView.findViewById<LinearLayout>(R.id.sauterLinear)
-        val plusLayout = dialogView.findViewById<LinearLayout>(R.id.plusLinear)
-        val prendreLayout = dialogView.findViewById<LinearLayout>(R.id.prendreLinear)
+        val sauterLayout = dialogView.findViewById<ConstraintLayout>(R.id.sauterLinear)
+        val prendreLayout = dialogView.findViewById<ConstraintLayout>(R.id.prendreLinear)
         val imagePrendre = dialogView.findViewById<ImageView>(R.id.imageView6)
         val prendreButton = dialogView.findViewById<Button>(R.id.prendreButton)
         prendreButton.isEnabled = false
-        val plusButton = dialogView.findViewById<Button>(R.id.plusButton)
-        plusButton.isEnabled = false
         val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
         sauterButton.isEnabled = false
 

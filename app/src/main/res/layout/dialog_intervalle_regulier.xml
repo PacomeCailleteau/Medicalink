@@ -6,19 +6,17 @@
     android:id="@+id/constraintLayout7"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="20dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:padding="20dp">
 
     <!-- Titre de l'AlertDialog -->
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog_intervalle_regulier"
-        android:textSize="18sp"
         android:fontFamily="@font/quicksand_bold"
+        android:text="@string/dialog_intervalle_regulier"
         android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
