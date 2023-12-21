@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="283dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
@@ -36,6 +36,22 @@
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_medicalink" />
+
+    <TextView
+        android:id="@+id/textAucunEffetsSec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="start"
+        android:text="@string/aucun_effet_secondaire"
+        android:visibility="visible"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addTraitementButton2"
@@ -61,8 +77,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addTraitementButton2"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="144dp" />
 
     <ImageView
         android:id="@+id/annulerListeEffetsSecondaires"

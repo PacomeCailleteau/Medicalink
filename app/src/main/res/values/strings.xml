@@ -168,5 +168,7 @@
     <string name="vendredi">V</string>
     <string name="samedi">S</string>
     <string name="dimanche">D</string>
+    <string name="aucun_effet_traitement">Aucun effet traitement</string>
+    <string name="aucun_effet_secondaire">Aucun effet secondaire</string>
 
 </resources>

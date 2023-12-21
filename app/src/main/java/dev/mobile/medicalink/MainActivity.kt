@@ -230,8 +230,7 @@ class MainActivity : AppCompatActivity() {
         val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
         val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
         val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
-        val textMotDePasseIncorrect =
-            dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
+        val textMotDePasseIncorrect=dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
 
         val alertDialog = dialogBuilder.create()
 

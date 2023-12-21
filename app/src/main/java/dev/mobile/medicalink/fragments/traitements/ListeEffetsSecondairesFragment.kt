@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,8 @@ class ListeEffetsSecondairesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var annuler: ImageView
 
+    private lateinit var textAucunEffetSec: TextView
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -36,7 +39,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
         val medocDatabaseInterface = MedocRepository(db.medocDao())
 
         annuler = view.findViewById(R.id.annulerListeEffetsSecondaires)
-
+        textAucunEffetSec = view.findViewById(R.id.textAucunEffetsSec)
 
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
 
@@ -121,6 +124,30 @@ class ListeEffetsSecondairesFragment : Fragment() {
         val mesTraitements = queue.take()
 
         val traitementsTries = mesTraitements.sortedBy { it.expire }.toMutableList()
+
+        val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
+
+        // Parcourez la liste de traitements (lp).
+        traitementsTries.forEach { traitement ->
+            traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
+                // Vérifiez si l'effet secondaire est déjà dans la carte.
+                if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
+                    // S'il est présent, ajoutez le traitement à la liste existante.
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
+                } else {
+                    // S'il n'est pas présent, créez une nouvelle liste et ajoutez le traitement.
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()] =
+                        mutableListOf(traitement)
+                }
+            }
+        }
+
+        if (effetsSecondairesMedicaments.isEmpty()){
+            textAucunEffetSec.visibility=View.VISIBLE
+        }else{
+            textAucunEffetSec.visibility=View.GONE
+        }
+
         recyclerView = view.findViewById(R.id.recyclerViewTypeMedic)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)
