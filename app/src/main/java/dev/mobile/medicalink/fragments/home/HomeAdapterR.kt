@@ -118,31 +118,113 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
 
         val dosageDialog = builder.create()
 
-        val nomMedic = layout.findViewById<TextView>(R.id.nomMedic)
-        val nbComprime = layout.findViewById<TextView>(R.id.nbComprime)
-        val heurePrise = layout.findViewById<TextView>(R.id.heurePriseAccueil)
-        val circleTick = layout.findViewById<ImageView>(R.id.circleTick)
-        val imageMedoc = layout.findViewById<ImageView>(R.id.itemListeTraitementsImage)
-        val mainHeure = layout.findViewById<TextView>(R.id.mainHeureMedic)
-        val mainHeureLayout = layout.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
+        val nomMedic = holder.nomMedic
+        val nbComprime = holder.nbComprime
+        val heurePrise = holder.heurePrise
+        val circleTick = holder.circleTick
+        val imageMedoc = holder.imageMedoc
+        val mainHeure = holder.mainHeure
+        val mainHeureLayout = holder.mainHeureLayout
 
         val titreHeurePrise = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
-        titreHeurePrise.text = mainHeure.text
+        titreHeurePrise.text = heurePrise.text
         val croixButton = dialogView.findViewById<ImageView>(R.id.croixButton)
         val nomMedicament = dialogView.findViewById<TextView>(R.id.nom_medicament)
         nomMedicament.text = nomMedic.text
         val nombreUnite = dialogView.findViewById<TextView>(R.id.nombre_unité)
         nombreUnite.text = "${nbComprime.text}"
-        val sauterButton = dialogView.findViewById<LinearLayout>(R.id.sauterLinear)
-        val plusButton = dialogView.findViewById<LinearLayout>(R.id.plusLinear)
-        val prendreButton = dialogView.findViewById<LinearLayout>(R.id.prendreLinear)
+        val sauterLayout = dialogView.findViewById<LinearLayout>(R.id.sauterLinear)
+        val plusLayout = dialogView.findViewById<LinearLayout>(R.id.plusLinear)
+        val prendreLayout = dialogView.findViewById<LinearLayout>(R.id.prendreLinear)
+        val imagePrendre = dialogView.findViewById<ImageView>(R.id.imageView6)
+        val prendreButton = dialogView.findViewById<Button>(R.id.prendreButton)
+        prendreButton.isEnabled = false
+        val plusButton = dialogView.findViewById<Button>(R.id.plusButton)
+        plusButton.isEnabled = false
+        val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        sauterButton.isEnabled = false
+
+
+        if (circleTick.drawable.constantState?.equals(
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    R.drawable.circle
+                )?.constantState
+            ) == true
+        ){
+            prendreButton.text = "Prendre"
+            imagePrendre.setImageResource(R.drawable.verifie)
+
+        } else if (circleTick.drawable.constantState?.equals(
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    R.drawable.correct
+                )?.constantState
+            ) == true
+        ) {
+            prendreButton.text = "Pris"
+            imagePrendre.setImageResource(R.drawable.valide_vert)
+        }
 
         croixButton.setOnClickListener {
             dosageDialog.dismiss()
         }
 
-        prendreButton.setOnClickListener {
-            holder.circleTick.setImageResource(R.drawable.correct)
+        sauterLayout.setOnClickListener {
+            if (circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.circle
+                    )?.constantState
+                ) == true
+            ) {
+                circleTick.setImageResource(R.drawable.avertissement)
+            } else if (circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.avertissement
+                    )?.constantState
+                ) == true
+            ) {
+                circleTick.setImageResource(R.drawable.circle)
+            } else if (circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.correct
+                    )?.constantState
+                ) == true
+            ) {
+                circleTick.setImageResource(R.drawable.avertissement)
+            }
+            dosageDialog.dismiss()
+        }
+
+        prendreLayout.setOnClickListener {
+            if (circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.circle
+                    )?.constantState
+                ) == true
+            ) {
+                circleTick.setImageResource(R.drawable.correct)
+            } else if (circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.correct
+                    )?.constantState
+                ) == true
+            ) {
+                circleTick.setImageResource(R.drawable.circle)
+            } else if (circleTick.drawable.constantState?.equals(
+                    ContextCompat.getDrawable(
+                        holder.itemView.context,
+                        R.drawable.avertissement
+                    )?.constantState
+                ) == true
+            ) {
+                circleTick.setImageResource(R.drawable.correct)
+            }
             dosageDialog.dismiss()
         }
 
