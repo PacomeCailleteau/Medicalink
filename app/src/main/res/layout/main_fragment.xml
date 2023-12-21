@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/textViewAccueil"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="center"
@@ -81,7 +81,7 @@
             <TextView
                 android:id="@+id/textViewTraitement"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="center"
@@ -113,7 +113,7 @@
             <TextView
                 android:id="@+id/textViewMessages"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="center"
