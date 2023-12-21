@@ -29,18 +29,6 @@ import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.utils.OCR
-import dev.mobile.medicalink.modelOCR.ModelOCR
-import fr.medicapp.medicapp.tokenization.Feature
-import fr.medicapp.medicapp.tokenization.FeatureConverter
-import org.pytorch.IValue
-import org.pytorch.Module
-import org.pytorch.Tensor
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStreamReader
 import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity() {
