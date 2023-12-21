@@ -144,7 +144,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
     private fun showDosageDialog(holder: AjoutManuelViewHolder, context: Context, prise: Prise) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_dosage, null)
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val dosageDialog = builder.create()

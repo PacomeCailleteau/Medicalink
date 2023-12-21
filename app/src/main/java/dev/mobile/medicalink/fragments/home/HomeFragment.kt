@@ -40,6 +40,15 @@ class HomeFragment : Fragment() {
     private lateinit var jPlus3Button: Button
     private lateinit var jPlus4Button: Button
     private lateinit var jPlus5Button: Button
+
+    private lateinit var jourAvantLettre: TextView
+    private lateinit var jourJLettre: TextView
+    private lateinit var jPlus1Lettre: TextView
+    private lateinit var jPlus2Lettre: TextView
+    private lateinit var jPlus3Lettre: TextView
+    private lateinit var jPlus4Lettre: TextView
+    private lateinit var jPlus5Lettre: TextView
+
     private lateinit var revenirDateCourante: ImageView
     private lateinit var nextMonth: ImageView
     private lateinit var previousMonth: ImageView
@@ -54,6 +63,8 @@ class HomeFragment : Fragment() {
     private lateinit var jPlus5: LocalDate
 
     private lateinit var listeMois: Map<String, String>
+    private lateinit var listeJour: Map<String, String>
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -80,6 +91,16 @@ class HomeFragment : Fragment() {
             Pair("NOVEMBER", resources.getString(R.string.novembre)),
             Pair("DECEMBER", resources.getString(R.string.decembre)),
         )
+
+        listeJour = mapOf<String, String>(
+            Pair("MONDAY", resources.getString(R.string.lundi)),
+            Pair("TUESDAY", resources.getString(R.string.mardi)),
+            Pair("WEDNESDAY", resources.getString(R.string.mercredi)),
+            Pair("THURSDAY", resources.getString(R.string.jeudi)),
+            Pair("FRIDAY", resources.getString(R.string.vendredi)),
+            Pair("SATURDAY", resources.getString(R.string.samedi)),
+            Pair("SUNDAY", resources.getString(R.string.dimanche)),
+        )
         calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
 
         jourAvantButton = view.findViewById(R.id.jourAvant)
@@ -89,6 +110,15 @@ class HomeFragment : Fragment() {
         jPlus3Button = view.findViewById(R.id.jPlus3)
         jPlus4Button = view.findViewById(R.id.jPlus4)
         jPlus5Button = view.findViewById(R.id.jPlus5)
+
+        jourAvantLettre = view.findViewById(R.id.lettreJourAvant)
+        jourJLettre = view.findViewById(R.id.lettreJourJ)
+        jPlus1Lettre = view.findViewById(R.id.lettreJourJplus1)
+        jPlus2Lettre = view.findViewById(R.id.lettreJourJplus2)
+        jPlus3Lettre = view.findViewById(R.id.lettreJourJplus3)
+        jPlus4Lettre = view.findViewById(R.id.lettreJourJplus4)
+        jPlus5Lettre = view.findViewById(R.id.lettreJourJplus5)
+
         revenirDateCourante = view.findViewById(R.id.revenirDateCourante)
         nextMonth = view.findViewById(R.id.nextMonth)
         previousMonth = view.findViewById(R.id.previousMonth)
@@ -129,6 +159,14 @@ class HomeFragment : Fragment() {
         jPlus3Button.text = jPlus3.dayOfMonth.toString()
         jPlus4Button.text = jPlus4.dayOfMonth.toString()
         jPlus5Button.text = jPlus5.dayOfMonth.toString()
+
+        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
+        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
+        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
+        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
+        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
+        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
+        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
 
         jourAvantButton.setOnClickListener {
             updateCalendrier(jourAvant, view.context.applicationContext)
@@ -197,6 +235,14 @@ class HomeFragment : Fragment() {
         jPlus3Button.text = jPlus3.dayOfMonth.toString()
         jPlus4Button.text = jPlus4.dayOfMonth.toString()
         jPlus5Button.text = jPlus5.dayOfMonth.toString()
+
+        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
+        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
+        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
+        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
+        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
+        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
+        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
         updateListePrise(dateClique, context)
     }
 

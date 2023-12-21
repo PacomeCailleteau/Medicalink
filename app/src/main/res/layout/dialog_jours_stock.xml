@@ -1,32 +1,41 @@
 <!-- res/layout/dialog_intervalle_regulier.xml -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout8"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp">
 
     <!-- Titre de l'AlertDialog -->
     <TextView
+        android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/quicksand_bold"
         android:text="@string/dialog_me_le_rappeler_avant"
+        android:textColor="@color/black"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/constraintLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/sauterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13">
 
         <NumberPicker
             android:id="@+id/firstNumberPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -35,9 +44,11 @@
             android:id="@+id/textJour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/quicksand_semibold"
             android:text="@string/dialog_jours"
-            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/firstNumberPicker"
@@ -46,29 +57,35 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Boutons Annuler et OK -->
-    <LinearLayout
-        android:layout_width="match_parent"
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sauterButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_red_button_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/dialog_annuler"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/prendreButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
-        <Button
-            android:id="@+id/sauterButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dialog_annuler"
-            android:textColor="@color/black"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="8dp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/prendreButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_green_button_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/dialog_ok"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sauterButton"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
-        <Button
-            android:id="@+id/prendreButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dialog_ok"
-            android:textColor="@color/black"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
-    </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

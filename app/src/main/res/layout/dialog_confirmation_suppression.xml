@@ -1,48 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/titreHeurePrise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/quicksand_semibold"
         android:text="@string/voulez_vous_vraiment_supprimer_ce_traitement"
+        android:textColor="@color/black"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/space3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        app:layout_constraintBottom_toTopOf="@+id/sauterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/sauterButton"
+        app:layout_constraintTop_toTopOf="@+id/sauterButton" />
 
-        <Button
-            android:id="@+id/sauterButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:text="@string/non"
-            android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/prendreButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:text="@string/oui"
-            android:textColor="@color/black" />
-    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sauterButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/non"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/prendreButton"
+        app:layout_constraintStart_toStartOf="@+id/titreHeurePrise"
+        app:layout_constraintTop_toBottomOf="@+id/titreHeurePrise" />
 
-</LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/prendreButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_red_button_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/oui"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/titreHeurePrise"
+        app:layout_constraintStart_toEndOf="@+id/sauterButton"
+        app:layout_constraintTop_toBottomOf="@+id/titreHeurePrise" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

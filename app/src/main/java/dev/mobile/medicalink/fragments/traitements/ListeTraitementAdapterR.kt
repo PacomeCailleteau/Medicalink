@@ -131,7 +131,7 @@ class ListeTraitementAdapterR(
     ) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_confirmation_suppression, null)
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val dosageDialog = builder.create()

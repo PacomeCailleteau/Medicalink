@@ -79,7 +79,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                     traitement.dosageUnite,
                     null,
                     traitement.typeComprime,
-                    25,
+                    traitement.comprimesRestants,
                     false,
                     null,
                     traitement.prises,
@@ -116,7 +116,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                     traitement.dosageUnite,
                     null,
                     traitement.typeComprime,
-                    25,
+                    traitement.comprimesRestants,
                     false,
                     null,
                     traitement.prises,
@@ -144,7 +144,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     private fun showIntervalleRegulierDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val intervalleRegulierDialog = builder.create()
@@ -278,7 +278,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                         traitement.dosageUnite,
                         null,
                         traitement.typeComprime,
-                        25,
+                        traitement.comprimesRestants,
                         false,
                         null,
                         traitement.prises,

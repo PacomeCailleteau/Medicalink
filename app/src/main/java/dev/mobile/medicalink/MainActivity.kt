@@ -375,7 +375,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPasswordDialog() {
-        val dialogBuilder = AlertDialog.Builder(this)
+        val dialogBuilder = AlertDialog.Builder(this,R.style.RoundedDialog)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_password, null)
         dialogBuilder.setView(dialogView)
