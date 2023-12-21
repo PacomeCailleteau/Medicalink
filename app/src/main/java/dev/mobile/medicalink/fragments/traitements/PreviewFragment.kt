@@ -22,7 +22,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.modelOCR.ModelOCR
+import dev.mobile.medicalink.utils.ModelOCR
 import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat
@@ -204,8 +204,8 @@ class PreviewFragment : Fragment() {
 
     // Fonction qui va lire le texte récupéré depuis l'image et en faire un traitement après avoir trié les données
     private fun createTraitement(text: String) {
-        var myModel = ModelOCR(requireContext(),text)
-        var texteAnalyze = myModel.analyze()
+        var myModel = ModelOCR(requireContext())
+        var texteAnalyze = myModel.analyze(text)
         Log.d("textAnalyzeParModel", texteAnalyze.toString())
     }
 

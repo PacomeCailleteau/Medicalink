@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 
 
@@ -40,18 +42,18 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-
+        // Récupération des arguments
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val schema_prise1 = arguments?.getString("schema_prise1")
+        val provenance = arguments?.getString("provenance")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         var listePrise: MutableList<Prise>? = traitement.prises
         if (listePrise == null) {
             listePrise =
-                mutableListOf<Prise>(
+                mutableListOf(
                     Prise(
                         numeroPrise,
                         resources.getString(R.string._17_00),
@@ -68,38 +70,16 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewAjoutPrise)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        var ajoutManuelAdapter = AjoutManuelAdapterR(listePrise)
+        val ajoutManuelAdapter = AjoutManuelAdapterR(listePrise)
         recyclerView.adapter = ajoutManuelAdapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 20
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
-        //TODO("Pour Nicolas : Changer le listener car ça fonctionne mais que lorsque
-        //      les valeurs des heures sont visibles à l'écran")
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val totalItemCount = recyclerView.adapter?.itemCount ?: 0
-
-                if (totalItemCount == 0) {
-                    suivant.isEnabled = false
-                    suivant.alpha = 0.3F
-                } else {
-                    suivant.isEnabled = true
-                    suivant.alpha = 1F
-                }
-
-                mettreAJourCouleurs(ajoutManuelAdapter, recyclerView)
-            }
-        })
-
-
         addNouvellePrise.setOnClickListener {
             numeroPrise = listePrise.size + 1
-            var nouvellePrise = Prise(
+            val nouvellePrise = Prise(
                 listePrise.size + 1,
                 resources.getString(R.string._17_00),
                 1,
@@ -107,17 +87,31 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             )
             listePrise.add(nouvellePrise)
             ajoutManuelAdapter.notifyItemInserted(listePrise.size - 1)
+            recyclerView.scrollToPosition(listePrise.size - 1)
         }
 
-
-
         suivant.setOnClickListener {
-            var totalQuantite = 0
-            if (listePrise != null) {
-                for (prise in listePrise) {
-                    totalQuantite += prise.quantite
-                }
+            //s'il y a des conflits d'heures de prises, on ne peut pas passer à l'étape suivante et on affiche un message d'erreur sous forme de Toast
+            if (conflitsHeuresPrises(listePrise)) {
+                mettreAJourCouleurs(listePrise, recyclerView)
+                Toast.makeText(
+                    requireContext(),
+                    "Il y a des conflits d'heures de prises, veuillez les modifier",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
             }
+            //S'il n'y a plus de prise, on ne peut pas passer à l'étape suivante et on affiche un message d'erreur sous forme de Toast
+            if (listePrise.size == 0) {
+                Toast.makeText(
+                    requireContext(),
+                    "Veuillez ajouter au moins une prise",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            val totalQuantite: Int = listePrise.sumOf { it.quantite }
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
@@ -142,14 +136,13 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
-            var destinationFragment = AjoutManuelDateSchemaPrise()
+            val destinationFragment = AjoutManuelDateSchemaPrise()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
-
 
         retour.setOnClickListener {
             var totalQuantite = 0
@@ -202,11 +195,28 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         }
 
 
-
-
         return view
     }
 
+    /**
+     * Méthode qui vérifie s'il y a des conflits d'heures de prises
+     * @param listePrise la liste des prises
+     * @return true s'il y a des conflits d'heures de prises, false sinon
+     */
+    private fun conflitsHeuresPrises(listePrise: MutableList<Prise>) : Boolean {
+        for (prisePrincipale in 0 until listePrise.size) {
+            for (priseCompare in prisePrincipale+1 until listePrise.size) {
+                if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    /**
+     * Méthode qui gère le bouton de retour arrière de l'appareil
+     */
     override fun onResume() {
         super.onResume()
 
@@ -286,50 +296,50 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    fun mettreAJourCouleurs(ajoutManuelAdapter: AjoutManuelAdapterR, recyclerView: RecyclerView) {
-        val maListePrise = ajoutManuelAdapter.getItems()
-
-        if (maListePrise != null) {
-            for (prisePrincipale in 0 until maListePrise.size) {
-                for (priseCompare in 0 until maListePrise.size) {
-                    if (prisePrincipale !== priseCompare) {
-                        val viewHolderPrincipale =
-                            recyclerView.findViewHolderForAdapterPosition(prisePrincipale)
-                        val viewHolderCompare =
-                            recyclerView.findViewHolderForAdapterPosition(priseCompare)
-                        if (viewHolderPrincipale is AjoutManuelAdapterR.AjoutManuelViewHolder &&
-                            viewHolderCompare is AjoutManuelAdapterR.AjoutManuelViewHolder
-                        ) {
-                            if (maListePrise[prisePrincipale].heurePrise == maListePrise[priseCompare].heurePrise) {
-                                // false veut dire qu'on met la couleur du texte en rouge
-                                ajoutManuelAdapter.mettreAJourCouleurTexte(
-                                    viewHolderPrincipale.heurePriseInput,
-                                    false
-                                )
-                                ajoutManuelAdapter.mettreAJourCouleurTexte(
-                                    viewHolderCompare.heurePriseInput,
-                                    false
-                                )
-                                suivant.isEnabled = false
-                                suivant.alpha = 0.3F
-                            } else {
-                                // true veut dire qu'on met la couleur du texte en noire
-                                ajoutManuelAdapter.mettreAJourCouleurTexte(
-                                    viewHolderPrincipale.heurePriseInput,
-                                    true
-                                )
-                                ajoutManuelAdapter.mettreAJourCouleurTexte(
-                                    viewHolderCompare.heurePriseInput,
-                                    true
-                                )
-
-                                suivant.isEnabled = true
-                                suivant.alpha = 1F
-                            }
-                        }
-                    }
+    /**
+     * Méthode qui récupère tous les index des prises qui ont des conflits d'heures de prises puis qui appellent la méthode changerCouleur
+     * @param listePrise la liste des prises
+     * @param recyclerView le recyclerView contenant les prises
+     */
+    private fun mettreAJourCouleurs(listePrise: MutableList<Prise>, recyclerView: RecyclerView) {
+        val indexAMettreEnRouge = mutableSetOf<Int>()
+        for (prisePrincipale in 0 until listePrise.size) {
+            for (priseCompare in prisePrincipale+1 until listePrise.size) {
+                if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
+                    indexAMettreEnRouge.add(prisePrincipale)
+                    indexAMettreEnRouge.add(priseCompare)
                 }
             }
         }
+        changerCouleur(indexAMettreEnRouge, recyclerView)
     }
+
+    /**
+     * Méthode qui change la couleur des heures de prises en rouge si elles ont des conflits d'heures de prises et en noir sinon
+     * @param indexAMettreEnRouge la liste des index des prises qui ont des conflits d'heures de prises
+     * @param recyclerView le recyclerView contenant les prises
+     */
+    private fun changerCouleur(indexAMettreEnRouge: MutableSet<Int>, recyclerView: RecyclerView) {
+        for (index in 0 until recyclerView.childCount) {
+            val child = recyclerView.getChildAt(index)
+            val heurePriseInput = child.findViewById<TextInputEditText>(R.id.heurePriseInput)
+            // En rouge si conflit d'heures de prises, en noir sinon
+            if (indexAMettreEnRouge.contains(index)) {
+                heurePriseInput.setTextColor(resources.getColor(R.color.red))
+            } else {
+                heurePriseInput.setTextColor(resources.getColor(R.color.black))
+            }
+        }
+    }
+
+
+
+
+
+
+
 }
+
+
+
+
