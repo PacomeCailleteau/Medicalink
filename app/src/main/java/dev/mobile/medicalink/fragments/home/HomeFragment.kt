@@ -29,7 +29,6 @@ import java.util.concurrent.LinkedBlockingQueue
 
 
 class HomeFragment : Fragment() {
-
     private lateinit var homeAdapter: HomeAdapterR
 
     private lateinit var calendrierMoisTextView: TextView
@@ -108,7 +107,6 @@ class HomeFragment : Fragment() {
         Log.d("test", "ici")
 
         val traitementsTries = mutableListOf<Pair<Prise, Traitement>>()
-
 
         Log.d("listePrise à afficher", traitementsTries.toString())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
