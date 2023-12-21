@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,10 +35,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medicalink">
@@ -48,8 +49,8 @@
             android:layout_height="20dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/previousMonth"
-            app:layout_constraintEnd_toEndOf="@+id/jourJ"
-            app:layout_constraintStart_toStartOf="@+id/jourJ"
+            app:layout_constraintEnd_toStartOf="@+id/previousMonth"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/rechargerbleu" />
@@ -58,12 +59,10 @@
             android:id="@+id/calendrierMois"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:fontFamily="@font/quicksand_bold"
             android:text="@string/mois"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/jPlus2"
             app:layout_constraintEnd_toEndOf="@+id/jPlus2"
             app:layout_constraintStart_toStartOf="@+id/jPlus2"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +71,7 @@
             android:id="@+id/jourAvant"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -80,16 +79,14 @@
             android:text="@string/x"
             android:textAlignment="center"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/calendrierMois" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/jPlus5"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -105,7 +102,7 @@
             android:id="@+id/jPlus3"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -121,7 +118,7 @@
             android:id="@+id/jPlus2"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -137,7 +134,7 @@
             android:id="@+id/jPlus4"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -153,7 +150,7 @@
             android:id="@+id/jPlus1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -169,7 +166,7 @@
             android:id="@+id/jourJ"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_calendar_selected_button_background"
             android:fontFamily="@font/quicksand_bold"
@@ -199,6 +196,90 @@
             app:layout_constraintBottom_toBottomOf="@+id/calendrierMois"
             app:layout_constraintEnd_toStartOf="@+id/calendrierMois"
             app:srcCompat="@drawable/suivantautresens" />
+
+        <TextView
+            android:id="@+id/lettreJourAvant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="L"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jourAvant"
+            app:layout_constraintStart_toStartOf="@+id/jourAvant"
+            app:layout_constraintTop_toBottomOf="@+id/jourAvant" />
+
+        <TextView
+            android:id="@+id/lettreJourJ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="M"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jourJ"
+            app:layout_constraintStart_toStartOf="@+id/jourJ"
+            app:layout_constraintTop_toBottomOf="@+id/jourJ" />
+
+        <TextView
+            android:id="@+id/lettreJourJplus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="M"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jPlus1"
+            app:layout_constraintStart_toStartOf="@+id/jPlus1"
+            app:layout_constraintTop_toBottomOf="@+id/jPlus1" />
+
+        <TextView
+            android:id="@+id/lettreJourJplus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="J"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jPlus2"
+            app:layout_constraintStart_toStartOf="@+id/jPlus2"
+            app:layout_constraintTop_toBottomOf="@+id/jPlus2" />
+
+        <TextView
+            android:id="@+id/lettreJourJplus3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="V"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jPlus3"
+            app:layout_constraintStart_toStartOf="@+id/jPlus3"
+            app:layout_constraintTop_toBottomOf="@+id/jPlus3" />
+
+        <TextView
+            android:id="@+id/lettreJourJplus4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="S"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jPlus4"
+            app:layout_constraintStart_toStartOf="@+id/jPlus4"
+            app:layout_constraintTop_toBottomOf="@+id/jPlus4" />
+
+        <TextView
+            android:id="@+id/lettreJourJplus5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="D"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/jPlus5"
+            app:layout_constraintStart_toStartOf="@+id/jPlus5"
+            app:layout_constraintTop_toBottomOf="@+id/jPlus5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -160,5 +160,13 @@
     <string name="s_restants">s restants</string>
     <string name="debute_le">Débute le</string>
     <string name="jusquau">Jusqu\'au</string>
+    <string name="Deconnexion">Déconnexion</string>
+    <string name="lundi">L</string>
+    <string name="mardi">M</string>
+    <string name="mercredi">M</string>
+    <string name="jeudi">J</string>
+    <string name="vendredi">V</string>
+    <string name="samedi">S</string>
+    <string name="dimanche">D</string>
 
 </resources>

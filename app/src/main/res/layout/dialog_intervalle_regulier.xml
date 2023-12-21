@@ -1,70 +1,86 @@
 <!-- res/layout/dialog_intervalle_regulier.xml -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout7"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp">
 
     <!-- Titre de l'AlertDialog -->
     <TextView
+        android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_intervalle_regulier"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
+        android:fontFamily="@font/quicksand_bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <!-- Premier NumberPicker -->
+    <NumberPicker
+        android:id="@+id/firstNumberPicker"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/space5"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-        <!-- Premier NumberPicker -->
-        <NumberPicker
-            android:id="@+id/firstNumberPicker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+    <Space
+        android:id="@+id/space5"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/sauterButton"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-        <Space
-            android:layout_width="15dp"
-            android:layout_height="match_parent" />
+    <!-- Deuxième NumberPicker -->
+    <NumberPicker
+        android:id="@+id/secondNumberPicker"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/space5"
+        app:layout_constraintTop_toTopOf="@+id/space5" />
 
-        <!-- Deuxième NumberPicker -->
-        <NumberPicker
-            android:id="@+id/secondNumberPicker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-    </LinearLayout>
 
     <!-- Boutons Annuler et OK -->
-    <LinearLayout
-        android:layout_width="match_parent"
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sauterButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_red_button_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/dialog_annuler"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/prendreButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstNumberPicker" />
 
-        <Button
-            android:id="@+id/sauterButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dialog_annuler"
-            android:textColor="@color/black"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="8dp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/prendreButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_green_button_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/dialog_ok"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sauterButton"
+        app:layout_constraintTop_toBottomOf="@+id/secondNumberPicker" />
 
-        <Button
-            android:id="@+id/prendreButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dialog_ok"
-            android:textColor="@color/black"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
-    </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

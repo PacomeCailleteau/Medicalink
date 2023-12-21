@@ -118,7 +118,7 @@ class AjoutManuelSearchFragment : Fragment() {
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
                     traitement.typeComprime,
-                    25,
+                    traitement.comprimesRestants,
                     traitement.expire,
                     null,
                     traitement.prises,

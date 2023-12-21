@@ -30,6 +30,17 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.utils.OCR
+import dev.mobile.medicalink.modelOCR.ModelOCR
+import fr.medicapp.medicapp.tokenization.Feature
+import fr.medicapp.medicapp.tokenization.FeatureConverter
+import org.pytorch.IValue
+import org.pytorch.Module
+import org.pytorch.Tensor
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
 import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity() {
@@ -65,6 +76,11 @@ class MainActivity : AppCompatActivity() {
         textBienvenue = findViewById(R.id.text_bienvenue)
         buttonConnexion = findViewById(R.id.button_connexion)
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
+
+
+
+
+
 
         //Connection à la base de données
 
@@ -216,7 +232,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPasswordDialog() {
-        val dialogBuilder = AlertDialog.Builder(this)
+        val dialogBuilder = AlertDialog.Builder(this,R.style.RoundedDialog)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_password, null)
         dialogBuilder.setView(dialogView)

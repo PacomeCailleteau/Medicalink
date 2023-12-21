@@ -70,6 +70,8 @@ class AjoutManuelStock : Fragment() {
         var dureePriseDbt = arguments?.getString("dureePriseDbt")
         var dureePriseFin = arguments?.getString("dureePriseFin")
 
+        inputStockActuel.setText(traitement.comprimesRestants.toString())
+
         if (switchStock.isChecked) {
             // Switch est activé (état "on")
             switchStock.thumbTintList =
@@ -115,7 +117,7 @@ class AjoutManuelStock : Fragment() {
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
                     traitement.typeComprime,
-                    25,
+                    inputStockActuel.text.toString().toInt(),
                     false,
                     null,
                     traitement.prises,
@@ -151,7 +153,7 @@ class AjoutManuelStock : Fragment() {
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
                     traitement.typeComprime,
-                    25,
+                    inputStockActuel.text.toString().toInt(),
                     false,
                     null,
                     traitement.prises,
@@ -205,7 +207,7 @@ class AjoutManuelStock : Fragment() {
     private fun showJourStockDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val intervalleRegulierDialog = builder.create()
