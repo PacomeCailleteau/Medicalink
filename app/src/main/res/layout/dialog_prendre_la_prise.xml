@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/titreHeurePrise"
@@ -105,12 +108,16 @@
                 android:layout_height="35dp"
                 app:srcCompat="@drawable/prochain" />
 
-            <Button
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/sauterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:text="Sauter"
+                android:textSize="12dp"
+                android:clickable="false"
+                android:focusable="false"
                 android:textColor="@color/black" />
         </LinearLayout>
 
@@ -128,7 +135,7 @@
                 android:layout_height="35dp"
                 app:srcCompat="@drawable/menu" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/plusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,6 +143,9 @@
                 android:layout_marginEnd="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:text="Plus"
+                android:textSize="12dp"
+                android:clickable="false"
+                android:focusable="false"
                 android:textColor="@color/black" />
         </LinearLayout>
 
@@ -153,16 +163,17 @@
                 android:layout_height="35dp"
                 app:srcCompat="@drawable/verifie" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/prendreButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:text="Prendre"
+                android:textSize="12dp"
+                android:clickable="false"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
