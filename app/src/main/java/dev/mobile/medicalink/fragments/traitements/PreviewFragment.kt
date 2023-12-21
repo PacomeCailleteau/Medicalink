@@ -22,7 +22,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.modelOCR.ModelOCR
+import dev.mobile.medicalink.utils.ModelOCR
 import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat

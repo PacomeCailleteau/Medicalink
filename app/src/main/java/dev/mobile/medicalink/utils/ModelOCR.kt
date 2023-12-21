@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.modelOCR
+package dev.mobile.medicalink.utils
 
 import android.content.Context
 import android.content.res.AssetManager
