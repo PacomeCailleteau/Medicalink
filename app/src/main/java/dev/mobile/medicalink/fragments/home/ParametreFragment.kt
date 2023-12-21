@@ -1,14 +1,18 @@
 package dev.mobile.medicalink.fragments.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.fragments.MainFragment
 
 
 class ParametreFragment : Fragment() {
@@ -22,6 +26,7 @@ class ParametreFragment : Fragment() {
 
         //Get elements from view
         val btnTsarBomba: Button = view.findViewById(R.id.btnTsraBomba)
+        val btnDeconnexion : LinearLayout = view.findViewById(R.id.cardDeconnexion)
 
         //Set click listener
         btnTsarBomba.setOnClickListener {
@@ -33,6 +38,11 @@ class ParametreFragment : Fragment() {
                 db.tsarBomba()
                 Log.d("TSAR BOMBA", "BOUM BADABOUM")
             }//.start()
+        }
+
+        btnDeconnexion.setOnClickListener {
+            val intent = Intent(requireContext(),MainActivity::class.java)
+            startActivity(intent)
         }
 
         return view
