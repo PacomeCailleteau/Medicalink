@@ -33,6 +33,7 @@ import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import dev.mobile.medicalink.modelOCR.ModelOCR
 import fr.medicapp.medicapp.tokenization.Feature
 import fr.medicapp.medicapp.tokenization.FeatureConverter
 import org.pytorch.IValue
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonConnexion: Button
     private lateinit var buttonChangerUtilisateur: Button
     private lateinit var boutonAjouterProfil: Button
-
+    /*
     private var mModule: Module? = null
     private lateinit var mBackgroundThread: HandlerThread
     private lateinit var mHandle: Handler
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     private val DO_LOWER_CASE = false
     private val PREDICT_ANS_NUM = 5
     private val NUM_LITE_THREADS = 4
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             userId = intent.getStringExtra("userId")
         }
 
-
+        /*
         mBackgroundThread = HandlerThread("BackgroundThread")
         mBackgroundThread.start()
         mHandle = Handler(mBackgroundThread.looper)
@@ -213,6 +215,12 @@ class MainActivity : AppCompatActivity() {
             labels[index]
         }
         Log.v(TAG, "predictionsLabelList: $predictionsLabelList")
+        */
+
+
+
+
+
 
         //On ne le fait qu'une seule fois dans toute l'application
         creerCanalNotification()
@@ -226,6 +234,11 @@ class MainActivity : AppCompatActivity() {
         textBienvenue = findViewById(R.id.text_bienvenue)
         buttonConnexion = findViewById(R.id.button_connexion)
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
+
+
+
+
+
 
         //Connection à la base de données
 
@@ -528,7 +541,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
 
     }
-
+    /*
     private val modelRunnable = Runnable {
         loadModel()
     }
@@ -589,6 +602,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+     */
 }
 
 
