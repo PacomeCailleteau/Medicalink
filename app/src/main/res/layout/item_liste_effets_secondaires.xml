@@ -4,7 +4,7 @@
     android:id="@+id/layout_item_recap"
     android:layout_width="match_parent"
     android:layout_height="118dp"
-    android:background="@drawable/rounded_red_button_background">
+    android:background="@drawable/rounded_orange_button_background">
 
     <TextView
         android:id="@+id/numeroPrise"

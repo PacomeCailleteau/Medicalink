@@ -43,7 +43,7 @@
         android:layout_height="44dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="19dp"
-        android:background="@drawable/rounded_red_button_background"
+        android:background="@drawable/rounded_orange_button_background"
         android:text="@string/incompatibilite_detecte"
         android:visibility="gone"
         android:textAllCaps="false"
