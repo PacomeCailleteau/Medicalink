@@ -204,8 +204,8 @@ class PreviewFragment : Fragment() {
 
     // Fonction qui va lire le texte récupéré depuis l'image et en faire un traitement après avoir trié les données
     private fun createTraitement(text: String) {
-        var myModel = ModelOCR(requireContext(),text)
-        var texteAnalyze = myModel.analyze()
+        var myModel = ModelOCR(requireContext())
+        var texteAnalyze = myModel.analyze(text)
         Log.d("textAnalyzeParModel", texteAnalyze.toString())
     }
 

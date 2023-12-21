@@ -17,7 +17,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
 
-class ModelOCR(private val context: Context, private val texteAAnalyse : String) {
+class ModelOCR(private val context: Context) {
 
     private var mModule: Module? = null
     private lateinit var mBackgroundThread: HandlerThread
@@ -37,7 +37,7 @@ class ModelOCR(private val context: Context, private val texteAAnalyse : String)
     private val NUM_LITE_THREADS = 4
 
 
-    fun analyze() : List<String?>{
+    fun analyze(texteAAnalyse : String) : List<String?>{
 
 
         mBackgroundThread = HandlerThread("BackgroundThread")
