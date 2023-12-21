@@ -14,7 +14,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -60,7 +62,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
         holder.textNumeroPrise.text = holder.view.resources.getString(R.string.prise)
 
-        holder.heurePriseInput.setText("${item.heurePrise}")
+        holder.heurePriseInput.setText(item.heurePrise)
 
         holder.quantiteInput.setText("${item.quantite} ${item.dosageUnite}(s)")
 
@@ -68,6 +70,11 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
             // Utilisez la vue parente de l'élément du RecyclerView pour obtenir le contexte
             val context = holder.itemView.context
             showTimePickerDialog(context, holder.heurePriseInput, item)
+        }
+
+        // on fait un texte watcher sur l'heure qui change la couleur du texte
+        holder.heurePriseInput.doOnTextChanged() { _, _, _, _ ->
+            holder.heurePriseInput.setTextColor(Color.BLACK)
         }
 
         holder.quantiteInput.setOnClickListener {
@@ -98,16 +105,9 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         }
     }
 
-    fun mettreAJourCouleurTexte(heurePriseInput: TextInputEditText, conditionValidee: Boolean) {
-        if (conditionValidee) {
-            // Mettez la couleur du texte en rouge
-            heurePriseInput.setTextColor(Color.BLACK)
-        } else {
-            // Remettez la couleur du texte à sa valeur normale
-            heurePriseInput.setTextColor(Color.RED)  // Remplacez par la couleur que vous souhaitez utiliser normalement
-        }
-    }
-
+    /**
+     * Affiche un TimePickerDialog et met à jour l'heure de la prise
+     */
     private fun showTimePickerDialog(
         context: Context,
         heurePriseInput: TextInputEditText,
@@ -133,6 +133,9 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         timePickerDialog.show()
     }
 
+    /**
+     * Formate l'heure sélectionnée dans le TimePickerDialog
+     */
     private fun formatTime(hour: Int, minute: Int): String {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, hour)
@@ -142,6 +145,12 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         return timeFormat.format(calendar.time)
     }
 
+    /**
+     * Affiche un AlertDialog et met à jour la quantité de la prise
+     * @param holder ViewHolder de l'élément du RecyclerView
+     * @param context Contexte de l'application
+     * @param prise Prise à modifier
+     */
     private fun showDosageDialog(holder: AjoutManuelViewHolder, context: Context, prise: Prise) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_dosage, null)
         val builder = AlertDialog.Builder(context)
@@ -178,6 +187,11 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         dosageDialog.show()
     }
 
+    /**
+     * Filtre pour limiter la saisie de l'utilisateur à un intervalle de valeurs
+     * @param minValue Valeur minimale
+     * @param maxValue Valeur maximale
+     */
     class RangeInputFilter(private val minValue: Int, private val maxValue: Int) : InputFilter {
 
         override fun filter(

@@ -199,7 +199,7 @@ class CreerProfilActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if (s?.length ?: 0 > 6) {
+                if ((s?.length ?: 0) > 6) {
                     // Si la longueur est supérieure à 6, tronquer le texte
                     inputMotDePasse.setText(s?.subSequence(0, 6))
                     inputMotDePasse.setSelection(6)
@@ -211,7 +211,7 @@ class CreerProfilActivity : AppCompatActivity() {
             val db = AppDatabase.getInstance(this)
             val userDatabaseInterface = UserRepository(db.userDao())
             var res: Pair<Boolean, String>?
-            val uuid = java.util.UUID.randomUUID().toString()
+            val uuid = UUID.randomUUID().toString()
             val statut = if (radioButtonUtilisateur.isChecked) "Utilisateur" else "Professionnel"
             val nom = inputNom.text.toString()
             val prenom = inputPrenom.text.toString()
