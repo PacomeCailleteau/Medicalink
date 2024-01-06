@@ -18,6 +18,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.utils.NotificationService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -37,7 +38,7 @@ class ListeTraitementsFragment : Fragment() {
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
 
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
         var uuidUpdateTraitement = arguments?.getString("uuidUpdateTraitement")
 
 
@@ -50,10 +51,14 @@ class ListeTraitementsFragment : Fragment() {
 
 
 
+        /* ##############################################################
+        #                 Partie upserte du traitement                  #
+        ################################################################# */
+        // Si isAddingTraitement != null en fait ??
         if (isAddingTraitement == "true" || isAddingTraitement == "false") {
-            var newTraitement = arguments?.getSerializable("newTraitement") as Traitement
+            val newTraitement = arguments?.getSerializable("newTraitement") as Traitement
 
-            var newMedoc: Medoc
+            val newMedoc: Medoc
             var traitementUUID: String = UUID.randomUUID().toString()
             when (isAddingTraitement) {
                 "true" -> {
@@ -80,7 +85,7 @@ class ListeTraitementsFragment : Fragment() {
             if (newTraitement.prises != null) {
                 var chaineDeChar = ""
                 for (prise in newTraitement.prises!!) {
-                    chaineDeChar += "${prise.toString()}/"
+                    chaineDeChar += "${prise}/"
                 }
                 chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
                 newTraitementPrises = chaineDeChar
@@ -105,7 +110,7 @@ class ListeTraitementsFragment : Fragment() {
 
             val queue2 = LinkedBlockingQueue<Boolean>()
             Thread {
-                var uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
+                val uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
                 newMedoc.uuidUser = uuidUserCourant
                 when (isAddingTraitement) {
                     "true" -> {
@@ -120,10 +125,26 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
 
+
+            val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
+            val jourPremierePrise = newTraitement.dateDbtTraitement
+            if (jourPremierePrise != null) {
+                NotificationService.createFirstNotif(
+                    view.context,
+                    heurePremierePrise,
+                    jourPremierePrise,
+                    newTraitement
+                )
+            }
+
         }
 
-        val queue = LinkedBlockingQueue<MutableList<Traitement>>()
 
+        /* ##############################################################
+        #           Partie affichage de tous les traitements            #
+        ################################################################# */
+
+        val queue = LinkedBlockingQueue<MutableList<Traitement>>()
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread {
             val listeTraitement: MutableList<Traitement> = mutableListOf()
@@ -183,7 +204,7 @@ class ListeTraitementsFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
-                    medoc.dosageNB?.toInt(),
+                    medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,
@@ -203,6 +224,7 @@ class ListeTraitementsFragment : Fragment() {
             queue.add(listeTraitement)
         }.start()
 
+        // Récupération de tous les traitements grâce au Thread au dessus
         val mesTraitements = queue.take()
 
 
@@ -261,18 +283,17 @@ class ListeTraitementsFragment : Fragment() {
                         schema_prise1 = "Intervalle"
                         provenance = "intervalleRegulier"
                     }
-                    var dureePriseFin: String
 
-                    if (clickedTraitement.dateFinTraitement == null) {
-                        dureePriseFin = "sf"
+                    val dureePriseFin: String = if (clickedTraitement.dateFinTraitement == null) {
+                        "sf"
                     } else {
-                        dureePriseFin = "date"
+                        "date"
                     }
                     //TODO("fusionner schema_prise1 et provenance dans le processus d'add traitement")
-                    bundle.putString("schema_prise1", "$schema_prise1")
-                    bundle.putString("provenance", "$provenance")
+                    bundle.putString("schema_prise1", schema_prise1)
+                    bundle.putString("provenance", provenance)
                     bundle.putString("dureePriseDbt", "ajd")
-                    bundle.putString("dureePriseFin", "$dureePriseFin")
+                    bundle.putString("dureePriseFin", dureePriseFin)
 
 
                     val destinationFragment = AjoutManuelRecapitulatif()
@@ -285,6 +306,7 @@ class ListeTraitementsFragment : Fragment() {
 
 
             }
+
 
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 22
@@ -318,5 +340,4 @@ class ListeTraitementsFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-
 }

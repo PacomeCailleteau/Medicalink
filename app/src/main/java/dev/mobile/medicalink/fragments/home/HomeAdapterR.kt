@@ -3,20 +3,25 @@ package dev.mobile.medicalink.fragments.home
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.utils.NotificationService
+import java.time.LocalTime
 
 
 class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
@@ -103,6 +108,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
         }*/
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showConfirmPriseDialog(
         holder: AjoutManuelViewHolder,
         context: Context
@@ -149,7 +155,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 )?.constantState
             ) == true
         ){
-            prendreButton.text = "Prendre"
+            prendreButton.text = context.resources.getString(R.string.prendre)
             imagePrendre.setImageResource(R.drawable.verifie)
 
         } else if (circleTick.drawable.constantState?.equals(
@@ -159,7 +165,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 )?.constantState
             ) == true
         ) {
-            prendreButton.text = "Pris"
+            prendreButton.text = context.resources.getString(R.string.pris)
             imagePrendre.setImageResource(R.drawable.valide_vert)
         }
 
@@ -168,15 +174,8 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
         }
 
         sauterLayout.setOnClickListener {
+            // Si l'image est déjà un avertissment, on la remet en cercle, sinon on la met en avertissment
             if (circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.circle
-                    )?.constantState
-                ) == true
-            ) {
-                circleTick.setImageResource(R.drawable.avertissement)
-            } else if (circleTick.drawable.constantState?.equals(
                     ContextCompat.getDrawable(
                         holder.itemView.context,
                         R.drawable.avertissement
@@ -184,28 +183,15 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 ) == true
             ) {
                 circleTick.setImageResource(R.drawable.circle)
-            } else if (circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.correct
-                    )?.constantState
-                ) == true
-            ) {
+            } else {
                 circleTick.setImageResource(R.drawable.avertissement)
             }
             dosageDialog.dismiss()
         }
 
         prendreLayout.setOnClickListener {
+            // Si l'image est déjà un tick correct alors on la remet en cercle, sinon on la met en tick correct
             if (circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.circle
-                    )?.constantState
-                ) == true
-            ) {
-                circleTick.setImageResource(R.drawable.correct)
-            } else if (circleTick.drawable.constantState?.equals(
                     ContextCompat.getDrawable(
                         holder.itemView.context,
                         R.drawable.correct
@@ -213,13 +199,61 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 ) == true
             ) {
                 circleTick.setImageResource(R.drawable.circle)
-            } else if (circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.avertissement
-                    )?.constantState
-                ) == true
-            ) {
+            } else {
+                //On fait un toast pour dire que le médicament a été pris (on peut l'enlever si on trouve que ça fait moche)
+                Toast.makeText(
+                    context,
+                    "Vous avez pris votre médicament ${nomMedic.text} de ${heurePrise.text}",
+                    Toast.LENGTH_SHORT).show()
+
+                //On veut créer une notification pour la prochaine prise du traitement, cette prise peut être plus tard dans la journée ou un jour prochain
+                //On récupère le traitement et la prise
+                val traitement = list[holder.adapterPosition].second
+                val prise = list[holder.adapterPosition].first
+
+                //On récupère l'heure de la prochaine prise en fonction des prises du traitement
+                val heureProchainePrise = traitement.getProchainePrise(prise).heurePrise
+
+                //On fait une requête à la base de données pour récupéré le Medoc correspondant au traitement
+                Thread {
+                    val db = AppDatabase.getInstance(context)
+                    val medocDatabaseInterface = MedocRepository(db.medocDao())
+                    var dateFinTraitement : String? = null
+                    if (traitement.UUID == null) {
+                        Log.d("UUID", "UUID null")
+                        return@Thread
+                    }else {
+                        val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
+                        if (medoc.size == 1) {
+                            //On récupère la date de fin du traitement
+                            val medicament = medoc[0]
+                            dateFinTraitement = medicament.dateFinTraitement
+                            medicament.comprimesRestants = medicament.comprimesRestants?.minus(prise.quantite)
+
+                            if (medicament.comprimesRestants!! <= 0) {
+                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
+                            }
+
+                            //On met à jour le médicament dans la base de données
+                            medocDatabaseInterface.updateMedoc(medicament)
+
+                        }else {
+                            Log.d("MEDOC", "Le médicament n'a pas été trouvé")
+                            return@Thread
+                        }
+                    }
+
+                    //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
+                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now().toString()) {
+                        Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
+                        return@Thread
+                    }else {
+                        //On créer la notification de la prochaine prise
+                        NotificationService.createNextNotif(context, heureProchainePrise, traitement)
+                    }
+                }.start()
+
+
                 circleTick.setImageResource(R.drawable.correct)
             }
             dosageDialog.dismiss()

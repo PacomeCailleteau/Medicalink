@@ -170,5 +170,7 @@
     <string name="dimanche">D</string>
     <string name="aucun_effet_traitement">Aucun effet traitement</string>
     <string name="aucun_effet_secondaire">Aucun effet secondaire</string>
+    <string name="prendre">Prendre</string>
+    <string name="pris">Pris</string>
 
 </resources>
