@@ -145,10 +145,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         retour.setOnClickListener {
             var totalQuantite = 0
-            if (listePrise != null) {
-                for (prise in listePrise) {
-                    totalQuantite += prise.quantite
-                }
+            for (prise in listePrise) {
+                totalQuantite += prise.quantite
             }
             val bundle = Bundle()
             bundle.putSerializable(
@@ -225,7 +223,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val provenance = arguments?.getString("provenance")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")

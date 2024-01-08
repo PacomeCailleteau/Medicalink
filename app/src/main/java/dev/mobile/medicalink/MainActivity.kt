@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
         }.start()
 
-        var prenom = queue.take()
+        val prenom = queue.take()
         if (prenom != null) {
             //Changement du texte
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
@@ -178,6 +178,18 @@ class MainActivity : AppCompatActivity() {
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Aucune empreinte n'a été enregistrée sur l'appareil
                 // Gérez le cas où aucune empreinte n'est enregistrée
+            }
+
+            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+                TODO()
+            }
+
+            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
+                TODO()
+            }
+
+            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
+                TODO()
             }
         }
     }
@@ -338,7 +350,7 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
-            var queue = LinkedBlockingQueue<String>()
+            val queue = LinkedBlockingQueue<String>()
             Thread {
                 userDatabaseInterface.setConnected(
                     userDatabaseInterface.getOneUserById(clickedUser.uuid).first()

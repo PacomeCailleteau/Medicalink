@@ -43,7 +43,6 @@ class ModelOCR(private val context: Context) {
         mBackgroundThread = HandlerThread("BackgroundThread")
         mBackgroundThread.start()
         mHandle = Handler(mBackgroundThread.looper)
-
         mHandle.removeCallbacks(modelRunnable)
         mHandle.post(modelRunnable)
 

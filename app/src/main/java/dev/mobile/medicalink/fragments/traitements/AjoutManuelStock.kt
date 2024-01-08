@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -31,8 +32,10 @@ class AjoutManuelStock : Fragment() {
     private lateinit var inputStockActuel: EditText
     private lateinit var inputRappelJour: EditText
     private lateinit var inputRappelHeure: EditText
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var switchStock: Switch
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -134,7 +137,7 @@ class AjoutManuelStock : Fragment() {
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
-            var destinationFragment = AjoutManuelRecapitulatif()
+            val destinationFragment = AjoutManuelRecapitulatif()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
@@ -206,6 +209,7 @@ class AjoutManuelStock : Fragment() {
         layoutStock.visibility = if (isChecked) View.VISIBLE else View.GONE
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showJourStockDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)

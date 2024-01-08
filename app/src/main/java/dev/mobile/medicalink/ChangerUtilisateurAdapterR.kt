@@ -1,5 +1,6 @@
 package dev.mobile.medicalink
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,7 @@ class ChangerUtilisateurAdapterR(
         return AjoutManuelViewHolder(layout)
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]

@@ -101,7 +101,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
-                    medoc.dosageNB?.toInt(),
+                    medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,

@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -68,6 +69,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -215,6 +217,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
         if (dateClique != LocalDate.now()) {
@@ -326,7 +329,7 @@ class HomeFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
-                    medoc.dosageNB?.toInt(),
+                    medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,
@@ -351,10 +354,10 @@ class HomeFragment : Fragment() {
             queue.add(listeTraitement)
 
         }.start()
-        var listeTraitementPrise = queue.take()
+        val listeTraitementPrise = queue.take()
         Log.d("test", listeTraitementPrise.toString())
         var doIaddIt: Boolean
-        var listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
+        val listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
         Log.d(
             "Date Actuelle Système",
             "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
@@ -397,7 +400,7 @@ class HomeFragment : Fragment() {
                             }
 
                             "Mois" -> {
-                                var moisEntreDeuxDates = Period.between(
+                                val moisEntreDeuxDates = Period.between(
                                     element.second.dateDbtTraitement,
                                     dateActuelle
                                 ).months
@@ -429,13 +432,13 @@ class HomeFragment : Fragment() {
         val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
         Thread {
 
-            var resultatListePriseValidee: MutableList<Pair<LocalDate, String>> = mutableListOf()
+            val resultatListePriseValidee: MutableList<Pair<LocalDate, String>> = mutableListOf()
 
             val listePriseValideeDB = priseValideeDatabaseInterface.getAllPriseValidee()
 
             for (priseValidee in listePriseValideeDB) {
 
-                var uuidTraitement = priseValidee.uuidPrise
+                val uuidTraitement = priseValidee.uuidPrise
 
                 var dateReformate = LocalDate.now()
 

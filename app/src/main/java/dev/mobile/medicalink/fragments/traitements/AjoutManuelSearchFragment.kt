@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
@@ -34,6 +35,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
     private lateinit var retour: ImageView
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,12 +49,12 @@ class AjoutManuelSearchFragment : Fragment() {
             navBarre.visibility = View.GONE
         }
 
-        var traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1 = arguments?.getString("schema_prise1")
+        val traitement = arguments?.getSerializable("traitement") as Traitement
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val schema_prise1 = arguments?.getString("schema_prise1")
         var provenance = arguments?.getString("provenance")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)

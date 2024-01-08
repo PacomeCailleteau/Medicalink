@@ -263,7 +263,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val provenance = arguments?.getString("provenance")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")

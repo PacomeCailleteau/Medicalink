@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -157,6 +158,7 @@ class AddTraitementsFragment : Fragment() {
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): Uri {
         val provider = "${view?.context?.applicationContext?.packageName}.fileprovider"
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())

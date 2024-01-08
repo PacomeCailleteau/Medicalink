@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
@@ -38,6 +39,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     private lateinit var suivant: Button
 
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +63,9 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val schema_prise1 = arguments?.getString("schema_prise1")
+        val provenance = arguments?.getString("provenance")
         dureePriseDbt = arguments?.getString("dureePriseDbt")
         dureePriseFin = arguments?.getString("dureePriseFin")
 

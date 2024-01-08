@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.home
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
@@ -73,6 +74,7 @@ class HomeAdapterR(
         return AjoutManuelViewHolder(layout)
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val db = AppDatabase.getInstance(holder.itemView.context)
@@ -103,7 +105,7 @@ class HomeAdapterR(
             holder.circleTick.isClickable = true
             val queue = LinkedBlockingQueue<String>()
             Thread {
-                var isPriseCouranteValidee =
+                val isPriseCouranteValidee =
                     priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
                         dateCourante.toString(),
                         item.first.numeroPrise.toString()
@@ -116,7 +118,7 @@ class HomeAdapterR(
                     queue.add("sauter")
                 }
             }.start()
-            var result = queue.take()
+            val result = queue.take()
             Log.d("RESULTAT", result)
             if (result == "null") {
                 holder.circleTick.setImageResource(R.drawable.circle)
@@ -268,11 +270,11 @@ class HomeAdapterR(
                         list[holder.adapterPosition].first.numeroPrise
                     )
                     if (priseToUpdate.isNotEmpty()) {
-                        var maPrise = priseToUpdate.first()
+                        val maPrise = priseToUpdate.first()
                         maPrise.statut = "sauter"
                         priseValideeDatabaseInterface.updatePriseValidee(maPrise)
                     } else {
-                        var priseValidee = PriseValidee(
+                        val priseValidee = PriseValidee(
                             uuid = UUID.randomUUID().toString(),
                             date = dateCourante.toString(),
                             uuidPrise = list[holder.adapterPosition].first.numeroPrise,
@@ -353,11 +355,11 @@ class HomeAdapterR(
                         list[holder.adapterPosition].first.numeroPrise
                     )
                     if (priseToUpdate.isNotEmpty()) {
-                        var maPrise = priseToUpdate.first()
+                        val maPrise = priseToUpdate.first()
                         maPrise.statut = "prendre"
                         priseValideeDatabaseInterface.updatePriseValidee(maPrise)
                     } else {
-                        var priseValidee = PriseValidee(
+                        val priseValidee = PriseValidee(
                             uuid = UUID.randomUUID().toString(),
                             date = dateCourante.toString(),
                             uuidPrise = list[holder.adapterPosition].first.numeroPrise,

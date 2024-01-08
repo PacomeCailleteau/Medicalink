@@ -1,5 +1,7 @@
 package fr.medicapp.medicapp.tokenization
 
+import android.util.Log
+
 
 final class FullTokenizer(
     inputDic: HashMap<String, Int>,

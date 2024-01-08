@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -55,6 +56,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         return AjoutManuelViewHolder(layout)
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
@@ -150,6 +152,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
      * @param context Contexte de l'application
      * @param prise Prise à modifier
      */
+    @SuppressLint("SetTextI18n")
     private fun showDosageDialog(holder: AjoutManuelViewHolder, context: Context, prise: Prise) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_dosage, null)
         val builder = AlertDialog.Builder(context, R.style.RoundedDialog)

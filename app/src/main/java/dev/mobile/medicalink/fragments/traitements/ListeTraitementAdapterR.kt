@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
@@ -45,6 +46,7 @@ class ListeTraitementAdapterR(
         return TraitementViewHolder(layout)
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val item = list.get(position)

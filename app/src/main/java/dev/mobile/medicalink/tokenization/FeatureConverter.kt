@@ -34,7 +34,6 @@ class FeatureConverter(
                 allDocTokens.add(subToken)
             }
         }
-        allDocTokens.forEach { Log.d("CamemBERTToken", it) }
 
         // -3 accounts for [CLS], [SEP] and [SEP].
         val maxContextLen = maxSeqLen - 3
@@ -62,11 +61,6 @@ class FeatureConverter(
         tokens.add(CamemBERT.SEP_TOKEN)
         segmentIds.add(0)
 
-        while (tokens.size < maxSeqLen) {
-            tokens.add(CamemBERT.PAD_TOKEN)
-            segmentIds.add(0)
-        }
-
         val inputIds = tokenizer.convertTokensToIds(tokens)
         val inputMask: MutableList<Int> = ArrayList(
             Collections.nCopies(
@@ -74,6 +68,13 @@ class FeatureConverter(
                 1
             )
         )
+
+        while (tokens.size < maxSeqLen) {
+            tokens.add(CamemBERT.PAD_TOKEN)
+            inputIds.add(1)
+            segmentIds.add(0)
+            inputMask.add(0)
+        }
 
         return Feature(inputIds, inputMask, segmentIds, origTokens, tokenToOrigMap)
     }

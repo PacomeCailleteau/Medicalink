@@ -1,5 +1,8 @@
 package fr.medicapp.medicapp.tokenization
 
+import java.util.Arrays
+import java.util.Locale
+
 
 class BasicTokenizer(
     doLowerCase: Boolean = false
@@ -25,8 +28,6 @@ class BasicTokenizer(
             }
         }
         val splitTokens = whitespaceTokenize(stringBuilder.toString())
-        // modifier le premier token en ajoutant un underscore au début
-        splitTokens[0] = "▁${splitTokens[0]}"
         return splitTokens
     }
 
