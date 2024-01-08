@@ -63,8 +63,12 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun updateUser(user: User): Pair<Boolean, String> {
-        //TODO("hash password if needed")
+    fun updateUser(user: User, isPasswordChanged: Boolean = false): Pair<Boolean, String> {
+        //Si le mot de passe n'est pas modifié, on ne le hash pas, sinon on le hash
+        if (isPasswordChanged) {
+            val hashedPassword = hashPassword(user.password!!)
+            user.password = hashedPassword
+        }
         return try {
             userDao.update(user)
             Pair(true, "Success")
@@ -84,20 +88,19 @@ class UserRepository(private val userDao: UserDao) {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Base64.getUrlEncoder().encodeToString(bytes)
         } else {
-            TODO("VERSION.SDK_INT < O")
+            //Si l'API est inférieure à 26 (Oreo), on utilise la méthode suivante
+            android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
         }
     }
 
     fun setConnected(user: User): Pair<Boolean, String> {
         return try {
             for (userCourant in userDao.getByConnected()) {
-                val newUser = userCourant
-                newUser.isConnected = false
-                userDao.update(newUser)
+                userCourant.isConnected = false
+                userDao.update(userCourant)
             }
-            val newUser = user
-            newUser.isConnected = true
-            userDao.update(newUser)
+            user.isConnected = true
+            userDao.update(user)
             userDao.update(user)
             Pair(true, "Success")
 

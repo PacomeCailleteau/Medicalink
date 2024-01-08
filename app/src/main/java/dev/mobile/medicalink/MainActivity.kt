@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
@@ -109,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
         }.start()
 
-        var prenom = queue.take()
+        val prenom = queue.take()
         if (prenom != null) {
             //Changement du texte
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"

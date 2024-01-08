@@ -12,7 +12,7 @@ class MongoManager {
     private val mongoClient: MongoClient
     private val database: MongoDatabase
 
-    private val mongoHost = "127.26.82.25"
+    private val mongoHost = "127.26.82.44"
     private val mongoPort = 27666
     private val databaseName = "test"
     private val username = "root"

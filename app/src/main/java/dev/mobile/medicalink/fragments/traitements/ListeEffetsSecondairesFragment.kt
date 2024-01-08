@@ -47,8 +47,11 @@ class ListeEffetsSecondairesFragment : Fragment() {
         Thread {
             val listeTraitement: MutableList<Traitement> = mutableListOf()
 
-            //TODO("Changer l'uuid utilisateur par l'utilisateur courant")
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId("111111")
+            //On récuềre l'uuid de l'utilisateur courant
+            val uuidUser = userDatabaseInterface.getUsersConnected()[0].uuid
+
+
+            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(uuidUser)
 
             for (medoc in listeMedoc) {
 

@@ -33,11 +33,10 @@ class ParametreFragment : Fragment() {
             Thread {
                 //Create database connexion, use `userDatabaseInterface` to access to the database
                 val db = AppDatabase.getInstance(view.context.applicationContext)
-                //Call tsarBomba function to clear all tables :)
-                //ça va faire boum badaboum
-                db.tsarBomba()
-                Log.d("TSAR BOMBA", "BOUM BADABOUM")
-            }//.start()
+                //On affiche les 5 premières ligne de CisBdpm
+                val cisBdpmList = db.cisBdpmDao().getAll()
+                Log.d("CisBdpm", cisBdpmList.take(5).toString())
+            }.start()
         }
 
         btnDeconnexion.setOnClickListener {
