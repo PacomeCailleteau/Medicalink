@@ -2,7 +2,6 @@ package dev.mobile.medicalink.db.local.dao
 
 import androidx.room.*
 import dev.mobile.medicalink.db.local.entity.PriseValidee
-import dev.mobile.medicalink.db.local.entity.User
 
 @Dao
 interface PriseValideeDao {
@@ -13,7 +12,7 @@ interface PriseValideeDao {
     fun getById(uuid: String): List<PriseValidee>
 
     @Query("SELECT * FROM prisevalidee WHERE date IN (:date) AND uuidPrise IN (:uuidPrise)")
-    fun getByUUIDTraitementAndDate(date: String,uuidPrise: String): List<PriseValidee>
+    fun getByUUIDTraitementAndDate(date: String, uuidPrise: String): List<PriseValidee>
 
     @Insert
     fun insertAll(vararg priseValidee: PriseValidee)

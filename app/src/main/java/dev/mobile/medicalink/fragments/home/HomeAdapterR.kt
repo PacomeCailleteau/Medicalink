@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.home
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,18 +29,24 @@ import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
 
-class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
-                   private var listePriseValidee : MutableList<Pair<LocalDate,String>>,
-                   private var dateCourante : LocalDate,
-                   private val parentRecyclerView: RecyclerView) :
+class HomeAdapterR(
+    private var list: MutableList<Pair<Prise, Traitement>>,
+    private var listePriseValidee: MutableList<Pair<LocalDate, String>>,
+    private var dateCourante: LocalDate,
+    private val parentRecyclerView: RecyclerView
+) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
 
     var heureCourante: String? = null
-    fun updateData(listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,listePriseValideeUpdated : MutableList<Pair<LocalDate,String>>,date: LocalDate) {
+    fun updateData(
+        listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
+        listePriseValideeUpdated: MutableList<Pair<LocalDate, String>>,
+        date: LocalDate
+    ) {
         list = listeTraitementUpdated
-        listePriseValidee=listePriseValideeUpdated
-        dateCourante=date
+        listePriseValidee = listePriseValideeUpdated
+        dateCourante = date
     }
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -92,7 +97,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
             holder.circleTick.isClickable = false
-        }else {
+        } else {
 
             holder.circleTick.isEnabled = true
             holder.circleTick.isClickable = true
@@ -123,7 +128,6 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
         }
 
 
-
         /*
         A check pour afficher les détails d'un traitement quand cliqué
 
@@ -136,27 +140,27 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
          */
 
         holder.circleTick.setOnClickListener {
-            var listePriseValidee : MutableList<Pair<LocalDate,String>>
+            var listePriseValidee: MutableList<Pair<LocalDate, String>>
             showConfirmPriseDialog(holder, holder.itemView.context)
         }
 
 
-/*
-        holder.view.setOnClickListener {
-            if (holder.circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.circle
-                    )?.constantState
-                ) == true
-            ) {
-                holder.circleTick.setImageResource(R.drawable.correct)
-            } else {
-                holder.circleTick.setImageResource(R.drawable.circle)
-            }
+        /*
+                holder.view.setOnClickListener {
+                    if (holder.circleTick.drawable.constantState?.equals(
+                            ContextCompat.getDrawable(
+                                holder.itemView.context,
+                                R.drawable.circle
+                            )?.constantState
+                        ) == true
+                    ) {
+                        holder.circleTick.setImageResource(R.drawable.correct)
+                    } else {
+                        holder.circleTick.setImageResource(R.drawable.circle)
+                    }
 
-            true
-        }*/
+                    true
+                }*/
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -166,7 +170,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
     ) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_prendre_la_prise, null)
-        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
+        val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val layout = LayoutInflater
@@ -207,7 +211,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                     R.drawable.circle
                 )?.constantState
             ) == true
-        ){
+        ) {
             prendreButton.text = context.resources.getString(R.string.prendre)
             imagePrendre.setImageResource(R.drawable.verifie)
 
@@ -236,15 +240,21 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 ) == true
             ) {
                 val queue = LinkedBlockingQueue<String>()
-                Thread{
+                Thread {
 
-                    val priseToDelete=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
-                    if (priseToDelete.isNotEmpty()){
+                    val priseToDelete = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        list[holder.adapterPosition].first.numeroPrise
+                    )
+                    if (priseToDelete.isNotEmpty()) {
                         priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
                     }
 
-                    Log.d("priseValideeTestSautee",priseToDelete.toString())
-                    Log.d("priseValideeTestSautee2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                    Log.d("priseValideeTestSautee", priseToDelete.toString())
+                    Log.d(
+                        "priseValideeTestSautee2",
+                        priseValideeDatabaseInterface.getAllPriseValidee().toString()
+                    )
                     queue.add("True")
 
                 }.start()
@@ -252,13 +262,16 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 circleTick.setImageResource(R.drawable.circle)
             } else {
                 val queue = LinkedBlockingQueue<String>()
-                Thread{
-                    val priseToUpdate=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
-                    if (priseToUpdate.isNotEmpty()){
+                Thread {
+                    val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        list[holder.adapterPosition].first.numeroPrise
+                    )
+                    if (priseToUpdate.isNotEmpty()) {
                         var maPrise = priseToUpdate.first()
-                        maPrise.statut="sauter"
+                        maPrise.statut = "sauter"
                         priseValideeDatabaseInterface.updatePriseValidee(maPrise)
-                    }else{
+                    } else {
                         var priseValidee = PriseValidee(
                             uuid = UUID.randomUUID().toString(),
                             date = dateCourante.toString(),
@@ -268,8 +281,11 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                         priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
                     }
 
-                    Log.d("priseValideeTest",priseToUpdate.toString())
-                    Log.d("priseValideeTest2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                    Log.d("priseValideeTest", priseToUpdate.toString())
+                    Log.d(
+                        "priseValideeTest2",
+                        priseValideeDatabaseInterface.getAllPriseValidee().toString()
+                    )
                     queue.add("True")
 
                 }.start()
@@ -292,15 +308,21 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
             ) {
 
                 val queue = LinkedBlockingQueue<String>()
-                Thread{
+                Thread {
 
-                    val priseToDelete=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
-                    if (priseToDelete.isNotEmpty()){
+                    val priseToDelete = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        list[holder.adapterPosition].first.numeroPrise
+                    )
+                    if (priseToDelete.isNotEmpty()) {
                         priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
                     }
 
-                    Log.d("priseValideeTest",priseToDelete.toString())
-                    Log.d("priseValideeTest2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                    Log.d("priseValideeTest", priseToDelete.toString())
+                    Log.d(
+                        "priseValideeTest2",
+                        priseValideeDatabaseInterface.getAllPriseValidee().toString()
+                    )
                     queue.add("True")
 
                 }.start()
@@ -321,16 +343,20 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 Toast.makeText(
                     context,
                     "Vous avez pris votre médicament ${nomMedic.text} de ${heurePrise.text}",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 val queue = LinkedBlockingQueue<String>()
-                Thread{
-                    val priseToUpdate=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
-                    if (priseToUpdate.isNotEmpty()){
+                Thread {
+                    val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        list[holder.adapterPosition].first.numeroPrise
+                    )
+                    if (priseToUpdate.isNotEmpty()) {
                         var maPrise = priseToUpdate.first()
-                        maPrise.statut="prendre"
+                        maPrise.statut = "prendre"
                         priseValideeDatabaseInterface.updatePriseValidee(maPrise)
-                    }else{
+                    } else {
                         var priseValidee = PriseValidee(
                             uuid = UUID.randomUUID().toString(),
                             date = dateCourante.toString(),
@@ -351,39 +377,51 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 Thread {
                     val db = AppDatabase.getInstance(context)
                     val medocDatabaseInterface = MedocRepository(db.medocDao())
-                    var dateFinTraitement : String? = null
+                    var dateFinTraitement: String? = null
                     if (traitement.UUID == null) {
                         Log.d("UUID", "UUID null")
                         return@Thread
-                    }else {
+                    } else {
                         val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
                         if (medoc.size == 1) {
                             //On récupère la date de fin du traitement
                             val medicament = medoc[0]
                             dateFinTraitement = medicament.dateFinTraitement
-                            medicament.comprimesRestants = medicament.comprimesRestants?.minus(prise.quantite)
+                            medicament.comprimesRestants =
+                                medicament.comprimesRestants?.minus(prise.quantite)
 
                             if (medicament.comprimesRestants!! <= 0) {
-                                medicament.comprimesRestants=0
-                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
+                                medicament.comprimesRestants = 0
+                                NotificationService.sendNotification(
+                                    context,
+                                    "Fin de traitement",
+                                    "La quantité est stock est épuisé",
+                                    5000
+                                )
                             }
 
                             //On met à jour le médicament dans la base de données
                             medocDatabaseInterface.updateMedoc(medicament)
 
-                        }else {
+                        } else {
                             Log.d("MEDOC", "Le médicament n'a pas été trouvé")
                             return@Thread
                         }
                     }
 
                     //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
-                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now().toString()) {
+                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
+                            .toString()
+                    ) {
                         Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
                         return@Thread
-                    }else {
+                    } else {
                         //On créer la notification de la prochaine prise
-                        NotificationService.createNextNotif(context, heureProchainePrise, traitement)
+                        NotificationService.createNextNotif(
+                            context,
+                            heureProchainePrise,
+                            traitement
+                        )
                     }
                 }.start()
 

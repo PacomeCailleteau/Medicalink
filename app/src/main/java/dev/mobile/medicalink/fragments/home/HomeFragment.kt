@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
     private lateinit var listeMois: Map<String, String>
     private lateinit var listeJour: Map<String, String>
 
-    private lateinit var listePriseValidee : MutableList<Pair<LocalDate,String>>
+    private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -427,13 +427,13 @@ class HomeFragment : Fragment() {
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
 
         val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
-        Thread{
+        Thread {
 
-            var resultatListePriseValidee : MutableList<Pair<LocalDate,String>> = mutableListOf()
+            var resultatListePriseValidee: MutableList<Pair<LocalDate, String>> = mutableListOf()
 
             val listePriseValideeDB = priseValideeDatabaseInterface.getAllPriseValidee()
 
-            for (priseValidee in listePriseValideeDB){
+            for (priseValidee in listePriseValideeDB) {
 
                 var uuidTraitement = priseValidee.uuidPrise
 
@@ -450,14 +450,14 @@ class HomeFragment : Fragment() {
                     dateReformate = LocalDate.parse(date, formatter)
                 }
 
-                resultatListePriseValidee.add(Pair(dateReformate,uuidTraitement))
+                resultatListePriseValidee.add(Pair(dateReformate, uuidTraitement))
             }
             queue2.add(resultatListePriseValidee)
 
         }.start()
         listePriseValidee = queue2.take()
 
-        homeAdapter.updateData(traitementsTries,listePriseValidee,dateActuelle)
+        homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
     }
 

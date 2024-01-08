@@ -2,14 +2,8 @@ package dev.mobile.medicalink.db.local.repository
 
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
-import android.os.Build
 import dev.mobile.medicalink.db.local.dao.PriseValideeDao
-import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.PriseValidee
-import dev.mobile.medicalink.db.local.entity.User
-import dev.mobile.medicalink.fragments.traitements.Prise
-import java.security.MessageDigest
-import java.util.Base64
 
 
 class PriseValideeRepository(private val priseValideeDao: PriseValideeDao) {
@@ -30,9 +24,9 @@ class PriseValideeRepository(private val priseValideeDao: PriseValideeDao) {
         }
     }
 
-    fun getByUUIDTraitementAndDate(date: String,uuidPrise: String): List<PriseValidee>{
+    fun getByUUIDTraitementAndDate(date: String, uuidPrise: String): List<PriseValidee> {
         return try {
-            priseValideeDao.getByUUIDTraitementAndDate(date,uuidPrise)
+            priseValideeDao.getByUUIDTraitementAndDate(date, uuidPrise)
         } catch (e: Exception) {
             emptyList()
         }
