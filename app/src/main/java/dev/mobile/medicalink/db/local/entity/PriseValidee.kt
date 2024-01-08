@@ -9,7 +9,9 @@ data class PriseValidee(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "date") var date: String,
     @ColumnInfo(name = "uuidPrise") var uuidPrise: String,
-)
+    @ColumnInfo(name = "statut") var statut: String,
+
+    )
 
 
 

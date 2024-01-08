@@ -88,17 +88,22 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
             holder.mainHeureLayout.visibility = View.GONE
         }
 
-        val queue = LinkedBlockingQueue<Boolean>()
+        val queue = LinkedBlockingQueue<String>()
         Thread{
-            var prisesValidees=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),item.first.numeroPrise.toString())
-            if (prisesValidees.isEmpty()){
-                queue.add(false)
+            var isPriseCouranteValidee=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),item.first.numeroPrise.toString())
+            if (isPriseCouranteValidee.isEmpty()){
+                queue.add("null")
+            }else if (isPriseCouranteValidee.first().statut=="prendre"){
+                queue.add("prendre")
             }else{
-                queue.add(true)
+                queue.add("sauter")
             }
         }.start()
         var result = queue.take()
-        if (result){
+        Log.d("RESULTAT",result)
+        if (result == "null"){
+            holder.circleTick.setImageResource(R.drawable.circle)
+        }else if (result == "prendre"){
             holder.circleTick.setImageResource(R.drawable.correct)
         }else{
             holder.circleTick.setImageResource(R.drawable.avertissement)
@@ -216,23 +221,49 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                     )?.constantState
                 ) == true
             ) {
-                circleTick.setImageResource(R.drawable.avertissement)
+                val queue = LinkedBlockingQueue<String>()
+                Thread{
+
+                    val priseToDelete=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
+                    if (priseToDelete.isNotEmpty()){
+                        priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
+                    }
+
+                    Log.d("priseValideeTestSautee",priseToDelete.toString())
+                    Log.d("priseValideeTestSautee2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                    queue.add("True")
+
+                }.start()
+                queue.take()
+                circleTick.setImageResource(R.drawable.circle)
             } else {
+                val queue = LinkedBlockingQueue<String>()
+                Thread{
+                    val priseToUpdate=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
+                    if (priseToUpdate.isNotEmpty()){
+                        var maPrise = priseToUpdate.first()
+                        maPrise.statut="sauter"
+                        priseValideeDatabaseInterface.updatePriseValidee(maPrise)
+                    }else{
+                        var priseValidee = PriseValidee(
+                            uuid = UUID.randomUUID().toString(),
+                            date = dateCourante.toString(),
+                            uuidPrise = list[holder.adapterPosition].first.numeroPrise,
+                            statut = "sauter",
+                        )
+                        priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
+                    }
+
+                    Log.d("priseValideeTest",priseToUpdate.toString())
+                    Log.d("priseValideeTest2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                    queue.add("True")
+
+                }.start()
+                queue.take()
                 circleTick.setImageResource(R.drawable.avertissement)
+
             }
-            val queue = LinkedBlockingQueue<String>()
-            Thread{
-                val priseToDelete=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
-                if (priseToDelete.isNotEmpty()){
-                    priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
-                }
 
-                Log.d("priseValideeTest",priseToDelete.toString())
-                Log.d("priseValideeTest2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
-                queue.add("True")
-
-            }.start()
-            queue.take()
             dosageDialog.dismiss()
         }
 
@@ -260,13 +291,9 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
 
                 }.start()
                 queue.take()
-                circleTick.setImageResource(R.drawable.avertissement)
+                circleTick.setImageResource(R.drawable.circle)
             } else {
                 //On fait un toast pour dire que le médicament a été pris (on peut l'enlever si on trouve que ça fait moche)
-                Toast.makeText(
-                    context,
-                    "Vous avez pris votre médicament ${nomMedic.text} de ${heurePrise.text}",
-                    Toast.LENGTH_SHORT).show()
 
                 //On veut créer une notification pour la prochaine prise du traitement, cette prise peut être plus tard dans la journée ou un jour prochain
                 //On récupère le traitement et la prise
@@ -276,15 +303,28 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 /* ##############################################################
                 #  Partie prise en compte dans la bd que la prise a été validée #
                 ################################################################# */
+
+                Toast.makeText(
+                    context,
+                    "Vous avez pris votre médicament ${nomMedic.text} de ${heurePrise.text}",
+                    Toast.LENGTH_SHORT).show()
+
                 val queue = LinkedBlockingQueue<String>()
                 Thread{
-                    Log.d("priseVUUID",prise.numeroPrise)
-                    var priseValidee = PriseValidee(
-                        uuid = UUID.randomUUID().toString(),
-                        date = dateCourante.toString(),
-                        uuidPrise = prise.numeroPrise
-                    )
-                    priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
+                    val priseToUpdate=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
+                    if (priseToUpdate.isNotEmpty()){
+                        var maPrise = priseToUpdate.first()
+                        maPrise.statut="prendre"
+                        priseValideeDatabaseInterface.updatePriseValidee(maPrise)
+                    }else{
+                        var priseValidee = PriseValidee(
+                            uuid = UUID.randomUUID().toString(),
+                            date = dateCourante.toString(),
+                            uuidPrise = list[holder.adapterPosition].first.numeroPrise,
+                            statut = "prendre",
+                        )
+                        priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
+                    }
                     queue.add("True")
                 }.start()
 
@@ -310,6 +350,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                             medicament.comprimesRestants = medicament.comprimesRestants?.minus(prise.quantite)
 
                             if (medicament.comprimesRestants!! <= 0) {
+                                medicament.comprimesRestants=0
                                 NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
                             }
 
