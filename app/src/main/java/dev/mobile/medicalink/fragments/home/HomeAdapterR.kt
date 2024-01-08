@@ -147,7 +147,6 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
         val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
         sauterButton.isEnabled = false
 
-
         if (circleTick.drawable.constantState?.equals(
                 ContextCompat.getDrawable(
                     holder.itemView.context,

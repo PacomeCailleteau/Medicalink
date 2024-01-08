@@ -4,6 +4,7 @@
 
     <!-- WAKE_LOCK c'est pour pouvoir envoyé des notifs quand le tel est en veille -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -50,7 +51,9 @@
             </intent-filter>
         </receiver>
 
-
+        <service
+            android:name=".utils.NotificationService"
+            android:exported="false" />
     </application>
 
 </manifest>
