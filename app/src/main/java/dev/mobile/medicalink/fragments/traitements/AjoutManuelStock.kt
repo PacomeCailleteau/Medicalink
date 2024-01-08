@@ -64,13 +64,15 @@ class AjoutManuelStock : Fragment() {
         switchStock = view.findViewById(R.id.switchStock)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val schema_prise1 = arguments?.getString("schema_prise1")
+        val provenance = arguments?.getString("provenance")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         inputStockActuel.setText(traitement.comprimesRestants.toString())
+
+        switchStock.isChecked=true
 
         if (switchStock.isChecked) {
             // Switch est activé (état "on")

@@ -305,7 +305,30 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/titre_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:text="@string/Stock"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
+                    app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
+
+                <TextView
+                    android:id="@+id/textStock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:text="@string/textStock"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/titre_stock"
+                    app:layout_constraintTop_toBottomOf="@+id/titre_stock" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
 

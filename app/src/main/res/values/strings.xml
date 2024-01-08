@@ -172,5 +172,7 @@
     <string name="aucun_effet_secondaire">Aucun effet secondaire</string>
     <string name="prendre">Prendre</string>
     <string name="pris">Pris</string>
+    <string name="Stock">Stock</string>
+    <string name="textStock">textStock</string>
 
 </resources>

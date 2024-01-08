@@ -24,6 +24,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
     private lateinit var nomMedoc: TextView
     private lateinit var textUnite: TextView
+    private lateinit var textStock: TextView
     private lateinit var dateFindeTraitement: TextView
     private lateinit var sousNomPeriodicite: TextView
 
@@ -61,6 +62,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         nomMedoc = view.findViewById(R.id.nomMedoc)
         textUnite = view.findViewById(R.id.textUnite)
+        textStock = view.findViewById(R.id.textStock)
         dateFindeTraitement = view.findViewById(R.id.dateFinTraitementText)
         sousNomPeriodicite = view.findViewById(R.id.sousNomPeriodicite)
 
@@ -69,7 +71,6 @@ class AjoutManuelRecapitulatif : Fragment() {
         periodiciteLayout = view.findViewById(R.id.periodiciteLayout)
         priseLayout = view.findViewById(R.id.priseLayout)
         reapprovisionnementLayout = view.findViewById(R.id.reapprovionnementLayout)
-
 
         var schemaPriseFormatee = ""
         if (schema_prise1 != null) {
@@ -91,6 +92,10 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         nomMedoc.text = traitement.nomTraitement
         textUnite.text = traitement.typeComprime
+        textStock.text = "${traitement.comprimesRestants} ${traitement.typeComprime}"
+        if (traitement.comprimesRestants!! >1){
+            textStock.text="${textStock.text}s"
+        }
         if (traitement.dateFinTraitement == null) {
             dateFindeTraitement.text = resources.getString(R.string.indetermine)
         } else {
