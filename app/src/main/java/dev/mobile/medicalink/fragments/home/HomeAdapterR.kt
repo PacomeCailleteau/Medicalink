@@ -88,25 +88,38 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
             holder.mainHeureLayout.visibility = View.GONE
         }
 
-        val queue = LinkedBlockingQueue<String>()
-        Thread{
-            var isPriseCouranteValidee=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),item.first.numeroPrise.toString())
-            if (isPriseCouranteValidee.isEmpty()){
-                queue.add("null")
-            }else if (isPriseCouranteValidee.first().statut=="prendre"){
-                queue.add("prendre")
-            }else{
-                queue.add("sauter")
+        if (dateCourante != LocalDate.now()) {
+            holder.circleTick.setImageResource(R.drawable.horloge)
+            holder.circleTick.isEnabled = false
+            holder.circleTick.isClickable = false
+        }else {
+
+            holder.circleTick.isEnabled = true
+            holder.circleTick.isClickable = true
+            val queue = LinkedBlockingQueue<String>()
+            Thread {
+                var isPriseCouranteValidee =
+                    priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        item.first.numeroPrise.toString()
+                    )
+                if (isPriseCouranteValidee.isEmpty()) {
+                    queue.add("null")
+                } else if (isPriseCouranteValidee.first().statut == "prendre") {
+                    queue.add("prendre")
+                } else {
+                    queue.add("sauter")
+                }
+            }.start()
+            var result = queue.take()
+            Log.d("RESULTAT", result)
+            if (result == "null") {
+                holder.circleTick.setImageResource(R.drawable.circle)
+            } else if (result == "prendre") {
+                holder.circleTick.setImageResource(R.drawable.correct)
+            } else {
+                holder.circleTick.setImageResource(R.drawable.avertissement)
             }
-        }.start()
-        var result = queue.take()
-        Log.d("RESULTAT",result)
-        if (result == "null"){
-            holder.circleTick.setImageResource(R.drawable.circle)
-        }else if (result == "prendre"){
-            holder.circleTick.setImageResource(R.drawable.correct)
-        }else{
-            holder.circleTick.setImageResource(R.drawable.avertissement)
         }
 
 
@@ -126,6 +139,8 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
             var listePriseValidee : MutableList<Pair<LocalDate,String>>
             showConfirmPriseDialog(holder, holder.itemView.context)
         }
+
+
 /*
         holder.view.setOnClickListener {
             if (holder.circleTick.drawable.constantState?.equals(
