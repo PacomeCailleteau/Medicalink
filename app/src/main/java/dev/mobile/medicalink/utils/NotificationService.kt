@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -61,7 +60,12 @@ class NotificationService : BroadcastReceiver() {
          * @param traitement : le traitement concerné
          */
         @RequiresApi(Build.VERSION_CODES.O)
-        fun createFirstNotif(context: Context, heurePremierePriseStr : String, jourPremierePrise : LocalDate, traitement : Traitement){
+        fun createFirstNotif(
+            context: Context,
+            heurePremierePriseStr: String,
+            jourPremierePrise: LocalDate,
+            traitement: Traitement
+        ) {
             //On découpe le string pour récupérer l'heure et les minutes
             val heure = heurePremierePriseStr.split(":").first().toInt()
             val minute = heurePremierePriseStr.split(":").last().toInt()
@@ -73,7 +77,9 @@ class NotificationService : BroadcastReceiver() {
             val heureProchainePriseMillis = LocalTime.of(heure, minute).toNanoOfDay() / 1000000
 
             //On calcule le nombre de jour entre ajourd'hui et le jour de la première prise
-            var nbJours = Duration.between(LocalDate.now().atStartOfDay(), jourPremierePrise.atStartOfDay()).toDays().toInt()
+            var nbJours =
+                Duration.between(LocalDate.now().atStartOfDay(), jourPremierePrise.atStartOfDay())
+                    .toDays().toInt()
 
             //On rajoute un jour si l'heure de la première prise est inférieure à l'heure actuelle
             if (heureProchainePriseMillis < heureActuelle) {
@@ -89,7 +95,11 @@ class NotificationService : BroadcastReceiver() {
          * @param traitement : le traitement concerné
          */
         @RequiresApi(Build.VERSION_CODES.O)
-        fun createNextNotif(context: Context, heureProchainePriseStr : String, traitement : Traitement){
+        fun createNextNotif(
+            context: Context,
+            heureProchainePriseStr: String,
+            traitement: Traitement
+        ) {
             createNotif(context, heureProchainePriseStr, traitement, 1)
         }
 
@@ -101,7 +111,12 @@ class NotificationService : BroadcastReceiver() {
          * @param nbJour : le nombre de jour entre aujourd'hui et le jour de la prise
          */
         @RequiresApi(Build.VERSION_CODES.O)
-        private fun createNotif(context: Context, heurePriseStr: String, traitement: Traitement, nbJour: Int){
+        private fun createNotif(
+            context: Context,
+            heurePriseStr: String,
+            traitement: Traitement,
+            nbJour: Int
+        ) {
             //On découpe le string pour récupérer l'heure et les minutes
             val heure = heurePriseStr.split(":").first().toInt()
             val minute = heurePriseStr.split(":").last().toInt()
@@ -115,7 +130,7 @@ class NotificationService : BroadcastReceiver() {
             //On récupère la durée entre l'heure actuelle et l'heure de la prochaine prise
             //Il faut faire attention à la date, si l'heure de la prochaine prise est inférieure à l'heure actuelle, on ajoute un jour à la date
             val duree = if (heureProchainePriseMillis < heureActuelle) {
-                Duration.ofMillis(heureProchainePriseMillis + 86400000*nbJour - heureActuelle)
+                Duration.ofMillis(heureProchainePriseMillis + 86400000 * nbJour - heureActuelle)
             } else {
                 Duration.ofMillis(heureProchainePriseMillis - heureActuelle)
             }

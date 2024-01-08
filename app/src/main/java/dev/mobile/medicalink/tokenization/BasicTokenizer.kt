@@ -1,8 +1,5 @@
 package fr.medicapp.medicapp.tokenization
 
-import java.util.Arrays
-import java.util.Locale
-
 
 class BasicTokenizer(
     doLowerCase: Boolean = false

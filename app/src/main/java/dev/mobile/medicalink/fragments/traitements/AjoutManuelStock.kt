@@ -209,7 +209,7 @@ class AjoutManuelStock : Fragment() {
     private fun showJourStockDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)
-        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
+        val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val intervalleRegulierDialog = builder.create()

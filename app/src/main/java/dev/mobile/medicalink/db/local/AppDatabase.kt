@@ -11,7 +11,11 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
 
-@Database(entities = [User::class, Medoc::class, PriseValidee::class], version = 1, exportSchema = false)
+@Database(
+    entities = [User::class, Medoc::class, PriseValidee::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

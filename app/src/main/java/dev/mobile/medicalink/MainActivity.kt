@@ -66,10 +66,6 @@ class MainActivity : AppCompatActivity() {
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
 
-
-
-
-
         //Connection à la base de données
 
         val db = AppDatabase.getInstance(this)
@@ -222,7 +218,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPasswordDialog() {
-        val dialogBuilder = AlertDialog.Builder(this,R.style.RoundedDialog)
+        val dialogBuilder = AlertDialog.Builder(this, R.style.RoundedDialog)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_password, null)
         dialogBuilder.setView(dialogView)
@@ -230,7 +226,8 @@ class MainActivity : AppCompatActivity() {
         val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
         val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
         val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
-        val textMotDePasseIncorrect=dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
+        val textMotDePasseIncorrect =
+            dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
 
         val alertDialog = dialogBuilder.create()
 

@@ -55,7 +55,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             listePrise =
                 mutableListOf(
                     Prise(
-                        UUID.randomUUID().toString() ,
+                        UUID.randomUUID().toString(),
                         resources.getString(R.string._17_00),
                         1,
                         traitement.typeComprime
@@ -202,9 +202,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
      * @param listePrise la liste des prises
      * @return true s'il y a des conflits d'heures de prises, false sinon
      */
-    private fun conflitsHeuresPrises(listePrise: MutableList<Prise>) : Boolean {
+    private fun conflitsHeuresPrises(listePrise: MutableList<Prise>): Boolean {
         for (prisePrincipale in 0 until listePrise.size) {
-            for (priseCompare in prisePrincipale+1 until listePrise.size) {
+            for (priseCompare in prisePrincipale + 1 until listePrise.size) {
                 if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
                     return true
                 }
@@ -235,7 +235,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 if (listePrise == null) {
                     listePrise = mutableListOf<Prise>(
                         Prise(
-                            UUID.randomUUID().toString() ,
+                            UUID.randomUUID().toString(),
                             resources.getString(R.string._17_00),
                             1,
                             traitement.typeComprime
@@ -303,7 +303,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     private fun mettreAJourCouleurs(listePrise: MutableList<Prise>, recyclerView: RecyclerView) {
         val indexAMettreEnRouge = mutableSetOf<Int>()
         for (prisePrincipale in 0 until listePrise.size) {
-            for (priseCompare in prisePrincipale+1 until listePrise.size) {
+            for (priseCompare in prisePrincipale + 1 until listePrise.size) {
                 if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
                     indexAMettreEnRouge.add(prisePrincipale)
                     indexAMettreEnRouge.add(priseCompare)
@@ -330,11 +330,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             }
         }
     }
-
-
-
-
-
 
 
 }
