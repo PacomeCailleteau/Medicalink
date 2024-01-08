@@ -48,9 +48,7 @@ class ChangerUtilisateurAdapterR(
         holder.statutUtilisateur.text = "${item.statut}"
 
         holder.view.setOnClickListener {
-
             onItemClick.invoke(item)
-
         }
     }
 
