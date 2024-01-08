@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
@@ -65,7 +66,7 @@ class HomeFragment : Fragment() {
     private lateinit var listeMois: Map<String, String>
     private lateinit var listeJour: Map<String, String>
 
-
+    private lateinit var listePriseValidee : MutableList<Pair<LocalDate,String>>
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -77,6 +78,7 @@ class HomeFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
+
         listeMois = mapOf<String, String>(
             Pair("JANUARY", resources.getString(R.string.janvier)),
             Pair("FEBRUARY", resources.getString(R.string.fevrier)),
@@ -138,10 +140,11 @@ class HomeFragment : Fragment() {
 
         val traitementsTries = mutableListOf<Pair<Prise, Traitement>>()
 
+
         Log.d("listePrise à afficher", traitementsTries.toString())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        homeAdapter = HomeAdapterR(traitementsTries, recyclerView)
+        homeAdapter = HomeAdapterR(traitementsTries, mutableListOf(), LocalDate.now(), recyclerView)
         recyclerView.adapter = homeAdapter
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
@@ -251,6 +254,9 @@ class HomeFragment : Fragment() {
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+
+
         val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
 
         Thread {
@@ -276,7 +282,7 @@ class HomeFragment : Fragment() {
                     for (prise in medoc.prises.split("/")) {
                         val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
                         val maPrise = Prise(
-                            traitementPrise[0].toInt(),
+                            traitementPrise[0],
                             traitementPrise[1],
                             traitementPrise[2].toInt(),
                             traitementPrise[3]
@@ -353,6 +359,8 @@ class HomeFragment : Fragment() {
             "Date Actuelle Système",
             "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
         )
+
+
         for (element in listeTraitementPrise) {
             doIaddIt = false
             if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
@@ -418,7 +426,38 @@ class HomeFragment : Fragment() {
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
 
-        homeAdapter.updateData(traitementsTries)
+        val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
+        Thread{
+
+            var resultatListePriseValidee : MutableList<Pair<LocalDate,String>> = mutableListOf()
+
+            val listePriseValideeDB = priseValideeDatabaseInterface.getAllPriseValidee()
+
+            for (priseValidee in listePriseValideeDB){
+
+                var uuidTraitement = priseValidee.uuidPrise
+
+                var dateReformate = LocalDate.now()
+
+                if (priseValidee.date != "null") {
+                    Log.d("testPriseValidee", priseValidee.date)
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val date = priseValidee.date
+
+                    //convert String to LocalDate
+
+                    //convert String to LocalDate
+                    dateReformate = LocalDate.parse(date, formatter)
+                }
+
+                resultatListePriseValidee.add(Pair(dateReformate,uuidTraitement))
+            }
+            queue2.add(resultatListePriseValidee)
+
+        }.start()
+        listePriseValidee = queue2.take()
+
+        homeAdapter.updateData(traitementsTries,listePriseValidee,dateActuelle)
         homeAdapter.notifyDataSetChanged()
     }
 

@@ -2,6 +2,7 @@ package dev.mobile.medicalink.fragments.home
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,20 +18,30 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.NotificationService
+import java.time.LocalDate
 import java.time.LocalTime
+import java.util.UUID
+import java.util.concurrent.LinkedBlockingQueue
 
 
 class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
+                   private var listePriseValidee : MutableList<Pair<LocalDate,String>>,
+                   private var dateCourante : LocalDate,
                    private val parentRecyclerView: RecyclerView) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
+
     var heureCourante: String? = null
-    fun updateData(listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>) {
+    fun updateData(listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,listePriseValideeUpdated : MutableList<Pair<LocalDate,String>>,date: LocalDate) {
         list = listeTraitementUpdated
+        listePriseValidee=listePriseValideeUpdated
+        dateCourante=date
     }
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -59,6 +70,9 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
+        val db = AppDatabase.getInstance(holder.itemView.context)
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+
         val item = list[position]
         if (item == list.first()) {
             list.first().first.heurePrise.split(":").first()
@@ -67,13 +81,29 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
         holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
         holder.heurePrise.text = item.first.heurePrise
         holder.mainHeure.text = "${item.first.heurePrise.split(":").first()}h"
-
         if (item == list.first() || item.first.heurePrise.split(":").first() != heureCourante) {
             holder.mainHeureLayout.visibility = View.VISIBLE
             heureCourante = item.first.heurePrise.split(":").first()
         } else {
             holder.mainHeureLayout.visibility = View.GONE
         }
+
+        val queue = LinkedBlockingQueue<Boolean>()
+        Thread{
+            var prisesValidees=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),item.first.numeroPrise.toString())
+            if (prisesValidees.isEmpty()){
+                queue.add(false)
+            }else{
+                queue.add(true)
+            }
+        }.start()
+        var result = queue.take()
+        if (result){
+            holder.circleTick.setImageResource(R.drawable.correct)
+        }else{
+            holder.circleTick.setImageResource(R.drawable.avertissement)
+        }
+
 
 
         /*
@@ -88,6 +118,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
          */
 
         holder.circleTick.setOnClickListener {
+            var listePriseValidee : MutableList<Pair<LocalDate,String>>
             showConfirmPriseDialog(holder, holder.itemView.context)
         }
 /*
@@ -111,7 +142,7 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showConfirmPriseDialog(
         holder: AjoutManuelViewHolder,
-        context: Context
+        context: Context,
     ) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_prendre_la_prise, null)
@@ -123,6 +154,9 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
             .inflate(R.layout.item_accueil, parentRecyclerView, false)
 
         val dosageDialog = builder.create()
+
+        val db = AppDatabase.getInstance(context)
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
 
         val nomMedic = holder.nomMedic
         val nbComprime = holder.nbComprime
@@ -182,10 +216,23 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                     )?.constantState
                 ) == true
             ) {
-                circleTick.setImageResource(R.drawable.circle)
+                circleTick.setImageResource(R.drawable.avertissement)
             } else {
                 circleTick.setImageResource(R.drawable.avertissement)
             }
+            val queue = LinkedBlockingQueue<String>()
+            Thread{
+                val priseToDelete=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
+                if (priseToDelete.isNotEmpty()){
+                    priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
+                }
+
+                Log.d("priseValideeTest",priseToDelete.toString())
+                Log.d("priseValideeTest2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                queue.add("True")
+
+            }.start()
+            queue.take()
             dosageDialog.dismiss()
         }
 
@@ -198,7 +245,22 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                     )?.constantState
                 ) == true
             ) {
-                circleTick.setImageResource(R.drawable.circle)
+
+                val queue = LinkedBlockingQueue<String>()
+                Thread{
+
+                    val priseToDelete=priseValideeDatabaseInterface.getByUUIDTraitementAndDate(dateCourante.toString(),list[holder.adapterPosition].first.numeroPrise)
+                    if (priseToDelete.isNotEmpty()){
+                        priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
+                    }
+
+                    Log.d("priseValideeTest",priseToDelete.toString())
+                    Log.d("priseValideeTest2",priseValideeDatabaseInterface.getAllPriseValidee().toString())
+                    queue.add("True")
+
+                }.start()
+                queue.take()
+                circleTick.setImageResource(R.drawable.avertissement)
             } else {
                 //On fait un toast pour dire que le médicament a été pris (on peut l'enlever si on trouve que ça fait moche)
                 Toast.makeText(
@@ -210,6 +272,23 @@ class HomeAdapterR(private var list: MutableList<Pair<Prise, Traitement>>,
                 //On récupère le traitement et la prise
                 val traitement = list[holder.adapterPosition].second
                 val prise = list[holder.adapterPosition].first
+
+                /* ##############################################################
+                #  Partie prise en compte dans la bd que la prise a été validée #
+                ################################################################# */
+                val queue = LinkedBlockingQueue<String>()
+                Thread{
+                    Log.d("priseVUUID",prise.numeroPrise)
+                    var priseValidee = PriseValidee(
+                        uuid = UUID.randomUUID().toString(),
+                        date = dateCourante.toString(),
+                        uuidPrise = prise.numeroPrise
+                    )
+                    priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
+                    queue.add("True")
+                }.start()
+
+                queue.take()
 
                 //On récupère l'heure de la prochaine prise en fonction des prises du traitement
                 val heureProchainePrise = traitement.getProchainePrise(prise).heurePrise

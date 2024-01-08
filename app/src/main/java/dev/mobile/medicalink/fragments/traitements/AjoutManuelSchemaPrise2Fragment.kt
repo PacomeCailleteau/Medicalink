@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import java.util.UUID
 
 
 class AjoutManuelSchemaPrise2Fragment : Fragment() {
@@ -24,7 +25,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     private lateinit var retour: ImageView
     private lateinit var suivant: Button
 
-    private var numeroPrise: Int = 1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -55,7 +55,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             listePrise =
                 mutableListOf(
                     Prise(
-                        numeroPrise,
+                        UUID.randomUUID().toString() ,
                         resources.getString(R.string._17_00),
                         1,
                         traitement.typeComprime
@@ -78,9 +78,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
         addNouvellePrise.setOnClickListener {
-            numeroPrise = listePrise.size + 1
             val nouvellePrise = Prise(
-                listePrise.size + 1,
+                UUID.randomUUID().toString(),
                 resources.getString(R.string._17_00),
                 1,
                 traitement.typeComprime
@@ -236,7 +235,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 if (listePrise == null) {
                     listePrise = mutableListOf<Prise>(
                         Prise(
-                            1,
+                            UUID.randomUUID().toString() ,
                             resources.getString(R.string._17_00),
                             1,
                             traitement.typeComprime
