@@ -67,7 +67,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     for (prise in medoc.prises.split("/")) {
                         val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
                         val maPrise = Prise(
-                            traitementPrise[0].toInt(),
+                            traitementPrise[0],
                             traitementPrise[1],
                             traitementPrise[2].toInt(),
                             traitementPrise[3]
@@ -104,7 +104,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
-                    medoc.dosageNB?.toInt(),
+                    medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,
@@ -145,10 +145,10 @@ class ListeEffetsSecondairesFragment : Fragment() {
             }
         }
 
-        if (effetsSecondairesMedicaments.isEmpty()){
-            textAucunEffetSec.visibility=View.VISIBLE
-        }else{
-            textAucunEffetSec.visibility=View.GONE
+        if (effetsSecondairesMedicaments.isEmpty()) {
+            textAucunEffetSec.visibility = View.VISIBLE
+        } else {
+            textAucunEffetSec.visibility = View.GONE
         }
 
         recyclerView = view.findViewById(R.id.recyclerViewTypeMedic)

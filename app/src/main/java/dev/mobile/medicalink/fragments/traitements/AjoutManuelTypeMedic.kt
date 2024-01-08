@@ -40,12 +40,12 @@ class AjoutManuelTypeMedic : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1 = arguments?.getString("schema_prise1")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val schema_prise1 = arguments?.getString("schema_prise1")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
 
-        var listeTypeMedic: MutableList<String> =
+        val listeTypeMedic: MutableList<String> =
             mutableListOf(
                 resources.getString(R.string.comprime),
                 resources.getString(R.string.gellule),
@@ -56,13 +56,13 @@ class AjoutManuelTypeMedic : Fragment() {
                 resources.getString(R.string.bonbon),
             )
 
-        var selected = traitement.typeComprime
+        val selected = traitement.typeComprime
 
         val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
 
 
-        var AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
+        val AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
         recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
@@ -148,11 +148,11 @@ class AjoutManuelTypeMedic : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
-                var listeTypeMedic: MutableList<String> =
+                val listeTypeMedic: MutableList<String> =
                     mutableListOf(
                         resources.getString(R.string.comprime),
                         resources.getString(R.string.gellule),
@@ -163,8 +163,8 @@ class AjoutManuelTypeMedic : Fragment() {
                         resources.getString(R.string.bonbon),
                     )
 
-                var selected = traitement.typeComprime
-                var AjoutManuelTypeMedicAdapter =
+                val selected = traitement.typeComprime
+                val AjoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
                 val bundle = Bundle()

@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -31,8 +32,10 @@ class AjoutManuelStock : Fragment() {
     private lateinit var inputStockActuel: EditText
     private lateinit var inputRappelJour: EditText
     private lateinit var inputRappelHeure: EditText
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var switchStock: Switch
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,13 +67,15 @@ class AjoutManuelStock : Fragment() {
         switchStock = view.findViewById(R.id.switchStock)
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val schema_prise1 = arguments?.getString("schema_prise1")
+        val provenance = arguments?.getString("provenance")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         inputStockActuel.setText(traitement.comprimesRestants.toString())
+
+        switchStock.isChecked=true
 
         if (switchStock.isChecked) {
             // Switch est activé (état "on")
@@ -132,7 +137,7 @@ class AjoutManuelStock : Fragment() {
             bundle.putString("provenance", "$provenance")
             bundle.putString("dureePriseDbt", "$dureePriseDbt")
             bundle.putString("dureePriseFin", "$dureePriseFin")
-            var destinationFragment = AjoutManuelRecapitulatif()
+            val destinationFragment = AjoutManuelRecapitulatif()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
@@ -204,10 +209,11 @@ class AjoutManuelStock : Fragment() {
         layoutStock.visibility = if (isChecked) View.VISIBLE else View.GONE
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showJourStockDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)
-        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
+        val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val intervalleRegulierDialog = builder.create()

@@ -37,10 +37,10 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise, container, false)
         val traitement = arguments?.getSerializable("traitement") as Traitement
-        var isAddingTraitement = arguments?.getString("isAddingTraitement")
+        val isAddingTraitement = arguments?.getString("isAddingTraitement")
         var schema_prise1 = arguments?.getString("schema_prise1")
-        var dureePriseDbt = arguments?.getString("dureePriseDbt")
-        var dureePriseFin = arguments?.getString("dureePriseFin")
+        val dureePriseDbt = arguments?.getString("dureePriseDbt")
+        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -347,12 +347,12 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
-                var listeTypeMedic: MutableList<String> =
+                val listeTypeMedic: MutableList<String> =
                     mutableListOf(
                         resources.getString(R.string.comprime),
                         resources.getString(R.string.gellule),
@@ -363,8 +363,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                         resources.getString(R.string.bonbon),
                     )
 
-                var selected = traitement.typeComprime
-                var AjoutManuelTypeMedicAdapter =
+                val selected = traitement.typeComprime
+                val AjoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
                 val bundle = Bundle()

@@ -37,13 +37,12 @@ class ModelOCR(private val context: Context) {
     private val NUM_LITE_THREADS = 4
 
 
-    fun analyze(texteAAnalyse : String) : List<String?>{
+    fun analyze(texteAAnalyse: String): List<String?> {
 
 
         mBackgroundThread = HandlerThread("BackgroundThread")
         mBackgroundThread.start()
         mHandle = Handler(mBackgroundThread.looper)
-
         mHandle.removeCallbacks(modelRunnable)
         mHandle.post(modelRunnable)
 

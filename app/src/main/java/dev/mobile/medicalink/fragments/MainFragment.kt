@@ -56,7 +56,7 @@ class MainFragment : AppCompatActivity() {
             val res = userDatabaseInterface.getAllUsers()
             Log.d("USER", "res: $res")
 
-            var monUser = User(
+            val monUser = User(
                 "111111", "Professionnel", "DENIS",
                 "Jack", "3 Novembre 1978", "l@gmail.com", "", false
             )

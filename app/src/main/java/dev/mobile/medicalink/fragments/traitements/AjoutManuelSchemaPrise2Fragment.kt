@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import java.util.UUID
 
 
 class AjoutManuelSchemaPrise2Fragment : Fragment() {
@@ -24,7 +25,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     private lateinit var retour: ImageView
     private lateinit var suivant: Button
 
-    private var numeroPrise: Int = 1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -55,7 +55,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             listePrise =
                 mutableListOf(
                     Prise(
-                        numeroPrise,
+                        UUID.randomUUID().toString(),
                         resources.getString(R.string._17_00),
                         1,
                         traitement.typeComprime
@@ -78,9 +78,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
         addNouvellePrise.setOnClickListener {
-            numeroPrise = listePrise.size + 1
             val nouvellePrise = Prise(
-                listePrise.size + 1,
+                UUID.randomUUID().toString(),
                 resources.getString(R.string._17_00),
                 1,
                 traitement.typeComprime
@@ -146,10 +145,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         retour.setOnClickListener {
             var totalQuantite = 0
-            if (listePrise != null) {
-                for (prise in listePrise) {
-                    totalQuantite += prise.quantite
-                }
+            for (prise in listePrise) {
+                totalQuantite += prise.quantite
             }
             val bundle = Bundle()
             bundle.putSerializable(
@@ -203,9 +200,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
      * @param listePrise la liste des prises
      * @return true s'il y a des conflits d'heures de prises, false sinon
      */
-    private fun conflitsHeuresPrises(listePrise: MutableList<Prise>) : Boolean {
+    private fun conflitsHeuresPrises(listePrise: MutableList<Prise>): Boolean {
         for (prisePrincipale in 0 until listePrise.size) {
-            for (priseCompare in prisePrincipale+1 until listePrise.size) {
+            for (priseCompare in prisePrincipale + 1 until listePrise.size) {
                 if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
                     return true
                 }
@@ -226,7 +223,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val provenance = arguments?.getString("provenance")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
@@ -236,7 +233,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 if (listePrise == null) {
                     listePrise = mutableListOf<Prise>(
                         Prise(
-                            1,
+                            UUID.randomUUID().toString(),
                             resources.getString(R.string._17_00),
                             1,
                             traitement.typeComprime
@@ -304,7 +301,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     private fun mettreAJourCouleurs(listePrise: MutableList<Prise>, recyclerView: RecyclerView) {
         val indexAMettreEnRouge = mutableSetOf<Int>()
         for (prisePrincipale in 0 until listePrise.size) {
-            for (priseCompare in prisePrincipale+1 until listePrise.size) {
+            for (priseCompare in prisePrincipale + 1 until listePrise.size) {
                 if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
                     indexAMettreEnRouge.add(prisePrincipale)
                     indexAMettreEnRouge.add(priseCompare)
@@ -331,11 +328,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             }
         }
     }
-
-
-
-
-
 
 
 }

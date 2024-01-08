@@ -144,7 +144,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     private fun showIntervalleRegulierDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
-        val builder = AlertDialog.Builder(context,R.style.RoundedDialog)
+        val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
         builder.setView(dialogView)
 
         val intervalleRegulierDialog = builder.create()
@@ -263,7 +263,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
-                var isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val provenance = arguments?.getString("provenance")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")

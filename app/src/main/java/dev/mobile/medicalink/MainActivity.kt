@@ -67,10 +67,6 @@ class MainActivity : AppCompatActivity() {
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
 
-
-
-
-
         //Connection à la base de données
 
         val db = AppDatabase.getInstance(this)
@@ -184,6 +180,18 @@ class MainActivity : AppCompatActivity() {
                 // Aucune empreinte n'a été enregistrée sur l'appareil
                 // Gérez le cas où aucune empreinte n'est enregistrée
             }
+
+            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+                TODO()
+            }
+
+            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
+                TODO()
+            }
+
+            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
+                TODO()
+            }
         }
     }
 
@@ -223,7 +231,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPasswordDialog() {
-        val dialogBuilder = AlertDialog.Builder(this,R.style.RoundedDialog)
+        val dialogBuilder = AlertDialog.Builder(this, R.style.RoundedDialog)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_password, null)
         dialogBuilder.setView(dialogView)
@@ -231,7 +239,8 @@ class MainActivity : AppCompatActivity() {
         val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
         val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
         val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
-        val textMotDePasseIncorrect=dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
+        val textMotDePasseIncorrect =
+            dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
 
         val alertDialog = dialogBuilder.create()
 
@@ -342,7 +351,7 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
-            var queue = LinkedBlockingQueue<String>()
+            val queue = LinkedBlockingQueue<String>()
             Thread {
                 userDatabaseInterface.setConnected(
                     userDatabaseInterface.getOneUserById(clickedUser.uuid).first()

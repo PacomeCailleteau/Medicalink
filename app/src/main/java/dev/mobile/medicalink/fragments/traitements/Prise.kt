@@ -7,7 +7,7 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 class Prise(
-    var numeroPrise: Int,
+    var numeroPrise: String,
     var heurePrise: String,
     var quantite: Int,
     var dosageUnite: String
