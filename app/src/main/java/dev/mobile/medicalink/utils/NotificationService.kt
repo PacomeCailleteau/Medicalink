@@ -296,7 +296,7 @@ class NotificationService : BroadcastReceiver() {
             )
 
             // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
-            sendNotification(context, titre, contenu, delayMillis, pendingIntent)
+            // sendNotification(context, titre, contenu, delayMillis, pendingIntent)
 
             return id
         }

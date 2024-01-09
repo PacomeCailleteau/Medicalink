@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Medicalink</string>
     <string name="mois">Mois</string>
     <string name="journal_des_effets_secondaires">Journal des effets secondaires</string>
+    <string name="effets_secondaires">Effets secondaires</string>
     <string name="incompatibilite_detecte">Incompatibilité détectée</string>
     <string name="mes_traitements">Mes traitements</string>
     <string name="importer_un_traitement">Importer un traitement</string>
@@ -70,6 +70,7 @@
     <string name="lundi">L</string>
     <string name="mardi">M</string>
     <string name="param_buttun">Bouton Paremètre</string>
+    <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
     <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
     <string name="bienvenue">Bienvenue</string>
     <string name="me_connecter">Me connecter</string>
@@ -80,7 +81,6 @@
     <string name="creer_profil_votre_profil">Votre profil</string>
     <string name="creer_profil_adresse_email">Adresse Email</string>
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
-    <string name="au_besoin">Au besoin</string>
     <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du  traitement</string>
     <string name="ajouter_une_nouvelle_prise">Ajouter une nouvelle prise</string>
     <string name="rechercher">Rechercher</string>
@@ -94,6 +94,25 @@
     <string name="me_le_rappeler_avant">Me le rappeler avant</string>
     <string name="_7_jours">7 jours</string>
     <string name="heure_de_rappel">Heure de rappel</string>
+    <string name="mercredi">M</string>
+    <string name="jeudi">J</string>
+    <string name="vendredi">V</string>
+    <string name="samedi">S</string>
+    <string name="dimanche">D</string>
+    <string name="aucun_effet_traitement">Aucun effet traitement</string>
+    <string name="aucun_effet_secondaire">Aucun effet secondaire</string>
+    <string name="prendre">Prendre</string>
+    <string name="pris">Pris</string>
+    <string name="Stock">Stock</string>
+    <string name="textStock">textStock</string>
+    <string name="Messagerie">Messagerie</string>
+    <string name="textMessage">textMessage</string>
+    <string name="titreMessage">titreMessage</string>
+    <string name="parametre">Paramètre</string>
+    <string name="aucun_traitement">Aucun traitement</string>
+    <string name="aucun_medicament_prevu">Aucun médicament prévu !</string>
+    <string name="Utilisateur">Utilisateur</string>
+    <string name="professionnel">Professionnel</string>
     <string name="creer_profil_utilisateur">Utilisateur</string>
     <string name="creer_profil_informations_personnelles">Informations personnelles</string>
     <string name="bouton_creer_mon_profil">Créer mon profil</string>

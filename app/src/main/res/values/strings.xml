@@ -61,9 +61,9 @@
     <string name="sousnomperiodicite" translatable="false">SousNomPeriodicite</string>
     <string name="prises">Prises</string>
     <string name="reapprovisionnement">Réapprovisionnement</string>
-    <string name="quotidiennement">Quotidiennement</string>
+    <string name="quotidiennement" translatable="false">Quotidiennement</string>
     <string name="quoti" translatable="false">quotidiennement</string>
-    <string name="au_besoin">Au besoin</string>
+    <string name="au_besoin" translatable="false">Au besoin</string>
     <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du  traitement</string>
     <string name="ajouter_une_nouvelle_prise">Ajouter une nouvelle prise</string>
     <string name="rechercher">Rechercher</string>
