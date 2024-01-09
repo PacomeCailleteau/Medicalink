@@ -212,7 +212,7 @@ class CreerProfilActivity : AppCompatActivity() {
             val userDatabaseInterface = UserRepository(db.userDao())
             var res: Pair<Boolean, String>?
             val uuid = UUID.randomUUID().toString()
-            val statut = if (radioButtonUtilisateur.isChecked) "Utilisateur" else "Professionnel"
+            val statut = if (radioButtonUtilisateur.isChecked) resources.getString(R.string.Utilisateur) else resources.getString(R.string.professionnel)
             val nom = inputNom.text.toString()
             val prenom = inputPrenom.text.toString()
             val dateNaissance = inputDateDeNaissance.text.toString()
