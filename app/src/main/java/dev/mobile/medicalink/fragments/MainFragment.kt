@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout

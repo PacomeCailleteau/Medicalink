@@ -12,7 +12,6 @@ import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
-import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 
 @Database(
     entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class],
@@ -56,6 +55,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
+
     fun tsarBomba() {
         clearAllTables()
     }

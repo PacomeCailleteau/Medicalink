@@ -55,6 +55,7 @@ class NotificationService : BroadcastReceiver() {
 
     companion object {
         private var notificationId = 0
+
         /**
          * Fonction qui créer la première notification d'un traitement
          * @param context : le contexte de l'application
@@ -237,7 +238,7 @@ class NotificationService : BroadcastReceiver() {
             contenu: String,
             delayMillis: Long,
             pendingIntent: PendingIntent
-        ) : Int {
+        ): Int {
             // Intent pour l'action "Sauter"
             val sauterIntent = Intent(context, SauterReceiver::class.java)
             sauterIntent.action = "sauter"

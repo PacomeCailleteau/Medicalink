@@ -36,7 +36,7 @@ final class WordpieceTokenizer(
             val subTokens: MutableList<String> = ArrayList()
             while (0 < end) {
                 var curSubStr = ""
-                 // Longer substring matches first.
+                // Longer substring matches first.
                 while (start < end) {
                     val subStr =
                         if (start == 0) {
