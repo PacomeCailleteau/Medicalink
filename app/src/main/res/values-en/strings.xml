@@ -50,8 +50,6 @@
     <string name="date_de_fin_de_traitement">Treatment end date</string>
     <string name="prises">Takes</string>
     <string name="reapprovisionnement">Restocking</string>
-    <string name="quotidiennement">Daily</string>
-    <string name="au_besoin">As needed</string>
     <string name="sch_ma_de_prise_du_ntraitement">Treatment schedule</string>
     <string name="ajouter_une_nouvelle_prise">Add a new take</string>
     <string name="rechercher">Search</string>

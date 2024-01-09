@@ -3,6 +3,7 @@ package dev.mobile.medicalink.fragments.traitements
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -180,6 +182,7 @@ class PreviewFragment : Fragment() {
         return result.toString()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun processImageAndExtractText(uri: Uri): Boolean {
         // Convertir l'URI de l'image en Bitmap
         val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)
@@ -191,7 +194,7 @@ class PreviewFragment : Fragment() {
                 val text = it
                 // TODO: Il faut créer le traitement et le faire valider par l'utilisateur, on le fait rentrer dans le processus de création manuelle mais les champs sont déjà remplis ou on le ramène au fragment AjoutManuelRecapitulatifFragment
                 validateButton.setOnClickListener {
-                    createTraitement(text)
+                    /*var nouvTraitement = createTraitement(text)*/
                     val fragTransaction = parentFragmentManager.beginTransaction()
                     fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
                     fragTransaction.addToBackStack(null)
@@ -203,10 +206,11 @@ class PreviewFragment : Fragment() {
     }
 
     // Fonction qui va lire le texte récupéré depuis l'image et en faire un traitement après avoir trié les données
-    private fun createTraitement(text: String) {
+    private fun createTraitement(text: String){
         val myModel = ModelOCR(requireContext())
         val texteAnalyze = myModel.analyze(text)
         Log.d("textAnalyzeParModel", texteAnalyze.toString())
+
     }
 
 
