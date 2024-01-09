@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -22,20 +23,33 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.db.local.repository.UserRepository
+import java.util.concurrent.LinkedBlockingQueue
 
 
 class AjoutManuelSearchFragment : Fragment() {
 
+
     private lateinit var addManuallySearchBar: TextInputEditText
     private lateinit var addManuallyButton: Button
-
+    private lateinit var recyclerView: RecyclerView
     private lateinit var addManuallyButtonLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var originalItemList : List<CisBdpm>
+    private lateinit var filteredItemList: List<CisBdpm>
+    private lateinit var itemAdapter: AjoutManuelSearchAdapterR
+
 
     private lateinit var retour: ImageView
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +63,28 @@ class AjoutManuelSearchFragment : Fragment() {
             navBarre.visibility = View.GONE
         }
 
+        val db = AppDatabase.getInstance(view.context.applicationContext)
+        val CisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
+
+        val queue = LinkedBlockingQueue<List<CisBdpm>>()
+        Thread {
+            val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
+            Log.d("CisBDPM list",listCisBdpm.toString())
+            queue.add(listCisBdpm)
+        }.start()
+        originalItemList = queue.take()
+        filteredItemList=originalItemList
+
+
+
+
         val traitement = arguments?.getSerializable("traitement") as Traitement
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
         val schema_prise1 = arguments?.getString("schema_prise1")
         var provenance = arguments?.getString("provenance")
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
+
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
@@ -110,6 +140,20 @@ class AjoutManuelSearchFragment : Fragment() {
             }
 
 
+        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
+
+        Log.d("ICI",filteredItemList.toString())
+        itemAdapter= AjoutManuelSearchAdapterR(filteredItemList) {clickedString ->
+            updateSearchBar(clickedString)
+        }
+        recyclerView.adapter = itemAdapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val espacementEnDp = 10
+        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+
+
+
+
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable(
@@ -162,7 +206,8 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            // Ne fait rien
+            filterItems(s.toString())
+            Log.d("Change",s.toString())
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -213,5 +258,23 @@ class AjoutManuelSearchFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
+
+    private fun filterItems(query: String) {
+        var filteredItemList = originalItemList.filter { item ->
+            item.denomination.contains(query, ignoreCase = true)
+        }
+        requireActivity().runOnUiThread {
+            itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedString ->
+                Log.d("dd", clickedString)
+                updateSearchBar(clickedString)
+            }
+            recyclerView.adapter = itemAdapter
+            itemAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun updateSearchBar(query : String){
+        addManuallySearchBar.setText(query)
+    }
 
 }

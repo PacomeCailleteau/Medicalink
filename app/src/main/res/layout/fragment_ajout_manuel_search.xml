@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/add_manually_search_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewTypeMedic"
+        android:id="@+id/recyclerViewSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
