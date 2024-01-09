@@ -41,6 +41,7 @@ abstract class AppDatabase : RoomDatabase() {
                     DATABASE_NAME
                 ).build()
                 INSTANCE = instance
+                /*
                 //On créer un thread pour remplir la base de données
                 Thread(Runnable {
                     // On supprime les données de la base de données médicamenteuse
@@ -49,6 +50,8 @@ abstract class AppDatabase : RoomDatabase() {
                     val cisBdpmRepository = CisBdpmRepository(instance.cisBdpmDao())
                     cisBdpmRepository.insertFromCsv(context)
                 }).start()
+
+                 */
                 instance
             }
         }

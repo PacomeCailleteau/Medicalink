@@ -174,5 +174,8 @@
     <string name="pris">Pris</string>
     <string name="Stock">Stock</string>
     <string name="textStock">textStock</string>
+    <string name="Messagerie">Messagerie</string>
+    <string name="textMessage">textMessage</string>
+    <string name="titreMessage">titreMessage</string>
 
 </resources>
