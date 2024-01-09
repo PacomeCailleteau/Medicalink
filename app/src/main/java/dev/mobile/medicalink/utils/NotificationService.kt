@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -53,6 +54,7 @@ class NotificationService : BroadcastReceiver() {
 
 
     companion object {
+        private var notificationId = 0
         /**
          * Fonction qui créer la première notification d'un traitement
          * @param context : le contexte de l'application
@@ -162,18 +164,19 @@ class NotificationService : BroadcastReceiver() {
             traitement: Traitement,
             nbJour: Int
         ) {
-            //On découpe le string pour récupérer l'heure et les minutes
+            // On découpe le string pour récupérer l'heure et les minutes
             val heure = heurePriseStr.split(":").first().toInt()
             val minute = heurePriseStr.split(":").last().toInt()
 
-            //On récupère l'heure actuelle en millisecondes
+            // On récupère l'heure actuelle en millisecondes
             val heureActuelle = LocalTime.now().toNanoOfDay() / 1000000
 
-            //On récupère l'heure de la prochaine prise en millisecondes
-            val heureProchainePriseMillis = LocalTime.of(heure, minute).toNanoOfDay() / 1000000
+            // On récupère l'heure de la prochaine prise en millisecondes
+            val heureProchainePriseMillis =
+                LocalTime.of(heure, minute).toNanoOfDay() / 1000000
 
-            //On récupère la durée entre l'heure actuelle et l'heure de la prochaine prise
-            //Il faut faire attention à la date, si l'heure de la prochaine prise est inférieure à l'heure actuelle, on ajoute un jour à la date
+            // On récupère la durée entre l'heure actuelle et l'heure de la prochaine prise
+            // Il faut faire attention à la date, si l'heure de la prochaine prise est inférieure à l'heure actuelle, on ajoute un jour à la date
             val duree = if (heureProchainePriseMillis < heureActuelle) {
                 Duration.ofMillis(heureProchainePriseMillis + 86400000 * nbJour - heureActuelle)
             } else {
@@ -183,12 +186,17 @@ class NotificationService : BroadcastReceiver() {
             // Intent pour l'action "Sauter"
             val sauterIntent = Intent(context, NotificationService::class.java)
             sauterIntent.action = "ACTION_SAUTE"
+
+            // Ajoutez l'ID de la notification à l'intent du bouton "Sauter"
+            sauterIntent.putExtra("notificationId", uniqueId())
+
             val sauterPendingIntent = PendingIntent.getBroadcast(
                 context,
                 uniqueId(),
                 sauterIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
+
 
             // Intent pour l'action "Prendre"
             val prendreIntent = Intent(context, NotificationService::class.java)
@@ -211,7 +219,7 @@ class NotificationService : BroadcastReceiver() {
                 .addAction(0, "Sauter", sauterPendingIntent)
                 .addAction(1, "Prendre", prendrePendingIntent)
 
-            // On créer la notification
+            // On crée la notification
             sendNotification(
                 context,
                 "Prise de ${traitement.nomTraitement}",
@@ -219,19 +227,8 @@ class NotificationService : BroadcastReceiver() {
                 duree.toMillis(),
                 pendingIntent
             )
-
-            // Appelez sendNotification avec le PendingIntent nouvellement créé
-            val notificationId = sendNotification(
-                context,
-                "Prise de ${traitement.nomTraitement}",
-                "Il est l'heure de prendre votre médicament ${traitement.nomTraitement}",
-                duree.toMillis(),
-                pendingIntent
-            )
-
-            // Ajoutez l'ID de la notification à l'intent
-            sauterIntent.putExtra("notificationId", notificationId)
         }
+
 
         // Fonction qui créer une notification avec un délai en millisecondes
         fun sendNotification(
@@ -250,6 +247,7 @@ class NotificationService : BroadcastReceiver() {
                 sauterIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
+
 
             // Intent pour l'action "Prendre"
             val prendreIntent = Intent(context, PrendreReceiver::class.java)
@@ -296,7 +294,7 @@ class NotificationService : BroadcastReceiver() {
             )
 
             // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
-            sendNotification(context, titre, contenu, delayMillis, pendingIntent)
+            // sendNotification(context, titre, contenu, delayMillis, pendingIntent)
 
             return id
         }
@@ -411,8 +409,13 @@ class NotificationService : BroadcastReceiver() {
 
 
         fun uniqueId(): Int {
-            return currentTimeMillis().toInt()
+            val id = notificationId
+            notificationId++
+            Log.d("NotificationService", "Generated unique ID: $id")
+            return id
         }
+
+
     }
 
 }
