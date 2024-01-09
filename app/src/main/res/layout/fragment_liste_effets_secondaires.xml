@@ -30,7 +30,7 @@
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="@string/journal_des_effets_secondaires"
+        android:text="@string/effets_secondaires"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="normal"

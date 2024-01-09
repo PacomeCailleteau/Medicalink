@@ -4,11 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="start"
+        android:text="@string/parametre"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/cardDeconnexion"
         android:layout_width="325dp"
         android:layout_height="69dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="31dp"
         android:background="@drawable/rounded_blue_button_background"
         android:gravity="center"
         android:orientation="horizontal"
@@ -16,7 +32,7 @@
         android:paddingRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTsraBomba">
+        app:layout_constraintTop_toBottomOf="@+id/textView16">
 
 
         <ImageView
@@ -36,19 +52,5 @@
             android:textColor="#000000"
             android:textSize="17sp" />
     </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnTsraBomba"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:enabled="true"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/delete_all_data"
-        android:textAllCaps="false"
-        android:textColor="@color/red"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

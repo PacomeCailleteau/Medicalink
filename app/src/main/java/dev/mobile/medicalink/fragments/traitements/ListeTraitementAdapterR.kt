@@ -49,6 +49,17 @@ class ListeTraitementAdapterR(
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
+        val textAucunTraitement = holder.view.findViewById<TextView>(R.id.textAucunTraitement)
+        if (list.isEmpty()) {
+            if (textAucunTraitement != null) {
+                textAucunTraitement.visibility = View.VISIBLE
+            }
+            return
+        }
+
+        if (textAucunTraitement != null) {
+            textAucunTraitement.visibility = View.GONE
+        }
         val item = list.get(position)
         holder.nomTraitement.text = item.nomTraitement
         if (item.dosageUnite == "auBesoin") {

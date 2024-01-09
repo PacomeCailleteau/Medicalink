@@ -51,6 +51,16 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".utils.SauterReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".utils.PrendreReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <service
             android:name=".utils.NotificationService"
             android:exported="false" />

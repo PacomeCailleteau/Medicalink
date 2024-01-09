@@ -2,7 +2,9 @@ package dev.mobile.medicalink.fragments.home
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.PriseValidee
@@ -24,6 +27,7 @@ import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.NotificationService
+import dev.mobile.medicalink.utils.NotificationService.Companion.uniqueId
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
@@ -34,10 +38,12 @@ class HomeAdapterR(
     private var list: MutableList<Pair<Prise, Traitement>>,
     private var listePriseValidee: MutableList<Pair<LocalDate, String>>,
     private var dateCourante: LocalDate,
-    private val parentRecyclerView: RecyclerView
+    private val parentRecyclerView: RecyclerView,
+    private val VIEW_TYPE_EMPTY: Int = 0,
+    private val VIEW_TYPE_NORMAL: Int = 1
+
 ) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
-
 
     var heureCourante: String? = null
     fun updateData(
@@ -64,14 +70,39 @@ class HomeAdapterR(
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return if (list.isEmpty()) {
+            1 // Retourne 1 pour la vue vide
+        } else {
+            list.size
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (list.isEmpty()) {
+            VIEW_TYPE_EMPTY
+        } else {
+            VIEW_TYPE_NORMAL
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
-        val layout = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_accueil, parent, false)
-        return AjoutManuelViewHolder(layout)
+        return when (viewType) {
+            VIEW_TYPE_EMPTY -> {
+                val layoutEmpty = LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.item_accueil_vide, parent, false)
+                AjoutManuelViewHolder(layoutEmpty)
+            }
+
+            VIEW_TYPE_NORMAL -> {
+                val layoutNormal = LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.item_accueil, parent, false)
+                AjoutManuelViewHolder(layoutNormal)
+            }
+
+            else -> throw IllegalArgumentException("Type de vue inconnu")
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -79,6 +110,10 @@ class HomeAdapterR(
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val db = AppDatabase.getInstance(holder.itemView.context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+
+        if (list.isEmpty()) {
+            return
+        }
 
         val item = list[position]
         if (item == list.first()) {
@@ -394,11 +429,25 @@ class HomeAdapterR(
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
+                                // Utilisez le contexte de l'application ou de l'activité, selon votre besoin
+                                val context = holder.itemView.context
+
+                                // Créez un PendingIntent approprié ici, selon vos besoins
+                                val notificationIntent = Intent(context, MainActivity::class.java)
+                                val pendingIntent = PendingIntent.getActivity(
+                                    context,
+                                    uniqueId(),
+                                    notificationIntent,
+                                    PendingIntent.FLAG_IMMUTABLE
+                                )
+
+                                // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
                                 NotificationService.sendNotification(
                                     context,
-                                    "Fin de traitement",
-                                    "La quantité est stock est épuisé",
-                                    5000
+                                    "Titre",
+                                    "Contenu",
+                                    5000,
+                                    pendingIntent
                                 )
                             }
 
