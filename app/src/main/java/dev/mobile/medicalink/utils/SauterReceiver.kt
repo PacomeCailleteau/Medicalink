@@ -22,6 +22,9 @@ class SauterReceiver : BroadcastReceiver() {
                     ContextCompat.getSystemService(context!!, NotificationManager::class.java)
                 notificationManager?.cancel(notificationId)
             }
+            val notificationManager =
+                ContextCompat.getSystemService(context!!, NotificationManager::class.java)
+            notificationManager?.cancel(notificationId)
         }
     }
 }
