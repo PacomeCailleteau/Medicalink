@@ -94,7 +94,7 @@ class NotificationService : BroadcastReceiver() {
             openAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             val pendingIntent = PendingIntent.getActivity(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 openAppIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -129,7 +129,7 @@ class NotificationService : BroadcastReceiver() {
             openAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             val pendingIntent = PendingIntent.getActivity(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 openAppIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -164,7 +164,9 @@ class NotificationService : BroadcastReceiver() {
             heurePriseStr: String,
             traitement: Traitement,
             nbJour: Int
-        ) {
+        ) : Int {
+            val notificationId = uniqueId(context)
+
             // On découpe le string pour récupérer l'heure et les minutes
             val heure = heurePriseStr.split(":").first().toInt()
             val minute = heurePriseStr.split(":").last().toInt()
@@ -187,30 +189,26 @@ class NotificationService : BroadcastReceiver() {
             // Intent pour l'action "Sauter"
             val sauterIntent = Intent(context, NotificationService::class.java)
             sauterIntent.action = "ACTION_SAUTE"
-
-            // Ajoutez l'ID de la notification à l'intent du bouton "Sauter"
-            sauterIntent.putExtra("notificationId", uniqueId())
-
+            sauterIntent.putExtra("notificationId", notificationId) // Ajoutez l'ID à l'intent du bouton "Sauter"
             val sauterPendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                notificationId,
                 sauterIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
-
 
             // Intent pour l'action "Prendre"
             val prendreIntent = Intent(context, NotificationService::class.java)
             prendreIntent.action = "ACTION_PRENDRE"
             val prendrePendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                notificationId,
                 prendreIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
 
             // Ajoutez les actions à la notification
-            val notificationBuilder = NotificationCompat.Builder(context, channelId)
+            NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.logo_medicalink)
                 .setContentTitle(titre)
                 .setContentText(contenu)
@@ -220,13 +218,14 @@ class NotificationService : BroadcastReceiver() {
                 .addAction(0, "Sauter", sauterPendingIntent)
                 .addAction(1, "Prendre", prendrePendingIntent)
 
-            // On crée la notification
-            sendNotification(
+            // On crée la notification en utilisant l'ID généré
+            return sendNotification(
                 context,
                 "Prise de ${traitement.nomTraitement}",
                 "Il est l'heure de prendre votre médicament ${traitement.nomTraitement}",
                 duree.toMillis(),
-                pendingIntent
+                pendingIntent,
+                notificationId
             )
         }
 
@@ -237,14 +236,15 @@ class NotificationService : BroadcastReceiver() {
             titre: String,
             contenu: String,
             delayMillis: Long,
-            pendingIntent: PendingIntent
+            pendingIntent: PendingIntent,
+            notificationId: Int
         ): Int {
             // Intent pour l'action "Sauter"
             val sauterIntent = Intent(context, SauterReceiver::class.java)
             sauterIntent.action = "sauter"
             val sauterPendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 sauterIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -255,7 +255,7 @@ class NotificationService : BroadcastReceiver() {
             prendreIntent.action = "prendre"
             val prendrePendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 prendreIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -289,13 +289,13 @@ class NotificationService : BroadcastReceiver() {
             openAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             val pendingIntent = PendingIntent.getActivity(
                 context,
-                uniqueId(),
+                notificationId, // Utilisez l'ID de notification
                 openAppIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
 
             // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
-            // sendNotification(context, titre, contenu, delayMillis, pendingIntent)
+            // sendNotification(context, titre, contenu, delayMillis, pendingIntent, notificationId)
 
             return id
         }
@@ -312,7 +312,7 @@ class NotificationService : BroadcastReceiver() {
                 .putExtra("content", contenu)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -339,7 +339,7 @@ class NotificationService : BroadcastReceiver() {
                 .putExtra("content", contenu)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -366,7 +366,7 @@ class NotificationService : BroadcastReceiver() {
                 .putExtra("content", contenu)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -393,7 +393,7 @@ class NotificationService : BroadcastReceiver() {
                 .putExtra("content", contenu)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                uniqueId(),
+                uniqueId(context),
                 notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
@@ -409,11 +409,20 @@ class NotificationService : BroadcastReceiver() {
         }
 
 
-        fun uniqueId(): Int {
-            val id = notificationId
-            notificationId++
-            Log.d("NotificationService", "Generated unique ID: $id")
-            return id
+        fun uniqueId(context: Context): Int {
+            val PREFS_NAME = "notification_prefs"
+            val KEY_NOTIFICATION_ID = "notification_id"
+            val sharedPref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            // Get the current notification ID
+            val notificationId = sharedPref.getInt(KEY_NOTIFICATION_ID, 0)
+
+            // Increment the notification ID and store it
+            with(sharedPref.edit()) {
+                putInt(KEY_NOTIFICATION_ID, notificationId + 1)
+                apply()
+            }
+
+            return notificationId + 1
         }
 
 

@@ -436,10 +436,12 @@ class HomeAdapterR(
                                 val notificationIntent = Intent(context, MainActivity::class.java)
                                 val pendingIntent = PendingIntent.getActivity(
                                     context,
-                                    uniqueId(),
+                                    uniqueId(context),
                                     notificationIntent,
                                     PendingIntent.FLAG_IMMUTABLE
                                 )
+
+                                val notificationId = uniqueId(context)
 
                                 // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
                                 NotificationService.sendNotification(
@@ -447,7 +449,8 @@ class HomeAdapterR(
                                     "Titre",
                                     "Contenu",
                                     5000,
-                                    pendingIntent
+                                    pendingIntent,
+                                    notificationId
                                 )
                             }
 
