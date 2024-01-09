@@ -15,7 +15,7 @@ class SauterReceiver : BroadcastReceiver() {
 
         // Fermez la notification
         val notificationManager =
-            ContextCompat.getSystemService(context!!, NotificationManager::class.java)
+            context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Annulez la notification avec l'ID spécifié dans l'intent
         val notificationId = intent!!.getIntExtra("notificationId", -1)

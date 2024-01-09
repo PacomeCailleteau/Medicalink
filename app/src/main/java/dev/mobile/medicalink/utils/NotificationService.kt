@@ -26,12 +26,13 @@ class NotificationService : BroadcastReceiver() {
         // Obtenez le titre et le contenu de l'intent
         val title = intent?.getStringExtra("title") ?: "Titre par défaut"
         val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
+        val notificationId = intent?.getIntExtra("notificationId", -1)!!
 
         // C'est ici que vous affichez la notification
-        showNotification(context, title, content)
+        showNotification(context, title, content, notificationId)
     }
 
-    private fun showNotification(context: Context?, titre: String, contenu: String) {
+    private fun showNotification(context: Context?, titre: String, contenu: String, notificationId: Int) {
         // Code pour afficher la notification
         val notificationManager = ContextCompat.getSystemService(
             context!!,
@@ -45,17 +46,13 @@ class NotificationService : BroadcastReceiver() {
             .setContentText(contenu)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        // Affichez la notification
-        val id = currentTimeMillis().toInt()
         // utiliser l'id si on veut avoir plusieurs notifications en même temps
         // Sinon la nouvelle notif remplacera la première
-        notificationManager.notify(1, notificationBuilder.build())
+        notificationManager.notify(notificationId, notificationBuilder.build())
     }
 
 
     companion object {
-        private var notificationId = 0
-
         /**
          * Fonction qui créer la première notification d'un traitement
          * @param context : le contexte de l'application
@@ -102,10 +99,6 @@ class NotificationService : BroadcastReceiver() {
             // Appelez createNotif avec le PendingIntent nouvellement créé
             createNotif(
                 context,
-                "medicalinkNotificationChannel",
-                "Titre",
-                "Contenu",
-                pendingIntent,
                 heurePremierePriseStr,
                 traitement,
                 nbJours
@@ -137,10 +130,6 @@ class NotificationService : BroadcastReceiver() {
             // Appelez createNotif avec le PendingIntent nouvellement créé
             createNotif(
                 context,
-                "medicalinkNotificationChannel",
-                "Titre",
-                "Contenu",
-                pendingIntent,
                 heureProchainePriseStr,
                 traitement,
                 1
@@ -155,12 +144,8 @@ class NotificationService : BroadcastReceiver() {
          * @param nbJour : le nombre de jour entre aujourd'hui et le jour de la prise
          */
         @RequiresApi(Build.VERSION_CODES.O)
-        private fun createNotif(
+        fun createNotif(
             context: Context,
-            channelId: String,
-            titre: String,
-            contenu: String,
-            pendingIntent: PendingIntent,
             heurePriseStr: String,
             traitement: Traitement,
             nbJour: Int
@@ -187,7 +172,7 @@ class NotificationService : BroadcastReceiver() {
             }
 
             // Intent pour l'action "Sauter"
-            val sauterIntent = Intent(context, NotificationService::class.java)
+            val sauterIntent = Intent(context, SauterReceiver::class.java)
             sauterIntent.action = "ACTION_SAUTE"
             sauterIntent.putExtra("notificationId", notificationId) // Ajoutez l'ID à l'intent du bouton "Sauter"
             val sauterPendingIntent = PendingIntent.getBroadcast(
@@ -198,25 +183,14 @@ class NotificationService : BroadcastReceiver() {
             )
 
             // Intent pour l'action "Prendre"
-            val prendreIntent = Intent(context, NotificationService::class.java)
+            val prendreIntent = Intent(context, PrendreReceiver::class.java)
             prendreIntent.action = "ACTION_PRENDRE"
             val prendrePendingIntent = PendingIntent.getBroadcast(
                 context,
-                notificationId,
+                notificationId+1,
                 prendreIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
-
-            // Ajoutez les actions à la notification
-            NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.logo_medicalink)
-                .setContentTitle(titre)
-                .setContentText(contenu)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .addAction(0, "Sauter", sauterPendingIntent)
-                .addAction(1, "Prendre", prendrePendingIntent)
 
             // On crée la notification en utilisant l'ID généré
             return sendNotification(
@@ -224,8 +198,9 @@ class NotificationService : BroadcastReceiver() {
                 "Prise de ${traitement.nomTraitement}",
                 "Il est l'heure de prendre votre médicament ${traitement.nomTraitement}",
                 duree.toMillis(),
-                pendingIntent,
-                notificationId
+                notificationId,
+                sauterPendingIntent,
+                prendrePendingIntent
             )
         }
 
@@ -236,30 +211,10 @@ class NotificationService : BroadcastReceiver() {
             titre: String,
             contenu: String,
             delayMillis: Long,
-            pendingIntent: PendingIntent,
-            notificationId: Int
+            notificationId: Int,
+            sauterPendingIntent: PendingIntent,
+            prendrePendingIntent: PendingIntent
         ): Int {
-            // Intent pour l'action "Sauter"
-            val sauterIntent = Intent(context, SauterReceiver::class.java)
-            sauterIntent.action = "sauter"
-            val sauterPendingIntent = PendingIntent.getBroadcast(
-                context,
-                uniqueId(context),
-                sauterIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-
-
-            // Intent pour l'action "Prendre"
-            val prendreIntent = Intent(context, PrendreReceiver::class.java)
-            prendreIntent.action = "prendre"
-            val prendrePendingIntent = PendingIntent.getBroadcast(
-                context,
-                uniqueId(context),
-                prendreIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-
             val notificationManager = ContextCompat.getSystemService(
                 context,
                 NotificationManager::class.java
@@ -271,33 +226,31 @@ class NotificationService : BroadcastReceiver() {
                 .setSmallIcon(R.drawable.logo_medicalink)
                 .setContentTitle(titre)
                 .setContentText(contenu)
-                .setContentIntent(pendingIntent)  // Ajout du PendingIntent
                 .setAutoCancel(true)  // La notification sera supprimée lorsque l'utilisateur cliquera dessus
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .addAction(0, "Sauter", sauterPendingIntent)
                 .addAction(0, "Prendre", prendrePendingIntent)
-
-            // Utilisez le PendingIntent passé en paramètre
-            notificationBuilder.setContentIntent(pendingIntent)
-
-            // Affichez la notification
-            val id = currentTimeMillis().toInt()
-            notificationManager.notify(id, notificationBuilder.build())
 
             // Créez le PendingIntent pour l'ouverture de l'application
             val openAppIntent = Intent(context, MainActivity::class.java)
             openAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             val pendingIntent = PendingIntent.getActivity(
                 context,
-                notificationId, // Utilisez l'ID de notification
+                0, // Utilisez l'ID de notification
                 openAppIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
 
+            // Utilisez le PendingIntent passé en paramètre
+            notificationBuilder.setContentIntent(pendingIntent)
+
             // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
             // sendNotification(context, titre, contenu, delayMillis, pendingIntent, notificationId)
 
-            return id
+            // Affichez la notification
+            notificationManager.notify(notificationId, notificationBuilder.build())
+
+            return notificationId
         }
 
         fun sendEveryXHoursNotification(
@@ -418,11 +371,11 @@ class NotificationService : BroadcastReceiver() {
 
             // Increment the notification ID and store it
             with(sharedPref.edit()) {
-                putInt(KEY_NOTIFICATION_ID, notificationId + 1)
+                putInt(KEY_NOTIFICATION_ID, notificationId + 2)
                 apply()
             }
 
-            return notificationId + 1
+            return notificationId + 2
         }
 
 

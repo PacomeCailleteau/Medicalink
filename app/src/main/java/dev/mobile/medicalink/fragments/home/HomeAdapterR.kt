@@ -28,6 +28,7 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.NotificationService
 import dev.mobile.medicalink.utils.NotificationService.Companion.uniqueId
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
@@ -432,26 +433,12 @@ class HomeAdapterR(
                                 // Utilisez le contexte de l'application ou de l'activité, selon votre besoin
                                 val context = holder.itemView.context
 
-                                // Créez un PendingIntent approprié ici, selon vos besoins
-                                val notificationIntent = Intent(context, MainActivity::class.java)
-                                val pendingIntent = PendingIntent.getActivity(
-                                    context,
-                                    uniqueId(context),
-                                    notificationIntent,
-                                    PendingIntent.FLAG_IMMUTABLE
-                                )
+                                //On calcule le nombre de jour entre ajourd'hui et le jour de la première prise
+                                var nbJours =
+                                    Duration.between(LocalDate.now().atStartOfDay(), traitement.dateDbtTraitement!!.atStartOfDay())
+                                        .toDays().toInt()
 
-                                val notificationId = uniqueId(context)
-
-                                // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
-                                NotificationService.sendNotification(
-                                    context,
-                                    "Titre",
-                                    "Contenu",
-                                    5000,
-                                    pendingIntent,
-                                    notificationId
-                                )
+                                NotificationService.createNotif(context, holder.heurePrise.text.toString(), traitement, nbJours)
                             }
 
                             //On met à jour le médicament dans la base de données
