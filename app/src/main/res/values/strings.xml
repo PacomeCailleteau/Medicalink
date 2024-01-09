@@ -15,7 +15,6 @@
     <string name="creer_profil_votre_profil">Votre profil</string>
     <string name="creer_profil_adresse_email">Adresse Email</string>
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
-    <string name="creer_profil_utilisateur">Utilisateur</string>
     <string name="creer_profil_informations_personnelles">Informations personnelles</string>
     <string name="bouton_creer_mon_profil">Créer mon profil</string>
     <string name="creer_profil_mot_de_passe">Mot de passe</string>
@@ -63,7 +62,7 @@
     <string name="prises">Prises</string>
     <string name="reapprovisionnement">Réapprovisionnement</string>
     <string name="quotidiennement">Quotidiennement</string>
-    <string name="quoti">quotidiennement</string>
+    <string name="quoti" translatable="false">quotidiennement</string>
     <string name="au_besoin">Au besoin</string>
     <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du  traitement</string>
     <string name="ajouter_une_nouvelle_prise">Ajouter une nouvelle prise</string>
@@ -78,9 +77,9 @@
     <string name="me_le_rappeler_avant">Me le rappeler avant</string>
     <string name="_7_jours">7 jours</string>
     <string name="heure_de_rappel">Heure de rappel</string>
-    <string name="neuf_heure">09:00</string>
+    <string name="neuf_heure" translatable="false">09:00</string>
     <string name="mois">Mois</string>
-    <string name="x">X</string>
+    <string name="x" translatable="false">X</string>
     <string name="journal_des_effets_secondaires">Journal des effets secondaires</string>
     <string name="effets_secondaires">Effets secondaires</string>
     <string name="incompatibilite_detecte">Incompatibilité détectée</string>
@@ -89,25 +88,25 @@
     <string name="prendre_une_nouvelle_photo">Prendre une nouvelle photo</string>
     <string name="choisir_depuis_la_galerie">Choisir depuis la galerie</string>
     <string name="valider_le_nouveau_traitement">Valider le nouveau traitement</string>
-    <string name="mainheure">MainHeure</string>
-    <string name="_1_comprim_s">1 Comprimé(s)</string>
-    <string name="prise_x">Prise X</string>
+    <string name="mainheure" translatable="false">MainHeure</string>
+    <string name="_1_comprim_s" translatable="false">1 Comprimé(s)</string>
+    <string name="prise_x" translatable="false">Prise X</string>
     <string name="quantit">Quantité</string>
-    <string name="nom_medicament">Nom_Médicament</string>
-    <string name="comprime_s">COMPRIME(S)</string>
+    <string name="nom_medicament" translatable="false">Nom_Médicament</string>
+    <string name="comprime_s" translatable="false">COMPRIME(S)</string>
     <string name="substance_active">Substance active</string>
     <string name="laboratoire">Laboratoire</string>
     <string name="professionnel_de_sant">Professionnel de santé</string>
-    <string name="jaques_dutronc">Jaques Dutronc</string>
-    <string name="nom_effet">Nom_Effet</string>
-    <string name="proqu_par_xxx">Proqué par : XXX</string>
-    <string name="nom_m_dicament">Nom_Médicament</string>
-    <string name="_5_par_jours">5 par jours</string>
-    <string name="jusqu_au_18_07_2023">Jusqu\'au 18/07/2023</string>
-    <string name="_7_comprim_s_restants">7 Comprimé(s) restants</string>
-    <string name="heureprise">HeurePrise</string>
+    <string name="jaques_dutronc" translatable="false">Jaques Dutronc</string>
+    <string name="nom_effet" translatable="false">Nom_Effet</string>
+    <string name="proqu_par_xxx" translatable="false">Proqué par : XXX</string>
+    <string name="nom_m_dicament" translatable="false">Nom_Médicament</string>
+    <string name="_5_par_jours" translatable="false">5 par jours</string>
+    <string name="jusqu_au_18_07_2023" translatable="false">Jusqu\'au 18/07/2023</string>
+    <string name="_7_comprim_s_restants" translatable="false">7 Comprimé(s) restants</string>
+    <string name="heureprise" translatable="false">HeurePrise</string>
     <string name="dosage">Dosage</string>
-    <string name="textview">TextView</string>
+    <string name="textview" translatable="false">TextView</string>
     <string name="accueil">Accueil</string>
     <string name="traitements">Traitements</string>
     <string name="messages">Messages</string>
@@ -136,7 +135,7 @@
     <string name="toutes_les">Toutes les</string>
     <string name="toutes_2_semaines">Toutes les 2 Semaines</string>
     <string name="indetermine">Inderterminé</string>
-    <string name="_17_00">17:00</string>
+    <string name="_17_00" translatable="false">17:00</string>
     <string name="meme_heure_meme_quanti">Même heure, même quantité</string>
     <string name="tous_les_3_jours_toutes_les_2_semaines">Ex : Tous les 3 jours, toutes les 2 semaines</string>
     <string name="pas_de_prise_regu">Pas de prise régulière</string>
@@ -181,5 +180,8 @@
     <string name="parametre">Paramètre</string>
     <string name="aucun_traitement">Aucun traitement</string>
     <string name="aucun_medicament_prevu">Aucun médicament prévu !</string>
+    <string name="Utilisateur">Utilisateur</string>
+    <string name="professionnel">Professionnel</string>
+    <string name="creer_profil_utilisateur">Utilisateur</string>
 
 </resources>
