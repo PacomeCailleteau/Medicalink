@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Medicalink</string>
+    <string name="app_name" translatable="false">Medicalink</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="param_buttun">Bouton Paremètre</string>
     <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
     <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
@@ -11,7 +11,7 @@
     <string name="changer_utilisateur">Changer d\'utilisateur</string>
     <string name="selectionner_un_profil">Sélectionner un profil</string>
     <string name="ajouter_un_profil">Ajouter un profil</string>
-    <string name="medicalink_title">Medicalink</string>
+    <string name="medicalink_title" translatable="false">Medicalink</string>
     <string name="creer_profil_votre_profil">Votre profil</string>
     <string name="creer_profil_adresse_email">Adresse Email</string>
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
@@ -27,7 +27,7 @@
     <string name="dialog_dosage">Dosage</string>
     <string name="dialog_dosage_quantite">Quantité</string>
     <string name="dialog_annuler">Annuler</string>
-    <string name="dialog_ok">OK</string>
+    <string name="dialog_ok" translatable="false">OK</string>
     <string name="dialog_intervalle_regulier">Intervalle régulier</string>
     <string name="dialog_me_le_rappeler_avant">Me le rappeler avant</string>
     <string name="dialog_jours">jours</string>
@@ -45,27 +45,27 @@
     <string name="sans_fin">Sans fin</string>
     <string name="date_de_debut">Date de début</string>
     <string name="date_de_fin">Date de fin</string>
-    <string name="date">Date</string>
+    <string name="date" translatable="false">Date</string>
     <string name="suivant">Suivant</string>
     <string name="intervalle">Intervalle</string>
     <string name="schema_de_prise_du_traitement">Schéma de prise du traitement</string>
     <string name="recapitulatif_du_traitement">Récapitulatif du traitement</string>
     <string name="confirmer">Confirmer</string>
     <string name="medicament">Médicament</string>
-    <string name="nommedoc">NomMedoc</string>
+    <string name="nommedoc" translatable="false">NomMedoc</string>
     <string name="caracteristique">Caractéristique</string>
-    <string name="textunite">textUnite</string>
+    <string name="textunite" translatable="false">textUnite</string>
     <string name="unite">Unité</string>
     <string name="periodicit">Périodicité</string>
-    <string name="datefindetraitement">dateFinDeTraitement</string>
+    <string name="datefindetraitement" translatable="false">dateFinDeTraitement</string>
     <string name="date_de_fin_de_traitement">Date de fin de traitement</string>
-    <string name="sousnomperiodicite">SousNomPeriodicite</string>
+    <string name="sousnomperiodicite" translatable="false">SousNomPeriodicite</string>
     <string name="prises">Prises</string>
     <string name="reapprovisionnement">Réapprovisionnement</string>
     <string name="quotidiennement">Quotidiennement</string>
     <string name="quoti">quotidiennement</string>
     <string name="au_besoin">Au besoin</string>
-    <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du \ntraitement</string>
+    <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du  traitement</string>
     <string name="ajouter_une_nouvelle_prise">Ajouter une nouvelle prise</string>
     <string name="rechercher">Rechercher</string>
     <string name="ajouter_un_traitement">Ajouter un traitement</string>
@@ -177,5 +177,6 @@
     <string name="Messagerie">Messagerie</string>
     <string name="textMessage">textMessage</string>
     <string name="titreMessage">titreMessage</string>
+    <string name="app_name">M</string>
 
 </resources>
