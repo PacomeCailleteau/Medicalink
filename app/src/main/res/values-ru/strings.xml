@@ -138,4 +138,5 @@
     <string name="aucun_medicament_prevu">Лекарства не предоставляются!</string>
     <string name="parametre">Параметр</string>
     <string name="professionnel">Профессия</string>
+    <string name="effets_secondaires">Побочные эффекты</string>
 </resources>
