@@ -28,6 +28,7 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.NotificationService
 import dev.mobile.medicalink.utils.NotificationService.Companion.uniqueId
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
@@ -424,36 +425,15 @@ class HomeAdapterR(
                             //On récupère la date de fin du traitement
                             val medicament = medoc[0]
                             dateFinTraitement = medicament.dateFinTraitement
-                            medicament.comprimesRestants =
-                                medicament.comprimesRestants?.minus(prise.quantite)
+                            medicament.comprimesRestants = medicament.comprimesRestants?.minus(prise.quantite)
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
-                                // Utilisez le contexte de l'application ou de l'activité, selon votre besoin
-                                val context = holder.itemView.context
-
-                                // Créez un PendingIntent approprié ici, selon vos besoins
-                                val notificationIntent = Intent(context, MainActivity::class.java)
-                                val pendingIntent = PendingIntent.getActivity(
-                                    context,
-                                    uniqueId(),
-                                    notificationIntent,
-                                    PendingIntent.FLAG_IMMUTABLE
-                                )
-
-                                // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
-                                NotificationService.sendNotification(
-                                    context,
-                                    "Titre",
-                                    "Contenu",
-                                    5000,
-                                    pendingIntent
-                                )
+                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
                             }
 
                             //On met à jour le médicament dans la base de données
                             medocDatabaseInterface.updateMedoc(medicament)
-
                         } else {
                             Log.d("MEDOC", "Le médicament n'a pas été trouvé")
                             return@Thread
@@ -471,7 +451,7 @@ class HomeAdapterR(
                         NotificationService.createNextNotif(
                             context,
                             heureProchainePrise,
-                            traitement
+                            traitement,
                         )
                     }
                 }.start()

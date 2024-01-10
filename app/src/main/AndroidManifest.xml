@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- WAKE_LOCK c'est pour pouvoir envoyé des notifs quand le tel est en veille -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -28,7 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="dev.mobile.medicalink.fragments.MainFragment" />
+        <activity
+            android:name="dev.mobile.medicalink.fragments.MainFragment"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

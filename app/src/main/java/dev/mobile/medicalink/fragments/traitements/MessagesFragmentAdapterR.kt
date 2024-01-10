@@ -1,5 +1,4 @@
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
-class MessagesFragmentAdapterR(private val list: MutableList<Pair<String,String>>) :
+class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String>>) :
     RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

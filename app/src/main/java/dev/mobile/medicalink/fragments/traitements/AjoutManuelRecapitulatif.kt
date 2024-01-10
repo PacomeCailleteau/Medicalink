@@ -95,8 +95,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         nomMedoc.text = traitement.nomTraitement
         textUnite.text = traitement.typeComprime
         textStock.text = "${traitement.comprimesRestants} ${traitement.typeComprime}"
-        if (traitement.comprimesRestants!! >1){
-            textStock.text="${textStock.text}s"
+        if (traitement.comprimesRestants!! > 1) {
+            textStock.text = "${textStock.text}s"
         }
         if (traitement.dateFinTraitement == null) {
             dateFindeTraitement.text = resources.getString(R.string.indetermine)

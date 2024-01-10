@@ -53,8 +53,6 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
-    fun tsarBomba() {
-        clearAllTables()
-    }
+
 
 }

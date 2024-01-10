@@ -1,6 +1,5 @@
 package fr.medicapp.medicapp.tokenization
 
-import android.util.Log
 import java.util.Collections
 
 class FeatureConverter(

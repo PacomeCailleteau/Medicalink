@@ -7,7 +7,7 @@ import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 
-class CisBdpmRepository (private val CISbdpmDao: CisBdpmDao) {
+class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
 
     fun getAllCisBdpm(): List<CisBdpm> {
         return try {
@@ -53,7 +53,6 @@ class CisBdpmRepository (private val CISbdpmDao: CisBdpmDao) {
     }
 
 
-
     private fun readCsvFromAssets(context: Context, filePath: String): String {
         return context.assets.open(filePath).bufferedReader().use {
             it.readText()
@@ -73,7 +72,7 @@ class CisBdpmRepository (private val CISbdpmDao: CisBdpmDao) {
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
             val values = parseCsvLine(line)
-            if (values.size == 12){
+            if (values.size == 12) {
                 val cisBdpm = CisBdpm(
                     CodeCIS = values[0].toInt(),
                     denomination = values[1],
@@ -110,9 +109,11 @@ class CisBdpmRepository (private val CISbdpmDao: CisBdpmDao) {
                         value = ""
                     }
                 }
+
                 '"' -> {
                     isInsideQuote = !isInsideQuote
                 }
+
                 else -> {
                     value += char
                 }
