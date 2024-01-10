@@ -183,5 +183,7 @@
     <string name="Utilisateur">Utilisateur</string>
     <string name="professionnel">Professionnel</string>
     <string name="creer_profil_utilisateur">Utilisateur</string>
+    <string name="rapport_journalier">Rapport journalier :</string>
+    <string name="x_x">X/X</string>
 
 </resources>

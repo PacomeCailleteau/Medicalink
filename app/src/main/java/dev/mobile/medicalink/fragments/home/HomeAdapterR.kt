@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +39,9 @@ class HomeAdapterR(
     private var dateCourante: LocalDate,
     private val parentRecyclerView: RecyclerView,
     private val VIEW_TYPE_EMPTY: Int = 0,
-    private val VIEW_TYPE_NORMAL: Int = 1
+    private val VIEW_TYPE_NORMAL: Int = 1,
+    private val VIEW_TYPE_RAPPORT: Int = 2
+
 ) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
@@ -50,7 +54,11 @@ class HomeAdapterR(
         list = listeTraitementUpdated
         listePriseValidee = listePriseValideeUpdated
         dateCourante = date
+        Log.d("LISTE", listePriseValidee.size.toString())
+        updatePriseValideeList(listePriseValideeUpdated) // Mettez à jour la listePriseValidee
+        updateRapportText() // Mettez à jour le texte du rapport
     }
+
 
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -77,6 +85,8 @@ class HomeAdapterR(
     override fun getItemViewType(position: Int): Int {
         return if (list.isEmpty()) {
             VIEW_TYPE_EMPTY
+        } else if (position == 0) {
+            VIEW_TYPE_RAPPORT
         } else {
             VIEW_TYPE_NORMAL
         }
@@ -89,6 +99,13 @@ class HomeAdapterR(
                     .from(parent.context)
                     .inflate(R.layout.item_accueil_vide, parent, false)
                 AjoutManuelViewHolder(layoutEmpty)
+            }
+
+            VIEW_TYPE_RAPPORT -> {
+                val layoutRapport = LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.item_accueil_rapport, parent, false)
+                AjoutManuelViewHolder(layoutRapport)
             }
 
             VIEW_TYPE_NORMAL -> {
@@ -112,15 +129,23 @@ class HomeAdapterR(
             return
         }
 
+        if (list[position] == list[0]) {
+            val rapport = holder.view.findViewById<TextView>(R.id.rapport)
+            Log.d("LISTE", rapport.text.toString())
+            rapport.text = "${listePriseValidee.size}/${list.size-1}"
+            Log.d("LISTE", rapport.text.toString())
+            return
+        }
+
         val item = list[position]
-        if (item == list.first()) {
-            list.first().first.heurePrise.split(":").first()
+        if (item == list[1]) {
+            list[1].first.heurePrise.split(":").first()
         }
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
         holder.heurePrise.text = item.first.heurePrise
         holder.mainHeure.text = "${item.first.heurePrise.split(":").first()}h"
-        if (item == list.first() || item.first.heurePrise.split(":").first() != heureCourante) {
+        if (item == list[1] || item.first.heurePrise.split(":").first() != heureCourante) {
             holder.mainHeureLayout.visibility = View.VISIBLE
             heureCourante = item.first.heurePrise.split(":").first()
         } else {
@@ -195,6 +220,51 @@ class HomeAdapterR(
 
                     true
                 }*/
+    }
+
+    fun updatePriseValideeList(newListePriseValidee: MutableList<Pair<LocalDate, String>>) {
+        this.listePriseValidee = newListePriseValidee
+        notifyItemChanged(0) // Mettez à jour seulement l'élément à la position 0
+    }
+
+
+    private fun updateRapportText() {
+        val handler = Handler(Looper.getMainLooper())
+        handler.post {
+            val rapport = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.rapport)
+
+            if (!list.isEmpty() && list[0] == list[1]) {
+                val tailleListe = list.size - 1
+                val tailleListeValidee = listePriseValidee.size
+
+                when {
+                    tailleListeValidee == 0 -> {
+                        // Aucune prise validée, afficher sad_face
+                        val sadFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        sadFace?.setImageResource(R.drawable.sad_face)
+                    }
+                    tailleListeValidee > 0 && tailleListeValidee < tailleListe -> {
+                        // Plus de la moitié de la liste validée, afficher good_face
+                        val goodFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        goodFace?.setImageResource(R.drawable.good_face)
+                    }
+                    tailleListeValidee == tailleListe -> {
+                        // Toute la liste validée, afficher perfect_face
+                        val perfectFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        perfectFace?.setImageResource(R.drawable.perfect_face)
+                    }
+                    else -> {
+                        // Aucune des conditions ci-dessus n'est remplie, afficher le cercle par défaut
+                        val circleTick = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        circleTick?.setImageResource(R.drawable.circle)
+                    }
+                }
+
+                rapport?.text = "$tailleListeValidee/$tailleListe"
+                rapport?.requestLayout()
+                rapport?.invalidate()
+            }
+        }
     }
 
     fun updateItemAfterSkip(position: Int) {
