@@ -234,7 +234,7 @@ class HomeAdapterR(
         handler.post {
             val rapport = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.rapport)
 
-            if (!list.isEmpty() && list[0] == list[1]) {
+            if (((!list.isEmpty() && (list.size!=1)) && (list[0] == list[1]))) {
                 val tailleListe = list.size - 1
                 val tailleListeValidee = listePriseValidee.size
 
