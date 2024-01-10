@@ -15,7 +15,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/app_name"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/sch_ma_de_prise_du_ntraitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/ajouter_une_nouvelle_prise"
         android:textAllCaps="false"
-        android:textColor="#6A93D1"
+        android:textColor="@color/lightBlue"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -82,7 +82,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        android:tint="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAjoutPrise"

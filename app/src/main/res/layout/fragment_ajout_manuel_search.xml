@@ -18,6 +18,7 @@
         android:inputType="textNoSuggestions"
         android:padding="15dp"
         android:scrollHorizontally="false"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/supprimerSearch"
         app:layout_constraintHorizontal_bias="0.627"
@@ -32,7 +33,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +50,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/ajouter_un_traitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,13 +62,13 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
+        android:alpha="0.3"
         android:background="@drawable/rounded_blue_button_blue_stroke_background"
+        android:enabled="false"
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/ajouter_quand_meme"
-        android:alpha="0.3"
-        android:enabled="false"
         android:textAllCaps="false"
-        android:textColor="#3F4791"
+        android:textColor="@color/evenDarkerBlue"
 
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
@@ -94,7 +95,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black"/>
 
     <ImageView
         android:id="@+id/supprimerSearch"
@@ -103,5 +105,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/add_manually_search_bar"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintTop_toTopOf="@+id/add_manually_search_bar"
-        app:srcCompat="@drawable/supprimer" />
+        app:srcCompat="@drawable/supprimer"
+        app:tint="@color/black"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

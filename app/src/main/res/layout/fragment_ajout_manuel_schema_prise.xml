@@ -14,7 +14,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/schema_de_prise_du_traitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
 
         android:text="@string/dialog_intervalle_regulier"
         android:textAllCaps="false"
-        android:textColor="#3F4791"
+        android:textColor="@color/evenDarkerBlue"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -66,7 +66,7 @@
 
         android:text="@string/quotidiennement"
         android:textAllCaps="false"
-        android:textColor="#3F4791"
+        android:textColor="@color/evenDarkerBlue"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -84,7 +84,7 @@
 
         android:text="@string/au_besoin"
         android:textAllCaps="false"
-        android:textColor="#3F4791"
+        android:textColor="@color/evenDarkerBlue"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -117,6 +117,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        android:tint="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

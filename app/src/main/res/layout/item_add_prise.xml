@@ -18,7 +18,8 @@
         android:hint="@string/neuf_heure"
         android:padding="15dp"
         android:scrollHorizontally="false"
-        android:textColorHint="#000000"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/numeroPrise"
         app:layout_constraintTop_toBottomOf="@+id/numeroPrise" />
@@ -35,7 +36,8 @@
         android:hint="@string/_1_comprim_s"
         android:padding="15dp"
         android:scrollHorizontally="false"
-        android:textColorHint="#000000"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/heurePriseInput"
         app:layout_constraintStart_toEndOf="@+id/heurePriseInput" />
@@ -47,7 +49,7 @@
         android:layout_marginStart="25dp"
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/prise_x"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +62,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/quantit"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/quantiteInput"
@@ -82,7 +84,8 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/trash" />
+            app:srcCompat="@drawable/trash"
+            android:tint="@color/black"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

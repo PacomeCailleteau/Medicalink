@@ -14,7 +14,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/recapitulatif_du_traitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black"/>
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -165,8 +166,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:alpha="0.5"
                     android:fontFamily="@font/quicksand_semibold"
                     android:text="@string/unite"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
@@ -218,8 +221,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:alpha="0.5"
                     android:fontFamily="@font/quicksand_semibold"
                     android:text="@string/date_de_fin_de_traitement"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
@@ -310,8 +315,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:alpha="0.5"
                     android:fontFamily="@font/quicksand_semibold"
                     android:text="@string/Stock"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
                     app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />

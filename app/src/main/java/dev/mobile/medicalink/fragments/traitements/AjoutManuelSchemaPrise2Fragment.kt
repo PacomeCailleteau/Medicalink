@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -322,9 +323,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             val heurePriseInput = child.findViewById<TextInputEditText>(R.id.heurePriseInput)
             // En rouge si conflit d'heures de prises, en noir sinon
             if (indexAMettreEnRouge.contains(index)) {
-                heurePriseInput.setTextColor(resources.getColor(R.color.red))
+                heurePriseInput.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             } else {
-                heurePriseInput.setTextColor(resources.getColor(R.color.black))
+                heurePriseInput.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             }
         }
     }

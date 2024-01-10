@@ -11,13 +11,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_white_black_stroke_button_background"
         android:clickable="true"
         android:focusable="false"
-        android:textSize="16sp"
-        android:background="@drawable/rounded_white_black_stroke_button_background"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="@string/intervalle"
         android:padding="15dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grisSwitch"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -30,7 +32,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +49,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/schema_de_prise_du_traitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +81,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView10"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        android:tint="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
