@@ -185,6 +185,7 @@ class NotificationService : BroadcastReceiver() {
             // Intent pour l'action "Prendre"
             val prendreIntent = Intent(context, PrendreReceiver::class.java)
             prendreIntent.action = "ACTION_PRENDRE"
+            prendreIntent.putExtra("notificationId", notificationId) // Ajoutez l'ID à l'intent du bouton "Prendre"
             val prendrePendingIntent = PendingIntent.getBroadcast(
                 context,
                 notificationId+1,
@@ -243,9 +244,6 @@ class NotificationService : BroadcastReceiver() {
 
             // Utilisez le PendingIntent passé en paramètre
             notificationBuilder.setContentIntent(pendingIntent)
-
-            // Appelez la fonction sendNotification avec le PendingIntent nouvellement créé
-            // sendNotification(context, titre, contenu, delayMillis, pendingIntent, notificationId)
 
             // Affichez la notification
             notificationManager.notify(notificationId, notificationBuilder.build())
