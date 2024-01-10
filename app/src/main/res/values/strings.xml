@@ -2,8 +2,7 @@
     <string name="app_name" translatable="false">Medicalink</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="param_buttun">Bouton Paremètre</string>
-    <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
+    <string name="param_buttun">Boutton Paremètre</string>
     <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
     <string name="bienvenue">Bienvenue</string>
     <string name="me_connecter">Me connecter</string>
