@@ -193,37 +193,21 @@ class PreviewFragment : Fragment() {
         } else {
             extractTextFromImage(bitmap) {
                 val text = it
-                // TODO: Il faut créer le traitement et le faire valider par l'utilisateur, on le fait rentrer dans le processus de création manuelle mais les champs sont déjà remplis ou on le ramène au fragment AjoutManuelRecapitulatifFragment
                 validateButton.setOnClickListener {
-                    var nouvTraitement = createTraitement(text)
-                    /*
+                    val destination = LoaderFragment()
+                    //On ajoute le texte à l'argument
                     val bundle = Bundle()
-                    bundle.putSerializable(
-                        "traitement",
-                        nouvTraitement
-                    )
-
-                     */
-                    /*
-                    val destinationFragment = AjoutManuelTypeMedic()
-                    destinationFragment.arguments = bundle
-
-                     */
+                    bundle.putString("texte", text)
+                    destination.arguments = bundle
+                    //On appelle le parent pour changer de fragment
                     val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
+                    fragTransaction.replace(R.id.FL, destination)
                     fragTransaction.addToBackStack(null)
                     fragTransaction.commit()
                 }
             }
             true
         }
-    }
-
-    // Fonction qui va lire le texte récupéré depuis l'image et en faire un traitement après avoir trié les données
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createTraitement(text: String){
-        val myModel = ModelOCR(requireContext())
-        val texteAnalyze = myModel.analyze(text)
     }
 
 
