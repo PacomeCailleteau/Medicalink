@@ -44,7 +44,6 @@ class PreviewFragment : Fragment() {
 
     private lateinit var retour: ImageView
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -195,20 +194,7 @@ class PreviewFragment : Fragment() {
                 val text = it
                 // TODO: Il faut créer le traitement et le faire valider par l'utilisateur, on le fait rentrer dans le processus de création manuelle mais les champs sont déjà remplis ou on le ramène au fragment AjoutManuelRecapitulatifFragment
                 validateButton.setOnClickListener {
-                    var nouvTraitement = createTraitement(text)
-                    /*
-                    val bundle = Bundle()
-                    bundle.putSerializable(
-                        "traitement",
-                        nouvTraitement
-                    )
-
-                     */
-                    /*
-                    val destinationFragment = AjoutManuelTypeMedic()
-                    destinationFragment.arguments = bundle
-
-                     */
+                    /*var nouvTraitement = createTraitement(text)*/
                     val fragTransaction = parentFragmentManager.beginTransaction()
                     fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
                     fragTransaction.addToBackStack(null)
@@ -220,10 +206,11 @@ class PreviewFragment : Fragment() {
     }
 
     // Fonction qui va lire le texte récupéré depuis l'image et en faire un traitement après avoir trié les données
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createTraitement(text: String){
+    private fun createTraitement(text: String) {
         val myModel = ModelOCR(requireContext())
         val texteAnalyze = myModel.analyze(text)
+        Log.d("textAnalyzeParModel", texteAnalyze.toString())
+
     }
 
 

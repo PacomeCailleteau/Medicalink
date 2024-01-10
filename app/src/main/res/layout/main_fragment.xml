@@ -19,7 +19,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragmentDuBas"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="77dp"
         android:background="@drawable/rounded_on_top_blue_button_background"
         android:padding="15dp"
         android:visibility="visible"
