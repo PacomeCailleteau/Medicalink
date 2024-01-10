@@ -10,4 +10,15 @@
     <color name="red">#FFFF0000</color>
     <color name="grisSwitch">#BDBDBD</color>
     <color name="bleuSwitch">#3E76CD</color>
+    <color name="simpleBlue">#DEE5F0</color>
+    <color name="darkerBlue">#3E76CD</color>
+    <color name="simpleGreen">#DCF0E7</color>
+    <color name="darkerGreen">#007362</color>
+    <color name="darkBlack">#808080</color>
+    <color name="simpleOrange">#F6DDC0</color>
+    <color name="simpleRed">#F6CDC0</color>
+    <color name="evenDarkerBlue">#3F4791</color>
+    <color name="lightBlue">#6A93D1</color>
+    <color name="simpleGray">#E4E4E4</color>
+    <color name="simpleYellow">#f5f5f5</color>
 </resources>

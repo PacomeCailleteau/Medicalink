@@ -43,6 +43,7 @@ class MainFragment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
 
+
         //NotificationService.sendNotification(this, "depuis Main Frag", "Ça rime PAS avec Tchoupi", 5000)
 
         //masquer la barre de titre
