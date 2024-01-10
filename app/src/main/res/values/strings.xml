@@ -184,5 +184,6 @@
     <string name="professionnel">Professionnel</string>
     <string name="creer_profil_utilisateur">Utilisateur</string>
     <string name="chargement">Chargement</string>
+    <string name="dark_mode">Dark mode</string>
 
 </resources>

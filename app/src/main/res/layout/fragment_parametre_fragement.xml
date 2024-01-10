@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/cardDarkMode"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardDeconnexion">
+
+
+        <Switch
+            android:id="@+id/switchDarkMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:thumbTint="#3E76CD"
+            android:trackTint="@android:color/holo_blue_light" />
+
+        <TextView
+            android:id="@+id/dark_mode_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="@string/dark_mode"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView16"
@@ -13,7 +49,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/parametre"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +75,8 @@
             android:id="@+id/imageView3"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            app:srcCompat="@drawable/annuler" />
+            app:srcCompat="@drawable/annuler"
+            app:tint="@color/black"/>
 
         <TextView
             android:id="@+id/deconnexion"
@@ -49,7 +86,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/Deconnexion"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="17sp" />
     </LinearLayout>
 
