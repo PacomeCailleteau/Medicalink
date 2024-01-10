@@ -183,5 +183,6 @@
     <string name="Utilisateur">Utilisateur</string>
     <string name="professionnel">Professionnel</string>
     <string name="creer_profil_utilisateur">Utilisateur</string>
+    <string name="chargement">Chargement</string>
 
 </resources>
