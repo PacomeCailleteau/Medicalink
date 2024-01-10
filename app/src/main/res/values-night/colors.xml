@@ -10,9 +10,9 @@
     <color name="red">#FF00FFFF</color>
     <color name="grisSwitch">#424242</color>
     <color name="bleuSwitch">#C18232</color>
-    <color name="simpleBlue">#1F1A0A</color>
+    <color name="simpleBlue">#232424</color>
     <color name="darkerBlue">#C18232</color>
-    <color name="simpleGreen">#232F18</color>
+    <color name="simpleGreen">#383838</color>
     <color name="darkerGreen">#FFC5C89D</color>
     <color name="darkBlack">#7F7F7F</color>
     <color name="simpleOrange">#3F223F</color>
@@ -21,4 +21,5 @@
     <color name="lightBlue">#956C2E</color>
     <color name="simpleGray">#1B1B1B</color>
     <color name="simpleYellow">#0A0A0A</color>
+    <color name="transparentStroke">#FFFFFF</color>
 </resources>

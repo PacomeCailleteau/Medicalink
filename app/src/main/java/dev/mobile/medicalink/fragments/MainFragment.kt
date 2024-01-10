@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -129,26 +130,41 @@ class MainFragment : AppCompatActivity() {
         imageAccueil.setImageResource(R.drawable.accueil)
         imageTraitements.setImageResource(R.drawable.traitements)
         imageMessages.setImageResource(R.drawable.messages)
-        textAccueil.setTextColor(Color.parseColor("#000000"))
-        textTraitements.setTextColor(Color.parseColor("#000000"))
-        textMessages.setTextColor(Color.parseColor("#000000"))
+        textAccueil.setTextColor(ContextCompat.getColor(this,R.color.black))
+        textTraitements.setTextColor(ContextCompat.getColor(this,R.color.black))
+        textMessages.setTextColor(ContextCompat.getColor(this,R.color.black))
 
 
         // On met en surbrillance le bouton cliqué
         when (dest) {
             0 -> {
                 imageAccueil.setImageResource(R.drawable.accueilreverse)
-                textAccueil.setTextColor(Color.parseColor("#3F4791"))
+                imageAccueil.setColorFilter(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+
+                imageTraitements.setColorFilter(ContextCompat.getColor(this,R.color.black))
+                imageMessages.setColorFilter(ContextCompat.getColor(this,R.color.black))
+
+                textAccueil.setTextColor(ContextCompat.getColor(this,R.color.evenDarkerBlue))
             }
 
             1 -> {
                 imageTraitements.setImageResource(R.drawable.documentsreverse)
-                textTraitements.setTextColor(Color.parseColor("#3F4791"))
+                imageTraitements.setColorFilter(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+
+                imageAccueil.setColorFilter(ContextCompat.getColor(this,R.color.black))
+                imageMessages.setColorFilter(ContextCompat.getColor(this,R.color.black))
+
+                textTraitements.setTextColor(ContextCompat.getColor(this,R.color.evenDarkerBlue))
             }
 
             2 -> {
                 imageMessages.setImageResource(R.drawable.enveloppereverse)
-                textMessages.setTextColor(Color.parseColor("#3F4791"))
+                imageMessages.setColorFilter(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+
+                imageAccueil.setColorFilter(ContextCompat.getColor(this,R.color.black))
+                imageTraitements.setColorFilter(ContextCompat.getColor(this,R.color.black))
+
+                textMessages.setTextColor(ContextCompat.getColor(this,R.color.evenDarkerBlue))
             }
         }
 

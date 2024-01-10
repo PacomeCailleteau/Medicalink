@@ -21,4 +21,5 @@
     <color name="lightBlue">#6A93D1</color>
     <color name="simpleGray">#E4E4E4</color>
     <color name="simpleYellow">#f5f5f5</color>
+    <color name="transparentStroke">#00000000</color>
 </resources>

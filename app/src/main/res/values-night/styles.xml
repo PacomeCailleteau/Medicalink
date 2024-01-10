@@ -3,7 +3,7 @@
     <!-- res/values/styles.xml -->
     <style name="AppThemeDark" parent="Theme.AppCompat.DayNight">
     </style>
-    <style name="RoundedDialog" parent="Theme.AppCompat">
+    <style name="RoundedDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/rounded_white_button_no_stroke_background
         </item>
     </style>
