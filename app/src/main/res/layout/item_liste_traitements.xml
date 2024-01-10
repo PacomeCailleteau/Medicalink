@@ -17,7 +17,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:maxLines="1"
         android:text="@string/nom_m_dicament"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/modifierTraitement"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_semibold"
         android:text="@string/_5_par_jours"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/provoquePar"
@@ -44,7 +44,7 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/quicksand_semibold"
         android:text="@string/jusqu_au_18_07_2023"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/nbComprimesRestants"
@@ -61,7 +61,7 @@
         android:fontFamily="@font/quicksand_semibold"
         android:gravity="end"
         android:text="@string/_7_comprim_s_restants"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +85,8 @@
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toStartOf="@+id/supprTraitement"
         app:layout_constraintTop_toTopOf="@+id/numeroPrise"
-        app:srcCompat="@drawable/crayon" />
+        app:srcCompat="@drawable/crayon"
+        app:tint="@color/black"/>
 
     <ImageView
         android:id="@+id/supprTraitement"

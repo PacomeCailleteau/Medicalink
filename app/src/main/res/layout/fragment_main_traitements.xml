@@ -12,7 +12,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/importer_un_traitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="@+id/cardaddtraitements"
@@ -42,7 +42,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/mes_traitements"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="@+id/cardtraitements"
@@ -54,7 +54,7 @@
         android:layout_width="325dp"
         android:layout_height="69dp"
         android:layout_marginTop="18dp"
-        android:background="@drawable/rounded_blue_button_background"
+        android:background="@drawable/rounded_blue_button_background_without_transp_stroke"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="32dp"
@@ -68,7 +68,8 @@
             android:id="@+id/imageView3"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            app:srcCompat="@drawable/ajouter_une_note" />
+            app:srcCompat="@drawable/ajouter_une_note"
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/textView6"
@@ -78,7 +79,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/ajouter_un_traitement"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="17sp" />
     </LinearLayout>
 
@@ -101,7 +102,8 @@
             android:id="@+id/imageViewAccueil"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/ordonnance" />
+            app:srcCompat="@drawable/ordonnance"
+            app:tint="@color/black"/>
 
         <TextView
             android:id="@+id/textViewAccueil"
@@ -111,7 +113,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/mes_traitements"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="17sp" />
     </LinearLayout>
 
@@ -134,7 +136,8 @@
             android:id="@+id/imageView5"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/journal" />
+            app:srcCompat="@drawable/journal"
+            app:tint="@color/black"/>
 
         <TextView
             android:id="@+id/textView8"
@@ -144,7 +147,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/journal_des_effets_secondaires"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="17sp" />
     </LinearLayout>
 

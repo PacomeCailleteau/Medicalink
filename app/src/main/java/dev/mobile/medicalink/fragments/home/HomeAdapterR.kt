@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -251,6 +252,7 @@ class HomeAdapterR(
         prendreButton.isEnabled = false
         val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
         sauterButton.isEnabled = false
+        imagePrendre.setColorFilter(ContextCompat.getColor(context,R.color.black))
 
         if (circleTick.drawable.constantState?.equals(
                 ContextCompat.getDrawable(
@@ -270,6 +272,7 @@ class HomeAdapterR(
             ) == true
         ) {
             prendreButton.text = context.resources.getString(R.string.pris)
+            imagePrendre.colorFilter = null
             imagePrendre.setImageResource(R.drawable.valide_vert)
         }
 
