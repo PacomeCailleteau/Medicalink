@@ -48,5 +48,7 @@ class PrendreReceiver : BroadcastReceiver() {
             }
         }.start()
 
+        //TODO : lancer la prochaine notification
+
     }
 }
