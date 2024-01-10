@@ -126,12 +126,15 @@ class ListeTraitementsFragment : Fragment() {
 
             val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
             val jourPremierePrise = newTraitement.dateDbtTraitement
+            val date = LocalDate.now().toString()
+            val numero = newTraitement.getProchainePrise(null).numeroPrise
             if (jourPremierePrise != null) {
                 NotificationService.createFirstNotif(
                     view.context,
                     heurePremierePrise,
                     jourPremierePrise,
-                    newTraitement
+                    newTraitement,
+                    Pair(date, numero)
                 )
             }
 

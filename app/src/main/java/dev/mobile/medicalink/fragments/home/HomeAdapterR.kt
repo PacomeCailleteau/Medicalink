@@ -422,7 +422,6 @@ class HomeAdapterR(
 
                 //On fait une requête à la base de données pour récupéré le Medoc correspondant au traitement
                 Thread {
-                    val db = AppDatabase.getInstance(context)
                     val medocDatabaseInterface = MedocRepository(db.medocDao())
                     var dateFinTraitement: String? = null
                     if (traitement.UUID == null) {
@@ -438,7 +437,7 @@ class HomeAdapterR(
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
-                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
+                                NotificationService.createStockNotif(context, "Stock épuisé", "La quantité du médicament ${medicament.nom} est épuisée")
                             }
 
                             //On met à jour le médicament dans la base de données
@@ -456,11 +455,14 @@ class HomeAdapterR(
                         Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
                         return@Thread
                     } else {
+                        val date = dateCourante.toString()
+                        val numero = list[holder.adapterPosition].first.numeroPrise
                         //On créer la notification de la prochaine prise
                         NotificationService.createNextNotif(
                             context,
                             heureProchainePrise,
                             traitement,
+                            Pair(date, numero)
                         )
                     }
                 }.start()
