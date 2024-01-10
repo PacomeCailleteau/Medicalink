@@ -30,7 +30,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/titreHeurePrise"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/titreHeurePrise"
-        app:srcCompat="@drawable/fermer" />
+        app:srcCompat="@drawable/fermer"
+        app:tint="@color/black"/>
 
     <View
         android:id="@+id/space"
@@ -38,10 +39,11 @@
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:background="@android:color/black"
+        android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titreHeurePrise" />
+        app:layout_constraintTop_toBottomOf="@+id/titreHeurePrise"
+        app:tint="@color/black"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -87,10 +89,11 @@
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
-        android:background="@android:color/black"
+        android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre_unité" />
+        app:layout_constraintTop_toBottomOf="@+id/nombre_unité"
+        app:tint="@color/black"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
@@ -136,7 +139,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/prochain"
-                tools:layout_editor_absoluteY="3dp" />
+                tools:layout_editor_absoluteY="3dp"
+                app:tint="@color/black"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -171,7 +175,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/verifie" />
+                app:srcCompat="@drawable/verifie"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

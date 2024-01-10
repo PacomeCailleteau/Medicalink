@@ -177,7 +177,7 @@
     <string name="Messagerie">Messagerie</string>
     <string name="textMessage">textMessage</string>
     <string name="titreMessage">titreMessage</string>
-    <string name="parametre">Paramètre</string>
+    <string name="parametre">Paramètres</string>
     <string name="aucun_traitement">Aucun traitement</string>
     <string name="aucun_medicament_prevu">Aucun médicament prévu !</string>
     <string name="Utilisateur">Utilisateur</string>
@@ -185,5 +185,7 @@
     <string name="creer_profil_utilisateur">Utilisateur</string>
     <string name="rapport_journalier">Rapport journalier :</string>
     <string name="x_x">X/X</string>
+    <string name="chargement">Chargement</string>
+    <string name="dark_mode">Dark mode</string>
 
 </resources>

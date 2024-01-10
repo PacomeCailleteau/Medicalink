@@ -14,7 +14,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/aucun_traitement"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="normal"
         android:visibility="visible"
@@ -30,7 +30,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/mes_traitements"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
         android:background="@drawable/rounded_orange_button_background"
         android:text="@string/incompatibilite_detecte"
         android:textAllCaps="false"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:visibility="gone"
 
@@ -88,6 +88,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

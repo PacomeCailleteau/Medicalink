@@ -12,7 +12,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
         android:text="@string/medicalink_title"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/selectionner_un_mode_d_importation"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/annulerAddTraitement"
@@ -45,7 +45,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black"/>
 
     <LinearLayout
         android:id="@+id/cardphoto"
@@ -66,7 +67,8 @@
             android:id="@+id/imageView3"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            app:srcCompat="@drawable/appareil_photo_du_telephone" />
+            app:srcCompat="@drawable/appareil_photo_du_telephone"
+            app:tint="@color/black"/>
 
         <TextView
             android:id="@+id/textView6"
@@ -76,7 +78,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/prendre_une_photo_de_l_ordonnance"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -99,7 +101,8 @@
             android:id="@+id/imageViewAccueil"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            app:srcCompat="@drawable/importer_1_" />
+            app:srcCompat="@drawable/importer_1_"
+            app:tint="@color/black"/>
 
         <TextView
             android:id="@+id/textViewAccueil"
@@ -109,7 +112,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/charger_une_ordonnance_depuis_le_tel"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -132,7 +135,8 @@
             android:id="@+id/imageView5"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/noter" />
+            app:srcCompat="@drawable/noter"
+            app:tint="@color/black"/>
 
         <TextView
             android:id="@+id/textView8"
@@ -142,7 +146,7 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/add_manually"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 
