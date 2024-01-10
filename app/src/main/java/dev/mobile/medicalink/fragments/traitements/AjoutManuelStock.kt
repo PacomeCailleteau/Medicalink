@@ -32,6 +32,7 @@ class AjoutManuelStock : Fragment() {
     private lateinit var inputStockActuel: EditText
     private lateinit var inputRappelJour: EditText
     private lateinit var inputRappelHeure: EditText
+
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var switchStock: Switch
 
@@ -75,7 +76,7 @@ class AjoutManuelStock : Fragment() {
 
         inputStockActuel.setText(traitement.comprimesRestants.toString())
 
-        switchStock.isChecked=true
+        switchStock.isChecked = true
 
         if (switchStock.isChecked) {
             // Switch est activé (état "on")

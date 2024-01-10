@@ -29,7 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="dev.mobile.medicalink.fragments.MainFragment" />
+        <activity
+            android:name="dev.mobile.medicalink.fragments.MainFragment"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
