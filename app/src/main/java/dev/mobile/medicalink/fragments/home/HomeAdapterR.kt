@@ -2,9 +2,7 @@ package dev.mobile.medicalink.fragments.home
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +16,6 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.PriseValidee
@@ -27,7 +24,6 @@ import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.NotificationService
-import dev.mobile.medicalink.utils.NotificationService.Companion.uniqueId
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
@@ -42,7 +38,6 @@ class HomeAdapterR(
     private val parentRecyclerView: RecyclerView,
     private val VIEW_TYPE_EMPTY: Int = 0,
     private val VIEW_TYPE_NORMAL: Int = 1
-
 ) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
@@ -56,6 +51,7 @@ class HomeAdapterR(
         listePriseValidee = listePriseValideeUpdated
         dateCourante = date
     }
+
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -131,7 +127,7 @@ class HomeAdapterR(
             holder.mainHeureLayout.visibility = View.GONE
         }
 
-        if (dateCourante != LocalDate.now()) {
+        if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
             holder.circleTick.isClickable = false
@@ -200,6 +196,19 @@ class HomeAdapterR(
                     true
                 }*/
     }
+
+    fun updateItemAfterSkip(position: Int) {
+        // Mettez à jour visuellement l'élément à la position donnée après avoir sauté la prise
+        if (position >= 0 && position < itemCount) {
+            val item = list[position]
+            val circleTick =
+                parentRecyclerView.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<ImageView>(
+                    R.id.circleTick
+                )
+            circleTick?.setImageResource(R.drawable.avertissement)
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showConfirmPriseDialog(
@@ -429,7 +438,7 @@ class HomeAdapterR(
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
-                                NotificationService.createNotifStock(context, "Stock épuisé", "La quantité du médicament ${medicament.nom} est épuisée")
+                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
                             }
 
                             //On met à jour le médicament dans la base de données
@@ -439,12 +448,21 @@ class HomeAdapterR(
                             return@Thread
                         }
                     }
-                    //On créer la notification de la prochaine prise
-                    NotificationService.createNextNotif(
-                        context,
-                        heureProchainePrise,
-                        traitement,
-                    )
+
+                    //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
+                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
+                            .toString()
+                    ) {
+                        Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
+                        return@Thread
+                    } else {
+                        //On créer la notification de la prochaine prise
+                        NotificationService.createNextNotif(
+                            context,
+                            heureProchainePrise,
+                            traitement,
+                        )
+                    }
                 }.start()
 
 
@@ -455,5 +473,4 @@ class HomeAdapterR(
 
         dosageDialog.show()
     }
-
 }
