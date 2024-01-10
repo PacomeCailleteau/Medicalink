@@ -10,8 +10,8 @@
         <option name="gradleJvm" value="JDK" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/var/home/E211556C/la_sae_au_propre/sae_medicalink" />
+            <option value="/var/home/E211556C/la_sae_au_propre/sae_medicalink/app" />
           </set>
         </option>
       </GradleProjectSettings>
