@@ -425,25 +425,15 @@ class HomeAdapterR(
                             //On récupère la date de fin du traitement
                             val medicament = medoc[0]
                             dateFinTraitement = medicament.dateFinTraitement
-                            medicament.comprimesRestants =
-                                medicament.comprimesRestants?.minus(prise.quantite)
+                            medicament.comprimesRestants = medicament.comprimesRestants?.minus(prise.quantite)
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
-                                // Utilisez le contexte de l'application ou de l'activité, selon votre besoin
-                                val context = holder.itemView.context
-
-                                //On calcule le nombre de jour entre ajourd'hui et le jour de la première prise
-                                var nbJours =
-                                    Duration.between(LocalDate.now().atStartOfDay(), traitement.dateDbtTraitement!!.atStartOfDay())
-                                        .toDays().toInt()
-
-                                NotificationService.createNotif(context, holder.heurePrise.text.toString(), traitement, nbJours)
+                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
                             }
 
                             //On met à jour le médicament dans la base de données
                             medocDatabaseInterface.updateMedoc(medicament)
-
                         } else {
                             Log.d("MEDOC", "Le médicament n'a pas été trouvé")
                             return@Thread
@@ -461,7 +451,7 @@ class HomeAdapterR(
                         NotificationService.createNextNotif(
                             context,
                             heureProchainePrise,
-                            traitement
+                            traitement,
                         )
                     }
                 }.start()
