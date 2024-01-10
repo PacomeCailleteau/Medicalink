@@ -3,6 +3,7 @@ package dev.mobile.medicalink.fragments.traitements
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -41,7 +42,7 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var addManuallyButton: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var addManuallyButtonLauncher: ActivityResultLauncher<Intent>
-
+    private lateinit var supprimerSearch : ImageView
     private lateinit var originalItemList : List<CisBdpm>
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
@@ -88,9 +89,13 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
+        supprimerSearch = view.findViewById(R.id.supprimerSearch)
 
+        supprimerSearch.setOnClickListener {
+            addManuallySearchBar.setText("")
+        }
         addManuallySearchBar.setText(traitement.nomTraitement)
-
+        /*
         addManuallySearchBar.filters =
             arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
                 source?.let {
@@ -127,10 +132,11 @@ class AjoutManuelSearchFragment : Fragment() {
                 dest.subSequence(dstart, dend)
             }
         }
-
+        */
         updateButtonState()
-
+        /*
         addManuallySearchBar.filters = arrayOf(filter)
+         */
         addManuallySearchBar.addTextChangedListener(textWatcher)
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -143,8 +149,8 @@ class AjoutManuelSearchFragment : Fragment() {
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
 
         Log.d("ICI",filteredItemList.toString())
-        itemAdapter= AjoutManuelSearchAdapterR(filteredItemList) {clickedString ->
-            updateSearchBar(clickedString)
+        itemAdapter= AjoutManuelSearchAdapterR(filteredItemList) {clickedItem ->
+            updateSearchBar(clickedItem.denomination)
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -264,9 +270,11 @@ class AjoutManuelSearchFragment : Fragment() {
             item.denomination.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
-            itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedString ->
-                Log.d("dd", clickedString)
-                updateSearchBar(clickedString)
+            itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
+                Log.d("dd", clickedItem.denomination)
+                Log.d("ee", clickedItem.voiesAdministration)
+                Log.d("ff", clickedItem.formePharmaceutique)
+                updateSearchBar(clickedItem.denomination)
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()

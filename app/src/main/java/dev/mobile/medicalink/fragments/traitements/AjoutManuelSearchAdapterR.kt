@@ -21,7 +21,7 @@ import java.time.LocalDate
 
 class AjoutManuelSearchAdapterR(
     private val list: List<CisBdpm>,
-    private val onItemClick: (String) -> Unit
+    private val onItemClick: (CisBdpm) -> Unit
 ) :
     RecyclerView.Adapter<AjoutManuelSearchAdapterR.TraitementViewHolder>() {
 
@@ -53,7 +53,7 @@ class AjoutManuelSearchAdapterR(
         holder.bind(item)
 
         holder.view.setOnClickListener {
-            onItemClick.invoke(item.denomination)
+            onItemClick.invoke(item)
         }
     }
 

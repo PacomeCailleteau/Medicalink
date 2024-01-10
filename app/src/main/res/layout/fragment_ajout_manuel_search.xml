@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_ajout_manuel_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="@string/rechercher"
@@ -17,7 +19,7 @@
         android:padding="15dp"
         android:scrollHorizontally="false"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
+        app:layout_constraintEnd_toStartOf="@+id/supprimerSearch"
         app:layout_constraintHorizontal_bias="0.627"
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -93,4 +95,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
         app:srcCompat="@drawable/annuler" />
+
+    <ImageView
+        android:id="@+id/supprimerSearch"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_manually_search_bar"
+        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
+        app:layout_constraintTop_toTopOf="@+id/add_manually_search_bar"
+        app:srcCompat="@drawable/supprimer" />
 </androidx.constraintlayout.widget.ConstraintLayout>
