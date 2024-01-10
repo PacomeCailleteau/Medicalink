@@ -429,7 +429,7 @@ class HomeAdapterR(
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
-                                NotificationService.sendNotification(context, "Fin de traitement", "La quantité est stock est épuisé", 5000)
+                                NotificationService.createNotifStock(context, "Stock épuisé", "La quantité du médicament ${medicament.nom} est épuisée")
                             }
 
                             //On met à jour le médicament dans la base de données
@@ -439,21 +439,12 @@ class HomeAdapterR(
                             return@Thread
                         }
                     }
-
-                    //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
-                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
-                            .toString()
-                    ) {
-                        Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
-                        return@Thread
-                    } else {
-                        //On créer la notification de la prochaine prise
-                        NotificationService.createNextNotif(
-                            context,
-                            heureProchainePrise,
-                            traitement,
-                        )
-                    }
+                    //On créer la notification de la prochaine prise
+                    NotificationService.createNextNotif(
+                        context,
+                        heureProchainePrise,
+                        traitement,
+                    )
                 }.start()
 
 

@@ -2,6 +2,7 @@ package dev.mobile.medicalink.utils
 
 
 import android.app.AlarmManager
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -27,17 +28,50 @@ class NotificationService : BroadcastReceiver() {
         val title = intent?.getStringExtra("title") ?: "Titre par défaut"
         val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
         val notificationId = intent?.getIntExtra("notificationId", -1)!!
+        val sauter = intent.getBooleanExtra("sauter", false)
+        val prendre = intent.getBooleanExtra("prendre", false)
 
         // C'est ici que vous affichez la notification
-        showNotification(context, title, content, notificationId)
+        showNotification(context, title, content, notificationId, sauter, prendre)
     }
 
-    private fun showNotification(context: Context?, titre: String, contenu: String, notificationId: Int) {
+    /**
+     * Fonction qui affiche une notification
+     * @param context : le contexte de l'application
+     * @param titre : le titre de la notification
+     * @param contenu : le contenu de la notification
+     * @param notificationId : l'id de la notification
+     * @param sauter : si c'est à vrai alors il y aura un bouton "Sauter"
+     * @param prendre : si c'est à vrai alors il y aura un bouton "Prendre"
+     */
+    private fun showNotification(context: Context?, titre: String, contenu: String, notificationId: Int, sauter: Boolean = false, prendre: Boolean = false) {
         // Code pour afficher la notification
         val notificationManager = ContextCompat.getSystemService(
             context!!,
             NotificationManager::class.java
         ) as NotificationManager
+
+        // Intent pour l'action "Sauter"
+        val sauterIntent = Intent(context, SauterReceiver::class.java)
+        sauterIntent.action = "ACTION_SAUTE"
+        sauterIntent.putExtra("notificationId", notificationId)
+        val sauterPendingIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId,
+            sauterIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // Intent pour l'action "Prendre"
+        val prendreIntent = Intent(context, PrendreReceiver::class.java)
+        prendreIntent.action = "ACTION_PRENDRE"
+        prendreIntent.putExtra("notificationId", notificationId)
+        val prendrePendingIntent = PendingIntent.getBroadcast(
+            context,
+            notificationId+1,
+            prendreIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         val channelId = "medicalinkNotificationChannel" // Remplacez par votre propre ID de canal
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
@@ -45,6 +79,13 @@ class NotificationService : BroadcastReceiver() {
             .setContentTitle(titre)
             .setContentText(contenu)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        if (sauter) {
+            notificationBuilder.addAction(0, "Sauter", sauterPendingIntent)
+        }
+        if (prendre) {
+            notificationBuilder.addAction(0, "Prendre", prendrePendingIntent)
+        }
 
         // utiliser l'id si on veut avoir plusieurs notifications en même temps
         // Sinon la nouvelle notif remplacera la première
@@ -141,8 +182,7 @@ class NotificationService : BroadcastReceiver() {
             val heureActuelle = LocalTime.now().toNanoOfDay() / 1000000
 
             // On récupère l'heure de la prochaine prise en millisecondes
-            val heureProchainePriseMillis =
-                LocalTime.of(heure, minute).toNanoOfDay() / 1000000
+            val heureProchainePriseMillis = LocalTime.of(heure, minute).toNanoOfDay() / 1000000
 
             // On récupère la durée entre l'heure actuelle et l'heure de la prochaine prise
             // Il faut faire attention à la date, si l'heure de la prochaine prise est inférieure à l'heure actuelle, on ajoute un jour à la date
@@ -152,40 +192,40 @@ class NotificationService : BroadcastReceiver() {
                 Duration.ofMillis(heureProchainePriseMillis - heureActuelle)
             }
 
-            // Intent pour l'action "Sauter"
-            val sauterIntent = Intent(context, SauterReceiver::class.java)
-            sauterIntent.action = "ACTION_SAUTE"
-            sauterIntent.putExtra("notificationId", notificationId)
-            val sauterPendingIntent = PendingIntent.getBroadcast(
+            // On crée la notification en utilisant l'ID généré
+            return sendNotification(
                 context,
+                "Prise de ${traitement.nomTraitement} de $heure h $minute",
+                "Il est l'heure de prendre votre médicament ${traitement.nomTraitement}",
+                duree.toMillis(),
                 notificationId,
-                sauterIntent,
-                PendingIntent.FLAG_IMMUTABLE
+                sauter = true,
+                prendre = true
             )
+        }
 
-            // Intent pour l'action "Prendre"
-            val prendreIntent = Intent(context, PrendreReceiver::class.java)
-            prendreIntent.action = "ACTION_PRENDRE"
-            prendreIntent.putExtra("notificationId", notificationId)
-            val prendrePendingIntent = PendingIntent.getBroadcast(
-                context,
-                notificationId+1,
-                prendreIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
+        /**
+         * Fonction qui créer une notification pour notifier qu'il n'y a plus de stock
+         * @param context : le contexte de l'application
+         * @param titre : le titre de la notification
+         * @param contenu : le contenu de la notification
+         */
+        fun createNotifStock(
+            context: Context,
+            titre: String,
+            contenu: String,
+        ) : Int {
+            val notificationId = uniqueId(context)
 
             // On crée la notification en utilisant l'ID généré
             return sendNotification(
                 context,
-                "Prise de ${traitement.nomTraitement}",
-                "Il est l'heure de prendre votre médicament ${traitement.nomTraitement}",
-                duree.toMillis(),
-                notificationId,
-                sauterPendingIntent,
-                prendrePendingIntent
+                titre,
+                contenu,
+                0,
+                notificationId
             )
         }
-
 
         /**
          * Fonction qui créer une notification
@@ -203,54 +243,34 @@ class NotificationService : BroadcastReceiver() {
             titre: String,
             contenu: String,
             delayMillis: Long,
-            notificationId: Int? = null,
-            sauterPendingIntent: PendingIntent? = null,
-            prendrePendingIntent: PendingIntent? = null
+            notificationId: Int,
+            sauter: Boolean = false,
+            prendre: Boolean = false
         ): Int {
-            val notificationManager = ContextCompat.getSystemService(
+            val notificationIntent = Intent(context, NotificationService::class.java)
+                .putExtra("title", titre)
+                .putExtra("content", contenu)
+                .putExtra("notificationId", notificationId)
+                .putExtra("sauter", sauter)
+                .putExtra("prendre", prendre)
+
+            val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                NotificationManager::class.java
-            ) as NotificationManager
-
-            val channelId = "medicalinkNotificationChannel"
-
-            // Si l'un des paramètres est null, on fait une notification sans action
-            if (notificationId == null || sauterPendingIntent == null || prendrePendingIntent == null) {
-                val notificationBuilder = NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.drawable.logo_medicalink)
-                    .setContentTitle(titre)
-                    .setContentText(contenu)
-                    .setAutoCancel(true)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-                val id = uniqueId(context)
-                notificationManager.notify(id, notificationBuilder.build())
-
-                return id
-            }
-
-            val notificationBuilder = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.logo_medicalink)
-                .setContentTitle(titre)
-                .setContentText(contenu)
-                .setAutoCancel(true)  // La notification sera supprimée lorsque l'utilisateur cliquera dessus
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .addAction(0, "Sauter", sauterPendingIntent)
-                .addAction(0, "Prendre", prendrePendingIntent)
-
-            // Créez le PendingIntent pour l'ouverture de l'application
-            val openAppIntent = Intent(context, MainActivity::class.java)
-            openAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            val pendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                openAppIntent,
+                notificationId,
+                notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
 
-            notificationBuilder.setContentIntent(pendingIntent)
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            notificationManager.notify(notificationId, notificationBuilder.build())
+            Log.d("Notif duree", delayMillis.toString())
+
+            // Configurez l'alarme avec le délai
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                currentTimeMillis() + delayMillis,
+                pendingIntent
+            )
 
             return notificationId
         }
