@@ -145,7 +145,7 @@
     <string name="prendre">Take</string>
     <string name="pris">Taken</string>
     <string name="Messagerie">Messages</string>
-    <string name="parametre">Parameter</string>
+    <string name="parametre">Parameters</string>
     <string name="aucun_traitement">No treatment</string>
     <string name="effets_secondaires">Side effects</string>
 </resources>
