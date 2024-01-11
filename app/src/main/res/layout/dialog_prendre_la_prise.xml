@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/titreHeurePrise"
         app:srcCompat="@drawable/fermer"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <View
         android:id="@+id/space"
@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titreHeurePrise"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -93,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombre_unité"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
@@ -140,7 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/prochain"
                 tools:layout_editor_absoluteY="3dp"
-                app:tint="@color/black"/>
+                app:tint="@color/black" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -175,8 +175,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/verifie"
-                />
+                app:srcCompat="@drawable/verifie" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

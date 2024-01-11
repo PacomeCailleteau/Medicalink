@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
         app:srcCompat="@drawable/annuler"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <ScrollView
         android:id="@+id/scrollView2"

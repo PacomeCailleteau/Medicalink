@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.home
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.text.TextUtils.replace
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +18,12 @@ import dev.mobile.medicalink.R
 
 class ParametreFragment : Fragment() {
 
-    private lateinit var btnDeconnexion : LinearLayout
-    private lateinit var btnDarkMode : LinearLayout
-    private lateinit var switchDarkMode : Switch
+    private lateinit var btnDeconnexion: LinearLayout
+    private lateinit var btnDarkMode: LinearLayout
+    private lateinit var switchDarkMode: Switch
 
-    private var isDarkMode : Boolean = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+    private var isDarkMode: Boolean =
+        AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +43,7 @@ class ParametreFragment : Fragment() {
             startActivity(intent)
         }
 
-        Log.d("test",isDarkMode.toString())
+        Log.d("test", isDarkMode.toString())
         switchDarkMode.isChecked = isDarkMode
 
 
@@ -62,13 +62,13 @@ class ParametreFragment : Fragment() {
         }
 
         switchDarkMode.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 // Définir le mode sombre à partir du fragment
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
                 // Redémarrer l'activité pour appliquer le changement
             } else {
-                Log.d("Ici","tr")
+                Log.d("Ici", "tr")
                 // Définir le mode sombre à partir du fragment
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }

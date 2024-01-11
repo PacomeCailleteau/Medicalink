@@ -18,7 +18,8 @@ class PrendreReceiver : BroadcastReceiver() {
         Log.d("PrendreReceiver", "après test null")
 
         // On ferme la notification
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationId = intent.getIntExtra("notificationId", -1)
         notificationManager.cancel(notificationId)
