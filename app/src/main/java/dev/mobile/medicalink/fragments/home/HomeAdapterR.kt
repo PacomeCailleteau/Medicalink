@@ -47,6 +47,7 @@ class HomeAdapterR(
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
     var heureCourante: String? = null
+    @RequiresApi(Build.VERSION_CODES.O)
     fun updateData(
         listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
         listePriseValideeUpdated: MutableList<Pair<LocalDate, String>>,
@@ -235,27 +236,41 @@ class HomeAdapterR(
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateRapportText() {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
             val rapport = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.rapport)
 
-            if (((!list.isEmpty() && (list.size!=1)) && (list[0] == list[1]))) {
-                val tailleListe = list.size - 1
-                val tailleListeValidee = listePriseValidee.size
+            if (!list.isEmpty()) {
+                if (rapport != null) {
+                    Log.d("LISTE", rapport.text.toString())
+                }
+                var listePriseAjd = mutableListOf<Pair<LocalDate,String>>()
+                for (element in listePriseValidee){
+                    if (element.first== LocalDate.now()){
+                        listePriseAjd.add(element)
+                    }
+                }
+                if (rapport != null) {
+                    rapport.text = "${listePriseAjd.size}/${list.size-1}"
+                }
+                if (rapport != null) {
+                    Log.d("LISTE", rapport.text.toString())
+                }
 
                 when {
-                    tailleListeValidee == 0 -> {
+                    listePriseAjd.size == 0 -> {
                         // Aucune prise validée, afficher sad_face
                         val sadFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
                         sadFace?.setImageResource(R.drawable.sad_face)
                     }
-                    tailleListeValidee > 0 && tailleListeValidee < tailleListe -> {
+                    listePriseAjd.size > 0 && listePriseAjd.size < list.size-1 -> {
                         // Plus de la moitié de la liste validée, afficher good_face
                         val goodFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
                         goodFace?.setImageResource(R.drawable.good_face)
                     }
-                    tailleListeValidee == tailleListe -> {
+                    listePriseAjd.size == list.size-1 -> {
                         // Toute la liste validée, afficher perfect_face
                         val perfectFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
                         perfectFace?.setImageResource(R.drawable.perfect_face)
@@ -267,7 +282,7 @@ class HomeAdapterR(
                     }
                 }
 
-                rapport?.text = "$tailleListeValidee/$tailleListe"
+                rapport?.text = "${listePriseAjd.size}/${list.size-1}"
                 rapport?.requestLayout()
                 rapport?.invalidate()
             }
@@ -420,6 +435,8 @@ class HomeAdapterR(
 
             }
 
+            notifyDataSetChanged()
+            updateRapportText()
             dosageDialog.dismiss()
         }
 
@@ -549,9 +566,12 @@ class HomeAdapterR(
 
                 circleTick.setImageResource(R.drawable.correct)
             }
+            notifyDataSetChanged()
+            updateRapportText()
             dosageDialog.dismiss()
         }
-
+        notifyDataSetChanged()
+        updateRapportText()
         dosageDialog.show()
     }
 }
