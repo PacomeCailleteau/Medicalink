@@ -236,7 +236,7 @@ class HomeAdapterR(
 
             if (((!list.isEmpty() && (list.size!=1)) && (list[0] == list[1]))) {
                 val tailleListe = list.size - 1
-                val tailleListeValidee = listePriseValidee.size
+                val tailleListeValidee = listePriseValidee.filter { it.first == dateCourante }.size
 
                 when {
                     tailleListeValidee == 0 -> {
@@ -257,7 +257,7 @@ class HomeAdapterR(
                     else -> {
                         // Aucune des conditions ci-dessus n'est remplie, afficher le cercle par défaut
                         val circleTick = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
-                        circleTick?.setImageResource(R.drawable.circle)
+                        circleTick?.setImageResource(R.drawable.good_face)
                     }
                 }
 
