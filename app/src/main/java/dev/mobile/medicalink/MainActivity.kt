@@ -122,12 +122,13 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
-                /*
                 showPasswordDialog()
                 authenticateWithBiometric()
-                 */
+                /*
                 val intent = Intent(this@MainActivity, MainFragment::class.java)
                 startActivity(intent)
+
+                 */
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)
