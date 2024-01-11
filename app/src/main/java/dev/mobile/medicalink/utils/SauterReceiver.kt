@@ -4,7 +4,6 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
@@ -16,7 +15,8 @@ class SauterReceiver : BroadcastReceiver() {
         if (context == null || intent == null) return
 
         // On ferme la notification
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationId = intent.getIntExtra("notificationId", -1)
         notificationManager.cancel(notificationId)
@@ -26,7 +26,7 @@ class SauterReceiver : BroadcastReceiver() {
         val numero = intent.getStringExtra("numero") ?: ""
         val db = AppDatabase.getInstance(context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
-        Thread{
+        Thread {
             val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
                 date,
                 numero

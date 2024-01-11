@@ -85,7 +85,7 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/trash"
-            android:tint="@color/black"/>
+            android:tint="@color/black" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

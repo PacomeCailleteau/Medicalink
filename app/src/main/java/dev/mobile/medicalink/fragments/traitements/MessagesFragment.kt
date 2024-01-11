@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
 
-class  MessagesFragment : Fragment() {
+class MessagesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 

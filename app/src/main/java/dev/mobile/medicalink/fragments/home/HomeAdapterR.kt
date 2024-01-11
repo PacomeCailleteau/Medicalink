@@ -16,7 +16,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -27,7 +26,6 @@ import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.NotificationService
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
@@ -59,7 +57,6 @@ class HomeAdapterR(
         updatePriseValideeList(listePriseValideeUpdated) // Mettez à jour la listePriseValidee
         updateRapportText() // Mettez à jour le texte du rapport
     }
-
 
 
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -133,13 +130,13 @@ class HomeAdapterR(
         if (list[position] == list[0]) {
             val rapport = holder.view.findViewById<TextView>(R.id.rapport)
             Log.d("LISTE", rapport.text.toString())
-            var listePriseAjd = mutableListOf<Pair<LocalDate,String>>()
-            for (element in listePriseValidee){
-                if (element.first== LocalDate.now()){
+            var listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
+            for (element in listePriseValidee) {
+                if (element.first == LocalDate.now()) {
                     listePriseAjd.add(element)
                 }
             }
-            rapport.text = "${listePriseAjd.size}/${list.size-1}"
+            rapport.text = "${listePriseAjd.size}/${list.size - 1}"
             Log.d("LISTE", rapport.text.toString())
             return
         }
@@ -238,41 +235,55 @@ class HomeAdapterR(
     private fun updateRapportText() {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            val rapport = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.rapport)
+            val rapport =
+                parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(
+                    R.id.rapport
+                )
+            val tailleListe = list.size - 1
+            val tailleListeValidee = listePriseValidee.filter { it.first == dateCourante }.size
+            Log.d("TAILLE", tailleListe.toString())
+            Log.d("TAILLE", tailleListeValidee.toString())
+            val circleTick =
+                parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
+                    R.id.circleTick
+                )
 
-            if (((!list.isEmpty() && (list.size!=1)) && (list[0] == list[1]))) {
-                val tailleListe = list.size - 1
-                val tailleListeValidee = listePriseValidee.filter { it.first == dateCourante }.size
-
-                when {
-                    tailleListeValidee == 0 -> {
-                        // Aucune prise validée, afficher sad_face
-                        val sadFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
-                        sadFace?.setImageResource(R.drawable.sad_face)
-                    }
-                    tailleListeValidee > 0 && tailleListeValidee < tailleListe -> {
-                        // Plus de la moitié de la liste validée, afficher good_face
-                        val goodFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
-                        goodFace?.setImageResource(R.drawable.good_face)
-                    }
-                    tailleListeValidee == tailleListe -> {
-                        // Toute la liste validée, afficher perfect_face
-                        val perfectFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
-                        perfectFace?.setImageResource(R.drawable.perfect_face)
-                    }
-                    else -> {
-                        // Aucune des conditions ci-dessus n'est remplie, afficher le cercle par défaut
-                        val circleTick = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
-                        circleTick?.setImageResource(R.drawable.good_face)
-                    }
+            when {
+                tailleListeValidee == 0 -> {
+                    // Aucune prise validée, afficher sad_face
+                    circleTick?.setImageResource(R.drawable.sad_face)
+                    Log.d("EMOJI", "${circleTick?.drawable.toString()} 1 ")
                 }
 
-                rapport?.text = "$tailleListeValidee/$tailleListe"
-                rapport?.requestLayout()
-                rapport?.invalidate()
+                tailleListeValidee < tailleListe -> {
+                    // Plus de la moitié de la liste validée, afficher good_face
+                    circleTick?.setImageResource(R.drawable.good_face)
+                    Log.d("EMOJI", "${circleTick?.drawable.toString()} 2 ")
+                }
+
+                tailleListeValidee == tailleListe -> {
+                    // Toute la liste validée, afficher perfect_face
+                    circleTick?.setImageResource(R.drawable.perfect_face)
+                    Log.d("EMOJI", "${circleTick?.drawable.toString()} 3 ")
+                }
+
+                else -> {
+                    // Aucune des conditions ci-dessus n'est remplie, afficher le cercle par défaut
+                    circleTick?.setImageResource(R.drawable.circle)
+                    Log.d("EMOJI", "${circleTick?.drawable.toString()} 4 ")
+                }
             }
+
+
+            rapport?.text = "$tailleListeValidee/$tailleListe"
+            rapport?.requestLayout()
+            rapport?.invalidate()
+
+            // Forcer la mise à jour de l'image
+            circleTick?.postInvalidate()
         }
     }
+
 
     fun updateItemAfterSkip(position: Int) {
         // Mettez à jour visuellement l'élément à la position donnée après avoir sauté la prise
@@ -328,7 +339,7 @@ class HomeAdapterR(
         prendreButton.isEnabled = false
         val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
         sauterButton.isEnabled = false
-        imagePrendre.setColorFilter(ContextCompat.getColor(context,R.color.black))
+        imagePrendre.setColorFilter(ContextCompat.getColor(context, R.color.black))
 
         if (circleTick.drawable.constantState?.equals(
                 ContextCompat.getDrawable(
@@ -512,11 +523,16 @@ class HomeAdapterR(
                             //On récupère la date de fin du traitement
                             val medicament = medoc[0]
                             dateFinTraitement = medicament.dateFinTraitement
-                            medicament.comprimesRestants = medicament.comprimesRestants?.minus(prise.quantite)
+                            medicament.comprimesRestants =
+                                medicament.comprimesRestants?.minus(prise.quantite)
 
                             if (medicament.comprimesRestants!! <= 0) {
                                 medicament.comprimesRestants = 0
-                                NotificationService.createStockNotif(context, "Stock épuisé", "La quantité du médicament ${medicament.nom} est épuisée")
+                                NotificationService.createStockNotif(
+                                    context,
+                                    "Stock épuisé",
+                                    "La quantité du médicament ${medicament.nom} est épuisée"
+                                )
                             }
 
                             //On met à jour le médicament dans la base de données

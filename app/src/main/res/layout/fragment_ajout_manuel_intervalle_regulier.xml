@@ -82,6 +82,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView10"
         app:srcCompat="@drawable/annuler"
-        android:tint="@color/black"/>
+        android:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

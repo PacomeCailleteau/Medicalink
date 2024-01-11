@@ -3,15 +3,12 @@ package dev.mobile.medicalink.fragments.traitements
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -31,7 +28,6 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
-import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -42,8 +38,8 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var addManuallyButton: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var addManuallyButtonLauncher: ActivityResultLauncher<Intent>
-    private lateinit var supprimerSearch : ImageView
-    private lateinit var originalItemList : List<CisBdpm>
+    private lateinit var supprimerSearch: ImageView
+    private lateinit var originalItemList: List<CisBdpm>
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
 
@@ -70,13 +66,11 @@ class AjoutManuelSearchFragment : Fragment() {
         val queue = LinkedBlockingQueue<List<CisBdpm>>()
         Thread {
             val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
-            Log.d("CisBDPM list",listCisBdpm.toString())
+            Log.d("CisBDPM list", listCisBdpm.toString())
             queue.add(listCisBdpm)
         }.start()
         originalItemList = queue.take()
-        filteredItemList=originalItemList
-
-
+        filteredItemList = originalItemList
 
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
@@ -148,8 +142,8 @@ class AjoutManuelSearchFragment : Fragment() {
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
 
-        Log.d("ICI",filteredItemList.toString())
-        itemAdapter= AjoutManuelSearchAdapterR(filteredItemList) {clickedItem ->
+        Log.d("ICI", filteredItemList.toString())
+        itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
             updateSearchBar(clickedItem.denomination)
         }
         recyclerView.adapter = itemAdapter
@@ -213,7 +207,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             filterItems(s.toString())
-            Log.d("Change",s.toString())
+            Log.d("Change", s.toString())
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -281,7 +275,7 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
-    private fun updateSearchBar(query : String){
+    private fun updateSearchBar(query: String) {
         addManuallySearchBar.setText(query)
     }
 

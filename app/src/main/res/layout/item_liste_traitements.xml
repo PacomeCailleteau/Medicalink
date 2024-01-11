@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toStartOf="@+id/supprTraitement"
         app:layout_constraintTop_toTopOf="@+id/numeroPrise"
         app:srcCompat="@drawable/crayon"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/supprTraitement"

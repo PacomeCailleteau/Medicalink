@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView"
         app:srcCompat="@drawable/annuler"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <LinearLayout
         android:id="@+id/cardphoto"
@@ -68,7 +68,7 @@
             android:layout_width="37dp"
             android:layout_height="37dp"
             app:srcCompat="@drawable/appareil_photo_du_telephone"
-            app:tint="@color/black"/>
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/textView6"
@@ -102,7 +102,7 @@
             android:layout_width="37dp"
             android:layout_height="37dp"
             app:srcCompat="@drawable/importer_1_"
-            app:tint="@color/black"/>
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/textViewAccueil"
@@ -136,7 +136,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/noter"
-            app:tint="@color/black"/>
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/textView8"

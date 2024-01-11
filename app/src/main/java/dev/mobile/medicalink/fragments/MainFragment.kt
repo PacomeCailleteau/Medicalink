@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments
 
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -130,41 +129,46 @@ class MainFragment : AppCompatActivity() {
         imageAccueil.setImageResource(R.drawable.accueil)
         imageTraitements.setImageResource(R.drawable.traitements)
         imageMessages.setImageResource(R.drawable.messages)
-        textAccueil.setTextColor(ContextCompat.getColor(this,R.color.black))
-        textTraitements.setTextColor(ContextCompat.getColor(this,R.color.black))
-        textMessages.setTextColor(ContextCompat.getColor(this,R.color.black))
+        textAccueil.setTextColor(ContextCompat.getColor(this, R.color.black))
+        textTraitements.setTextColor(ContextCompat.getColor(this, R.color.black))
+        textMessages.setTextColor(ContextCompat.getColor(this, R.color.black))
 
 
         // On met en surbrillance le bouton cliqué
         when (dest) {
             0 -> {
                 imageAccueil.setImageResource(R.drawable.accueilreverse)
-                imageAccueil.setColorFilter(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+                imageAccueil.setColorFilter(ContextCompat.getColor(this, R.color.evenDarkerBlue))
 
-                imageTraitements.setColorFilter(ContextCompat.getColor(this,R.color.black))
-                imageMessages.setColorFilter(ContextCompat.getColor(this,R.color.black))
+                imageTraitements.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                imageMessages.setColorFilter(ContextCompat.getColor(this, R.color.black))
 
-                textAccueil.setTextColor(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+                textAccueil.setTextColor(ContextCompat.getColor(this, R.color.evenDarkerBlue))
             }
 
             1 -> {
                 imageTraitements.setImageResource(R.drawable.documentsreverse)
-                imageTraitements.setColorFilter(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+                imageTraitements.setColorFilter(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.evenDarkerBlue
+                    )
+                )
 
-                imageAccueil.setColorFilter(ContextCompat.getColor(this,R.color.black))
-                imageMessages.setColorFilter(ContextCompat.getColor(this,R.color.black))
+                imageAccueil.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                imageMessages.setColorFilter(ContextCompat.getColor(this, R.color.black))
 
-                textTraitements.setTextColor(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+                textTraitements.setTextColor(ContextCompat.getColor(this, R.color.evenDarkerBlue))
             }
 
             2 -> {
                 imageMessages.setImageResource(R.drawable.enveloppereverse)
-                imageMessages.setColorFilter(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+                imageMessages.setColorFilter(ContextCompat.getColor(this, R.color.evenDarkerBlue))
 
-                imageAccueil.setColorFilter(ContextCompat.getColor(this,R.color.black))
-                imageTraitements.setColorFilter(ContextCompat.getColor(this,R.color.black))
+                imageAccueil.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                imageTraitements.setColorFilter(ContextCompat.getColor(this, R.color.black))
 
-                textMessages.setTextColor(ContextCompat.getColor(this,R.color.evenDarkerBlue))
+                textMessages.setTextColor(ContextCompat.getColor(this, R.color.evenDarkerBlue))
             }
         }
 

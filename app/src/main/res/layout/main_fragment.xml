@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 app:srcCompat="@drawable/accueil"
-                app:tint="@color/black"/>
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/textViewAccueil"
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 app:srcCompat="@drawable/traitements"
-                app:tint="@color/black"/>
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/textViewTraitement"

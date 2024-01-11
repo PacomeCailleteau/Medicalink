@@ -428,8 +428,9 @@ class HomeFragment : Fragment() {
         }
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
-        if (traitementsTries.size>0){
-            traitementsTries.add(0,
+        if (traitementsTries.size > 0) {
+            traitementsTries.add(
+                0,
                 Pair(
                     Prise(
                         "123456",
@@ -449,9 +450,11 @@ class HomeFragment : Fragment() {
                         null,
                         null,
                         null,
-                        null,null
-                    )))
-            }
+                        null, null
+                    )
+                )
+            )
+        }
         val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
         Thread {
 
@@ -482,7 +485,7 @@ class HomeFragment : Fragment() {
 
         }.start()
         listePriseValidee = queue2.take()
-        Log.d("XXX",listePriseValidee.toString())
+        Log.d("XXX", listePriseValidee.toString())
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
     }
