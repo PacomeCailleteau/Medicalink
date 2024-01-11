@@ -2,7 +2,6 @@ package dev.mobile.medicalink.utils
 
 
 import android.app.AlarmManager
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -13,7 +12,6 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.lang.System.currentTimeMillis
@@ -54,7 +52,8 @@ class NotificationService : BroadcastReceiver() {
         date: String,
         numero: String,
         sauter: Boolean = false,
-        prendre: Boolean = false) {
+        prendre: Boolean = false
+    ) {
         // Code pour afficher la notification
         val notificationManager = ContextCompat.getSystemService(
             context!!,
@@ -82,7 +81,7 @@ class NotificationService : BroadcastReceiver() {
         prendreIntent.putExtra("numero", numero)
         val prendrePendingIntent = PendingIntent.getBroadcast(
             context,
-            notificationId+1,
+            notificationId + 1,
             prendreIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
@@ -192,7 +191,7 @@ class NotificationService : BroadcastReceiver() {
             traitement: Traitement,
             nbJour: Int,
             dateEtNumero: Pair<String, String>
-        ) : Int {
+        ): Int {
             val notificationId = uniqueId(context)
 
             // On découpe le string pour récupérer l'heure et les minutes
@@ -236,7 +235,7 @@ class NotificationService : BroadcastReceiver() {
             context: Context,
             titre: String,
             contenu: String,
-        ) : Int {
+        ): Int {
             val notificationId = uniqueId(context)
 
             // On crée la notification en utilisant l'ID généré

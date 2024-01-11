@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/medicalink"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/medicalink"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <TextView
         android:id="@+id/medicalink"
@@ -55,7 +55,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/rechargerbleu"
-            app:tint="@color/darkerBlue"/>
+            app:tint="@color/darkerBlue" />
 
         <TextView
             android:id="@+id/calendrierMois"
@@ -189,7 +189,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/calendrierMois"
             app:layout_constraintStart_toEndOf="@+id/calendrierMois"
             app:srcCompat="@drawable/suivant"
-            app:tint="@color/black"/>
+            app:tint="@color/black" />
 
         <ImageView
             android:id="@+id/previousMonth"
@@ -199,7 +199,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/calendrierMois"
             app:layout_constraintEnd_toStartOf="@+id/calendrierMois"
             app:srcCompat="@drawable/suivantautresens"
-            app:tint="@color/black"/>
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/lettreJourAvant"

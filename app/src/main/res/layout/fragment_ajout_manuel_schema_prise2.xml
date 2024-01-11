@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
         app:srcCompat="@drawable/annuler"
-        android:tint="@color/black"/>
+        android:tint="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAjoutPrise"

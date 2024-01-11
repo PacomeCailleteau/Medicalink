@@ -325,7 +325,12 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             if (indexAMettreEnRouge.contains(index)) {
                 heurePriseInput.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             } else {
-                heurePriseInput.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                heurePriseInput.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.black
+                    )
+                )
             }
         }
     }

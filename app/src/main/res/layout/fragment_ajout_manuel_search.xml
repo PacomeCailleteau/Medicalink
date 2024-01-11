@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_ajout_manuel_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -96,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
         app:srcCompat="@drawable/annuler"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/supprimerSearch"
@@ -106,5 +105,5 @@
         app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise2"
         app:layout_constraintTop_toTopOf="@+id/add_manually_search_bar"
         app:srcCompat="@drawable/supprimer"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 </androidx.constraintlayout.widget.ConstraintLayout>

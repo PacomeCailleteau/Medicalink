@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.UiModeManager.MODE_NIGHT_YES
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -20,7 +19,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
