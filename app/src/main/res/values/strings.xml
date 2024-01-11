@@ -186,5 +186,6 @@
     <string name="x_x">X/X</string>
     <string name="chargement">Chargement</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="ajouter">Ajouter</string>
 
 </resources>

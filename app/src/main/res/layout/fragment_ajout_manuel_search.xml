@@ -66,7 +66,7 @@
         android:background="@drawable/rounded_blue_button_blue_stroke_background"
         android:enabled="false"
         android:fontFamily="@font/quicksand_bold"
-        android:text="@string/ajouter_quand_meme"
+        android:text="@string/ajouter"
         android:textAllCaps="false"
         android:textColor="@color/evenDarkerBlue"
 

@@ -133,7 +133,13 @@ class HomeAdapterR(
         if (list[position] == list[0]) {
             val rapport = holder.view.findViewById<TextView>(R.id.rapport)
             Log.d("LISTE", rapport.text.toString())
-            rapport.text = "${listePriseValidee.size}/${list.size-1}"
+            var listePriseAjd = mutableListOf<Pair<LocalDate,String>>()
+            for (element in listePriseValidee){
+                if (element.first== LocalDate.now()){
+                    listePriseAjd.add(element)
+                }
+            }
+            rapport.text = "${listePriseAjd.size}/${list.size-1}"
             Log.d("LISTE", rapport.text.toString())
             return
         }
