@@ -52,6 +52,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:2.4.0"
     implementation 'androidx.test:runner:1.5.2'
+    implementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     kapt "androidx.room:room-compiler:2.4.0"
     implementation "androidx.room:room-ktx:2.4.0"
 
