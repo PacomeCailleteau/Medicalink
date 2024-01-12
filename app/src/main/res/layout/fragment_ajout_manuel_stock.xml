@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintStock"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constraintStock"
     tools:context=".fragments.traitements.AjoutManuelSearchFragment">
 
     <TextView
@@ -155,11 +155,11 @@
             android:id="@+id/jourRappelInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_7_jours"
             android:clickable="true"
             android:focusable="false"
-            android:textColor="@color/black"
             android:inputType="text"
+            android:text="@string/_7_jours"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/stockActuelInput"
             app:layout_constraintStart_toStartOf="@+id/stockActuelInput"
             app:layout_constraintTop_toBottomOf="@+id/textRappelAvant" />
@@ -181,10 +181,10 @@
             android:id="@+id/heureRappelInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/neuf_heure"
             android:clickable="true"
             android:focusable="false"
             android:inputType="text"
+            android:text="@string/neuf_heure"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/jourRappelInput"
             app:layout_constraintStart_toStartOf="@+id/jourRappelInput"

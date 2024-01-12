@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -14,7 +13,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment

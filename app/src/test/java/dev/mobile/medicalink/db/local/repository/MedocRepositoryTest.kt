@@ -15,13 +15,43 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 //@Config(sdk = [29])
 //@SmallTest
-class MedocRepositoryTest{
+class MedocRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var medocRepository: MedocRepository
-    private val userOfDefaultMedoc = User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
-    private val userOfDefaultMedoc2 = User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
-    private val defaultMedoc = Medoc("1", "1", "nom", "dosageNB", "dosageUnite", "dateFinTraitement", "typeComprime", 1, true, "effetsSecondaires", "prises", 1, "dateDbtTraitement")
-    private val defaultMedoc2 = Medoc("2", "2", "nom2", "dosageNB2", "dosageUnite2", "dateFinTraitement2", "typeComprime2", 2, false, "effetsSecondaires2", "prises2", 2, "dateDbtTraitement2")
+    private val userOfDefaultMedoc =
+        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
+    private val userOfDefaultMedoc2 =
+        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
+    private val defaultMedoc = Medoc(
+        "1",
+        "1",
+        "nom",
+        "dosageNB",
+        "dosageUnite",
+        "dateFinTraitement",
+        "typeComprime",
+        1,
+        true,
+        "effetsSecondaires",
+        "prises",
+        1,
+        "dateDbtTraitement"
+    )
+    private val defaultMedoc2 = Medoc(
+        "2",
+        "2",
+        "nom2",
+        "dosageNB2",
+        "dosageUnite2",
+        "dateFinTraitement2",
+        "typeComprime2",
+        2,
+        false,
+        "effetsSecondaires2",
+        "prises2",
+        2,
+        "dateDbtTraitement2"
+    )
 
     @Before
     fun setupDatabase() {
@@ -149,7 +179,6 @@ class MedocRepositoryTest{
         assert(medocFromDatabaseAfterDelete.size == 1)
         assert(medocFromDatabaseAfterDelete[0].uuid == medoc.uuid)
     }
-
 
 
 }
