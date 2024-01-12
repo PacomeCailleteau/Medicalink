@@ -21,6 +21,7 @@ import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    // On déclare les DAOs
     abstract fun userDao(): UserDao
     abstract fun medocDao(): MedocDao
     abstract fun cisBdpmDao(): CisBdpmDao
@@ -31,6 +32,10 @@ abstract class AppDatabase : RoomDatabase() {
         private const val DATABASE_NAME = "medicalink.db"
         private var INSTANCE: AppDatabase? = null
 
+        /**
+         * Fonction qui permet de récupérer l'instance de la base de données.
+         * Elle est dans le companion object pour que l'on puisse l'appeler sans avoir à instancier la classe AppDatabase car on veut un singleton.
+         */
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 // Créer la base de données si elle n'existe pas
@@ -41,7 +46,8 @@ abstract class AppDatabase : RoomDatabase() {
                     DATABASE_NAME
                 ).build()
                 INSTANCE = instance
-                //On créer un thread pour remplir la base de données
+
+                //On créer un thread pour remplir la base de données (oui c'est pas la meilleure manière de faire)
                 Thread(Runnable {
                     // On supprime les données de la base de données médicamenteuse
                     instance.cisBdpmDao().deleteAll()

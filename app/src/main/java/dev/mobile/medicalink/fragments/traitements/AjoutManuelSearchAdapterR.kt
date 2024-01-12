@@ -45,6 +45,7 @@ class AjoutManuelSearchAdapterR(
         val item = list[position]
         holder.bind(item)
 
+        //On renvoie l'item au fragment pour qu'il récupère l'item cliqué
         holder.view.setOnClickListener {
             onItemClick.invoke(item)
         }

@@ -61,7 +61,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-
+        //Récupération des informations circulant entre toutes les vues de l'ajout du traitement
+        // pour garder les informations entre les vues
         val traitement = arguments?.getSerializable("traitement") as Traitement
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
         val schema_prise1 = arguments?.getString("schema_prise1")
@@ -69,12 +70,17 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         dureePriseDbt = arguments?.getString("dureePriseDbt")
         dureePriseFin = arguments?.getString("dureePriseFin")
 
+        //Mise à jour de la valeur par défaut des boutons en fonctions de ce qui a déjà été sélectionné
+        //auparavant (valable quand l'utilisateur revient sur cette vue pour modifier ou vérifier
+        //ce qu'il a mis)
         if (dureePriseDbt == null) {
             dureePriseDbt = "ajd"
         }
         if (dureePriseFin == null) {
             dureePriseFin = "date"
         }
+
+
         when (dureePriseFin) {
             "sf" -> {
                 finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
@@ -156,6 +162,9 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             //bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises))
             //bundle.putString("isAddingTraitement", "true")
             Log.d("test", inputDateDeFin.text.toString().split("/").toString())
+
+            //Récupération et traitement des dates des inputs pour les reformater dans un format exploitable
+            //par la suite
             var textFinTraite: LocalDate? = null
             if ((inputDateDeFin.text != null) && (inputDateDeFin.text.toString() != "")) {
                 textFinTraite = LocalDate.of(
@@ -278,6 +287,10 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         return view
     }
 
+    /**
+    * Fonction qui vérifie que tous les champs de la vue ont bien été complété avant de pouvoir cliquer
+     * sur le bouton suivant et passer à la vue suivante
+    */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateSuivantButtonStatus() {
         // Vérifier si une date de début n'est pas null
@@ -323,7 +336,9 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         }
     }
 
-
+    /**
+     * Fonction gérant le date Picker pour sélectionner les dates de début et de fin du traitement
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePicker(element: TextInputEditText) {
         val calendar = Calendar.getInstance()
@@ -336,18 +351,15 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                // Mettez à jour la valeur de input_date_de_debut avec la date sélectionnée
                 val selectedDate = formatDate(day, month, year)
                 element.setText(selectedDate)
 
-                // Mettez à jour la variable de dateDeDebut ou dateDeFin en fonction de l'élément
                 if (element == inputDateDeDebut) {
                     dateDeDebut = LocalDate.of(year, month + 1, day)
                 } else if (element == inputDateDeFin) {
                     dateDeFin = LocalDate.of(year, month + 1, day)
                 }
 
-                // Vérifiez les conditions et mettez à jour le statut du bouton Suivant
                 updateSuivantButtonStatus()
             },
             currentYear,
@@ -355,13 +367,10 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             currentDay
         )
 
-        // Limitez la sélection aux dates supérieures ou égales à la date de demain
         datePickerDialog.datePicker.minDate = minDate
 
-        // Afficher le sélecteur de date
         datePickerDialog.show()
 
-        // Ajoutez cet appel pour mettre à jour le statut du bouton après la sélection de la date
         updateSuivantButtonStatus()
     }
 

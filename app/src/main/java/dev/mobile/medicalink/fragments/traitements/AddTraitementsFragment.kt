@@ -42,7 +42,6 @@ class AddTraitementsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_traitements, container, false)
 
         if (activity != null) {
@@ -57,6 +56,9 @@ class AddTraitementsFragment : Fragment() {
         manualImportButton = view.findViewById(R.id.cardaddmanually)
         annuler = view.findViewById(R.id.annulerAddTraitement)
 
+        //Gestion de la redirection après un clic sur l'un des boutons
+
+        //Redirection vers le module de capture photo
         photoLauncher =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { _ -> //was succcess
                 // Utilise le chemin de l'image capturée (currentPhotoPath)
@@ -82,7 +84,7 @@ class AddTraitementsFragment : Fragment() {
                 }
             }
 
-
+        //Redirection vers le module d'import depuis la galerie du téléphone
         loadLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
                 val bundle = Bundle()
@@ -102,19 +104,27 @@ class AddTraitementsFragment : Fragment() {
             }
         }
 
+        //Gestion du clic sur le bouton "prendre en photo l'ordonnance"
         photoButton.setOnClickListener {
             val uri: Uri = createImageFile()
             currentPhotoPath = uri
             photoLauncher.launch(uri)
         }
 
-        // Bouton charger
+        //Gestion du clic sur le bouton "charger depuis la gallerie"
         loadButton.setOnClickListener {
             loadLauncher.launch("image/*")
         }
 
+        //Gestion du clic sur le bouton "import manuel d'un traitement"
         manualImportButton.setOnClickListener {
             val bundle = Bundle()
+            /*
+            On créer un traitement vide avec des valeurs par défaut que l'on va passer à la
+            prochaine vue de création d'un traitement manuellement, et qui va passer
+            de vue en vue lors de sa création, en se remplissant au fur et à mesure pour finir complété.
+
+             */
             bundle.putSerializable(
                 "traitement",
                 Traitement(
@@ -156,8 +166,10 @@ class AddTraitementsFragment : Fragment() {
 
         return view
     }
-
-
+    /**
+    * Fonction utilisé pour générer le fichier de la photo prise par l'utilisateur
+    * puis pour la pour stocker dans le cache
+    */
     @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): Uri {
         val provider = "${view?.context?.applicationContext?.packageName}.fileprovider"
@@ -165,7 +177,7 @@ class AddTraitementsFragment : Fragment() {
         val imageFileName = "JPEG_" + timeStamp + "_"
 
         val context = view?.context
-            ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
+            ?: return Uri.EMPTY  // Si le contexte est nul, renvoie une valeur par défaut
 
         val cacheDir = context.cacheDir
 
@@ -180,6 +192,9 @@ class AddTraitementsFragment : Fragment() {
         return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
     }
 
+    /**
+    * Fonction pour tester si la photo a bien été prise et pour éviter les bugs en cas de photo "null"
+    */
     private fun testRealImage(uri: Uri): Boolean {
         val bit = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(uri))
         return bit != null

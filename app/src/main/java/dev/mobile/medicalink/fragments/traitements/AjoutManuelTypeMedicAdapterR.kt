@@ -53,19 +53,6 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var se
             Log.d("LLLL", selected)
             notifyDataSetChanged()
         }
-
-
-        /*
-        A check pour afficher les détails d'un traitement quand cliqué
-
-        holder.naissance.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, DetailActivity::class.java)
-            context.startActivity(intent)
-            false
-        }
-         */
-
     }
 
 }

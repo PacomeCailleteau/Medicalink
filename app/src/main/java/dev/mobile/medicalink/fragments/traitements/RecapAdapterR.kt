@@ -42,18 +42,6 @@ class RecapAdapterR(private val list: MutableList<Prise>) :
         holder.heurePrise.text = item.heurePrise
         holder.dosageRecap.text = "${item.quantite} ${item.dosageUnite}"
 
-
-        /*
-        A check pour afficher les détails d'un traitement quand cliqué
-
-        holder.naissance.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, DetailActivity::class.java)
-            context.startActivity(intent)
-            false
-        }
-         */
-
         holder.view.setOnLongClickListener {
 
             val context = holder.itemView.context

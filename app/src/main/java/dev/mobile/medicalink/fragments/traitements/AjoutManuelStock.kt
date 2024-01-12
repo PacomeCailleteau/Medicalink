@@ -149,7 +149,6 @@ class AjoutManuelStock : Fragment() {
 
 
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
@@ -185,6 +184,9 @@ class AjoutManuelStock : Fragment() {
         return view
     }
 
+    /**
+     * Fonction gérant l'apparence du switch
+     */
     private fun updateSwitchAppearance(isChecked: Boolean, layoutStock: View) {
         val thumbColor = ContextCompat.getColorStateList(
             requireContext(),
@@ -203,10 +205,8 @@ class AjoutManuelStock : Fragment() {
         switchStock.thumbTintList = thumbStateList
         switchStock.trackTintList = trackColor
 
-        // Assurez-vous que le changement de couleur est pris en compte
         switchStock.invalidate()
 
-        // Mettez à jour la visibilité du layout
         layoutStock.visibility = if (isChecked) View.VISIBLE else View.GONE
     }
 
@@ -244,9 +244,6 @@ class AjoutManuelStock : Fragment() {
         }
 
         okButton.setOnClickListener {
-            // Mettre à jour l'interface utilisateur
-            // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
-            // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
             inputRappelJour.setText("${firstNumberPicker.value} ${uniteJour}")
 
             intervalleRegulierDialog.dismiss()
@@ -288,11 +285,9 @@ class AjoutManuelStock : Fragment() {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Ne fait rien
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            // Ne fait rien
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -319,7 +314,7 @@ class AjoutManuelStock : Fragment() {
             inputStockActuel,
             inputRappelJour,
             inputRappelHeure
-        ) // Ajoute tous tes champs ici
+        )
         for (editText in editTextList) {
             editText.clearFocus()
         }

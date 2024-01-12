@@ -28,7 +28,7 @@ class AjoutManuelTypeMedic : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
 
         if (activity != null) {

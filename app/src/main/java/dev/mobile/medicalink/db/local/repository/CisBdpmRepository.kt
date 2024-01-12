@@ -38,6 +38,10 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
     }
 
+    /**
+     * Insert all CIS_bdpm from CSV file in database
+     * @param context Context
+     */
     fun insertFromCsv(context: Context) {
         val csvContent = readCsvFromAssets(context, "CIS_bdpm.csv")
         val cisBdpmList = parseCsv(csvContent)
@@ -95,6 +99,11 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         return cisBdpmList
     }
 
+    /**
+     * Parse CSV line and return list of values
+     * We need this function because there some values with comma inside quotes and sometimes no quotes
+     * @param line CSV line
+     */
     private fun parseCsvLine(line: String): List<String> {
         val values = mutableListOf<String>()
         var value = ""
