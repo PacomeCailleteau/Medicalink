@@ -58,4 +58,5 @@
     <string name="type_de_medicament">Type of medicine</string>
     <string name="rappel_reappriovisionnement">Replenishment reminder</string>
     <string name="stock_faible">Low stock</string>
+    <string name="rapport_journalier">Daily report :</string>
 </resources>
