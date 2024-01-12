@@ -37,7 +37,7 @@ class PriseValideeRepository(private val priseValideeDao: PriseValideeDao) {
             priseValideeDao.insertAll(priseValidee)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "User already exists")
+            Pair(false, "PriseValidee already exists")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {

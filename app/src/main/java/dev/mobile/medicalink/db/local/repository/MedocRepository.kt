@@ -37,7 +37,7 @@ class MedocRepository(private val medocDao: MedocDao) {
             medocDao.insertAll(medoc)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "Medoc already exists")
+            Pair(false, "Medoc already exists : ${e.message}")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
@@ -71,7 +71,5 @@ class MedocRepository(private val medocDao: MedocDao) {
         }
     }
 
-    fun getAllPrisesForAllMedocsOfOneUser(uuidUser: String): List<String> {
-        return medocDao.getAllPrisesForAllMedocsOfOneUser(uuidUser)
-    }
+
 }
