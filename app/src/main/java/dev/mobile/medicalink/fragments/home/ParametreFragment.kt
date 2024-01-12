@@ -18,7 +18,10 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.util.concurrent.LinkedBlockingQueue
 
-
+/**
+ *
+ * le fragment de la page paramètre
+ */
 class ParametreFragment : Fragment() {
 
     private lateinit var btnDeconnexion: LinearLayout
@@ -33,17 +36,16 @@ class ParametreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_parametre_fragement, container, false)
 
-
-        //Get elements from view
+        //Récupérer les elements de la view
         btnDeconnexion = view.findViewById(R.id.cardDeconnexion)
         btnDarkMode = view.findViewById(R.id.cardDarkMode)
         switchDarkMode = view.findViewById(R.id.switchDarkMode)
         supprimerCompte = view.findViewById(R.id.deleteAccount)
 
         btnDeconnexion.setOnClickListener {
+            //Si on clique sur le bouton de déconnexion, on déconnecte l'utilisateur et on le redirige vers la page de connexion
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
@@ -53,13 +55,13 @@ class ParametreFragment : Fragment() {
 
 
         if (switchDarkMode.isChecked) {
-            // Switch est activé (état "on")
+            // Si le switch est activé (état "on"), on passe l'application en mode sombre
             switchDarkMode.thumbTintList =
                 ContextCompat.getColorStateList(requireContext(), R.color.bleuSwitch)
             switchDarkMode.trackTintList =
                 ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
         } else {
-            // Switch est désactivé (état "off")
+            // Sinon, on passe l'application en mode clair
             switchDarkMode.thumbTintList =
                 ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
             switchDarkMode.trackTintList =
@@ -81,7 +83,7 @@ class ParametreFragment : Fragment() {
             refreshFragment()
         }
 
-
+        //Si on clique sur le bouton de suppression de compte, on supprime le compte de l'utilisateur et on le redirige vers la page de connexion
         supprimerCompte.setOnClickListener {
             val db = AppDatabase.getInstance(requireContext())
             val userDatabaseInterface = UserRepository(db.userDao())
@@ -111,6 +113,9 @@ class ParametreFragment : Fragment() {
         return view
     }
 
+    /**
+     * Mettre à jour l'apparence du switch du mode sombre
+     */
     private fun updateSwitchAppearance(isChecked: Boolean) {
         val thumbColor = ContextCompat.getColorStateList(
             requireContext(),
@@ -133,6 +138,9 @@ class ParametreFragment : Fragment() {
         switchDarkMode.invalidate()
     }
 
+    /**
+     * Rafraîchir le fragment
+     */
     fun refreshFragment() {
         val transaction = requireFragmentManager().beginTransaction()
         transaction.detach(this)
