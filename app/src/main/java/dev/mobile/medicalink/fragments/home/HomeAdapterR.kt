@@ -31,7 +31,9 @@ import java.time.LocalTime
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
-
+/**
+ * Adapter pour la liste des traitements de l'accueil
+ */
 class HomeAdapterR(
     private var list: MutableList<Pair<Prise, Traitement>>,
     private var listePriseValidee: MutableList<Pair<LocalDate, String>>,
@@ -46,6 +48,9 @@ class HomeAdapterR(
 
     var heureCourante: String? = null
 
+    /**
+     * Mettre à jour les données de l'adaptateur
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateData(
         listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
@@ -60,7 +65,9 @@ class HomeAdapterR(
         updateRapportText() // Mettez à jour le texte du rapport
     }
 
-
+    /**
+     * ViewHolder pour la liste des traitements
+     */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
@@ -74,6 +81,9 @@ class HomeAdapterR(
 
     }
 
+    /**
+     * Retourne le nombre d'éléments dans la liste
+     */
     override fun getItemCount(): Int {
         return if (list.isEmpty()) {
             1 // Retourne 1 pour la vue vide
@@ -82,6 +92,9 @@ class HomeAdapterR(
         }
     }
 
+    /**
+     * Retourne le type de vue en fonction de la position
+     */
     override fun getItemViewType(position: Int): Int {
         return if (list.isEmpty()) {
             VIEW_TYPE_EMPTY
@@ -94,20 +107,21 @@ class HomeAdapterR(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
         return when (viewType) {
+            // Il n'y a pas de traitement, affiche la vue vide
             VIEW_TYPE_EMPTY -> {
                 val layoutEmpty = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_accueil_vide, parent, false)
                 AjoutManuelViewHolder(layoutEmpty)
             }
-
+            // Il y a des traitements, affiche la vue rapport puis les vues normales
             VIEW_TYPE_RAPPORT -> {
                 val layoutRapport = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_accueil_rapport, parent, false)
                 AjoutManuelViewHolder(layoutRapport)
             }
-
+            // Il y a des traitements, affiche la vue rapport puis les vues normales
             VIEW_TYPE_NORMAL -> {
                 val layoutNormal = LayoutInflater
                     .from(parent.context)
@@ -119,6 +133,9 @@ class HomeAdapterR(
         }
     }
 
+    /**
+     * Met à jour les données de la vue
+     */
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
@@ -129,6 +146,7 @@ class HomeAdapterR(
             return
         }
 
+        // Si la position est 0, on affiche le rapport
         if (list[position] == list[0]) {
             val rapport = holder.view.findViewById<TextView>(R.id.rapport)
             Log.d("LISTE", rapport.text.toString())
@@ -157,13 +175,13 @@ class HomeAdapterR(
         } else {
             holder.mainHeureLayout.visibility = View.GONE
         }
-
+        // Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
         if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
             holder.circleTick.isClickable = false
         } else {
-
+            // Sinon, on affiche le cercle et on active le bouton
             holder.circleTick.isEnabled = true
             holder.circleTick.isClickable = true
             val queue = LinkedBlockingQueue<String>()
@@ -192,48 +210,26 @@ class HomeAdapterR(
             }
         }
 
-
-        /*
-        A check pour afficher les détails d'un traitement quand cliqué
-
-        holder.naissance.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, DetailActivity::class.java)
-            context.startActivity(intent)
-            false
-        }
-         */
-
+        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
         holder.circleTick.setOnClickListener {
             var listePriseValidee: MutableList<Pair<LocalDate, String>>
             showConfirmPriseDialog(holder, holder.itemView.context)
         }
-
-
-        /*
-                holder.view.setOnClickListener {
-                    if (holder.circleTick.drawable.constantState?.equals(
-                            ContextCompat.getDrawable(
-                                holder.itemView.context,
-                                R.drawable.circle
-                            )?.constantState
-                        ) == true
-                    ) {
-                        holder.circleTick.setImageResource(R.drawable.correct)
-                    } else {
-                        holder.circleTick.setImageResource(R.drawable.circle)
-                    }
-
-                    true
-                }*/
     }
 
+    /**
+     * Met à jour la liste des prises validées
+     */
     fun updatePriseValideeList(newListePriseValidee: MutableList<Pair<LocalDate, String>>) {
         this.listePriseValidee = newListePriseValidee
-        notifyItemChanged(0) // Mettez à jour seulement l'élément à la position 0
+        notifyItemChanged(0) // Mettre à jour seulement l'élément à la position 0 (le rapport)
     }
 
 
+    /**
+     * Met à jour le texte du rapport
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateRapportText() {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
@@ -258,10 +254,10 @@ class HomeAdapterR(
                 if (rapport != null) {
                     Log.d("LISTE", rapport.text.toString())
                 }
-
+                // Mettre à jour l'image du cercle en fonction du nombre de prises validées
                 when {
                     listePriseAjd.size == 0 -> {
-                        // Aucune prise validée, afficher sad_face
+                        // Aucune prise validée, afficher le visage triste
                         val sadFace =
                             parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
                                 R.id.circleTick
@@ -270,7 +266,7 @@ class HomeAdapterR(
                     }
 
                     listePriseAjd.size > 0 && listePriseAjd.size < list.size - 1 -> {
-                        // Plus de la moitié de la liste validée, afficher good_face
+                        // Plus de la moitié de la liste validée, afficher le visage content
                         val goodFace =
                             parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
                                 R.id.circleTick
@@ -279,7 +275,7 @@ class HomeAdapterR(
                     }
 
                     listePriseAjd.size == list.size - 1 -> {
-                        // Toute la liste validée, afficher perfect_face
+                        // Toute la liste est validée, afficher le visage avec un grand sourire
                         val perfectFace =
                             parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
                                 R.id.circleTick
@@ -304,7 +300,9 @@ class HomeAdapterR(
         }
     }
 
-
+    /**
+     * Met à jour visuellement l'élément à la position donnée après avoir sauté la prise
+     */
     fun updateItemAfterSkip(position: Int) {
         // Mettez à jour visuellement l'élément à la position donnée après avoir sauté la prise
         if (position >= 0 && position < itemCount) {
@@ -317,7 +315,9 @@ class HomeAdapterR(
         }
     }
 
-
+    /**
+     * Affiche la fenêtre de dialogue pour confirmer la prise
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showConfirmPriseDialog(
         holder: AjoutManuelViewHolder,
@@ -368,6 +368,7 @@ class HomeAdapterR(
                 )?.constantState
             ) == true
         ) {
+            // Si l'image est un cercle, on affiche le bouton prendre
             prendreButton.text = context.resources.getString(R.string.prendre)
             imagePrendre.setImageResource(R.drawable.verifie)
 
@@ -378,15 +379,16 @@ class HomeAdapterR(
                 )?.constantState
             ) == true
         ) {
+            // Si l'image est un tick correct, on affiche le bouton pris
             prendreButton.text = context.resources.getString(R.string.pris)
             imagePrendre.colorFilter = null
             imagePrendre.setImageResource(R.drawable.valide_vert)
         }
-
         croixButton.setOnClickListener {
             dosageDialog.dismiss()
         }
 
+        // Si le bouton prendre est cliqué, on affiche la fenêtre de dialogue
         sauterLayout.setOnClickListener {
             // Si l'image est déjà un avertissment, on la remet en cercle, sinon on la met en avertissment
             if (circleTick.drawable.constantState?.equals(
@@ -450,12 +452,12 @@ class HomeAdapterR(
                 circleTick.setImageResource(R.drawable.avertissement)
 
             }
-
             notifyDataSetChanged()
             updateRapportText()
             dosageDialog.dismiss()
         }
 
+        // Si le bouton sauter est cliqué, on affiche la fenêtre de dialogue
         prendreLayout.setOnClickListener {
             // Si l'image est déjà un tick correct alors on la remet en cercle, sinon on la met en tick correct
             if (circleTick.drawable.constantState?.equals(
@@ -488,8 +490,6 @@ class HomeAdapterR(
                 queue.take()
                 circleTick.setImageResource(R.drawable.circle)
             } else {
-                //On fait un toast pour dire que le médicament a été pris (on peut l'enlever si on trouve que ça fait moche)
-
                 //On veut créer une notification pour la prochaine prise du traitement, cette prise peut être plus tard dans la journée ou un jour prochain
                 //On récupère le traitement et la prise
                 val traitement = list[holder.adapterPosition].second
