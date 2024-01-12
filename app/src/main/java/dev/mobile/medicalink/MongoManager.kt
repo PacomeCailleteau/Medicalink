@@ -8,6 +8,9 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.Document
 
+/**
+ * Classe permettant de gérer la connexion à la base de données MongoDB
+ */
 class MongoManager {
     private val mongoClient: MongoClient
     private val database: MongoDatabase
@@ -36,17 +39,23 @@ class MongoManager {
         database = mongoClient.getDatabase(databaseName)
     }
 
-    // Ajoutez des méthodes pour effectuer des opérations de base de données, par exemple :
+    /**
+     * Fonction permettant d'insérer un document dans une collection
+     * @param collectionName le nom de la collection
+     * @param document le document à insérer
+     */
     fun insertDocument(collectionName: String, document: Document) {
         val collection = database.getCollection(collectionName)
         collection.insertOne(document)
     }
 
-    // Selectionner tous les élements d'une collection
+    /**
+     * Fonction permettant de récupérer tous les documents d'une collection
+     * @param collectionName le nom de la collection
+     * @return une liste de Document
+     */
     fun selectAllDocuments(collectionName: String): List<Document> {
         val collection = database.getCollection(collectionName)
         return collection.find().toList()
     }
-
-    // Vous pouvez ajouter d'autres méthodes pour effectuer des opérations de base de données comme la récupération, la mise à jour, la suppression, etc.
 }
