@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
-            android:text="Supprimer le compte"
+            android:text="@string/supprimer_compte"
             android:textColor="@color/black"
             android:textSize="17sp" />
     </LinearLayout>

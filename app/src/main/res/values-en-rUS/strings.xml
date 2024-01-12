@@ -148,4 +148,5 @@
     <string name="parametre">Parameters</string>
     <string name="aucun_traitement">No treatment</string>
     <string name="effets_secondaires">Side effects</string>
+    <string name="supprimer_compte">Delete account</string>
 </resources>
