@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 //@Config(sdk = [29])
 //@SmallTest
-class PriseValideeRepositoryTest{
+class PriseValideeRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var priseValideeRepository: PriseValideeRepository
     private val defaultPriseValidee = PriseValidee("1", "2021-01-01", "1", "statut")
@@ -48,7 +48,8 @@ class PriseValideeRepositoryTest{
         // I prefer to create a new val priseValidee than using defaultPriseValidee
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
     }
@@ -57,7 +58,8 @@ class PriseValideeRepositoryTest{
     fun insertPriseValideeInDatabaseWithSameId() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
         val res = priseValideeRepository.insertPriseValidee(priseValidee)
@@ -69,7 +71,8 @@ class PriseValideeRepositoryTest{
     fun `test if we can get one priseValidee by id`() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
     }
@@ -78,7 +81,10 @@ class PriseValideeRepositoryTest{
     fun `test if we can get one priseValidee by uuidTraitement and date`() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getByUUIDTraitementAndDate(priseValidee.date, priseValidee.uuidPrise)
+        val priseValideeFromDatabase = priseValideeRepository.getByUUIDTraitementAndDate(
+            priseValidee.date,
+            priseValidee.uuidPrise
+        )
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
     }
@@ -87,12 +93,14 @@ class PriseValideeRepositoryTest{
     fun `update a priseValidee`() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
         val priseValideeUpdated = priseValidee.copy(statut = "statutUpdated")
         priseValideeRepository.updatePriseValidee(priseValideeUpdated)
-        val priseValideeFromDatabaseUpdated = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabaseUpdated =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabaseUpdated.size == 1)
         assert(priseValideeFromDatabaseUpdated[0].statut == "statutUpdated")
     }
@@ -101,12 +109,14 @@ class PriseValideeRepositoryTest{
     fun `update a priseValidee with wrong id`() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
         val priseValideeUpdated = priseValidee.copy(uuid = "22222222")
         priseValideeRepository.updatePriseValidee(priseValideeUpdated)
-        val priseValideeFromDatabaseUpdated = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabaseUpdated =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabaseUpdated.size == 1)
         assert(priseValideeFromDatabaseUpdated[0].uuid == priseValidee.uuid)
     }
@@ -115,11 +125,13 @@ class PriseValideeRepositoryTest{
     fun `delete a priseValidee`() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
         priseValideeRepository.deletePriseValidee(priseValideeFromDatabase[0])
-        val priseValideeFromDatabaseAfterDelete = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabaseAfterDelete =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabaseAfterDelete.isEmpty())
     }
 
@@ -127,12 +139,14 @@ class PriseValideeRepositoryTest{
     fun `delete a priseValidee with wrong id`() {
         val priseValidee = defaultPriseValidee
         priseValideeRepository.insertPriseValidee(priseValidee)
-        val priseValideeFromDatabase = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabase =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabase.size == 1)
         assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
         val priseValideeWrongId = priseValidee.copy(uuid = "22222222")
         priseValideeRepository.deletePriseValidee(priseValideeWrongId)
-        val priseValideeFromDatabaseAfterDelete = priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
+        val priseValideeFromDatabaseAfterDelete =
+            priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
         assert(priseValideeFromDatabaseAfterDelete.size == 1)
         assert(priseValideeFromDatabaseAfterDelete[0].uuid == priseValidee.uuid)
     }

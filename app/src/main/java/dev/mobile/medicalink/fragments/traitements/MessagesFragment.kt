@@ -23,7 +23,6 @@ class MessagesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_messages, container, false)
 
 
@@ -37,7 +36,6 @@ class MessagesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.adapter = MessagesFragmentAdapterR(messagesDeTest)
 
-        //Gestion espacement entre items RecyclerView
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 

@@ -20,8 +20,10 @@ import org.junit.runner.RunWith
 class UserRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var userRepository: UserRepository
-    private val defaultUser = User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
-    private val defaultUser2 = User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
+    private val defaultUser =
+        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
+    private val defaultUser2 =
+        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
 
     @Before
     fun setupDatabase() {
@@ -175,7 +177,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `test setConnected` () {
+    fun `test setConnected`() {
         //This function is used to set the connected user, it also set not connected all the other users
         val user = defaultUser
         val user2 = defaultUser2
@@ -197,7 +199,6 @@ class UserRepositoryTest {
         assert(user2FromDatabase[0].uuid == user2.uuid)
         user2FromDatabase[0].isConnected?.let { assert(!it) }
     }
-
 
 
 }

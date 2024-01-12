@@ -52,7 +52,6 @@ class AjoutManuelSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
 
         if (activity != null) {
@@ -63,6 +62,7 @@ class AjoutManuelSearchFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val CisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
+        //Récupération de la liste des Médicaments pour l'afficher
         val queue = LinkedBlockingQueue<List<CisBdpm>>()
         Thread {
             val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
@@ -135,7 +135,6 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    // Gérez l'activité de résultat ici
                 }
             }
 
@@ -188,9 +187,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
         retour = view.findViewById(R.id.retour_schema_prise2)
 
-        //On retourne au fragment précédent
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, AddTraitementsFragment())
             fragTransaction.addToBackStack(null)
@@ -202,7 +199,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Ne fait rien
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -215,6 +211,9 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Mise à jour de l'état du bouton "Ajouter" pour l'activer uniquement quand le champ de recherche n'est pas vide
+     */
     private fun updateButtonState() {
         val allFieldsFilled = addManuallySearchBar.text!!.isNotBlank()
 
@@ -243,11 +242,8 @@ class AjoutManuelSearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // Code à exécuter lorsque le bouton de retour arrière est pressé
-                // Vous pouvez appeler la même logique que le bouton de retour dans le fragment
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, AddTraitementsFragment())
                 fragTransaction.addToBackStack(null)
@@ -258,16 +254,16 @@ class AjoutManuelSearchFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-
+    /**
+     * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
+     * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
+     */
     private fun filterItems(query: String) {
         var filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-                Log.d("dd", clickedItem.denomination)
-                Log.d("ee", clickedItem.voiesAdministration)
-                Log.d("ff", clickedItem.formePharmaceutique)
                 updateSearchBar(clickedItem.denomination)
             }
             recyclerView.adapter = itemAdapter
@@ -275,6 +271,11 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Fonction utilisé pour mettre à jour le contenu de la barre de recherche
+     * (utilisé quand on clique sur un médicament pour l'ajouter directement dans la barre de recherche)
+     * @param query la chaine de caractère représentant le médicament sur lequel on a cliqué, à remplacer dans la barre de recherche
+     */
     private fun updateSearchBar(query: String) {
         addManuallySearchBar.setText(query)
     }

@@ -43,7 +43,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        // Récupération des arguments
         val traitement = arguments?.getSerializable("traitement") as Traitement
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
         val schema_prise1 = arguments?.getString("schema_prise1")
@@ -78,6 +77,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         val espacementEnDp = 20
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
+        //Gestion du bouton pour ajouter une nouvelle prise
         addNouvellePrise.setOnClickListener {
             val nouvellePrise = Prise(
                 UUID.randomUUID().toString(),

@@ -19,10 +19,11 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 
-
+/**
+ * Classe qui gère les notifications
+ */
 class NotificationService : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        // Obtenez le titre et le contenu de l'intent
         val title = intent?.getStringExtra("title") ?: "Titre par défaut"
         val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
         val notificationId = intent?.getIntExtra("notificationId", -1)!!
@@ -31,7 +32,7 @@ class NotificationService : BroadcastReceiver() {
         val date = intent.getStringExtra("date") ?: ""
         val numero = intent.getStringExtra("numero") ?: ""
 
-        // C'est ici que vous affichez la notification
+        // Appel de la fonction showNotification qui affiche la notification
         showNotification(context, title, content, notificationId, date, numero, sauter, prendre)
     }
 
@@ -60,7 +61,7 @@ class NotificationService : BroadcastReceiver() {
             NotificationManager::class.java
         ) as NotificationManager
 
-        // Intent pour l'action "Sauter"
+        // Intent pour l'action "Sauter" (bouton "Sauter" en déroulant la notification)
         val sauterIntent = Intent(context, SauterReceiver::class.java)
         sauterIntent.action = "ACTION_SAUTE"
         sauterIntent.putExtra("notificationId", notificationId)
@@ -73,7 +74,7 @@ class NotificationService : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        // Intent pour l'action "Prendre"
+        // Intent pour l'action "Prendre" (bouton "Prendre" en déroulant la notification)
         val prendreIntent = Intent(context, PrendreReceiver::class.java)
         prendreIntent.action = "ACTION_PRENDRE"
         prendreIntent.putExtra("notificationId", notificationId)
@@ -86,7 +87,7 @@ class NotificationService : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val channelId = "medicalinkNotificationChannel" // Remplacez par votre propre ID de canal
+        val channelId = "medicalinkNotificationChannel"
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.logo_medicalink)
             .setContentTitle(titre)
@@ -100,8 +101,6 @@ class NotificationService : BroadcastReceiver() {
             notificationBuilder.addAction(0, "Prendre", prendrePendingIntent)
         }
 
-        // utiliser l'id si on veut avoir plusieurs notifications en même temps
-        // Sinon la nouvelle notif remplacera la première
         notificationManager.notify(notificationId, notificationBuilder.build())
 
         return
@@ -144,7 +143,6 @@ class NotificationService : BroadcastReceiver() {
                 nbJours++
             }
 
-            // Appelez createNotif avec le PendingIntent nouvellement créé
             createNotif(
                 context,
                 heurePremierePriseStr,
@@ -167,7 +165,6 @@ class NotificationService : BroadcastReceiver() {
             traitement: Traitement,
             dateEtNumero: Pair<String, String>
         ) {
-            // Appelez createNotif avec le PendingIntent nouvellement créé
             createNotif(
                 context,
                 heureProchainePriseStr,
@@ -288,9 +285,7 @@ class NotificationService : BroadcastReceiver() {
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            Log.d("Notif duree", delayMillis.toString())
-
-            // Configurez l'alarme avec le délai
+            // Configuration de l'alarme avec le délai
             alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 currentTimeMillis() + delayMillis,
@@ -301,14 +296,19 @@ class NotificationService : BroadcastReceiver() {
         }
 
 
+        /**
+         * Fonction qui génère un ID unique pour une notification
+         * @param context : le contexte de l'application
+         * @return un ID unique
+         */
         private fun uniqueId(context: Context): Int {
             val PREFS_NAME = "notification_prefs"
             val KEY_NOTIFICATION_ID = "notification_id"
             val sharedPref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            // Get the current notification ID
+            // Récupère l'ID de la dernière notification
             val notificationId = sharedPref.getInt(KEY_NOTIFICATION_ID, 0)
 
-            // Increment the notification ID and store it
+            // Incrémente l'ID de 2 pour avoir un ID unique
             with(sharedPref.edit()) {
                 putInt(KEY_NOTIFICATION_ID, notificationId + 2)
                 apply()

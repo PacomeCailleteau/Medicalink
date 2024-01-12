@@ -15,10 +15,23 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [29])
-class CisBdpmRepositoryTest{
+class CisBdpmRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var CisBdpmRepository: CisBdpmRepository
-    private val defaultCis = CisBdpm(11111111, "denomination", "formePharmaceutique", "voiesAdministration", "statutAdministratifAMM", "typeProcedureAMM", "etatCommercialisation", "dateAMM", "statutBdm", "numeroAutorisationEuropeenne", "titulaire", "surveillanceRenforcee")
+    private val defaultCis = CisBdpm(
+        11111111,
+        "denomination",
+        "formePharmaceutique",
+        "voiesAdministration",
+        "statutAdministratifAMM",
+        "typeProcedureAMM",
+        "etatCommercialisation",
+        "dateAMM",
+        "statutBdm",
+        "numeroAutorisationEuropeenne",
+        "titulaire",
+        "surveillanceRenforcee"
+    )
 
 
     @Before
@@ -35,14 +48,14 @@ class CisBdpmRepositoryTest{
     fun closeDatabase() {
         db.close()
     }
-    
+
     @Test
     fun `test if we can get all cisBdpm`() {
         // Should be empty
         val cisBdpm = CisBdpmRepository.getAllCisBdpm()
         assert(cisBdpm.isEmpty())
     }
-    
+
     @Test
     fun insertCisBdpmInDatabase() {
         // I prefer to create a new val cisBdpm than using defaultCis
@@ -52,7 +65,7 @@ class CisBdpmRepositoryTest{
         assert(cisBdpmFromDatabase.size == 1)
         assert(cisBdpmFromDatabase[0].CodeCIS == cisBdpm.CodeCIS)
     }
-    
+
     @Test
     fun insertCisBdpmInDatabaseWithSameId() {
         val cisBdpm = defaultCis
@@ -65,7 +78,7 @@ class CisBdpmRepositoryTest{
         assert(cisBdpmFromDatabase2.size == 1)
         assert(cisBdpmFromDatabase2[0].CodeCIS == cisBdpm.CodeCIS)
     }
-    
+
     @Test
     fun `update a cisBdpm`() {
         val cisBdpm = defaultCis
@@ -105,7 +118,7 @@ class CisBdpmRepositoryTest{
         val cisBdpmFromDatabaseDeleted = CisBdpmRepository.getOneCisBdpmById(cisBdpm.CodeCIS)
         assert(cisBdpmFromDatabaseDeleted.isEmpty())
     }
-    
+
     @Test
     fun `delete a cisBdpm with wrong id`() {
         val cisBdpm = defaultCis

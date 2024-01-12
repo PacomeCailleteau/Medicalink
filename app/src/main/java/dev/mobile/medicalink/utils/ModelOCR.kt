@@ -17,6 +17,9 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
 
+/**
+ * Classe permettant de gérer l'OCR
+ */
 class ModelOCR(private val context: Context) {
 
     private var mModule: Module? = null
@@ -36,7 +39,11 @@ class ModelOCR(private val context: Context) {
     private val PREDICT_ANS_NUM = 5
     private val NUM_LITE_THREADS = 4
 
-
+    /**
+     * Fonction permettant d'analyser un texte
+     * @param texteAAnalyse le texte à analyser
+     * @return une liste de String contenant les mots du texte
+     */
     fun analyze(texteAAnalyse: String): List<String?> {
 
 
@@ -76,7 +83,7 @@ class ModelOCR(private val context: Context) {
         val startLogits = FloatArray(MAX_SEQ_LEN)
         val endLogits = FloatArray(MAX_SEQ_LEN)
 
-        // Show token and tokenoToOrigMap
+        // Montre les tokens
         feature.origTokens.forEachIndexed { index, s ->
             Log.v(TAG, "origTokens[$index] = $s")
         }
@@ -176,11 +183,16 @@ class ModelOCR(private val context: Context) {
         return predictionsLabelList
     }
 
-
+    /**
+     * Fonction permettant de charger le modèle
+     */
     private val modelRunnable = Runnable {
         loadModel()
     }
 
+    /**
+     * Fonction permettant de charger le modèle
+     */
     @WorkerThread
     private fun loadModel() {
         if (mModule == null) {
@@ -189,6 +201,12 @@ class ModelOCR(private val context: Context) {
         }
     }
 
+    /**
+     * Fonction permettant de charger un asset
+     * @param context le contexte
+     * @param assetName le nom de l'asset
+     * @return le chemin de l'asset
+     */
     private fun assetFilePath(context: Context, assetName: String): String? {
         val file = File(context.filesDir, assetName)
 
@@ -214,6 +232,10 @@ class ModelOCR(private val context: Context) {
         return null
     }
 
+    /**
+     * Fonction permettant de charger un dictionnaire
+     * @param assetManager le AssetManager
+     */
     fun loadDictionaryFile(assetManager: AssetManager) {
         assetManager.open(DIC_PATH).use { ins ->
             BufferedReader(InputStreamReader(ins)).use { reader ->
@@ -226,6 +248,10 @@ class ModelOCR(private val context: Context) {
         }
     }
 
+    /**
+     * Fonction permettant de charger un fichier de labels
+     * @param assetManager le AssetManager
+     */
     fun loadIdToLabelFile(assetManager: AssetManager) {
         assetManager.open(LABEL_PATH).use { ins ->
             BufferedReader(InputStreamReader(ins)).use { reader ->
@@ -237,6 +263,4 @@ class ModelOCR(private val context: Context) {
             }
         }
     }
-
-
 }

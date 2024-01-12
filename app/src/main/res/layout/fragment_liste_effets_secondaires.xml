@@ -61,10 +61,10 @@
         android:layout_marginTop="19dp"
         android:background="@drawable/rounded_orange_button_background"
         android:text="@string/incompatibilite_detecte"
-        android:visibility="gone"
         android:textAllCaps="false"
         android:textColor="#000000"
         android:textSize="18sp"
+        android:visibility="gone"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

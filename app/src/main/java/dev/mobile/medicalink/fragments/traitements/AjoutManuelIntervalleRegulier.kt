@@ -57,7 +57,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         inputIntervalle.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {
-                    // Bloquer le collage de texte
+                    // Empeche le collage de texte
                     return@InputFilter ""
                 }
             }
@@ -106,7 +106,6 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
 
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
@@ -141,6 +140,10 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         return view
     }
 
+    /**
+     * Fonction gérant la création et l'affichage de la dialog view s'affichant lors de la sélection
+     * de l'intervalle
+     */
     private fun showIntervalleRegulierDialog(traitement: Traitement, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
@@ -179,9 +182,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             traitement.dosageNb
         )
 
-        // Écouteur de changement de valeur pour le deuxième NumberPicker
         secondNumberPicker.setOnValueChangedListener { _, _, newVal ->
-            // Mise à jour des valeurs du premier NumberPicker en fonction de la nouvelle sélection
             updateFirstNumberPickerValues(firstNumberPicker, newVal, traitement.dosageNb)
         }
 
@@ -190,7 +191,6 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         }
 
         okButton.setOnClickListener {
-            // Mettre à jour les valeurs de l'objet Traitement avec les nouvelles valeurs
             traitement.dosageNb = firstNumberPicker.value
             traitement.dosageUnite = when (secondNumberPicker.value) {
                 0 -> resources.getString(R.string.jours)
@@ -199,9 +199,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                 else -> resources.getString(R.string.jour)
             }
 
-            // Mettre à jour l'interface utilisateur
-            // Vous devez définir la logique appropriée pour mettre à jour votre interface utilisateur
-            // Par exemple, si vous avez un TextView nommé inputIntervalle, vous pouvez faire quelque chose comme :
+            //Gestion des variantes possible du français avec le féminin/masculin et pluriel/singulier
             if (traitement.dosageNb == 1 && traitement.dosageUnite == resources.getString(R.string.semaines)) {
                 inputIntervalle.setText("${resources.getString(R.string.toutes_les)} ${traitement.dosageUnite}")
             } else if (traitement.dosageNb > 1 && traitement.dosageUnite == resources.getString(R.string.semaines)) {
@@ -257,11 +255,9 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val traitement = arguments?.getSerializable("traitement") as Traitement
                 val isAddingTraitement = arguments?.getString("isAddingTraitement")
                 val schema_prise1 = arguments?.getString("schema_prise1")

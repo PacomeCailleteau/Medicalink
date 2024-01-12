@@ -45,6 +45,7 @@ class HomeAdapterR(
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
     var heureCourante: String? = null
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateData(
         listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
@@ -236,20 +237,23 @@ class HomeAdapterR(
     private fun updateRapportText() {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            val rapport = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(R.id.rapport)
+            val rapport =
+                parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<TextView>(
+                    R.id.rapport
+                )
 
             if (!list.isEmpty()) {
                 if (rapport != null) {
                     Log.d("LISTE", rapport.text.toString())
                 }
-                var listePriseAjd = mutableListOf<Pair<LocalDate,String>>()
-                for (element in listePriseValidee){
-                    if (element.first== LocalDate.now()){
+                var listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
+                for (element in listePriseValidee) {
+                    if (element.first == LocalDate.now()) {
                         listePriseAjd.add(element)
                     }
                 }
                 if (rapport != null) {
-                    rapport.text = "${listePriseAjd.size}/${list.size-1}"
+                    rapport.text = "${listePriseAjd.size}/${list.size - 1}"
                 }
                 if (rapport != null) {
                     Log.d("LISTE", rapport.text.toString())
@@ -258,27 +262,42 @@ class HomeAdapterR(
                 when {
                     listePriseAjd.size == 0 -> {
                         // Aucune prise validée, afficher sad_face
-                        val sadFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        val sadFace =
+                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
+                                R.id.circleTick
+                            )
                         sadFace?.setImageResource(R.drawable.sad_face)
                     }
-                    listePriseAjd.size > 0 && listePriseAjd.size < list.size-1 -> {
+
+                    listePriseAjd.size > 0 && listePriseAjd.size < list.size - 1 -> {
                         // Plus de la moitié de la liste validée, afficher good_face
-                        val goodFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        val goodFace =
+                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
+                                R.id.circleTick
+                            )
                         goodFace?.setImageResource(R.drawable.good_face)
                     }
-                    listePriseAjd.size == list.size-1 -> {
+
+                    listePriseAjd.size == list.size - 1 -> {
                         // Toute la liste validée, afficher perfect_face
-                        val perfectFace = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        val perfectFace =
+                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
+                                R.id.circleTick
+                            )
                         perfectFace?.setImageResource(R.drawable.perfect_face)
                     }
+
                     else -> {
                         // Aucune des conditions ci-dessus n'est remplie, afficher le cercle par défaut
-                        val circleTick = parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(R.id.circleTick)
+                        val circleTick =
+                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
+                                R.id.circleTick
+                            )
                         circleTick?.setImageResource(R.drawable.circle)
                     }
                 }
 
-                rapport?.text = "${listePriseAjd.size}/${list.size-1}"
+                rapport?.text = "${listePriseAjd.size}/${list.size - 1}"
                 rapport?.requestLayout()
                 rapport?.invalidate()
             }
