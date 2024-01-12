@@ -31,6 +31,9 @@ import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import java.util.concurrent.LinkedBlockingQueue
 
+/**
+ * Classe qui gère l'activité principale de l'application. (Page au démarrage de l'application)
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var imageConnexion: ImageView
     private lateinit var textBienvenue: TextView

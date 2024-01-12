@@ -22,6 +22,9 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Classe qui permet de créer un profil
+ */
 class CreerProfilActivity : AppCompatActivity() {
 
     private lateinit var textMedicalink: TextView
@@ -247,21 +250,28 @@ class CreerProfilActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Permet de vérifier si les champs sont remplis
+     */
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Ne fait rien
+            // Ne rien faire avant la modification du texte
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            // Ne fait rien
+            // Ne rien faire lorsqu'il y a un changement dans le texte
         }
 
         override fun afterTextChanged(editable: Editable?) {
+            // Vérifie si les champs sont remplis
             updateButtonState()
             validateEmail(inputEmail.text.toString())
         }
     }
 
+    /**
+     * Permet de vérifier si l'email est valide
+     */
     private fun validateEmail(email: String): Boolean {
         val pattern = Patterns.EMAIL_ADDRESS
         val isValidEmail = pattern.matcher(email).matches()
@@ -274,6 +284,9 @@ class CreerProfilActivity : AppCompatActivity() {
         return isValidEmail
     }
 
+    /**
+     * Permet de mettre le bouton créer profil activé ou désactivé si les champs sont remplis ou non
+     */
     private fun updateButtonState() {
         val isCheckboxChecked = checkboxRgpd.isChecked
         val isRadioButtonSelected =
@@ -297,10 +310,16 @@ class CreerProfilActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Permet de vérifier si le mot de passe est valide
+     */
     private fun isValidPassword(password: String): Boolean {
         return password.length == 6
     }
 
+    /**
+     * Permet de supprimer le focus et de cacher le clavier
+     */
     fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
         val editTextList = listOf(
@@ -309,7 +328,7 @@ class CreerProfilActivity : AppCompatActivity() {
             inputDateDeNaissance,
             inputEmail,
             inputMotDePasse
-        ) // Ajoute tous tes champs ici
+        )
         for (editText in editTextList) {
             editText.clearFocus()
         }
@@ -319,6 +338,9 @@ class CreerProfilActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    /**
+     * Permet d'afficher le calendrier pour choisir la date de naissance
+     */
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
@@ -342,6 +364,9 @@ class CreerProfilActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
+    /**
+     * Permet de formater la date
+     */
     private fun formatDate(day: Int, month: Int, year: Int): String {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, year)
