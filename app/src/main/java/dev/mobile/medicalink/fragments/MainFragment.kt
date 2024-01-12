@@ -21,8 +21,9 @@ import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.MessagesFragment
 
-//MainFragement n'est pas un fragment mais une activité
-//Ici on va gérer les fragments
+/**
+ * Fragment de la barre de navigation en bas de l'application (Accueil/Traitement/Messages)
+ */
 class MainFragment : AppCompatActivity() {
 
     private val rootFrag = "root_fragment"
