@@ -72,15 +72,19 @@ class MainActivity : AppCompatActivity() {
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
 
-        val queue = LinkedBlockingQueue<String?>()
+        val queue = LinkedBlockingQueue<String>()
 
         Thread {
             val res = userDatabaseInterface.getUsersConnected()
-            queue.add(res.first().prenom)
+            if (res.isNotEmpty()) {
+                queue.add(res.first().prenom)
+            } else {
+                queue.add("")
+            }
         }.start()
 
         val prenom = queue.take()
-        if (prenom != null) {
+        if (prenom != "") {
             //Changement du texte
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
             textBienvenue.text = txtBienvenue
@@ -125,6 +129,9 @@ class MainActivity : AppCompatActivity() {
         this.onBackPressedDispatcher.addCallback(this, callback)
     }
 
+    /**
+     * Affiche la boîte de dialogue de la biométrie
+     */
     private fun authenticateWithBiometric() {
         val biometricManager = BiometricManager.from(this)
 
@@ -159,6 +166,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Affiche la boîte de dialogue de la biométrie
+     */
     private fun showBiometricPrompt() {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle(resources.getString(R.string.authentification_biometrique))
@@ -194,6 +204,9 @@ class MainActivity : AppCompatActivity() {
         biometricPrompt.authenticate(promptInfo)
     }
 
+    /**
+     * Affiche la boîte de dialogue du mot de passe
+     */
     private fun showPasswordDialog() {
         val dialogBuilder = AlertDialog.Builder(this, R.style.RoundedDialog)
         val inflater = this.layoutInflater
@@ -257,6 +270,11 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    /**
+     * Vérifie si le mot de passe est valide
+     * @param password le mot de passe à vérifier
+     * @return true si le mot de passe est valide, false sinon
+     */
     private fun isValidPassword(password: String): Boolean {
         // Ajoutez votre logique de validation du mot de passe ici
 
@@ -269,7 +287,10 @@ class MainActivity : AppCompatActivity() {
         return queue.take()
     }
 
-
+    /**
+     * Crée le canal de notification
+     * (pour les API > Oreo donc > 26)
+     */
     private fun creerCanalNotification() {
         // Créez le canal de notification (pour les API > Oreo donc > 26)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -286,6 +307,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Affiche la boîte de dialogue qui permet de changer d'utilisateur
+     */
     private fun showIntervalleRegulierDialog(context: Context) {
         val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =
