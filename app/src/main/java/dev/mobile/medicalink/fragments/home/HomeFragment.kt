@@ -29,7 +29,9 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.LinkedBlockingQueue
 
-
+/**
+ * Le fragment de la page d'accueil
+ */
 class HomeFragment : Fragment() {
     private lateinit var homeAdapter: HomeAdapterR
 
@@ -75,7 +77,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
@@ -107,6 +108,7 @@ class HomeFragment : Fragment() {
         )
         calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
 
+        //Création des boutons des jours du calendrier
         jourAvantButton = view.findViewById(R.id.jourAvant)
         jourJButton = view.findViewById(R.id.jourJ)
         jPlus1Button = view.findViewById(R.id.jPlus1)
@@ -123,6 +125,7 @@ class HomeFragment : Fragment() {
         jPlus4Lettre = view.findViewById(R.id.lettreJourJplus4)
         jPlus5Lettre = view.findViewById(R.id.lettreJourJplus5)
 
+        //Création des boutons de navigation des mois du calendrier et bouton permettant de revenir au jour d'aujourd'hui
         revenirDateCourante = view.findViewById(R.id.revenirDateCourante)
         nextMonth = view.findViewById(R.id.nextMonth)
         previousMonth = view.findViewById(R.id.previousMonth)
@@ -136,7 +139,6 @@ class HomeFragment : Fragment() {
         jPlus4 = LocalDate.now().plusDays(4)
         jPlus5 = LocalDate.now().plusDays(5)
 
-        //Get elements from view
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
         Log.d("test", "ici")
 
@@ -204,10 +206,8 @@ class HomeFragment : Fragment() {
             updateCalendrier(jourJ.minusMonths(1), view.context.applicationContext)
         }
 
-
-        //Set click listener
         paramBtn.setOnClickListener {
-            //Navigate to parametre fragment
+            //Navigation vers le fragment parametre
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, ParametreFragment())
             fragTransaction.addToBackStack(null)
@@ -217,6 +217,11 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    /**
+     * Fonction permettant de mettre à jour le calendrier
+     * @param dateClique la date sur laquelle l'utilisateur a cliqué
+     * @param context le contexte de l'application
+     */
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
@@ -252,6 +257,11 @@ class HomeFragment : Fragment() {
         updateListePrise(dateClique, context)
     }
 
+    /**
+     * Fonction permettant de mettre à jour la liste des prises à afficher
+     * @param dateActuelle la date actuelle
+     * @param context le contexte de l'application
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateListePrise(dateActuelle: LocalDate, context: Context) {
         val db = AppDatabase.getInstance(context)
@@ -266,6 +276,7 @@ class HomeFragment : Fragment() {
 
             val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
 
+            //Récupération des traitements de l'utilisateur connecté
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected(true).first().uuid
             )
@@ -277,7 +288,6 @@ class HomeFragment : Fragment() {
                 if (medoc.effetsSecondaires != null) {
                     listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
                 }
-
 
                 val listePrise = mutableListOf<Prise>()
 
@@ -302,8 +312,6 @@ class HomeFragment : Fragment() {
                     val date = medoc.dateFinTraitement
 
                     //convert String to LocalDate
-
-                    //convert String to LocalDate
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
@@ -315,18 +323,18 @@ class HomeFragment : Fragment() {
                     val date = medoc.dateDbtTraitement
 
                     //convert String to LocalDate
-
-                    //convert String to LocalDate
                     newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
                 }
+                //Vérification de la date de fin de traitement
                 if ((!medoc.expire) && (newTraitementFinDeTraitement != null)) {
                     if (LocalDate.now() > newTraitementFinDeTraitement) {
+                        //Si la date de fin de traitement est dépassée, on met le traitement en expiré
                         medoc.expire = true
                         medocDatabaseInterface.updateMedoc(medoc)
                     }
                 }
 
-
+                //Création du traitement
                 val traitement = Traitement(
                     medoc.nom,
                     medoc.dosageNB.toInt(),
@@ -343,6 +351,7 @@ class HomeFragment : Fragment() {
                     newTraitementDbtDeTraitement
                 )
                 if (traitement.prises?.size != 0 && traitement.prises != null) {
+                    //Si le traitement a des prises, on les ajoute à la liste des prises à afficher
                     for (prise in traitement.prises!!) {
                         listeTraitement.add(Pair(prise, traitement))
                     }
@@ -367,7 +376,9 @@ class HomeFragment : Fragment() {
         for (element in listeTraitementPrise) {
             doIaddIt = false
             if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
+                //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement
                 if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
+                    //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
                     break
                 }
                 Log.d("unite", element.second.dosageUnite)
@@ -410,10 +421,10 @@ class HomeFragment : Fragment() {
                                     "m2",
                                     (moisEntreDeuxDates % element.second.dosageNb).toString()
                                 )
-                                if (moisEntreDeuxDates == 0) {
-                                    doIaddIt = element.second.dateDbtTraitement == dateActuelle
+                                doIaddIt = if (moisEntreDeuxDates == 0) {
+                                    element.second.dateDbtTraitement == dateActuelle
                                 } else {
-                                    doIaddIt = moisEntreDeuxDates % element.second.dosageNb == 0
+                                    moisEntreDeuxDates % element.second.dosageNb == 0
                                 }
                             }
 
@@ -474,8 +485,6 @@ class HomeFragment : Fragment() {
                     val date = priseValidee.date
 
                     //convert String to LocalDate
-
-                    //convert String to LocalDate
                     dateReformate = LocalDate.parse(date, formatter)
                 }
 
@@ -489,23 +498,4 @@ class HomeFragment : Fragment() {
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
