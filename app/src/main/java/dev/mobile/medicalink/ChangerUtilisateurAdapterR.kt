@@ -11,26 +11,33 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.entity.User
 
-
+/**
+ * Adapter pour la liste des utilisateurs
+ *
+ * @property list
+ * @property onItemClick
+ * @constructor Crée un adapter pour la liste des utilisateurs
+ */
 class ChangerUtilisateurAdapterR(
     private val list: List<User>,
     private val onItemClick: (User) -> Unit
 ) :
     RecyclerView.Adapter<ChangerUtilisateurAdapterR.AjoutManuelViewHolder>() {
 
+    /**
+     * ViewHolder pour la liste des utilisateurs
+     *
+     * @property view
+     * @constructor Crée un ViewHolder pour la liste des utilisateurs
+     */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val nomUtilisateur = view.findViewById<TextView>(R.id.nomUtilisateur)
         val statutUtilisateur = view.findViewById<TextView>(R.id.statutUtilisateur)
     }
 
-    interface onItemClickListener {
-        fun onItemClick(user: User)
-    }
-
-    fun setOnItemClickListener(listener: AdapterView.OnItemClickListener) {
-        this.setOnItemClickListener(listener)
-    }
-
+    /**
+     * Retourne le nombre d'éléments dans la liste (nombre d'utilisateurs)
+     */
     override fun getItemCount(): Int {
         return list.size
     }
