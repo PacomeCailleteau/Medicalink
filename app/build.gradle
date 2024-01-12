@@ -67,6 +67,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "com.google.truth:truth:1.0.1"
     androidTestImplementation "android.arch.core:core-testing:1.0.0"
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
 
     // PyTorch
     implementation("org.pytorch:pytorch_android:2.1.0")

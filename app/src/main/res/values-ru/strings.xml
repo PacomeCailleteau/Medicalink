@@ -144,4 +144,5 @@
     <string name="professionnel">Профессия</string>
     <string name="effets_secondaires">Побочные эффекты</string>
     <string name="rapport_journalier">Ежедневный отчет</string>
+    <string name="supprimer_compte">Удалить аккаунт</string>
 </resources>

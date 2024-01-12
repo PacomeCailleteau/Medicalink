@@ -229,7 +229,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Fonction qui vérifie si le mot de passe est valide.
+     * Fonction qui vérifie si le mot de passe est valide
+     * @param password le mot de passe à vérifier
+     * @return true si le mot de passe est valide, false sinon
      */
     private fun isValidPassword(password: String): Boolean {
 
