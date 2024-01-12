@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="16dp"
     android:paddingLeft="16dp"
+    android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="8dp">
 
@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="9h00"
         android:fontFamily="@font/quicksand_bold"
+        android:text="9h00"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -139,8 +139,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/prochain"
-                tools:layout_editor_absoluteY="3dp"
-                app:tint="@color/black" />
+                app:tint="@color/black"
+                tools:layout_editor_absoluteY="3dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Medicalink</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="param_buttun">Boutton Paremètre</string>
     <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>

@@ -42,21 +42,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // (ne fonctionne pas)
-        // OCR(this).test(this)
-
-        var userId: String? = null
-        val intent = intent
-        if (intent.hasExtra("userId")) {
-            // Récupérer la valeur associée à la clé "userId"
-            userId = intent.getStringExtra("userId")
-        }
-
-
         //On ne le fait qu'une seule fois dans toute l'application
         creerCanalNotification()
-
-        //NotificationService.sendNotification(this, "Youpi", "Ça rime avec Tchoupi", 5000)
 
         //masquer la barre de titre
         supportActionBar?.hide()
@@ -68,7 +55,6 @@ class MainActivity : AppCompatActivity() {
 
 
         //Connection à la base de données
-
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
 
@@ -76,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         Thread {
             val res = userDatabaseInterface.getUsersConnected()
-            if (res.isNotEmpty()){
+            if (res.isNotEmpty()) {
                 queue.add(res.first().prenom)
             } else {
                 queue.add("")
@@ -110,18 +96,20 @@ class MainActivity : AppCompatActivity() {
             //Changement du texte du bouton de "Me connecter" à "Creer mon profil"
             buttonConnexion.text = resources.getString(R.string.creer_mon_profil)
 
-            //On met le bouton "Changer d'utilisateur" gone
+            //On met le bouton "Changer d'utilisateur" invisible
             buttonChangerUtilisateur.visibility = View.GONE
 
-            //On met le bon listener
+            //Si on clqiue sur le bouton "Creer mon profil", on lance l'activité de création de profil
+            //Si on clique sur le bouton "Me connecter", on lance l'activité de connexion
             buttonConnexion.setOnClickListener {
                 val intent = Intent(this, CreerProfilActivity::class.java)
                 startActivity(intent)
             }
         }
 
+        //On désactive le bouton de retour arrière
         val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     // Ne rien faire ici pour désactiver le bouton de retour arrière
                 }
@@ -129,40 +117,21 @@ class MainActivity : AppCompatActivity() {
         this.onBackPressedDispatcher.addCallback(this, callback)
     }
 
+    /**
+     * Authentifie l'utilisateur avec la biométrie.
+     */
     private fun authenticateWithBiometric() {
         val biometricManager = BiometricManager.from(this)
 
-        when (biometricManager.canAuthenticate()) {
-            BiometricManager.BIOMETRIC_SUCCESS -> showBiometricPrompt()
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                // L'appareil ne prend pas en charge la biométrie
-                // Gérez le cas où la biométrie n'est pas disponible
-            }
-
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                // La biométrie n'est pas disponible pour le moment
-                // Gérez le cas où la biométrie n'est pas disponible
-            }
-
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                // Aucune empreinte n'a été enregistrée sur l'appareil
-                // Gérez le cas où aucune empreinte n'est enregistrée
-            }
-
-            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
-                TODO()
-            }
-
-            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
-                TODO()
-            }
-
-            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-                TODO()
-            }
+        // On vérifie que l'authentification biométrique est disponible sur l'appareil
+        if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+            showBiometricPrompt()
         }
     }
 
+    /**
+     * Affiche la boîte de dialogue de la biométrie.
+     */
     private fun showBiometricPrompt() {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle(resources.getString(R.string.authentification_biometrique))
@@ -175,29 +144,29 @@ class MainActivity : AppCompatActivity() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
-                    // Gérer les erreurs d'authentification ici
-                    if (errorCode == BiometricPrompt.ERROR_USER_CANCELED) {
-                        // L'utilisateur a annulé l'authentification, ajoutez votre logique ici
-                    }
+                    // Erreur d'authentification
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    // L'authentification a réussi, ouvrez votre intent ici
+                    // L'authentification a réussi, accès à la page d'accueil
                     val intent = Intent(this@MainActivity, MainFragment::class.java)
                     startActivity(intent)
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    // L'authentification a échoué, demandez à l'utilisateur de réessayer
+                    // L'authentification a échoué, demande à l'utilisateur de réessayer
                 }
             })
 
-        // Afficher la boîte de dialogue de la biométrie
+        // Affiche la boîte de dialogue de la biométrie
         biometricPrompt.authenticate(promptInfo)
     }
 
+    /**
+     * Fonction qui affiche la boîte de dialogue du mot de passe.
+     */
     private fun showPasswordDialog() {
         val dialogBuilder = AlertDialog.Builder(this, R.style.RoundedDialog)
         val inflater = this.layoutInflater
@@ -238,31 +207,31 @@ class MainActivity : AppCompatActivity() {
         })
 
         buttonValidate.setOnClickListener {
-            // Gérer la validation du mot de passe ici
             val password = editTextPassword.text.toString()
             if (isValidPassword(password)) {
-                // Le mot de passe est valide, effectuez votre action
+                // Le mot de passe est valide, accès à la page d'accueil
                 val intent = Intent(this@MainActivity, MainFragment::class.java)
                 startActivity(intent)
                 alertDialog.dismiss()
             } else {
                 textMotDePasseIncorrect.visibility = View.VISIBLE
                 editTextPassword.text = null
-                // Le mot de passe n'est pas valide, gérer en conséquence
-                // Vous pouvez afficher un message d'erreur, etc.
+                // Le mot de passe n'est pas valide
             }
         }
 
         buttonCancel.setOnClickListener {
-            // L'utilisateur a annulé, ajoutez votre logique ici
+            // L'utilisateur a annulé, fermeture de la boîte de dialogue
             alertDialog.dismiss()
         }
 
         alertDialog.show()
     }
 
+    /**
+     * Fonction qui vérifie si le mot de passe est valide.
+     */
     private fun isValidPassword(password: String): Boolean {
-        // Ajoutez votre logique de validation du mot de passe ici
 
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
@@ -273,9 +242,10 @@ class MainActivity : AppCompatActivity() {
         return queue.take()
     }
 
-
+    /**
+     * Fonction qui crée le canal de notification.
+     */
     private fun creerCanalNotification() {
-        // Créez le canal de notification (pour les API > Oreo donc > 26)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "medicalinkNotificationChannel"
             val channelName = "canal de notification"
@@ -284,12 +254,15 @@ class MainActivity : AppCompatActivity() {
             val channel = NotificationChannel(channelId, channelName, importance).apply {
                 description = channelDescription
             }
-            // Enregistrez le canal auprès du gestionnaire de notifications
+            // Enregistrement du canal auprès du gestionnaire de notifications
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
     }
 
+    /**
+     * Fonction qui affiche la boîte de dialogue de changement d'utilisateur.
+     */
     private fun showIntervalleRegulierDialog(context: Context) {
         val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =

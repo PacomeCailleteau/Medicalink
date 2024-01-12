@@ -24,7 +24,7 @@ class ParametreFragment : Fragment() {
     private lateinit var btnDeconnexion: LinearLayout
     private lateinit var btnDarkMode: LinearLayout
     private lateinit var switchDarkMode: Switch
-    private lateinit var supprimerCompte : LinearLayout
+    private lateinit var supprimerCompte: LinearLayout
 
     private var isDarkMode: Boolean =
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
@@ -35,8 +35,6 @@ class ParametreFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_parametre_fragement, container, false)
-
-
 
 
         //Get elements from view
@@ -89,16 +87,14 @@ class ParametreFragment : Fragment() {
             val userDatabaseInterface = UserRepository(db.userDao())
 
 
-
-
             val queue = LinkedBlockingQueue<String>()
 
             Thread {
                 val res = userDatabaseInterface.getUsersConnected()
                 val userToDelete = userDatabaseInterface.getOneUserById(res.first().uuid).first()
-                Log.d("user",userToDelete.prenom.toString())
+                Log.d("user", userToDelete.prenom.toString())
 
-                if (userDatabaseInterface.getAllUsers().size==1){
+                if (userDatabaseInterface.getAllUsers().size == 1) {
                     userDatabaseInterface.deleteUser(userToDelete)
                 } else {
                     userDatabaseInterface.deleteUser(userToDelete)
