@@ -75,35 +75,8 @@ class MainActivity : AppCompatActivity() {
         val queue = LinkedBlockingQueue<String?>()
 
         Thread {
-            //TODO : enlever Pierre Denis et Jacques pour la version finale
-            //On créer un User connecté pour tester
-            val user = User(
-                "111111",
-                "Professionnel",
-                "BOUTET",
-                "Paul",
-                "01/01/2000",
-                "pierre.denis@gmail",
-                "123456",
-                true
-            )
-            val user2 = User(
-                "111112",
-                "Utilisateur",
-                "DUTRONC",
-                "Jacques",
-                "05/06/2003",
-                "jacques.dutronc@gmail",
-                "654321",
-                false
-            )
-            userDatabaseInterface.insertUser(user)
-            userDatabaseInterface.insertUser(user2)
-
-
             val res = userDatabaseInterface.getUsersConnected()
             queue.add(res.first().prenom)
-
         }.start()
 
         val prenom = queue.take()
@@ -122,19 +95,9 @@ class MainActivity : AppCompatActivity() {
             buttonConnexion.setOnClickListener {
                 showPasswordDialog()
                 authenticateWithBiometric()
-                /*
-                val intent = Intent(this@MainActivity, MainFragment::class.java)
-                startActivity(intent)
-
-                 */
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)
-                /*
-                val intent = Intent(this, ChangerUtilisateur::class.java)
-                startActivity(intent)
-                */
-
             }
         } else {
             //Changement du texte
