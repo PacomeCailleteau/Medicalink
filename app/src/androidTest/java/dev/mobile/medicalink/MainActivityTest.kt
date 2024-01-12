@@ -53,7 +53,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testPresenceImage () {
+    fun testPresenceImage() {
         // Vérification que l'image est bien présente
         onView(withId(R.id.image_connexion)).check(matches(isDisplayed()))
     }

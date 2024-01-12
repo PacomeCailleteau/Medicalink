@@ -288,9 +288,9 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     }
 
     /**
-    * Fonction qui vérifie que tous les champs de la vue ont bien été complété avant de pouvoir cliquer
+     * Fonction qui vérifie que tous les champs de la vue ont bien été complété avant de pouvoir cliquer
      * sur le bouton suivant et passer à la vue suivante
-    */
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateSuivantButtonStatus() {
         // Vérifier si une date de début n'est pas null

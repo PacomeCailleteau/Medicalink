@@ -166,10 +166,11 @@ class AddTraitementsFragment : Fragment() {
 
         return view
     }
+
     /**
-    * Fonction utilisé pour générer le fichier de la photo prise par l'utilisateur
-    * puis pour la pour stocker dans le cache
-    */
+     * Fonction utilisé pour générer le fichier de la photo prise par l'utilisateur
+     * puis pour la pour stocker dans le cache
+     */
     @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): Uri {
         val provider = "${view?.context?.applicationContext?.packageName}.fileprovider"
@@ -193,8 +194,8 @@ class AddTraitementsFragment : Fragment() {
     }
 
     /**
-    * Fonction pour tester si la photo a bien été prise et pour éviter les bugs en cas de photo "null"
-    */
+     * Fonction pour tester si la photo a bien été prise et pour éviter les bugs en cas de photo "null"
+     */
     private fun testRealImage(uri: Uri): Boolean {
         val bit = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(uri))
         return bit != null
