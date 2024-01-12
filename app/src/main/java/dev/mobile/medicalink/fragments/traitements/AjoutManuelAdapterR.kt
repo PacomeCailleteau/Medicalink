@@ -60,7 +60,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
-
+        //Création de l'item prise dans la vue d'ajout du traitement, lorsque l'on ajoute des prises
         holder.textNumeroPrise.text = holder.view.resources.getString(R.string.prise)
 
         holder.heurePriseInput.setText(item.heurePrise)
@@ -86,16 +86,6 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
             list.remove(item)
             notifyDataSetChanged()
         }
-        /*
-        A check pour afficher les détails d'un traitement quand cliqué
-
-        holder.naissance.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, DetailActivity::class.java)
-            context.startActivity(intent)
-            false
-        }
-         */
 
         holder.view.setOnLongClickListener {
             item.enMajuscule()
@@ -142,7 +132,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
         val timeFormat =
-            SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
+            SimpleDateFormat("HH:mm", Locale.FRENCH)
         return timeFormat.format(calendar.time)
     }
 
@@ -166,7 +156,6 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         titreDosage.text = holder.view.resources.getString(R.string.dosage)
-        // Utilisez cette ligne pour appliquer le filtre à l'EditText
         quantiteInput.filters = arrayOf(RangeInputFilter(1, 99))
         quantiteInput.setText(prise.quantite.toString())
 
@@ -175,12 +164,10 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         }
 
         okButton.setOnClickListener {
-            // Mettez à jour la quantité dans l'objet Prise avec la nouvelle valeur
             val nouvelleQuantite = quantiteInput.text.toString().toIntOrNull() ?: 1
 
             prise.quantite = nouvelleQuantite
 
-            // Mettez à jour l'interface utilisateur (par exemple, TextInputEditText)
             holder.quantiteInput.setText("$nouvelleQuantite ${prise.dosageUnite}(s)")
 
             dosageDialog.dismiss()
@@ -213,7 +200,6 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
                     return null
                 }
             } catch (e: NumberFormatException) {
-                // Handle the exception if conversion to Int fails
             }
 
             return ""

@@ -32,7 +32,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_liste_effets_secondaires, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
@@ -83,9 +83,6 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateFinTraitement
 
-                    //convert String to LocalDate
-
-                    //convert String to LocalDate
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
@@ -96,9 +93,6 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateDbtTraitement
 
-                    //convert String to LocalDate
-
-                    //convert String to LocalDate
                     newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
                 }
 
@@ -130,15 +124,15 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
         val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
 
-        // Parcourez la liste de traitements (lp).
+        // Parcoure la liste de traitements (lp).
         traitementsTries.forEach { traitement ->
             traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
-                // Vérifiez si l'effet secondaire est déjà dans la carte.
+                // Vérifie si l'effet secondaire est déjà dans la carte
                 if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
-                    // S'il est présent, ajoutez le traitement à la liste existante.
+                    // S'il est présent, ajoutez le traitement à la liste existante
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
                 } else {
-                    // S'il n'est pas présent, créez une nouvelle liste et ajoutez le traitement.
+                    // S'il n'est pas présent, créé une nouvelle liste et ajoute le traitement
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()] =
                         mutableListOf(traitement)
                 }
@@ -155,13 +149,11 @@ class ListeEffetsSecondairesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)
 
-        //Gestion espacement entre items RecyclerView
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
 
         annuler.setOnClickListener {
-            //On appelle le parent pour changer de fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, MainTraitementsFragment())
             fragTransaction.addToBackStack(null)

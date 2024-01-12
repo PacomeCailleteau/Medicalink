@@ -34,7 +34,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise, container, false)
         val traitement = arguments?.getSerializable("traitement") as Traitement
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
@@ -193,6 +193,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     }
                 }
             }
+            //Gestion de la redirection en fonction du bouton sélectionné
+
             val bundle = Bundle()
             var destinationFragment = Fragment()
             when (schema_prise1) {
@@ -341,7 +343,6 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {

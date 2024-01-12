@@ -50,9 +50,8 @@ class ListeTraitementsFragment : Fragment() {
 
 
         /* ##############################################################
-        #                 Partie upserte du traitement                  #
+        #               Partie update et insert du traitement           #
         ################################################################# */
-        // Si isAddingTraitement != null en fait ??
         if (isAddingTraitement == "true" || isAddingTraitement == "false") {
             val newTraitement = arguments?.getSerializable("newTraitement") as Traitement
 
@@ -184,9 +183,6 @@ class ListeTraitementsFragment : Fragment() {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateFinTraitement
 
-                    //convert String to LocalDate
-
-                    //convert String to LocalDate
                     newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
                 }
 
@@ -197,9 +193,6 @@ class ListeTraitementsFragment : Fragment() {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateDbtTraitement
 
-                    //convert String to LocalDate
-
-                    //convert String to LocalDate
                     newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
                 }
 
@@ -328,7 +321,6 @@ class ListeTraitementsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {

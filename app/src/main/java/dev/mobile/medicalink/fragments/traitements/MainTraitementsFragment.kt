@@ -35,7 +35,6 @@ class MainTraitementsFragment : Fragment() {
 
         //Si on clique sur le bouton "Ajouter un traitement" alors on change le fragment actuel (MainTraitementsFragment) par le fragment AddTraitementsFragment
         addTraitementButton.setOnClickListener {
-            //On appelle le parent pour changer de fragment
 
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, AddTraitementsFragment())
@@ -45,7 +44,6 @@ class MainTraitementsFragment : Fragment() {
 
         //Si on clique sur le bouton "Traitements" alors on change le fragment actuel (MainTraitementsFragment) par le fragment ListeTraitementsFragment
         traitementsButton.setOnClickListener {
-            //On appelle le parent pour changer de fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
             fragTransaction.addToBackStack(null)
@@ -54,7 +52,6 @@ class MainTraitementsFragment : Fragment() {
         }
 
         journalButton.setOnClickListener {
-            //On appelle le parent pour changer de fragment
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, ListeEffetsSecondairesFragment())
             fragTransaction.addToBackStack(null)
@@ -64,7 +61,7 @@ class MainTraitementsFragment : Fragment() {
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
-                    // Ne rien faire ici pour désactiver le bouton de retour arrière
+                    // Ne fait rien ici pour désactiver le bouton de retour arrière
                 }
             }
 

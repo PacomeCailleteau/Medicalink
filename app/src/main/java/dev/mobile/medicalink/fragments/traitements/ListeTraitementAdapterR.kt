@@ -71,7 +71,7 @@ class ListeTraitementAdapterR(
             holder.dosage.text =
                 "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
         }
-
+        //Si le traitement est expiré, un format spécial lui est appliqué
         if (item.expire) {
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_gray_button_background)
             holder.imageView.setImageResource(R.drawable.medicexpire)
@@ -85,7 +85,7 @@ class ListeTraitementAdapterR(
                     "${holder.view.resources.getString(R.string.termine_le)} ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
         } else if (LocalDate.now() < item.dateDbtTraitement) {
-
+            //Sinon on vérifie si le traitement n'a pas encore débuté, si oui le traitement prend un autre format spécial
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_yellow_button_background)
             holder.imageView.setImageResource(R.drawable.medicenattente)
             holder.nbComprimesRestants.text =
@@ -98,6 +98,7 @@ class ListeTraitementAdapterR(
                 "${holder.view.resources.getString(R.string.debute_le)} ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
 
         } else {
+            //Sinon, le traitement prend le format "normal", le plus courant
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
             holder.nbComprimesRestants.text =
@@ -115,29 +116,17 @@ class ListeTraitementAdapterR(
             }
         }
 
-        /*
-        A check pour afficher les détails d'un traitement quand cliqué
-
-        holder.naissance.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, DetailActivity::class.java)
-            context.startActivity(intent)
-            false
-        }
-         */
         holder.modifierTraitement.setOnClickListener {
             onItemClick.invoke(item, false)
         }
-        /*
-                holder.view.setOnClickListener {
-                    onItemClick.invoke(item, false)
-                }
-        */
         holder.supprTraitement.setOnClickListener {
             showConfirmSuppressDialog(holder.itemView.context, item)
         }
     }
 
+    /**
+     * Fonction pour la fenetre de confirmation lors de la suppression d'un traitement
+     */
     private fun showConfirmSuppressDialog(
         context: Context,
         item: Traitement

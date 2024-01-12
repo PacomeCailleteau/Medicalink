@@ -24,19 +24,19 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         return list.size
     }
 
+    /**
+     * Fonction pour obtenir la liste de tous les effets secondaires possible sachant les
+     * traitements actif, à partir de tous les traitements
+     * @return La liste des effets secondaires
+     */
     fun getListProvenance(): MutableMap<String, MutableList<Traitement>> {
-        // Créez une carte (Map) pour stocker les associations entre les effets secondaires et les médicaments.
         val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
 
-        // Parcourez la liste de traitements (lp).
         list.forEach { traitement ->
             traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
-                // Vérifiez si l'effet secondaire est déjà dans la carte.
                 if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
-                    // S'il est présent, ajoutez le traitement à la liste existante.
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
                 } else {
-                    // S'il n'est pas présent, créez une nouvelle liste et ajoutez le traitement.
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()] =
                         mutableListOf(traitement)
                 }
