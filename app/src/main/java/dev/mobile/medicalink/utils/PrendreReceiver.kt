@@ -10,6 +10,9 @@ import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import java.util.UUID
 
+/**
+ * Classe permettant de gérer la réception d'une notification de prise de médicament avec l'action "prendre"
+ */
 class PrendreReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("PrendreReceiver", "avant test null")

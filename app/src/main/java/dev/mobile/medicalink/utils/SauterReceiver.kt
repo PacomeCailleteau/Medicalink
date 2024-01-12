@@ -9,6 +9,9 @@ import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import java.util.UUID
 
+/**
+ * Classe permettant de gérer la réception d'une notification de prise de médicament avec l'action "sauter"
+ */
 class SauterReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         // s'il nous manque une info alors on arrête
