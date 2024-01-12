@@ -187,5 +187,6 @@
     <string name="chargement">Chargement</string>
     <string name="dark_mode">Dark mode</string>
     <string name="ajouter">Ajouter</string>
+    <string name="supprimer_compte">Supprimer le compte</string>
 
 </resources>

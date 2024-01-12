@@ -14,6 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.repository.UserRepository
+import java.util.concurrent.LinkedBlockingQueue
 
 
 class ParametreFragment : Fragment() {
@@ -21,6 +24,7 @@ class ParametreFragment : Fragment() {
     private lateinit var btnDeconnexion: LinearLayout
     private lateinit var btnDarkMode: LinearLayout
     private lateinit var switchDarkMode: Switch
+    private lateinit var supprimerCompte : LinearLayout
 
     private var isDarkMode: Boolean =
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
@@ -33,10 +37,13 @@ class ParametreFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_parametre_fragement, container, false)
 
 
+
+
         //Get elements from view
         btnDeconnexion = view.findViewById(R.id.cardDeconnexion)
         btnDarkMode = view.findViewById(R.id.cardDarkMode)
         switchDarkMode = view.findViewById(R.id.switchDarkMode)
+        supprimerCompte = view.findViewById(R.id.deleteAccount)
 
         btnDeconnexion.setOnClickListener {
             val intent = Intent(requireContext(), MainActivity::class.java)
@@ -74,6 +81,35 @@ class ParametreFragment : Fragment() {
             }
             updateSwitchAppearance(isChecked)
             refreshFragment()
+        }
+
+
+        supprimerCompte.setOnClickListener {
+            val db = AppDatabase.getInstance(requireContext())
+            val userDatabaseInterface = UserRepository(db.userDao())
+
+
+
+
+            val queue = LinkedBlockingQueue<String>()
+
+            Thread {
+                val res = userDatabaseInterface.getUsersConnected()
+                val userToDelete = userDatabaseInterface.getOneUserById(res.first().uuid).first()
+                Log.d("user",userToDelete.prenom.toString())
+
+                if (userDatabaseInterface.getAllUsers().size==1){
+                    userDatabaseInterface.deleteUser(userToDelete)
+                } else {
+                    userDatabaseInterface.deleteUser(userToDelete)
+                    userDatabaseInterface.setConnected(userDatabaseInterface.getAllUsers().first())
+                }
+                queue.add("True")
+            }.start()
+
+            val x = queue.take()
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
         }
 
         return view

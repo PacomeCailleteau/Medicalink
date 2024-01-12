@@ -72,15 +72,19 @@ class MainActivity : AppCompatActivity() {
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
 
-        val queue = LinkedBlockingQueue<String?>()
+        val queue = LinkedBlockingQueue<String>()
 
         Thread {
             val res = userDatabaseInterface.getUsersConnected()
-            queue.add(res.first().prenom)
+            if (res.isNotEmpty()){
+                queue.add(res.first().prenom)
+            } else {
+                queue.add("")
+            }
         }.start()
 
         val prenom = queue.take()
-        if (prenom != null) {
+        if (prenom != "") {
             //Changement du texte
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
             textBienvenue.text = txtBienvenue

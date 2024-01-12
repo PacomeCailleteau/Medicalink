@@ -54,6 +54,7 @@ class MainFragment : AppCompatActivity() {
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
+        /*
         Thread {
             val res = userDatabaseInterface.getAllUsers()
             Log.d("USER", "res: $res")
@@ -65,6 +66,8 @@ class MainFragment : AppCompatActivity() {
 
             userDatabaseInterface.insertUser(monUser)
         }.start()
+
+         */
 
 
         menu = findViewById(R.id.fragmentDuBas)
