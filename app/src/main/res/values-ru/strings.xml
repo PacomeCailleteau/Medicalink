@@ -126,6 +126,13 @@
     <string name="debute_le">Начало</string>
     <string name="jusquau">До</string>
     <string name="Deconnexion">Отключение</string>
+    <string name="lundi">П</string>
+    <string name="mardi">В</string>
+    <string name="mercredi">С</string>
+    <string name="jeudi">ч</string>
+    <string name="vendredi">п</string>
+    <string name="samedi">c</string>
+    <string name="dimanche">в</string>
     <string name="aucun_effet_secondaire">Никаких побочных эффектов</string>
     <string name="prendre">Возьмите</string>
     <string name="pris">Взято</string>
@@ -136,4 +143,5 @@
     <string name="parametre">Параметр</string>
     <string name="professionnel">Профессия</string>
     <string name="effets_secondaires">Побочные эффекты</string>
+    <string name="rapport_journalier">Ежедневный отчет</string>
 </resources>
