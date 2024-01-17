@@ -9,7 +9,7 @@
 ## Authors
 * Nicolas Chusseau ([NicolasChusseau](https://github.com/NicolasChusseau))
 * Pacôme Cailleteau ([Arcadpac](https://github.com/PacomeCailleteau))
-* Lilian Delhommeau ([Redly0n](https://github.com/Redly0n))
+* Lilian Delhommeau (E211556C) ([Redly0n](https://github.com/Redly0n))
 
 ## Related Git repository
 * Android application: [Medicalink](https://gitlab.univ-nantes.fr/E211556C/sae_medicalink#----)
