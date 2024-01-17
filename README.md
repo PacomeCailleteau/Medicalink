@@ -3,6 +3,7 @@
   <br />
 </h1>
 
+<p align="center"><b>This project is licensed under the EUPL 1.2. For more details, see the <a href="LICENSE.md">LICENSE</a> file.</b></p>
 <p align="center"><i>"An Application that allows users to scan prescriptions, medications, and sends notifications for intakes"</i></p>
 
 
