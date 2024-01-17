@@ -30,9 +30,11 @@ On linux:
 
 ```sudo apt install git-lfs```
 
+
 In assets repository:
 
 ```git submodule update --init```
+
 
 Pull model :
 
