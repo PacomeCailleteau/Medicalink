@@ -25,12 +25,15 @@
 In order to load assets from the model, use the following commands:
 
 On linux:
+
 ```curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash```
 
 ```sudo apt install git-lfs```
 
 In assets repository:
+
 ```git submodule update --init```
 
 Pull model :
+
 ```git submodule foreach git lfs pull```
