@@ -78,10 +78,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val db = AppDatabase.getInstance(view.context.applicationContext)
-        val userDatabaseInterface = UserRepository(db.userDao())
-        val medocDatabaseInterface = MedocRepository(db.medocDao())
 
+        // Création des listes de mois et de jours
         listeMois = mapOf<String, String>(
             Pair("JANUARY", resources.getString(R.string.janvier)),
             Pair("FEBRUARY", resources.getString(R.string.fevrier)),
@@ -106,9 +104,9 @@ class HomeFragment : Fragment() {
             Pair("SATURDAY", resources.getString(R.string.samedi)),
             Pair("SUNDAY", resources.getString(R.string.dimanche)),
         )
-        calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
 
-        //Création des boutons des jours du calendrier
+        // Récupération des éléments de la vue
+        calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
         jourAvantButton = view.findViewById(R.id.jourAvant)
         jourJButton = view.findViewById(R.id.jourJ)
         jPlus1Button = view.findViewById(R.id.jPlus1)
@@ -130,7 +128,6 @@ class HomeFragment : Fragment() {
         nextMonth = view.findViewById(R.id.nextMonth)
         previousMonth = view.findViewById(R.id.previousMonth)
 
-
         jourAvant = LocalDate.now().minusDays(1)
         jourJ = LocalDate.now()
         jPlus1 = LocalDate.now().plusDays(1)
@@ -140,21 +137,15 @@ class HomeFragment : Fragment() {
         jPlus5 = LocalDate.now().plusDays(5)
 
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
-        Log.d("test", "ici")
-
         val traitementsTries = mutableListOf<Pair<Prise, Traitement>>()
 
-
-        Log.d("listePrise à afficher", traitementsTries.toString())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
         homeAdapter = HomeAdapterR(traitementsTries, mutableListOf(), LocalDate.now(), recyclerView)
         recyclerView.adapter = homeAdapter
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
         updateListePrise(LocalDate.now(), view.context.applicationContext)
-
 
         //Gestion du calendrier
         revenirDateCourante.visibility = View.GONE
@@ -175,6 +166,7 @@ class HomeFragment : Fragment() {
         jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
         jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
 
+        // Les listeners sur les boutons du calendrier
         jourAvantButton.setOnClickListener {
             updateCalendrier(jourAvant, view.context.applicationContext)
         }
@@ -206,6 +198,7 @@ class HomeFragment : Fragment() {
             updateCalendrier(jourJ.minusMonths(1), view.context.applicationContext)
         }
 
+        // Le listener sur le bouton paramètre
         paramBtn.setOnClickListener {
             //Navigation vers le fragment parametre
             val fragTransaction = parentFragmentManager.beginTransaction()

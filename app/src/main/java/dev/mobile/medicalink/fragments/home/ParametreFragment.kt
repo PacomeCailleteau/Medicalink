@@ -50,10 +50,9 @@ class ParametreFragment : Fragment() {
             startActivity(intent)
         }
 
-        Log.d("test", isDarkMode.toString())
         switchDarkMode.isChecked = isDarkMode
 
-
+        // Le switch pour le mode sombre
         if (switchDarkMode.isChecked) {
             // Si le switch est activé (état "on"), on passe l'application en mode sombre
             switchDarkMode.thumbTintList =
@@ -68,17 +67,15 @@ class ParametreFragment : Fragment() {
                 ContextCompat.getColorStateList(requireContext(), R.color.grisSwitch)
         }
 
-        switchDarkMode.setOnCheckedChangeListener { buttonView, isChecked ->
+        switchDarkMode.setOnCheckedChangeListener { _, isChecked -> // was buttonView
             if (isChecked) {
                 // Définir le mode sombre à partir du fragment
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
-                // Redémarrer l'activité pour appliquer le changement
             } else {
-                Log.d("Ici", "tr")
                 // Définir le mode sombre à partir du fragment
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
+            // Mettre à jour l'apparence du switch
             updateSwitchAppearance(isChecked)
             refreshFragment()
         }
@@ -87,7 +84,6 @@ class ParametreFragment : Fragment() {
         supprimerCompte.setOnClickListener {
             val db = AppDatabase.getInstance(requireContext())
             val userDatabaseInterface = UserRepository(db.userDao())
-
 
             val queue = LinkedBlockingQueue<String>()
 
@@ -105,7 +101,8 @@ class ParametreFragment : Fragment() {
                 queue.add("True")
             }.start()
 
-            val x = queue.take()
+            // Pour attendre la fin du thread
+            queue.take()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
@@ -115,6 +112,7 @@ class ParametreFragment : Fragment() {
 
     /**
      * Mettre à jour l'apparence du switch du mode sombre
+     * @param isChecked
      */
     private fun updateSwitchAppearance(isChecked: Boolean) {
         val thumbColor = ContextCompat.getColorStateList(

@@ -50,6 +50,9 @@ class HomeAdapterR(
 
     /**
      * Mettre à jour les données de l'adaptateur
+     * @param listeTraitementUpdated : liste des traitements
+     * @param listePriseValideeUpdated : liste des prises validées
+     * @param date : date courante
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateData(
@@ -67,6 +70,8 @@ class HomeAdapterR(
 
     /**
      * ViewHolder pour la liste des traitements
+     * @param view : vue
+     * @return : RecyclerView.ViewHolder
      */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -83,6 +88,7 @@ class HomeAdapterR(
 
     /**
      * Retourne le nombre d'éléments dans la liste
+     * @return : Int
      */
     override fun getItemCount(): Int {
         return if (list.isEmpty()) {
@@ -94,6 +100,8 @@ class HomeAdapterR(
 
     /**
      * Retourne le type de vue en fonction de la position
+     * @param position : position de l'élément
+     * @return : Int
      */
     override fun getItemViewType(position: Int): Int {
         return if (list.isEmpty()) {
@@ -105,6 +113,12 @@ class HomeAdapterR(
         }
     }
 
+    /**
+     * Crée une nouvelle vue
+     * @param parent : ViewGroup
+     * @param viewType : Int
+     * @return : AjoutManuelViewHolder
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
         return when (viewType) {
             // Il n'y a pas de traitement, affiche la vue vide
@@ -135,6 +149,8 @@ class HomeAdapterR(
 
     /**
      * Met à jour les données de la vue
+     * @param holder : AjoutManuelViewHolder
+     * @param position : position de l'élément
      */
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -150,7 +166,7 @@ class HomeAdapterR(
         if (list[position] == list[0]) {
             val rapport = holder.view.findViewById<TextView>(R.id.rapport)
             Log.d("LISTE", rapport.text.toString())
-            var listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
+            val listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
             for (element in listePriseValidee) {
                 if (element.first == LocalDate.now()) {
                     listePriseAjd.add(element)
@@ -201,24 +217,28 @@ class HomeAdapterR(
             }.start()
             val result = queue.take()
             Log.d("RESULTAT", result)
-            if (result == "null") {
-                holder.circleTick.setImageResource(R.drawable.circle)
-            } else if (result == "prendre") {
-                holder.circleTick.setImageResource(R.drawable.correct)
-            } else {
-                holder.circleTick.setImageResource(R.drawable.avertissement)
+            when (result) {
+                "null" -> {
+                    holder.circleTick.setImageResource(R.drawable.circle)
+                }
+                "prendre" -> {
+                    holder.circleTick.setImageResource(R.drawable.correct)
+                }
+                else -> {
+                    holder.circleTick.setImageResource(R.drawable.avertissement)
+                }
             }
         }
 
         // Si le bouton est cliqué, on affiche la fenêtre de dialogue
         holder.circleTick.setOnClickListener {
-            var listePriseValidee: MutableList<Pair<LocalDate, String>>
             showConfirmPriseDialog(holder, holder.itemView.context)
         }
     }
 
     /**
      * Met à jour la liste des prises validées
+     * @param newListePriseValidee : nouvelle liste des prises validées
      */
     fun updatePriseValideeList(newListePriseValidee: MutableList<Pair<LocalDate, String>>) {
         this.listePriseValidee = newListePriseValidee
@@ -242,7 +262,7 @@ class HomeAdapterR(
                 if (rapport != null) {
                     Log.d("LISTE", rapport.text.toString())
                 }
-                var listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
+                val listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
                 for (element in listePriseValidee) {
                     if (element.first == LocalDate.now()) {
                         listePriseAjd.add(element)
@@ -302,6 +322,7 @@ class HomeAdapterR(
 
     /**
      * Met à jour visuellement l'élément à la position donnée après avoir sauté la prise
+     * @param position : position de l'élément
      */
     fun updateItemAfterSkip(position: Int) {
         // Mettez à jour visuellement l'élément à la position donnée après avoir sauté la prise
@@ -317,6 +338,8 @@ class HomeAdapterR(
 
     /**
      * Affiche la fenêtre de dialogue pour confirmer la prise
+     * @param holder : AjoutManuelViewHolder
+     * @param context : contexte
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showConfirmPriseDialog(
@@ -328,23 +351,19 @@ class HomeAdapterR(
         val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
         builder.setView(dialogView)
 
-        val layout = LayoutInflater
-            .from(context)
-            .inflate(R.layout.item_accueil, parentRecyclerView, false)
-
         val dosageDialog = builder.create()
 
+        // Création de la connexion à la base de données
         val db = AppDatabase.getInstance(context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
 
+        // Récupération des éléments de la vue
         val nomMedic = holder.nomMedic
         val nbComprime = holder.nbComprime
         val heurePrise = holder.heurePrise
         val circleTick = holder.circleTick
-        val imageMedoc = holder.imageMedoc
-        val mainHeure = holder.mainHeure
-        val mainHeureLayout = holder.mainHeureLayout
 
+        // On récupère les éléments de la vue et leurs valeurs
         val titreHeurePrise = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         titreHeurePrise.text = heurePrise.text
         val croixButton = dialogView.findViewById<ImageView>(R.id.croixButton)
@@ -361,6 +380,7 @@ class HomeAdapterR(
         sauterButton.isEnabled = false
         imagePrendre.setColorFilter(ContextCompat.getColor(context, R.color.black))
 
+        // On vérifie si la prise est déjà validée et on affiche le bon bouton
         if (circleTick.drawable.constantState?.equals(
                 ContextCompat.getDrawable(
                     holder.itemView.context,
@@ -388,6 +408,7 @@ class HomeAdapterR(
             dosageDialog.dismiss()
         }
 
+        // Listener pour le bouton prendre
         // Si le bouton prendre est cliqué, on affiche la fenêtre de dialogue
         sauterLayout.setOnClickListener {
             // Si l'image est déjà un avertissment, on la remet en cercle, sinon on la met en avertissment
@@ -457,6 +478,7 @@ class HomeAdapterR(
             dosageDialog.dismiss()
         }
 
+        // Listener pour le bouton prendre
         // Si le bouton sauter est cliqué, on affiche la fenêtre de dialogue
         prendreLayout.setOnClickListener {
             // Si l'image est déjà un tick correct alors on la remet en cercle, sinon on la met en tick correct
