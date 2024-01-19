@@ -50,6 +50,7 @@ class CreerProfilActivity : AppCompatActivity() {
         //masquer la barre de titre
         supportActionBar?.hide()
 
+        // Récupération des éléments de la vue
         textMedicalink = findViewById(R.id.text_medicalink)
         imageProfil = findViewById(R.id.image_profil)
         textVotreProfil = findViewById(R.id.text_votre_profil)
@@ -71,6 +72,7 @@ class CreerProfilActivity : AppCompatActivity() {
 
         val spannableString = SpannableString(checkBoxText)
 
+        // Création du lien vers le site de la CNIL
         val clickableSpanRGPD = object : ClickableSpan() {
             override fun onClick(view: View) {
                 val url = "https://www.cnil.fr/fr/reglement-europeen-protection-donnees"
@@ -79,6 +81,7 @@ class CreerProfilActivity : AppCompatActivity() {
             }
         }
 
+        // Ajout du lien vers le site de la CNIL
         spannableString.setSpan(
             clickableSpanRGPD,
             startIndex,
@@ -89,11 +92,13 @@ class CreerProfilActivity : AppCompatActivity() {
         checkboxRgpd.text = spannableString
         checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
 
+        // Création du regex
         val regex = Regex(
             pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$",
             options = setOf(RegexOption.IGNORE_CASE)
         )
 
+        // Création du filtre
         val filter = InputFilter { source, start, end, dest, dstart, dend ->
             val input = source.subSequence(start, end).toString()
             val currentText =
@@ -107,10 +112,11 @@ class CreerProfilActivity : AppCompatActivity() {
             }
         }
 
+        //On ajoute le filtre aux champs de texte nom et prénom
         inputNom.filters = arrayOf(
             filter,
-            InputFilter.AllCaps(),
-            InputFilter { source, start, end, dest, dstart, dend ->
+            InputFilter.AllCaps(), // Mettre en majuscule
+            InputFilter { source, _, _, _, _, _ -> //was start, end, dest, dstart, dend
                 source?.let {
                     if (it.contains("\n")) {
                         // Bloquer le collage de texte
@@ -120,8 +126,9 @@ class CreerProfilActivity : AppCompatActivity() {
                 null
             })
 
-        inputPrenom.filters =
-            arrayOf(filter, InputFilter { source, start, end, dest, dstart, dend ->
+        inputPrenom.filters = arrayOf(
+            filter,
+            InputFilter { source, _, _, _, _, _ -> //was start, end, dest, dstart, dend
                 source?.let {
                     if (it.contains("\n")) {
                         // Bloquer le collage de texte
@@ -131,6 +138,7 @@ class CreerProfilActivity : AppCompatActivity() {
                 null
             })
 
+        // Permet de cacher le clavier et de supprimer le focus lorsqu'on clique en dehors des champs de texte
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
         rootLayout.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -157,7 +165,7 @@ class CreerProfilActivity : AppCompatActivity() {
         }
 
         inputDateDeNaissance.filters =
-            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
                 source?.let {
                     if (it.contains("\n")) {
                         // Bloquer le collage de texte
@@ -166,7 +174,7 @@ class CreerProfilActivity : AppCompatActivity() {
                 }
                 null
             })
-        inputEmail.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+        inputEmail.filters = arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
             source?.let {
                 if (it.contains("\n")) {
                     // Bloquer le collage de texte
@@ -176,7 +184,7 @@ class CreerProfilActivity : AppCompatActivity() {
             null
         })
 
-        inputMotDePasse.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+        inputMotDePasse.filters = arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
             source?.let {
                 if (it.contains("\n")) {
                     // Bloquer le collage de texte
@@ -186,6 +194,7 @@ class CreerProfilActivity : AppCompatActivity() {
             null
         })
 
+        // Ajout des textWatcher aux champs de texte
         inputNom.addTextChangedListener(textWatcher)
         inputPrenom.addTextChangedListener(textWatcher)
         inputDateDeNaissance.addTextChangedListener(textWatcher)
@@ -210,10 +219,14 @@ class CreerProfilActivity : AppCompatActivity() {
             }
         })
 
+        // Ajout du listener sur le bouton créer profil
         buttonCreerProfil.setOnClickListener {
+            // Création de la connexion à la base de données
             val db = AppDatabase.getInstance(this)
             val userDatabaseInterface = UserRepository(db.userDao())
+            // Création de la variable de sortie de la fonction d'insertion
             var res: Pair<Boolean, String>?
+            // Récupération des données du formulaire et de l'uuid aléatoire
             val uuid = UUID.randomUUID().toString()
             val statut =
                 if (radioButtonUtilisateur.isChecked) resources.getString(R.string.Utilisateur) else resources.getString(
@@ -225,6 +238,7 @@ class CreerProfilActivity : AppCompatActivity() {
             val email = inputEmail.text.toString()
             val password = inputMotDePasse.text.toString()
             val isConnected = true
+            // Création de l'utilisateur
             val user = User(
                 uuid,
                 statut,
@@ -235,6 +249,7 @@ class CreerProfilActivity : AppCompatActivity() {
                 password,
                 isConnected
             )
+            // Insertion de l'utilisateur dans la base de données dans un Thread parce que un appel à la base de données est asynchrone
             Thread {
                 res = userDatabaseInterface.insertUser(user)
                 userDatabaseInterface.setConnected(user)

@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         //masquer la barre de titre
         supportActionBar?.hide()
 
+        //On récupère les éléments de la vue
         imageConnexion = findViewById(R.id.image_connexion)
         textBienvenue = findViewById(R.id.text_bienvenue)
         buttonConnexion = findViewById(R.id.button_connexion)
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         val queue = LinkedBlockingQueue<String>()
 
+        // Thread pour récupérer le prénom de l'utilisateur connecté pour son affichage
         Thread {
             val res = userDatabaseInterface.getUsersConnected()
             if (res.isNotEmpty()) {
@@ -136,6 +138,7 @@ class MainActivity : AppCompatActivity() {
      * Affiche la boîte de dialogue de la biométrie.
      */
     private fun showBiometricPrompt() {
+        // Création de la boîte de dialogue de la biométrie
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle(resources.getString(R.string.authentification_biometrique))
             .setSubtitle(resources.getString(R.string.utilisez_empreinte_digitale))
@@ -143,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             .setConfirmationRequired(false)
             .build()
 
+        // Création de l'authentification biométrique
         val biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -171,17 +175,20 @@ class MainActivity : AppCompatActivity() {
      * Fonction qui affiche la boîte de dialogue du mot de passe.
      */
     private fun showPasswordDialog() {
+        // Création de la boîte de dialogue du mot de passe
         val dialogBuilder = AlertDialog.Builder(this, R.style.RoundedDialog)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_password, null)
         dialogBuilder.setView(dialogView)
 
+        // Récupération des éléments de la boîte de dialogue
         val editTextPassword = dialogView.findViewById<EditText>(R.id.editTextPassword)
         val buttonValidate = dialogView.findViewById<Button>(R.id.buttonValidate)
         val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
         val textMotDePasseIncorrect =
             dialogView.findViewById<TextView>(R.id.textMotDePasseIncorrect)
 
+        // On affiche la boîte de dialogue
         val alertDialog = dialogBuilder.create()
 
         editTextPassword.addTextChangedListener(object : TextWatcher {
@@ -193,6 +200,12 @@ class MainActivity : AppCompatActivity() {
                 // Ne rien faire lorsqu'il y a un changement dans le texte
             }
 
+            /**
+             * Fonction qui est appelée après la modification du texte.
+             * On limite la longueur du texte à 6 caractères et au caractères numériques.
+             * Une fois que tous est valide, on active le bouton de validation.
+             * @param s le texte modifié
+             */
             override fun afterTextChanged(s: Editable?) {
                 val isValidLength = s?.length == 6
                 buttonValidate.isEnabled = isValidLength
@@ -209,6 +222,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // Gestion du clic sur le bouton de validation
         buttonValidate.setOnClickListener {
             val password = editTextPassword.text.toString()
             if (isValidPassword(password)) {
@@ -279,6 +293,7 @@ class MainActivity : AppCompatActivity() {
 
         boutonAjouterProfil = dialog.findViewById(R.id.boutonAjouterProfilChangerUtilisateur)
 
+        // Connection à la base de données
         val db = AppDatabase.getInstance(context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
 
@@ -294,7 +309,7 @@ class MainActivity : AppCompatActivity() {
 
         val mesUsers = queue.take()
 
-
+        // Création de l'adapter pour le RecyclerView
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
             val queue = LinkedBlockingQueue<String>()

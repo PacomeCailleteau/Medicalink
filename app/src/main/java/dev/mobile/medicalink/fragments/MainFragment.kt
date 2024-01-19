@@ -21,6 +21,7 @@ import dev.mobile.medicalink.fragments.traitements.MessagesFragment
 
 /**
  * Fragment de la barre de navigation en bas de l'application (Accueil/Traitement/Messages)
+ * * Main Fragment est une activité !!!
  */
 class MainFragment : AppCompatActivity() {
 
@@ -42,35 +43,11 @@ class MainFragment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_fragment)
 
-
-        //NotificationService.sendNotification(this, "depuis Main Frag", "Ça rime PAS avec Tchoupi", 5000)
-
         //masquer la barre de titre
         supportActionBar?.hide()
 
-
-        //Create database connexion, use `userDatabaseInterface` to access to the database
-        val db = AppDatabase.getInstance(this)
-        val userDatabaseInterface = UserRepository(db.userDao())
-        val medocDatabaseInterface = MedocRepository(db.medocDao())
-        /*
-        Thread {
-            val res = userDatabaseInterface.getAllUsers()
-            Log.d("USER", "res: $res")
-
-            val monUser = User(
-                "111111", "Professionnel", "DENIS",
-                "Jack", "3 Novembre 1978", "l@gmail.com", "", false
-            )
-
-            userDatabaseInterface.insertUser(monUser)
-        }.start()
-
-         */
-
-
+        // Récupération des éléments de la vue
         menu = findViewById(R.id.fragmentDuBas)
-
         btnAccueilNav = findViewById(R.id.btnAccueilNav)
         imageAccueil = findViewById(R.id.imageViewAccueil)
         btnTraitementsNav = findViewById(R.id.btnTraitementsNav)
@@ -86,30 +63,29 @@ class MainFragment : AppCompatActivity() {
         loadFrag(HomeFragment(), 0)
         changeMenu(0)
 
+        // Ajout des listeners sur les boutons de la barre de navigation
         btnAccueilNav.setOnClickListener {
             changeMenu(0)
-
             loadFrag(HomeFragment(), 1)
         }
 
         btnTraitementsNav.setOnClickListener {
             changeMenu(1)
-
             loadFrag(MainTraitementsFragment(), 1)
-
         }
-
-
 
         btnMessagesNav.setOnClickListener {
             changeMenu(2)
             loadFrag(MessagesFragment(), 1)
-
         }
 
     }
 
-    // flag 0 pour ajouter, 1 pour remplacer
+    /**
+     * Fonction permettant de charger un fragment dans le fragment container
+     * @param fragmentName : Fragment à charger
+     * @param flag : 0 si on ajoute le fragment, 1 si on le remplace
+     */
     private fun loadFrag(fragmentName: Fragment, flag: Int) {
         val fm: FragmentManager = supportFragmentManager
         val ft: FragmentTransaction = fm.beginTransaction()
@@ -126,6 +102,10 @@ class MainFragment : AppCompatActivity() {
         ft.commit()
     }
 
+    /**
+     * Fonction permettant de changer la couleur des boutons de la barre de navigation
+     * @param dest : 0 si on veut mettre en surbrillance le bouton Accueil, 1 pour Traitements, 2 pour Messages
+     */
     private fun changeMenu(dest: Int) {
         // On remet tous à la normal
         imageAccueil.setImageResource(R.drawable.accueil)

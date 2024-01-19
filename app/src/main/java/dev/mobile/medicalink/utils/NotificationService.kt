@@ -22,7 +22,13 @@ import java.time.LocalTime
  * Classe qui gère les notifications
  */
 class NotificationService : BroadcastReceiver() {
+    /**
+     * Fonction qui est appelée lors de la réception d'une notification
+     * @param context : le contexte de l'application
+     * @param intent : l'intent de la notification
+     */
     override fun onReceive(context: Context?, intent: Intent?) {
+        // Récupération des données de la notification qui ont été passées en Extra
         val title = intent?.getStringExtra("title") ?: "Titre par défaut"
         val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
         val notificationId = intent?.getIntExtra("notificationId", -1)!!
@@ -87,12 +93,15 @@ class NotificationService : BroadcastReceiver() {
         )
 
         val channelId = "medicalinkNotificationChannel"
+        // Création de la notification
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.logo_medicalink)
             .setContentTitle(titre)
             .setContentText(contenu)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
+        // On ajoute les actions si besoin
+        // Ce sont les boutons qui apparaissent en déroulant la notification
         if (sauter) {
             notificationBuilder.addAction(0, "Sauter", sauterPendingIntent)
         }
@@ -100,6 +109,7 @@ class NotificationService : BroadcastReceiver() {
             notificationBuilder.addAction(0, "Prendre", prendrePendingIntent)
         }
 
+        // Envoi de la notification
         notificationManager.notify(notificationId, notificationBuilder.build())
 
         return

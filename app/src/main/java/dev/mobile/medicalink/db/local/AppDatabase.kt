@@ -35,6 +35,8 @@ abstract class AppDatabase : RoomDatabase() {
         /**
          * Fonction qui permet de récupérer l'instance de la base de données.
          * Elle est dans le companion object pour que l'on puisse l'appeler sans avoir à instancier la classe AppDatabase car on veut un singleton.
+         * @param context Le contexte de l'application
+         * @return L'instance de la base de données
          */
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
