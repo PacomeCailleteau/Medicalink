@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["uuidUser"])]
 )
 
-//TODO("rajouter un uuid lié au médicament dans la base de donnée médicamenteuse")
+//TODO("rajouter un code cis lié au médicament dans la base de donnée médicamenteuse")
 data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") var uuidUser: String,
