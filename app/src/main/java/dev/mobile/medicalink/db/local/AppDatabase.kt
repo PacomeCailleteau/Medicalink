@@ -5,17 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
+import dev.mobile.medicalink.db.local.dao.CisSubstanceDao
 import dev.mobile.medicalink.db.local.dao.MedocDao
 import dev.mobile.medicalink.db.local.dao.PriseValideeDao
 import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.entity.CisSubstance
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 
 @Database(
-    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class],
+    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisSubstance::class],
     version = 1,
     exportSchema = false
 )
@@ -26,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun medocDao(): MedocDao
     abstract fun cisBdpmDao(): CisBdpmDao
     abstract fun priseValideeDao(): PriseValideeDao
+    abstract fun cisSubstanceDao(): CisSubstanceDao
 
 
     companion object {

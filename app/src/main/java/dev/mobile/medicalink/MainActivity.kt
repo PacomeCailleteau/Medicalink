@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
@@ -61,8 +62,13 @@ class MainActivity : AppCompatActivity() {
         //Connection à la base de données
         val db = AppDatabase.getInstance(this)
         val userDatabaseInterface = UserRepository(db.userDao())
+        val cisSubstanceDatabaseInterface = CisSubstanceRepository(db.cisSubstanceDao())
 
         val queue = LinkedBlockingQueue<String>()
+
+        Thread {
+            cisSubstanceDatabaseInterface.insertFromCsv(this)
+        }.start()
 
         // Thread pour récupérer le prénom de l'utilisateur connecté pour son affichage
         Thread {

@@ -83,7 +83,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
             val values = parseCsvLine(line)
             if (values.size == 12) {
                 val cisBdpm = CisBdpm(
-                    CodeCIS = values[0].toInt(),
+                    codeCIS = values[0].toInt(),
                     denomination = values[1],
                     formePharmaceutique = values[2],
                     voiesAdministration = values[3],
