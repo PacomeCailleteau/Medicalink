@@ -16,9 +16,10 @@
 * Pacôme Cailleteau ([PacomeCailleteau](https://github.com/PacomeCailleteau))
 * Lucas Bigeard ([Lucas Bigeard](https://github.com/LucWaw))
 * Swan Gonzales ([SwanGonzales](https://github.com/SwanGon))
-* Arthur Osselin([Arthur Osselin]()
+* Arthur Osselin([Arthur Osselin]())
 ## Related Git repository
-* Android application: [Medicalink](https://gitlab.univ-nantes.fr/E211556C/sae_medicalink#----)
+* Main Android application : [Medicalink](https://gitlab.univ-nantes.fr/E211556C/sae_medicalink#----)
+* Maintenance application : [MedicalinkMaintenance](https://github.com/LucWaw/MedicalinkMaintenance)
 * Artificial Intelligence Generator (Named Entity Recognition): [MedicAppAI](https://github.com/anrouxel/MedicAppAI#----)
 * Named Entity Recognition AI model for prescriptions (usable as a sub-module): [MedicAppAssets](https://gitlab.univ-nantes.fr/E213726L/MedicAppAssets.git)
 
