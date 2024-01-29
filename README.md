@@ -8,10 +8,15 @@
 
 
 ## Authors
+### Main Squad
 * Nicolas Chusseau ([NicolasChusseau](https://github.com/NicolasChusseau))
-* Pacôme Cailleteau ([Arcadpac](https://github.com/PacomeCailleteau))
+* Pacôme Cailleteau ([PacomeCailleteau](https://github.com/PacomeCailleteau))
 * Lilian Delhommeau (E211556C) ([Redly0n](https://github.com/Redly0n))
-
+### Maintenance Squad
+* Pacôme Cailleteau ([PacomeCailleteau](https://github.com/PacomeCailleteau))
+* Lucas Bigeard ([Lucas Bigeard](https://github.com/LucWaw))
+* Swan Gonzales ([SwanGonzales](https://github.com/SwanGon))
+* Arthur Osselin([Arthur Osselin]()
 ## Related Git repository
 * Android application: [Medicalink](https://gitlab.univ-nantes.fr/E211556C/sae_medicalink#----)
 * Artificial Intelligence Generator (Named Entity Recognition): [MedicAppAI](https://github.com/anrouxel/MedicAppAI#----)
