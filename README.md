@@ -14,7 +14,7 @@
 * Lilian Delhommeau (E211556C) ([Redly0n](https://github.com/Redly0n))
 ### Maintenance Squad
 * Pacôme Cailleteau ([PacomeCailleteau](https://github.com/PacomeCailleteau))
-* Lucas Bigeard ([Lucas Bigeard](https://github.com/LucWaw))
+* Lucas Bigeard ([LucWaw](https://github.com/LucWaw))
 * Swan Gonzales ([SwanGonzales](https://github.com/SwanGon))
 * Arthur Osselin ([Arthur Osselin]())
 ## Related Git repository
