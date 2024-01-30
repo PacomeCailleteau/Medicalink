@@ -10,8 +10,9 @@ import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
 
 class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
+    val commonFonctionnality = CsvCommonFonctionnality()
 
-    fun getAllCisCompoBdpm(): List<CisBdpm> {
+    fun getAllCisCompoBdpm(): List<CisCompoBdpm> {
         return try {
             cisCompoBdpmDao.getAll()
         } catch (e: Exception) {
@@ -19,7 +20,7 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
         }
     }
 
-    fun getOneCisCompoBdpmById(CodeCIS: Int): List<CisBdpm> {
+    fun getOneCisCompoBdpmById(CodeCIS: Int): List<CisCompoBdpm> {
         return try {
             cisCompoBdpmDao.getById(CodeCIS)
         } catch (e: Exception) {
@@ -45,7 +46,7 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
      * @param context Context
      */
     fun insertFromCsv(context: Context) {
-        val csvContent = readCsvFromAssets(context, "CIS_COMPO_bdpm.csv")
+        val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_COMPO_bdpm.csv")
         val cisCompoBdpmList = parseCsv(csvContent)
         try {
             cisCompoBdpmDao.insertAll(*cisCompoBdpmList.toTypedArray())
@@ -59,30 +60,17 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
     }
 
     /**
-     * Read CSV file from assets folder
-     * @param context Context
-     * @param filePath CSV file path
-     * @return CSV file content
-     */
-    private fun readCsvFromAssets(context: Context, filePath: String): String {
-        return context.assets.open(filePath).bufferedReader().use {
-            it.readText()
-        }
-    }
-
-
-    /**
      * Parse CSV file and insert all CIS_bdpm in database, the first line of the CSV file must be the header
      * @param csvContent CSV file content
      * @return Pair<Boolean, String> : Boolean is true if success, String is error message if error
      */
-    private fun parseCsv(csvContent: String): List<CisCompoBdpm> {
+    fun parseCsv(csvContent: String): List<CisCompoBdpm> {
         val cisCompoBdpmList = mutableListOf<CisCompoBdpm>()
         val lines = csvContent.split("\n")
         //On ne prend ni la première ligne (header) ni la dernière ligne (vide)
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
-            val values = parseCsvLine(line)
+            val values = commonFonctionnality.parseCsvLine(line)
             if (values.size == 12) {
 
                 val cisCompoBdpm = CisCompoBdpm(
@@ -104,45 +92,13 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
         return cisCompoBdpmList
     }
 
-    /**
-     * Parse CSV line and return list of values
-     * We need this function because there some values with comma inside quotes and sometimes no quotes
-     * @param line CSV line
-     */
-    private fun parseCsvLine(line: String): List<String> {
-        val values = mutableListOf<String>()
-        var value = ""
-        var isInsideQuote = false
-        for (char in line) {
-            when (char) {
-                ',' -> {
-                    if (isInsideQuote) {
-                        value += char
-                    } else {
-                        values.add(value)
-                        value = ""
-                    }
-                }
-
-                '"' -> {
-                    isInsideQuote = !isInsideQuote
-                }
-
-                else -> {
-                    value += char
-                }
-            }
-        }
-        values.add(value)
-        return values
-    }
 
     fun deleteCisBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String> {
         return try {
             cisCompoBdpmDao.delete(cisCompoBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "CisBdpm doesn't exist")
+            Pair(false, "CisCompoBdpm doesn't exist")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
@@ -155,7 +111,7 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
             cisCompoBdpmDao.update(cisCompoBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "CisBdpm doesn't exist")
+            Pair(false, "CisCompoBdpm doesn't exist")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {

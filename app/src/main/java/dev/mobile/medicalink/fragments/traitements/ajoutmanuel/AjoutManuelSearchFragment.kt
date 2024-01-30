@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -28,6 +28,9 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -68,6 +71,7 @@ class AjoutManuelSearchFragment : Fragment() {
             val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
             Log.d("CisBDPM list", listCisBdpm.toString())
             queue.add(listCisBdpm)
+
         }.start()
         originalItemList = queue.take()
         filteredItemList = originalItemList
@@ -135,6 +139,7 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
+
                 }
             }
 
@@ -158,6 +163,7 @@ class AjoutManuelSearchFragment : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     addManuallySearchBar.text.toString(),
                     traitement.dosageNb,
                     traitement.dosageUnite,

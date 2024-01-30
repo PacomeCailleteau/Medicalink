@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.traitements.AjoutManuelSearchFragment">
+    tools:context=".fragments.traitements.ajoutmanuel.AjoutManuelSearchFragment">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputIntervalle"

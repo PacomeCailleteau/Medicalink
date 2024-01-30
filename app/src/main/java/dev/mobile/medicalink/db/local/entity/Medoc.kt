@@ -12,14 +12,23 @@ import androidx.room.PrimaryKey
         parentColumns = ["uuid"],
         childColumns = ["uuidUser"],
         onDelete = ForeignKey.CASCADE
+    ),ForeignKey(
+        entity = CisCompoBdpm::class,
+        parentColumns = ["CodeCIS"],
+        childColumns = ["CodeCIS"],
+        onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index(value = ["uuidUser"])]
+    indices = [Index(value = ["uuidUser"]), Index(value = ["CodeCIS"])]
 )
+
+
+
 
 //TODO("rajouter un code cis lié au médicament dans la base de donnée médicamenteuse")
 data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") var uuidUser: String,
+    @ColumnInfo(name = "CodeCIS") val CodeCIS: Int,
     @ColumnInfo(name = "nom") val nom: String,
     @ColumnInfo(name = "dosageNB") val dosageNB: String,
     @ColumnInfo(name = "dosageUnite") val dosageUnite: String,

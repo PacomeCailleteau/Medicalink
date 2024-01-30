@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Traitement
 
 
 class AjoutManuelSchemaPriseFragment : Fragment() {
@@ -203,6 +204,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     bundle.putSerializable(
                         "traitement",
                         Traitement(
+                            traitement.CodeCIS,
                             traitement.nomTraitement,
                             traitement.dosageNb,
                             dosageUnite,
@@ -230,6 +232,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     bundle.putSerializable(
                         "traitement",
                         Traitement(
+                            traitement.CodeCIS,
                             traitement.nomTraitement,
                             traitement.dosageNb,
                             dosageUnite,
@@ -257,6 +260,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     bundle.putSerializable(
                         "traitement",
                         Traitement(
+                            traitement.CodeCIS,
                             traitement.nomTraitement,
                             traitement.dosageNb,
                             "auBesoin",
@@ -309,6 +313,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     dosageUnite,
@@ -372,6 +377,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 bundle.putSerializable(
                     "traitement",
                     Traitement(
+                        traitement.CodeCIS,
                         traitement.nomTraitement,
                         traitement.dosageNb,
                         traitement.dosageUnite,

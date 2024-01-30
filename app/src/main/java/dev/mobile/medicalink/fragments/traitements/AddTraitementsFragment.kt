@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelSearchFragment
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -128,6 +129,7 @@ class AddTraitementsFragment : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    -1,
                     "",
                     2,
                     resources.getString(R.string.semaines),

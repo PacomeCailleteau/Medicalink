@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.app.AlertDialog
 import android.content.Context
@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Traitement
 
 
 class AjoutManuelIntervalleRegulier : Fragment() {
@@ -74,6 +75,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     traitement.dosageUnite,
@@ -110,6 +112,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     traitement.dosageUnite,
@@ -269,6 +272,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                 bundle.putSerializable(
                     "traitement",
                     Traitement(
+                        traitement.CodeCIS,
                         traitement.nomTraitement,
                         traitement.dosageNb,
                         traitement.dosageUnite,

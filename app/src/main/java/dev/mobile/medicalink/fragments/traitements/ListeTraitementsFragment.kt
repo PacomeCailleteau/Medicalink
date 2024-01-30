@@ -18,6 +18,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelRecapitulatif
 import dev.mobile.medicalink.utils.NotificationService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -92,6 +93,7 @@ class ListeTraitementsFragment : Fragment() {
             newMedoc = Medoc(
                 traitementUUID,
                 "",
+                newTraitement.CodeCIS,
                 newTraitement.nomTraitement,
                 newTraitement.dosageNb.toString(),
                 newTraitement.dosageUnite,
@@ -197,6 +199,7 @@ class ListeTraitementsFragment : Fragment() {
                 }
 
                 val traitement = Traitement(
+                    medoc.CodeCIS,
                     medoc.nom,
                     medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
@@ -249,6 +252,7 @@ class ListeTraitementsFragment : Fragment() {
                     bundle.putSerializable(
                         "traitement",
                         Traitement(
+                            clickedTraitement.CodeCIS,
                             clickedTraitement.nomTraitement,
                             clickedTraitement.dosageNb,
                             clickedTraitement.dosageUnite,
