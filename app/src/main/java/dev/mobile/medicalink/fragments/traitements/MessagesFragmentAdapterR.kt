@@ -11,8 +11,8 @@ class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String
     RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val titreMessage: TextView = view.findViewById(R.id.titreMessage)
-        val textMessage: TextView = view.findViewById(R.id.textMessage)
+        val titreMessage: TextView = view.findViewById(R.id.nomMedecin)
+        val textMessage: TextView = view.findViewById(R.id.professionMedecin)
 
     }
 

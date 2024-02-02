@@ -121,7 +121,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="center"
-                android:text="@string/messages"
+                android:text="Contact"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
