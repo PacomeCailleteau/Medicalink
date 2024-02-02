@@ -24,11 +24,10 @@ import androidx.room.PrimaryKey
 
 
 
-//TODO("rajouter un code cis lié au médicament dans la base de donnée médicamenteuse")
 data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") var uuidUser: String,
-    @ColumnInfo(name = "CodeCIS") val CodeCIS: Int,
+    @ColumnInfo(name = "CodeCIS") val CodeCIS: Int?,
     @ColumnInfo(name = "nom") val nom: String,
     @ColumnInfo(name = "dosageNB") val dosageNB: String,
     @ColumnInfo(name = "dosageUnite") val dosageUnite: String,

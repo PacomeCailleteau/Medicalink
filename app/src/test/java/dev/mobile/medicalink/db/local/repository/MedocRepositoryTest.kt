@@ -25,6 +25,7 @@ class MedocRepositoryTest {
     private val defaultMedoc = Medoc(
         "1",
         "1",
+        null,
         "nom",
         "dosageNB",
         "dosageUnite",
@@ -40,6 +41,7 @@ class MedocRepositoryTest {
     private val defaultMedoc2 = Medoc(
         "2",
         "2",
+        null,
         "nom2",
         "dosageNB2",
         "dosageUnite2",

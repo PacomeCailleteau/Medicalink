@@ -8,7 +8,7 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 class Traitement(
-    var CodeCIS: Int,
+    var CodeCIS: Int?,
     var nomTraitement: String,
     var dosageNb: Int,
     var dosageUnite: String,
