@@ -29,7 +29,7 @@
 
 ## Usage
 
-In order to load assets from the model, use the following commands:
+In order to load assets from the model, use the following commands :
 
 On linux:
 
