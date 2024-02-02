@@ -17,7 +17,8 @@ Le smiley et le rapport journalier sont beugués :
 - ne fait pas la différence entre le traitement sauté et pris
 - on a le même rapport pour tous les jours
 
-
+### Problème 5
+On a pas la page message
 
 
 
