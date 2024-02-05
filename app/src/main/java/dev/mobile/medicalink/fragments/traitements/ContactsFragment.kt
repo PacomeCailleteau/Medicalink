@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
 
-class MessagesFragment : Fragment() {
+class ContactsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -23,18 +23,24 @@ class MessagesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_messages, container, false)
+        val view = inflater.inflate(R.layout.fragment_contacts, container, false)
+
+        val creerContact = view.findViewById<View>(R.id.creerContact)
 
 
-        val messagesDeTest = mutableListOf<Pair<String, String>>(
-            Pair("Durandal", "Je vous envoie la prescription..."),
-            Pair("Richard", "Programmation rendez-vous le..."),
-            Pair("Hervouet", "Avez-vous un conseil pour..."),
+
+        val contactsDeTest = mutableListOf<Pair<String, String>>(
+            Pair("Dr. Jean Mais", "Médecin généraliste"),
+            Pair("Dr. Stéphanie Jolie", "Kinésithérapeuthe/Ostéopathe"),
+            Pair("Dr. Antoine Laballe", "Dentiste"),
+            Pair("Dr. Jeanne Lefort", "Gynécologue"),
+            Pair("Dr. Lili Pote", "Psychologue"),
+            Pair("Dr. Léon Maboule", "Psychiatre"),
         )
 
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = MessagesFragmentAdapterR(messagesDeTest)
+        recyclerView.adapter = MessagesFragmentAdapterR(contactsDeTest)
 
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))

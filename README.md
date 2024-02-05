@@ -16,7 +16,7 @@
 * Pacôme Cailleteau ([PacomeCailleteau](https://github.com/PacomeCailleteau))
 * Lucas Bigeard ([LucWaw](https://github.com/LucWaw))
 * Swan Gonzales ([SwanGonzales](https://github.com/SwanGon))
-* Arthur Osselin ([Arthur Osselin]())
+* Arthur Osselin ([Arthur Osselin](https://github.com/tuturita))
 ## Related Git repository
 * Main Android application : [Medicalink](https://gitlab.univ-nantes.fr/E211556C/sae_medicalink#----)
 * Maintenance application : [MedicalinkMaintenance](https://github.com/LucWaw/MedicalinkMaintenance)
@@ -31,14 +31,14 @@
 
 In order to load assets from the model, use the following commands :
 
-On linux:
+On linux :
 
 ```curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash```
 
 ```sudo apt install git-lfs```
 
 
-In assets repository:
+In assets repository :
 
 ```git submodule update --init```
 

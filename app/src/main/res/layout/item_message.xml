@@ -8,26 +8,26 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/titreMessage"
+        android:id="@+id/nomMedecin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
-        android:text="@string/titreMessage"
+        android:text="nomMedecin"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textMessage"
+        android:id="@+id/professionMedecin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/quicksand_semibold"
-        android:text="@string/textMessage"
+        android:text="professionMedecin"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/titreMessage"
-        app:layout_constraintTop_toBottomOf="@+id/titreMessage" />
+        app:layout_constraintStart_toStartOf="@+id/nomMedecin"
+        app:layout_constraintTop_toBottomOf="@+id/nomMedecin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

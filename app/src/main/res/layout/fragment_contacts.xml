@@ -15,16 +15,16 @@
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView11"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintStart_toStartOf="@+id/creerContact"
+        app:layout_constraintTop_toBottomOf="@+id/creerContact" />
 
     <TextView
-        android:id="@+id/titreMessages"
+        android:id="@+id/titreContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
-        android:text="@string/Messagerie"
+        android:text="Contact"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -35,21 +35,34 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="59dp"
         android:layout_marginEnd="25dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="@string/messages"
+        android:text="Contacts"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/creerContact"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/creerContact" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/creerContact"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="59dp"
+        android:background="@drawable/rounded_white_border_white_contact_button_background"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="Ajouter un contact"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titreMessages" />
+        app:layout_constraintTop_toBottomOf="@+id/titreContact" />
 
     <ImageView
         android:id="@+id/imageView2"
