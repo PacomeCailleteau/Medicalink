@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -45,7 +46,7 @@
         </provider>
 
         <receiver
-            android:name=".utils.NotificationService"
+            android:name=".utils.notification.NotificationService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -56,17 +57,17 @@
         </receiver>
 
         <receiver
-            android:name=".utils.SauterReceiver"
+            android:name=".utils.notification.SauterReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <receiver
-            android:name=".utils.PrendreReceiver"
+            android:name=".utils.notification.PrendreReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <service
-            android:name=".utils.NotificationService"
+            android:name=".utils.notification.NotificationService"
             android:exported="false" />
     </application>
 

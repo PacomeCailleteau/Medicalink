@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.utils
+package dev.mobile.medicalink.utils.notification
 
 
 import android.app.AlarmManager

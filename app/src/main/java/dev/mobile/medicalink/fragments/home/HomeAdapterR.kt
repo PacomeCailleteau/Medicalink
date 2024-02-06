@@ -25,7 +25,7 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
-import dev.mobile.medicalink.utils.NotificationService
+import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
