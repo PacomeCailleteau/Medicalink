@@ -65,7 +65,8 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
     }
 
     fun insertFromCsv(context: Context) {
-        val csvContent = readCsvFromAssets(context, "CIS_COMPO_bdpm.csv")
+        val csv = Csv()
+        val csvContent = csv.readCsvFromAssets(context, "CIS_COMPO_bdpm.csv")
         val cisSubstanceList = parseCsv(csvContent)
         try {
             CisSubstanceDao.insertAll(*cisSubstanceList.toTypedArray())
@@ -79,30 +80,18 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
     }
 
     /**
-     * Read CSV file from assets folder
-     * @param context Context
-     * @param filePath CSV file path
-     * @return CSV file content
-     */
-    private fun readCsvFromAssets(context: Context, filePath: String): String {
-        return context.assets.open(filePath).bufferedReader().use {
-            it.readText()
-        }
-    }
-
-    /**
      * Parse CSV file and insert all CIS_COMPO_bdpm in database, the first line of the CSV file must be the header
      * @param csvContent CSV file content
      * @return Pair<Boolean, String> : Boolean is true if success, String is error message if error
      */
     private fun parseCsv(csvContent: String): List<CisSubstance> {
+        val csv = Csv()
         val cisSubstanceList = mutableListOf<CisSubstance>()
         val lines = csvContent.split("\n")
         //On ne prend ni la première ligne (header) ni la dernière ligne (vide)
         for (index in 1 until lines.size - 1) {
             val line = lines[index]
-            val csvValues = parseCsvLine(line)
-            Log.d("cc", csvValues.toString())
+            val csvValues = csv.parseCsvLine(line)
             val cisSubstance = CisSubstance(
                 codeCIS = csvValues[0].toInt(),
                 elementPharmaceutique = csvValues[1],
@@ -117,40 +106,5 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
         }
         return cisSubstanceList
     }
-
-    /**
-     * Parse CSV line and return list of values
-     * We need this function because there some values with comma inside quotes and sometimes no quotes
-     * @param line CSV line
-     */
-    private fun parseCsvLine(line: String): List<String> {
-        val values = mutableListOf<String>()
-        var value = ""
-        var isInsideQuote = false
-        for (char in line) {
-            when (char) {
-                ',' -> {
-                    if (isInsideQuote) {
-                        value += char
-                    } else {
-                        values.add(value)
-                        value = ""
-                    }
-                }
-
-                '"' -> {
-                    isInsideQuote = !isInsideQuote
-                }
-
-                else -> {
-                    value += char
-                }
-            }
-        }
-        values.add(value)
-        return values
-    }
-
-
 
 }

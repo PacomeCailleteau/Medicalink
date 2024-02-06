@@ -24,4 +24,7 @@ interface CisSubstanceDao {
     @Update
     fun update(CisSubstance: CisSubstance)
 
+    @Query("DELETE FROM CisSubstance")
+    fun deleteAll()
+
 }

@@ -15,6 +15,7 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 
 @Database(
     entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisSubstance::class],
@@ -56,9 +57,10 @@ abstract class AppDatabase : RoomDatabase() {
                 Thread(Runnable {
                     // On supprime les données de la base de données médicamenteuse
                     instance.cisBdpmDao().deleteAll()
+                    instance.cisSubstanceDao().deleteAll()
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
-                    val cisBdpmRepository = CisBdpmRepository(instance.cisBdpmDao())
-                    cisBdpmRepository.insertFromCsv(context)
+                    CisBdpmRepository(instance.cisBdpmDao()).insertFromCsv(context)
+                    CisSubstanceRepository(instance.cisSubstanceDao()).insertFromCsv(context)
                 }).start()
                 instance
             }
