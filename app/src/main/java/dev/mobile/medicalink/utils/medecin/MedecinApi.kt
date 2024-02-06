@@ -2,11 +2,11 @@ package dev.mobile.medicalink.utils.medecin
 
 
 import android.util.Log
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONObject
-import com.google.gson.Gson
 
 /**
  * Classe permettant de gérer les appels à l'API pour les médecins
@@ -37,7 +37,7 @@ class MedecinApi {
         }
     }
 
-    fun getMedecin(prenom: String, nom: String) : List<Medecin>? {
+    fun getMedecins(prenom: String, nom: String): List<Medecin>? {
         try {
             val url = "${baseURL}medecin/$prenom/$nom"
             val client = OkHttpClient()
@@ -59,7 +59,6 @@ class MedecinApi {
             return null
         }
     }
-
 
 
 }
