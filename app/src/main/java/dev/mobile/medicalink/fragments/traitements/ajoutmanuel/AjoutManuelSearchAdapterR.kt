@@ -24,7 +24,6 @@ class AjoutManuelSearchAdapterR(
 
         fun bind(item: CisBdpm) {
             nomMedic.text = item.denomination
-
         }
     }
 

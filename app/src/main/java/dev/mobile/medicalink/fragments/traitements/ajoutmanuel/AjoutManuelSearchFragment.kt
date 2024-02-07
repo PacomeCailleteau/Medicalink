@@ -135,7 +135,7 @@ class AjoutManuelSearchFragment : Fragment() {
         /*
         addManuallySearchBar.filters = arrayOf(filter)
          */
-        addManuallySearchBar.addTextChangedListener(textWatcher)
+        addManuallySearchBar.addTextChangedListener(textWatcher(traitement))
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -148,7 +148,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
         Log.d("ICI", filteredItemList.toString())
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-            updateSearchBar(clickedItem.denomination)
+            updateSearchBar(clickedItem, traitement)
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -206,19 +206,22 @@ class AjoutManuelSearchFragment : Fragment() {
         return view
     }
 
-    private val textWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
+    fun textWatcher(traitement: Traitement) : TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            filterItems(s.toString())
-            Log.d("Change", s.toString())
-        }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterItems(s.toString(), traitement)
+                Log.d("Change", s.toString())
+            }
 
-        override fun afterTextChanged(editable: Editable?) {
-            updateButtonState()
+            override fun afterTextChanged(editable: Editable?) {
+                updateButtonState()
+            }
         }
     }
+
 
     /**
      * Mise à jour de l'état du bouton "Ajouter" pour l'activer uniquement quand le champ de recherche n'est pas vide
@@ -267,13 +270,13 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
-    private fun filterItems(query: String) {
+    private fun filterItems(query: String, traitement: Traitement) {
         var filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-                updateSearchBar(clickedItem.denomination)
+                updateSearchBar(clickedItem, traitement)//TODO ADD CODECIS l'autre es mis a jour ici ???
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()
@@ -285,8 +288,9 @@ class AjoutManuelSearchFragment : Fragment() {
      * (utilisé quand on clique sur un médicament pour l'ajouter directement dans la barre de recherche)
      * @param query la chaine de caractère représentant le médicament sur lequel on a cliqué, à remplacer dans la barre de recherche
      */
-    private fun updateSearchBar(query: String) {
-        addManuallySearchBar.setText(query)
+    private fun updateSearchBar(query: CisBdpm, traitement: Traitement) {
+        addManuallySearchBar.setText(query.denomination)
+        traitement.CodeCIS = query.CodeCIS
     }
 
 }

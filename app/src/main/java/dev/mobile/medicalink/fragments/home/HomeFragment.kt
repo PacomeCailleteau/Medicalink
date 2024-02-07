@@ -444,7 +444,7 @@ class HomeFragment : Fragment() {
                         "Comprime"
                     ),
                     Traitement(
-                        -1,
+                        null,
                         "x",
                         1,
                         "Comp",

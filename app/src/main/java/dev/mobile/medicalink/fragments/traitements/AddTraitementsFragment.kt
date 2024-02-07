@@ -129,7 +129,7 @@ class AddTraitementsFragment : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
-                    -1,
+                    null,
                     "",
                     2,
                     resources.getString(R.string.semaines),
