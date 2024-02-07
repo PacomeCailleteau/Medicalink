@@ -26,6 +26,7 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.RecapAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import kotlinx.coroutines.runBlocking
 
 
 class AjoutManuelRecapitulatif : Fragment() {
@@ -151,6 +152,8 @@ class AjoutManuelRecapitulatif : Fragment() {
                         medocDatabaseInterface,
                         userDatabaseInterface
                     )
+                println("listDuplicate : ${listDuplicate.first}")
+                println("substanceAddResult : ${listDuplicate.second}")
                 if (listDuplicate.first.isNotEmpty()){
                     showDuplicateDialog(view)
                 }
@@ -418,6 +421,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         val dialogView =
             LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null)
         dialog.setContentView(dialogView)
+        dialog.show()
 
         //val titreConfirmationSuppression = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
     }
@@ -436,31 +440,42 @@ class AjoutManuelRecapitulatif : Fragment() {
         medocDatabaseInterface: MedocRepository,
         userDatabaseInterface:  UserRepository
     ): Pair<List<String>,String> {
-        val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
-            userDatabaseInterface.getUsersConnected()[0].uuid
-        )
-        val substanceAdd = try{
-            substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
-        }catch (e: Exception){
-            return Pair(listOf(),"")
+        return runBlocking {
+            val listDuplicate : MutableList<String> = mutableListOf()
+            var substanceAdd = ""
+            Thread {
+                val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
+                    userDatabaseInterface.getUsersConnected()[0].uuid
+                )
+                println("listeMedoc : $listeMedoc")
+                substanceAdd = try{
+                    substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
+                }catch (e: Exception){
+                    return@Thread
+                }
+                println("substanceAdd : $substanceAdd")
+
+
+                for (medoc in listeMedoc) {
+                    if (medoc.CodeCIS == null) {
+                        continue
+                    }
+                    val substance = try{
+                        substanceDatabaseInterface.getOneCisCompoBdpmById(medoc.CodeCIS)[0].denomination
+                    }catch (e: Exception){
+                        continue
+                    }
+
+                    if (substance == substanceAdd) {
+                        listDuplicate.add(medoc.nom)
+                    }
+                }
+            }
+
+
+
+            Pair(listDuplicate, substanceAdd)
         }
-        val listDuplicate : MutableList<String> = mutableListOf()
 
-        for (medoc in listeMedoc) {
-            if (medoc.CodeCIS == null) {
-                continue
-            }
-            val substance = try{
-                substanceDatabaseInterface.getOneCisCompoBdpmById(medoc.CodeCIS)[0].denomination
-            }catch (e: Exception){
-                continue
-            }
-
-            if (substance == substanceAdd) {
-                listDuplicate.add(medoc.nom)
-            }
-        }
-
-        return Pair(listDuplicate, substanceAdd)
     }
 }
