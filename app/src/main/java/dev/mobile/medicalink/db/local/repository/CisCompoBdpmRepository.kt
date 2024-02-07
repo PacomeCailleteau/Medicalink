@@ -71,7 +71,7 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
             val values = commonFonctionnality.parseCsvLine(line)
-            if (values.size == 12) {
+            if (values.size == 8) {
 
                 val cisCompoBdpm = CisCompoBdpm(
                     CodeCIS = values[0].toInt(),

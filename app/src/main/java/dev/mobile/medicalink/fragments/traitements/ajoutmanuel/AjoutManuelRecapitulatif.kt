@@ -144,7 +144,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         suivant.setOnClickListener {
 
-            val listDuplicate =
+            /*val listDuplicate =
                 if (traitement.CodeCIS != null) {
                     checkIfSubstance(
                         traitement.CodeCIS!!,
@@ -155,8 +155,11 @@ class AjoutManuelRecapitulatif : Fragment() {
                 }else Pair(listOf(),"")
             if (listDuplicate.first.isNotEmpty()){
                 showDuplicateDialog(view)
-            }
+            }*/
             val bundle = Bundle()
+
+            println(traitement.CodeCIS)
+            println(traitement.nomTraitement)
 
             bundle.putSerializable(
                 "newTraitement",
@@ -432,10 +435,9 @@ class AjoutManuelRecapitulatif : Fragment() {
         medocDatabaseInterface: MedocRepository,
         userDatabaseInterface:  UserRepository
     ): Pair<List<String>,String> {
-        val listeMedoc = medocDatabaseInterface
-            .getAllMedocByUserId(userDatabaseInterface.getUsersConnected(true)
-                .first()
-                .uuid)
+        val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
+            userDatabaseInterface.getUsersConnected(true).first().uuid
+        )
         val substanceAdd = try{
             substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
         }catch (e: Exception){

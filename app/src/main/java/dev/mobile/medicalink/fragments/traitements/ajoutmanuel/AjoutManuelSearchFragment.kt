@@ -160,6 +160,9 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
+            println("Traitement : ${addManuallySearchBar.text.toString()}")
+            println("TraitementCis : ${traitement.CodeCIS}")
+
             bundle.putSerializable(
                 "traitement",
                 Traitement(
