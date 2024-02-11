@@ -1,9 +1,11 @@
 package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
-import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +28,6 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.RecapAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
-import kotlinx.coroutines.runBlocking
 
 
 class AjoutManuelRecapitulatif : Fragment() {
@@ -47,7 +48,6 @@ class AjoutManuelRecapitulatif : Fragment() {
     private lateinit var reapprovisionnementLayout: ConstraintLayout
 
 
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -145,25 +145,24 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         suivant.setOnClickListener {
             if (traitement.CodeCIS != null) {
-                val listDuplicate =
-                    checkIfSubstance(
-                        traitement.CodeCIS!!,
-                        substanceDatabaseInterface,
-                        medocDatabaseInterface,
-                        userDatabaseInterface
-                    )
-                println("listDuplicate : ${listDuplicate.first}")
-                println("substanceAddResult : ${listDuplicate.second}")
-                if (listDuplicate.first.isNotEmpty()){
-                    showDuplicateDialog(view)
+                checkIfSubstance(
+                    traitement.CodeCIS!!,
+                    substanceDatabaseInterface,
+                    medocDatabaseInterface,
+                    userDatabaseInterface
+                ) { listDuplicate, substanceAdd ->
+                    println("listDuplicate : $listDuplicate")
+                    println("substanceAddResult : $substanceAdd")
+                    if (listDuplicate.isNotEmpty()) {
+                        activity?.runOnUiThread {
+                            this.context?.let { it1 -> showDuplicateDialog(it1) }
+                        }                    }
                 }
             }
 
 
             val bundle = Bundle()
 
-            println(traitement.CodeCIS)
-            println(traitement.nomTraitement)
 
             bundle.putSerializable(
                 "newTraitement",
@@ -416,8 +415,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         return view
     }
 
-    private fun showDuplicateDialog(view: View) {
-        val dialog = Dialog(view.context.applicationContext, R.style.RoundedDialog)
+    private fun showDuplicateDialog(context: Context) {
+        val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =
             LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null)
         dialog.setContentView(dialogView)
@@ -426,11 +425,15 @@ class AjoutManuelRecapitulatif : Fragment() {
         //val titreConfirmationSuppression = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
     }
 
+
     /**
      * Récupérer le nom de la substance1 dans cis compo a partir de la clé primaire cis
      * La meme chose pour tous les medoc éxistant
      * liste si substance = a la substance1 et le nom du traitement correspondant
-     * @param codeCIS
+     * @param codeCIS le code cis du traitement a add
+     * @param substanceDatabaseInterface la base de donnée des substances
+     * @param medocDatabaseInterface la base de donnée des traitements
+     * @param userDatabaseInterface la base de donnée des utilisateurs
      * @return List<String> liste des nom de traitements contenant la meme substance
      * @return String nom de la substance
      */
@@ -438,44 +441,47 @@ class AjoutManuelRecapitulatif : Fragment() {
         codeCIS: Int,
         substanceDatabaseInterface: CisCompoBdpmRepository,
         medocDatabaseInterface: MedocRepository,
-        userDatabaseInterface:  UserRepository
-    ): Pair<List<String>,String> {
-        return runBlocking {
-            val listDuplicate : MutableList<String> = mutableListOf()
-            var substanceAdd = ""
-            Thread {
-                val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
-                    userDatabaseInterface.getUsersConnected()[0].uuid
-                )
-                println("listeMedoc : $listeMedoc")
-                substanceAdd = try{
-                    substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
-                }catch (e: Exception){
-                    return@Thread
+        userDatabaseInterface:  UserRepository,
+        callback: (List<String>, String) -> Unit
+    ) {
+
+        val listDuplicate: MutableList<String> = mutableListOf()
+        var substanceAdd: String
+
+        Thread {
+            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
+                userDatabaseInterface.getUsersConnected()[0].uuid
+            )
+            println("listeMedoc : $listeMedoc")
+            substanceAdd = try {
+                substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
+            } catch (e: Exception) {
+                return@Thread
+            }
+            println("substanceAdd : $substanceAdd")
+
+
+            for (medoc in listeMedoc) {
+                if (medoc.CodeCIS == null) {
+                    continue
                 }
-                println("substanceAdd : $substanceAdd")
+                val substance = try {
+                    substanceDatabaseInterface.getOneCisCompoBdpmById(medoc.CodeCIS)[0].denomination
+                } catch (e: Exception) {
+                    continue
+                }
 
-
-                for (medoc in listeMedoc) {
-                    if (medoc.CodeCIS == null) {
-                        continue
-                    }
-                    val substance = try{
-                        substanceDatabaseInterface.getOneCisCompoBdpmById(medoc.CodeCIS)[0].denomination
-                    }catch (e: Exception){
-                        continue
-                    }
-
-                    if (substance == substanceAdd) {
-                        listDuplicate.add(medoc.nom)
-                    }
+                if (substance == substanceAdd) {
+                    listDuplicate.add(medoc.nom)
                 }
             }
 
+            Handler(Looper.getMainLooper()).post {
+                callback(listDuplicate, substanceAdd)
+            }
+        }.start()
 
 
-            Pair(listDuplicate, substanceAdd)
-        }
 
     }
 }
