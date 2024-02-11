@@ -113,7 +113,8 @@ class ListeTraitementsFragment : Fragment() {
                 newMedoc.uuidUser = uuidUserCourant
                 when (isAddingTraitement) {
                     "true" -> {
-                        medocDatabaseInterface.insertMedoc(newMedoc)
+                        val res = medocDatabaseInterface.insertMedoc(newMedoc)
+                        println("insert statut : ${res.second}")
                     }
 
                     "false" -> {

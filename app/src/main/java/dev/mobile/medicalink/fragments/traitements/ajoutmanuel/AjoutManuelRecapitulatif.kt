@@ -144,7 +144,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
 
         suivant.setOnClickListener {
-            if (traitement.CodeCIS != null) {
+            if (isAddingTraitement == "true" && traitement.CodeCIS != null) {
                 checkIfSubstance(
                     traitement.CodeCIS!!,
                     substanceDatabaseInterface,
