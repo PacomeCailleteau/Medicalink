@@ -232,15 +232,10 @@ class ListeTraitementsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
             ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
-                if (isSuppr) {
-                    Thread {
-                        medocDatabaseInterface.deleteMedoc(
-                            medocDatabaseInterface.getOneMedocById(
-                                clickedTraitement.UUID!!
-                            ).first()
-                        )
-                    }.start()
-                } else {
+                if (isSuppr == null) {
+                    Log.d("test", clickedTraitement.codeCIS)
+                }
+                if (isSuppr == false) {
                     val bundle = Bundle()
 
                     bundle.putString("isAddingTraitement", "false")
@@ -298,6 +293,14 @@ class ListeTraitementsFragment : Fragment() {
                     fragTransaction.replace(R.id.FL, destinationFragment)
                     fragTransaction.addToBackStack(null)
                     fragTransaction.commit()
+                } else {
+                    Thread {
+                        medocDatabaseInterface.deleteMedoc(
+                            medocDatabaseInterface.getOneMedocById(
+                                clickedTraitement.UUID!!
+                            ).first()
+                        )
+                    }.start()
                 }
 
 

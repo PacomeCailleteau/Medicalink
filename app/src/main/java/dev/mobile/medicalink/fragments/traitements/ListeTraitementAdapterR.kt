@@ -19,7 +19,7 @@ import java.time.LocalDate
 
 class ListeTraitementAdapterR(
     private val list: MutableList<Traitement>,
-    private val onItemClick: (Traitement, Boolean) -> Unit,
+    private val onItemClick: (Traitement, Boolean?) -> Unit,
 ) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
@@ -114,6 +114,10 @@ class ListeTraitementAdapterR(
                 holder.dateExpirationTraitement.text =
                     "${holder.view.resources.getString(R.string.jusquau)} ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
+        }
+
+        holder.constraintLayout.setOnClickListener {
+            onItemClick.invoke(item, null)
         }
 
         holder.modifierTraitement.setOnClickListener {
