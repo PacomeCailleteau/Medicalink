@@ -48,7 +48,7 @@
         android:layout_marginTop="59dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
-        android:text="Ajouter un médecin"
+        android:text="Rechercher un médecin"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
