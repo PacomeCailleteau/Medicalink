@@ -28,7 +28,6 @@ class ContactsFragment : Fragment() {
         val creerContact = view.findViewById<View>(R.id.creerContact)
 
 
-
         val contactsDeTest = mutableListOf<Pair<String, String>>(
             Pair("Dr. Jean Mais", "Médecin généraliste"),
             Pair("Dr. Stéphanie Jolie", "Kinésithérapeuthe/Ostéopathe"),

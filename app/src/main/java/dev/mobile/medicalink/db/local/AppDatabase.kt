@@ -33,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
 
 
     companion object {
-        private const val DATABASE_NAME = "medicalinkk.db"
+        private const val DATABASE_NAME = "medicalink.db"
         private var INSTANCE: AppDatabase? = null
 
         /**
@@ -56,14 +56,14 @@ abstract class AppDatabase : RoomDatabase() {
                 //On créer un thread pour remplir la base de données (oui c'est pas la meilleure manière de faire)
                 Thread(Runnable {
                     // On supprime les données de la base de données médicamenteuse
-                    instance.cisBdpmDao().deleteAll()
+                    //instance.cisBdpmDao().deleteAll()
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                     val cisBdpmRepository = CisBdpmRepository(instance.cisBdpmDao())
                     cisBdpmRepository.insertFromCsv(context)
                 }).start()
                 Thread(Runnable {
                     // On supprime les données de la base de données médicamenteuse
-                    instance.cisCompoBdpmDao().deleteAll()
+                    //instance.cisCompoBdpmDao().deleteAll()
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                     val cisCompoBdpmRepository = CisCompoBdpmRepository(instance.cisCompoBdpmDao())
                     cisCompoBdpmRepository.insertFromCsv(context)

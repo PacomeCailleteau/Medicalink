@@ -157,7 +157,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         val firstNumberPicker = dialogView.findViewById<NumberPicker>(R.id.firstNumberPicker)
         val secondNumberPicker = dialogView.findViewById<NumberPicker>(R.id.secondNumberPicker)
-        val annulerButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         firstNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS

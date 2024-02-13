@@ -174,25 +174,27 @@ class CreerProfilActivity : AppCompatActivity() {
                 }
                 null
             })
-        inputEmail.filters = arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
+        inputEmail.filters =
+            arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
+                source?.let {
+                    if (it.contains("\n")) {
+                        // Bloquer le collage de texte
+                        return@InputFilter ""
+                    }
                 }
-            }
-            null
-        })
+                null
+            })
 
-        inputMotDePasse.filters = arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
+        inputMotDePasse.filters =
+            arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
+                source?.let {
+                    if (it.contains("\n")) {
+                        // Bloquer le collage de texte
+                        return@InputFilter ""
+                    }
                 }
-            }
-            null
-        })
+                null
+            })
 
         // Ajout des textWatcher aux champs de texte
         inputNom.addTextChangedListener(textWatcher)

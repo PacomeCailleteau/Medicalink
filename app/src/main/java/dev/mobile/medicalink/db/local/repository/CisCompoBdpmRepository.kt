@@ -4,9 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.util.Log
-import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.dao.CisCompoBdpmDao
-import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
 
 class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
@@ -53,9 +51,15 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
         } catch (e: SQLiteConstraintException) {
             Log.e("CisCompoBdpmRepository", "CIS_COMPO_bdpm already exists")
         } catch (e: SQLiteException) {
-            Log.e("CisCompoBdpmRepository", "Database Error while inserting CIS_COMPO_bdpm : ${e.message}")
+            Log.e(
+                "CisCompoBdpmRepository",
+                "Database Error while inserting CIS_COMPO_bdpm : ${e.message}"
+            )
         } catch (e: Exception) {
-            Log.e("CisCompoBdpmRepository", "Unknown Error while inserting CIS_COMPO_bdpm : ${e.message}")
+            Log.e(
+                "CisCompoBdpmRepository",
+                "Unknown Error while inserting CIS_COMPO_bdpm : ${e.message}"
+            )
         }
     }
 

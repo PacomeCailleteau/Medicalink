@@ -153,7 +153,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
         val titreDosage = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         val quantiteInput = dialogView.findViewById<EditText>(R.id.quantiteDialogInput)
-        val annulerButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         titreDosage.text = holder.view.resources.getString(R.string.dosage)

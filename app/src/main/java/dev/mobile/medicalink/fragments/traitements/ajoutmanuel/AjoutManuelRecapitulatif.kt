@@ -23,6 +23,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.RecapAdapterR
@@ -151,49 +152,59 @@ class AjoutManuelRecapitulatif : Fragment() {
                     medocDatabaseInterface,
                     userDatabaseInterface
                 ) { listDuplicate, substanceAdd ->
-                    println("listDuplicate : $listDuplicate")
-                    println("substanceAddResult : $substanceAdd")
+
                     if (listDuplicate.isNotEmpty()) {
                         activity?.runOnUiThread {
-                            this.context?.let { it1 -> showDuplicateDialog(it1) }
-                        }                    }
+                            this.context?.let { it1 ->
+                                showDuplicateDialog(
+                                    it1,
+                                    traitement,
+                                    listDuplicate,
+                                    substanceAdd,
+                                    isAddingTraitement,
+                                    schemaPrise1,
+                                    provenance,
+                                    dureePriseDbt,
+                                    dureePriseFin
+                                )
+                            }
+                        }
+                    } else {
+                        val bundle = Bundle()
+                        bundle.putSerializable(
+                            "newTraitement",
+                            Traitement(
+                                traitement.CodeCIS,
+                                traitement.nomTraitement,
+                                traitement.dosageNb,
+                                traitement.dosageUnite,
+                                traitement.dateFinTraitement,
+                                traitement.typeComprime,
+                                traitement.comprimesRestants,
+                                false,
+                                null,
+                                traitement.prises,
+                                traitement.totalQuantite,
+                                traitement.UUID,
+                                traitement.UUIDUSER,
+                                traitement.dateDbtTraitement
+                            )
+                        )
+                        bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                        bundle.putString("schema_prise1", "$schemaPrise1")
+                        bundle.putString("provenance", "$provenance")
+                        bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                        bundle.putString("dureePriseFin", "$dureePriseFin")
+                        val destinationFragment = ListeTraitementsFragment()
+                        destinationFragment.arguments = bundle
+                        val fragTransaction = parentFragmentManager.beginTransaction()
+                        fragTransaction.replace(R.id.FL, destinationFragment)
+                        fragTransaction.addToBackStack(null)
+                        fragTransaction.commit()
+
+                    }
                 }
             }
-
-
-            val bundle = Bundle()
-
-
-            bundle.putSerializable(
-                "newTraitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schemaPrise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
-            val destinationFragment = ListeTraitementsFragment()
-            destinationFragment.arguments = bundle
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
         }
 
 
@@ -415,14 +426,82 @@ class AjoutManuelRecapitulatif : Fragment() {
         return view
     }
 
-    private fun showDuplicateDialog(context: Context) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showDuplicateDialog(
+        context: Context,
+        traitement: Traitement,
+        listDuplicate: List<String>,
+        substanceAdd: String,
+        isAddingTraitement: String?,
+        schemaPrise1: String?,
+        provenance: String?,
+        dureePriseDbt: String?,
+        dureePriseFin: String?
+    ) {
         val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =
             LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null)
         dialog.setContentView(dialogView)
         dialog.show()
 
-        //val titreConfirmationSuppression = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
+        val nomMedocAAdd = dialogView.findViewById<TextView>(R.id.medicamentPrincipal)
+        val substanceActive = dialogView.findViewById<TextView>(R.id.substanceActive)
+        val listeMedoc = dialogView.findViewById<TextView>(R.id.listeMedicaments)
+        val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
+        val cancelButton = dialogView.findViewById<Button>(R.id.annulerButton)
+
+        nomMedocAAdd.text = getString(R.string.le_m_dicament, traitement.nomTraitement)
+        substanceActive.text = getString(R.string.ayant_la_substance_active, substanceAdd)
+        listeMedoc.text = getString(
+            R.string.la_m_me_substance_active_que,
+            "- ",
+            listDuplicate.joinToString("\n- ")
+        )
+
+        okButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable(
+                "newTraitement",
+                Traitement(
+                    traitement.CodeCIS,
+                    traitement.nomTraitement,
+                    traitement.dosageNb,
+                    traitement.dosageUnite,
+                    traitement.dateFinTraitement,
+                    traitement.typeComprime,
+                    traitement.comprimesRestants,
+                    false,
+                    null,
+                    traitement.prises,
+                    traitement.totalQuantite,
+                    traitement.UUID,
+                    traitement.UUIDUSER,
+                    traitement.dateDbtTraitement
+                )
+            )
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
+            bundle.putString("schema_prise1", "$schemaPrise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val destinationFragment = ListeTraitementsFragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+            dialog.dismiss()
+        }
+
+        cancelButton.setOnClickListener {
+            val destinationFragment = AddTraitementsFragment()
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+            dialog.dismiss()
+        }
+
     }
 
 
@@ -441,7 +520,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         codeCIS: Int,
         substanceDatabaseInterface: CisCompoBdpmRepository,
         medocDatabaseInterface: MedocRepository,
-        userDatabaseInterface:  UserRepository,
+        userDatabaseInterface: UserRepository,
         callback: (List<String>, String) -> Unit
     ) {
 
@@ -452,13 +531,11 @@ class AjoutManuelRecapitulatif : Fragment() {
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected()[0].uuid
             )
-            println("listeMedoc : $listeMedoc")
             substanceAdd = try {
                 substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
             } catch (e: Exception) {
                 return@Thread
             }
-            println("substanceAdd : $substanceAdd")
 
 
             for (medoc in listeMedoc) {
@@ -480,7 +557,6 @@ class AjoutManuelRecapitulatif : Fragment() {
                 callback(listDuplicate, substanceAdd)
             }
         }.start()
-
 
 
     }

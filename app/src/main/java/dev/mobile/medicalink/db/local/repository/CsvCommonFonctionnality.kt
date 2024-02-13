@@ -16,7 +16,6 @@ class CsvCommonFonctionnality {
     }
 
 
-
     /**
      * Parse CSV line and return list of values
      * We need this function because there some values with comma inside quotes and sometimes no quotes

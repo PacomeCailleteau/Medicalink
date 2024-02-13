@@ -58,8 +58,6 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
     }
 
 
-
-
     /**
      * Parse CSV file and insert all CIS_bdpm in database, the first line of the CSV file must be the header
      * @param csvContent CSV file content
@@ -94,7 +92,6 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
         return cisBdpmList
     }
-
 
 
     fun deleteCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {

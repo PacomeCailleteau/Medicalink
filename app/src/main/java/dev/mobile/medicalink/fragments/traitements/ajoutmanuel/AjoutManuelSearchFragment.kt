@@ -206,7 +206,7 @@ class AjoutManuelSearchFragment : Fragment() {
         return view
     }
 
-    fun textWatcher(traitement: Traitement) : TextWatcher {
+    fun textWatcher(traitement: Traitement): TextWatcher {
         return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -276,7 +276,10 @@ class AjoutManuelSearchFragment : Fragment() {
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-                updateSearchBar(clickedItem, traitement)//TODO ADD CODECIS l'autre es mis a jour ici ???
+                updateSearchBar(
+                    clickedItem,
+                    traitement
+                )//TODO ADD CODECIS l'autre es mis a jour ici ???
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()

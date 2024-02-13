@@ -140,7 +140,7 @@ class ListeTraitementAdapterR(
 
         val titreConfirmationSuppression =
             dialogView.findViewById<TextView>(R.id.titreHeurePrise)
-        val nonButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val nonButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val ouiButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         nonButton.setOnClickListener {

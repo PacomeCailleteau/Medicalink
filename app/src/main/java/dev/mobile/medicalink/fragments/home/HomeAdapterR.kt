@@ -221,9 +221,11 @@ class HomeAdapterR(
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
                 }
+
                 "prendre" -> {
                     holder.circleTick.setImageResource(R.drawable.correct)
                 }
+
                 else -> {
                     holder.circleTick.setImageResource(R.drawable.avertissement)
                 }
@@ -376,7 +378,7 @@ class HomeAdapterR(
         val imagePrendre = dialogView.findViewById<ImageView>(R.id.imageView6)
         val prendreButton = dialogView.findViewById<Button>(R.id.prendreButton)
         prendreButton.isEnabled = false
-        val sauterButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val sauterButton = dialogView.findViewById<Button>(R.id.annulerButton)
         sauterButton.isEnabled = false
         imagePrendre.setColorFilter(ContextCompat.getColor(context, R.color.black))
 

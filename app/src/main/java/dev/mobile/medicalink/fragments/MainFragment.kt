@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.home.HomeFragment
-import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.ContactsFragment
+import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
 
 /**
  * Fragment de la barre de navigation en bas de l'application (Accueil/Traitement/Messages)
