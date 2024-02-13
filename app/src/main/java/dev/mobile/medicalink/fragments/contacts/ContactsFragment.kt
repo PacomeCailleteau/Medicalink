@@ -1,6 +1,5 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.contacts
 
-import MessagesFragmentAdapterR
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 
 
 class ContactsFragment : Fragment() {
@@ -27,7 +28,14 @@ class ContactsFragment : Fragment() {
 
         val creerContact = view.findViewById<View>(R.id.creerContact)
 
-
+        //Aller à la page AjoutManuelSearchFragment
+        creerContact.setOnClickListener {
+            //On appelle le parent pour changer de fragment
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, ContactsSearchFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
 
         val contactsDeTest = mutableListOf<Pair<String, String>>(
             Pair("Dr. Jean Mais", "Médecin généraliste"),
@@ -40,7 +48,7 @@ class ContactsFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = MessagesFragmentAdapterR(contactsDeTest)
+        recyclerView.adapter = ContactsFragmentAdapterR(contactsDeTest)
 
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))

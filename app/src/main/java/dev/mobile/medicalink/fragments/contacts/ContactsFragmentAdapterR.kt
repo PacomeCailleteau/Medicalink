@@ -1,3 +1,5 @@
+package dev.mobile.medicalink.fragments.contacts
+
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +9,8 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 
-class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String>>) :
-    RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
+class ContactsFragmentAdapterR(private val list: MutableList<Pair<String, String>>) :
+    RecyclerView.Adapter<ContactsFragmentAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titreMessage: TextView = view.findViewById(R.id.nomMedecin)
