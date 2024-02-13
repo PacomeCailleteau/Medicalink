@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
-        android:text="@string/Messagerie"
+        android:text="@string/contact"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"

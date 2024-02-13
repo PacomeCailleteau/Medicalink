@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.messages
+package dev.mobile.medicalink.fragments.contacts
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.contacts.adapter.AjoutContactMedecinFragmentAdapterR
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.utils.medecin.Medecin
 import dev.mobile.medicalink.utils.medecin.MedecinApi
 import java.util.concurrent.LinkedBlockingQueue
@@ -46,6 +48,8 @@ class AjoutContactMedecinFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         itemAdapter = AjoutContactMedecinFragmentAdapterR(listOf())
         recyclerView.adapter = itemAdapter
+        val espacementEnDp = 10
+        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
         search.setOnClickListener {
             // On ferme le clavier
@@ -67,7 +71,7 @@ class AjoutContactMedecinFragment : Fragment() {
 
         /* Retour vers la page précédente (MessagesFragment) */
         retour.setOnClickListener {
-            val fragment = MessagesFragment()
+            val fragment = ContactsFragment()
             val fragmentManager = requireActivity().supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
             fragmentTransaction.replace(R.id.FL, fragment)

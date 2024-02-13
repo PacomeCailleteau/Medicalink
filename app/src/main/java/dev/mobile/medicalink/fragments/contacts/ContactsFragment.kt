@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.messages
+package dev.mobile.medicalink.fragments.contacts
 
 import android.os.Build
 import android.os.Bundle
@@ -15,11 +15,12 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.ContactMedecin
 import dev.mobile.medicalink.db.local.repository.ContactMedecinRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.contacts.adapter.MessagesFragmentAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import java.util.concurrent.LinkedBlockingQueue
 
 
-class MessagesFragment : Fragment() {
+class ContactsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var ajouterContact: ImageView
@@ -51,16 +52,6 @@ class MessagesFragment : Fragment() {
         }.start()
 
         queue.take()
-
-        listeContactMedecin = listOf(
-            ContactMedecin("10", "10", "Jean", "Dupont", "a@a.a", "0123456789", "123456789", "", "", ""),
-            ContactMedecin("11", "10", "Jean2", "Dupont2", "a@a.a", "0123456789", "123456789", "", "", ""),
-            ContactMedecin("12", "10", "Jean3", "Dupont3", "a@a.a", "0123456789", "123456789", "", "", ""),
-            ContactMedecin("13", "10", "Jean4", "Dupont4", "a@a.a", "0123456789", "123456789", "", "", ""),
-            ContactMedecin("14", "10", "Jean5", "Dupont5", "a@a.a", "0123456789", "123456789", "", "", ""),
-            ContactMedecin("15", "10", "Jean6", "Dupont6", "a@a.a", "0123456789", "123456789", "", "", ""),
-            ContactMedecin("16", "10", "Jean7", "Dupont7", "a@a.a", "0123456789", "123456789", "", "", ""),
-        )
 
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)

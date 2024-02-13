@@ -2,25 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_item_recap"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rounded_white_black_stroke_button_background"
-    android:padding="10dp">
+    android:layout_height="match_parent"
+    tools:context=".fragments.contacts.AfficheDetailsMedecinFragment">
 
+    
+    <ImageView
+        android:id="@+id/LogoMedicaZeldaDetailsMed"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/logo_medicalink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/RppsMed"
+        android:id="@+id/titreContactsDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        android:text="@string/contact"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LogoMedicaZeldaDetailsMed" />
+
+    <TextView
+        android:id="@+id/RppsDetailMed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/rpps_s"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/titreContactsDetails" />
 
     <TextView
-        android:id="@+id/PrenomMed"
+        android:id="@+id/PrenomDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -28,10 +52,10 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RppsMed" />
+        app:layout_constraintTop_toBottomOf="@+id/RppsDetailMed" />
 
     <TextView
-        android:id="@+id/NomMed"
+        android:id="@+id/NomDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -39,10 +63,10 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PrenomMed" />
+        app:layout_constraintTop_toBottomOf="@+id/PrenomDetailMed" />
 
     <TextView
-        android:id="@+id/EmailMed"
+        android:id="@+id/EmailDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -50,10 +74,10 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NomMed" />
+        app:layout_constraintTop_toBottomOf="@+id/NomDetailMed" />
 
     <TextView
-        android:id="@+id/PhoneMed"
+        android:id="@+id/PhoneDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -61,10 +85,10 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailMed" />
+        app:layout_constraintTop_toBottomOf="@+id/EmailDetailMed" />
 
     <TextView
-        android:id="@+id/AddressMed"
+        android:id="@+id/AddressDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -72,11 +96,11 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PhoneMed" />
+        app:layout_constraintTop_toBottomOf="@+id/PhoneDetailMed" />
 
-    
+
     <TextView
-        android:id="@+id/ZipCodeMed"
+        android:id="@+id/ZipCodeDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -84,10 +108,10 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddressMed" />
+        app:layout_constraintTop_toBottomOf="@+id/AddressDetailMed" />
 
     <TextView
-        android:id="@+id/CityMed"
+        android:id="@+id/CityDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -95,10 +119,10 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ZipCodeMed" />
+        app:layout_constraintTop_toBottomOf="@+id/ZipCodeDetailMed" />
 
     <TextView
-        android:id="@+id/GenderMed"
+        android:id="@+id/GenderDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
@@ -106,15 +130,7 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CityMed" />
+        app:layout_constraintTop_toBottomOf="@+id/CityDetailMed" />
 
-    <ImageView
-        android:id="@+id/ValiderMed"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CityMed"
-        app:srcCompat="@drawable/valide_vert" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
