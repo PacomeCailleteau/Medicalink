@@ -7,13 +7,22 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    foreignKeys = [ForeignKey(
-        entity = User::class,
-        parentColumns = ["uuid"],
-        childColumns = ["uuidUser"],
-        onDelete = ForeignKey.CASCADE
-    )],
-    indices = [Index(value = ["uuidUser"])]
+    foreignKeys = [
+        ForeignKey(
+            entity = User::class,
+            parentColumns = ["uuid"],
+            childColumns = ["uuidUser"],
+            onDelete = ForeignKey.CASCADE),
+        ForeignKey(
+            entity = CisBdpm::class,
+            parentColumns = ["codeCIS"],
+            childColumns = ["codeCIS"],
+            onDelete = ForeignKey.CASCADE)
+    ],
+    indices = [
+        Index(value = ["uuidUser"]),
+        Index(value = ["codeCIS"])
+            ]
 )
 
 //TODO("rajouter un uuid lié au médicament dans la base de donnée médicamenteuse")
