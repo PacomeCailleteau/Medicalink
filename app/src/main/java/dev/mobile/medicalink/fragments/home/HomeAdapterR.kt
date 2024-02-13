@@ -221,9 +221,11 @@ class HomeAdapterR(
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
                 }
+
                 "prendre" -> {
                     holder.circleTick.setImageResource(R.drawable.correct)
                 }
+
                 else -> {
                     holder.circleTick.setImageResource(R.drawable.avertissement)
                 }

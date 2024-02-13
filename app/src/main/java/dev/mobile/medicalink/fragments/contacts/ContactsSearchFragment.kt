@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -46,6 +45,7 @@ class ContactsSearchFragment : Fragment() {
     private lateinit var supprimerSearch: ImageView
     private lateinit var ItemList: List<Contact>
     private lateinit var itemAdapter: ContactsSearchAdapterR
+
 
     private lateinit var retour: ImageView
 

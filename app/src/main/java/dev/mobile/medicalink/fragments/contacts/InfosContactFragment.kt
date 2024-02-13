@@ -1,5 +1,7 @@
 package dev.mobile.medicalink.fragments.contacts
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,25 +13,30 @@ import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.Contact
 
-class InfosContactFragment: Fragment() {
+class InfosContactFragment : Fragment() {
     private lateinit var textNomComplet: TextView
     private lateinit var textRpps: TextView
     private lateinit var textSpecialite: TextView
     private lateinit var textTelephone: TextView
+    private lateinit var btnTelephone: ImageView
     private lateinit var textEmail: TextView
+    private lateinit var btnEmail: ImageView
     private lateinit var textAdresse: TextView
     private lateinit var textZipCodeVille: TextView
     private lateinit var retour: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?) : View? {
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_descriptif_contact, container, false)
         textNomComplet = view.findViewById(R.id.nomCompletMedecin)
         textRpps = view.findViewById(R.id.rpps)
         textSpecialite = view.findViewById(R.id.spécialitéMedecin)
         textTelephone = view.findViewById(R.id.téléphoneMedecin)
+        btnTelephone = view.findViewById(R.id.btnTelephone)
         textEmail = view.findViewById(R.id.mailMedecin)
+        btnEmail = view.findViewById(R.id.btnEmail)
         textAdresse = view.findViewById(R.id.adresseMedecin)
         textZipCodeVille = view.findViewById(R.id.zipCodeVilleMedecin)
         retour = view.findViewById(R.id.retour_schema_contact)
@@ -38,6 +45,19 @@ class InfosContactFragment: Fragment() {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
             navBarre.visibility = View.GONE
         }
+
+        btnTelephone.setOnClickListener(View.OnClickListener {
+            val number = textTelephone.text.toString()
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
+            startActivity(intent)
+        })
+
+        btnEmail.setOnClickListener(View.OnClickListener {
+            val email = textEmail.text.toString()
+
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
+            startActivity(intent)
+        })
 
         retour.setOnClickListener {
             parentFragmentManager.popBackStack()

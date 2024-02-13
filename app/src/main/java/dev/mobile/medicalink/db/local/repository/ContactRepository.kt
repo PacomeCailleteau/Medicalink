@@ -1,9 +1,7 @@
 package dev.mobile.medicalink.db.local.repository
 
-import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
-import android.util.Log
 import dev.mobile.medicalink.db.local.dao.ContactDao
 import dev.mobile.medicalink.db.local.entity.Contact
 
