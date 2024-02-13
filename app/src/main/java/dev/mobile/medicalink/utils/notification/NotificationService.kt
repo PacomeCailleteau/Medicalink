@@ -132,6 +132,9 @@ class NotificationService : BroadcastReceiver() {
             traitement: Traitement,
             dateEtNumero: Pair<String, String>
         ) {
+            if (dateEtNumero.second == "-1")
+                return
+
             //On découpe le string pour récupérer l'heure et les minutes
             val heure = heurePremierePriseStr.split(":").first().toInt()
             val minute = heurePremierePriseStr.split(":").last().toInt()

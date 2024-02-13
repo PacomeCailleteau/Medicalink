@@ -42,6 +42,8 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
 
+    private var currentCIS: String = ""
+
 
     private lateinit var retour: ImageView
 
@@ -141,8 +143,10 @@ class AjoutManuelSearchFragment : Fragment() {
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
 
         Log.d("ICI", filteredItemList.toString())
+
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
             updateSearchBar(clickedItem.denomination)
+            currentCIS = clickedItem.codeCIS.toString()
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -158,6 +162,7 @@ class AjoutManuelSearchFragment : Fragment() {
                 "traitement",
                 Traitement(
                     addManuallySearchBar.text.toString(),
+                    currentCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -202,7 +207,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             filterItems(s.toString())
-            Log.d("Change", s.toString())
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -264,6 +268,7 @@ class AjoutManuelSearchFragment : Fragment() {
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
                 updateSearchBar(clickedItem.denomination)
+                currentCIS = clickedItem.codeCIS.toString()
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()

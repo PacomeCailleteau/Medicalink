@@ -9,6 +9,7 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 class Traitement(
     var nomTraitement: String,
+    var codeCIS: String,
     var dosageNb: Int,
     var dosageUnite: String,
     var dateFinTraitement: LocalDate?,
@@ -33,6 +34,9 @@ class Traitement(
     }
 
     fun getProchainePrise(prise: Prise?): Prise {
+        if (prises == null) {
+            return Prise("-1", "14:38", 0, "")
+        }
         if (prise == null) {
             return prises!![0]
         } else {

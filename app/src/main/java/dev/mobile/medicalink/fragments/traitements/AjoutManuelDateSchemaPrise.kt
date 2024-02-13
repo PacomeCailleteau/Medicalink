@@ -187,6 +187,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     textFinTraite,
@@ -242,6 +243,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     textFinTraite,

@@ -129,6 +129,7 @@ class AddTraitementsFragment : Fragment() {
                 "traitement",
                 Traitement(
                     "",
+                    "",
                     2,
                     resources.getString(R.string.semaines),
                     null,

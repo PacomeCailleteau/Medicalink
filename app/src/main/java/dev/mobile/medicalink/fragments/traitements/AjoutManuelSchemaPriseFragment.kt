@@ -204,6 +204,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                         "traitement",
                         Traitement(
                             traitement.nomTraitement,
+                            traitement.codeCIS,
                             traitement.dosageNb,
                             dosageUnite,
                             null,
@@ -231,6 +232,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                         "traitement",
                         Traitement(
                             traitement.nomTraitement,
+                            traitement.codeCIS,
                             traitement.dosageNb,
                             dosageUnite,
                             null,
@@ -258,6 +260,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                         "traitement",
                         Traitement(
                             traitement.nomTraitement,
+                            traitement.codeCIS,
                             traitement.dosageNb,
                             "auBesoin",
                             null,
@@ -310,6 +313,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     dosageUnite,
                     null,
@@ -373,6 +377,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                     "traitement",
                     Traitement(
                         traitement.nomTraitement,
+                        traitement.codeCIS,
                         traitement.dosageNb,
                         traitement.dosageUnite,
                         null,

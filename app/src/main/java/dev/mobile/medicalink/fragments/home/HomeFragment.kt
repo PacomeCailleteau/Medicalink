@@ -330,6 +330,7 @@ class HomeFragment : Fragment() {
                 //Création du traitement
                 val traitement = Traitement(
                     medoc.nom,
+                    medoc.codeCIS,
                     medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
                     newTraitementFinDeTraitement,
@@ -444,6 +445,7 @@ class HomeFragment : Fragment() {
                     ),
                     Traitement(
                         "x",
+                        "0",
                         1,
                         "Comp",
                         null,
