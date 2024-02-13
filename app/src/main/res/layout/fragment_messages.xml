@@ -41,15 +41,14 @@
         android:layout_marginTop="59dp"
         android:layout_marginEnd="25dp"
         android:fontFamily="@font/quicksand_bold"
-        android:gravity="start"
-        android:text="@string/messages"
-        android:textAlignment="textEnd"
+        android:text="@string/vos_contacts"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titreMessages" />
+        app:layout_constraintTop_toBottomOf="@+id/titreMessages"
+    />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -60,5 +59,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ajouterContact"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+        app:layout_constraintEnd_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

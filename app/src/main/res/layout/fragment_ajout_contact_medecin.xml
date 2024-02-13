@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraint_layout_ajout_manuel_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_by_rpps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rounded_white_black_stroke_button_background"
+        android:fontFamily="@font/quicksand_semibold"
+        android:hint="@string/rechercher_par_rpps"
+        android:inputType="textNoSuggestions"
+        android:padding="15dp"
+        android:scrollHorizontally="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/supprimerSearch"
+        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_by_prenom_nom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rounded_white_black_stroke_button_background"
+        android:fontFamily="@font/quicksand_semibold"
+        android:hint="@string/rechercher_par_prenom_et_nom"
+        android:inputType="textNoSuggestions"
+        android:padding="15dp"
+        android:scrollHorizontally="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/supprimerSearch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/search_by_rpps" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        android:text="@string/medicalink_title"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="283dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="start"
+        android:text="@string/rechercher_un_medecin"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/rechercherMedecin"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_blue_button_blue_stroke_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/rechercher"
+        android:textAllCaps="false"
+
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/retour_to_messages"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/search_by_prenom_nom" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rechercherMedecin"
+        app:layout_constraintStart_toStartOf="@+id/rechercherMedecin"
+        app:layout_constraintTop_toBottomOf="@+id/rechercherMedecin" />
+
+    <ImageView
+        android:id="@+id/retour_to_messages"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView11"
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black" />
+
+    <ImageView
+        android:id="@+id/supprimerSearch"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_by_prenom_nom"
+        app:layout_constraintEnd_toEndOf="@+id/retour_to_messages"
+        app:layout_constraintTop_toTopOf="@+id/search_by_rpps"
+        app:srcCompat="@drawable/supprimer"
+        app:tint="@color/black" />
+</androidx.constraintlayout.widget.ConstraintLayout>

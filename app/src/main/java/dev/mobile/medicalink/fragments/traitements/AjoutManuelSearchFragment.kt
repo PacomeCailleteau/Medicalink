@@ -33,7 +33,6 @@ import java.util.concurrent.LinkedBlockingQueue
 
 class AjoutManuelSearchFragment : Fragment() {
 
-
     private lateinit var addManuallySearchBar: TextInputEditText
     private lateinit var addManuallyButton: Button
     private lateinit var recyclerView: RecyclerView

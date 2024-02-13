@@ -15,3 +15,8 @@ data class CisSubstance (
     var natureComposant: String,
     var numeroLiaison: Int,
 )
+
+
+
+
+

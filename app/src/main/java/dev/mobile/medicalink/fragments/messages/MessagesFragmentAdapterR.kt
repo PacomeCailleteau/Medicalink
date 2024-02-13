@@ -1,3 +1,5 @@
+package dev.mobile.medicalink.fragments.messages
+
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -6,14 +8,15 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.entity.ContactMedecin
 
-class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String>>) :
+class MessagesFragmentAdapterR(private val list: List<ContactMedecin>) :
     RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val titreMessage: TextView = view.findViewById(R.id.titreMessage)
-        val textMessage: TextView = view.findViewById(R.id.textMessage)
-
+        val prenom = view.findViewById<TextView>(R.id.PrenomMedecinMessage)
+        val nom = view.findViewById<TextView>(R.id.NomMedecinMessage)
+        val rpps = view.findViewById<TextView>(R.id.RppsMedecinMessage)
     }
 
     override fun getItemCount(): Int {
@@ -30,10 +33,11 @@ class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int) {
-        val item = list.get(position)
+        val item = list[position]
 
-        holder.titreMessage.text = item.first
-        holder.textMessage.text = item.second
+        holder.prenom.text = item.firstname
+        holder.nom.text = item.lastname
+        holder.rpps.text = item.rpps
 
     }
 
