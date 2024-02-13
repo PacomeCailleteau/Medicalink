@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/substanceActive"
-        app:srcCompat="@drawable/upAndDownArrow" />
+        app:srcCompat="@drawable/up_and_down_arrow" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout5"
