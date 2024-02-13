@@ -119,6 +119,7 @@ class AjoutManuelStock : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -154,6 +155,7 @@ class AjoutManuelStock : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,

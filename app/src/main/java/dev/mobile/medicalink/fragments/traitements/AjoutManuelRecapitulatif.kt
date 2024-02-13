@@ -132,6 +132,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "newTraitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -168,6 +169,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -202,6 +204,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -237,6 +240,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -272,6 +276,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -307,6 +312,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,
@@ -342,6 +348,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,

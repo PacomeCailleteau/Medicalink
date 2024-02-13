@@ -43,6 +43,8 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
 
+    private lateinit var currentCIS: String
+
 
     private lateinit var retour: ImageView
 
@@ -142,8 +144,10 @@ class AjoutManuelSearchFragment : Fragment() {
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
 
         Log.d("ICI", filteredItemList.toString())
+
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
             updateSearchBar(clickedItem.denomination)
+            currentCIS = clickedItem.codeCIS.toString()
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -159,6 +163,7 @@ class AjoutManuelSearchFragment : Fragment() {
                 "traitement",
                 Traitement(
                     addManuallySearchBar.text.toString(),
+                    currentCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     traitement.dateFinTraitement,

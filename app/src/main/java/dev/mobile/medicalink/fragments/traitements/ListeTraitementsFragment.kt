@@ -93,6 +93,7 @@ class ListeTraitementsFragment : Fragment() {
                 traitementUUID,
                 "",
                 newTraitement.nomTraitement,
+                newTraitement.codeCIS,
                 newTraitement.dosageNb.toString(),
                 newTraitement.dosageUnite,
                 newTraitement.dateFinTraitement.toString(),
@@ -198,6 +199,7 @@ class ListeTraitementsFragment : Fragment() {
 
                 val traitement = Traitement(
                     medoc.nom,
+                    medoc.codeCIS,
                     medoc.dosageNB.toInt(),
                     medoc.dosageUnite,
                     newTraitementFinDeTraitement,
@@ -230,7 +232,6 @@ class ListeTraitementsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
             ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
-
                 if (isSuppr) {
                     Thread {
                         medocDatabaseInterface.deleteMedoc(
@@ -250,6 +251,7 @@ class ListeTraitementsFragment : Fragment() {
                         "traitement",
                         Traitement(
                             clickedTraitement.nomTraitement,
+                            clickedTraitement.codeCIS,
                             clickedTraitement.dosageNb,
                             clickedTraitement.dosageUnite,
                             clickedTraitement.dateFinTraitement,
@@ -300,6 +302,8 @@ class ListeTraitementsFragment : Fragment() {
 
 
             }
+
+
 
 
         // Gestion de l'espacement entre les éléments du RecyclerView

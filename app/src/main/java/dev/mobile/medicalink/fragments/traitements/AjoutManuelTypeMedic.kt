@@ -76,6 +76,7 @@ class AjoutManuelTypeMedic : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     null,
@@ -110,6 +111,7 @@ class AjoutManuelTypeMedic : Fragment() {
                 "traitement",
                 Traitement(
                     traitement.nomTraitement,
+                    traitement.codeCIS,
                     traitement.dosageNb,
                     traitement.dosageUnite,
                     null,
@@ -172,6 +174,7 @@ class AjoutManuelTypeMedic : Fragment() {
                     "traitement",
                     Traitement(
                         traitement.nomTraitement,
+                        traitement.codeCIS,
                         traitement.dosageNb,
                         traitement.dosageUnite,
                         null,

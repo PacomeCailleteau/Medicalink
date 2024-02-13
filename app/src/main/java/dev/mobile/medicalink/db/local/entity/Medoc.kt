@@ -21,6 +21,7 @@ data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") var uuidUser: String,
     @ColumnInfo(name = "nom") val nom: String,
+    @ColumnInfo(name = "codeCIS") val codeCIS: String,
     @ColumnInfo(name = "dosageNB") val dosageNB: String,
     @ColumnInfo(name = "dosageUnite") val dosageUnite: String,
     @ColumnInfo(name = "dateFinTraitement") var dateFinTraitement: String?,

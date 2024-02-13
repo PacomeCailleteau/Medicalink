@@ -9,6 +9,7 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 class Traitement(
     var nomTraitement: String,
+    var codeCIS: String,
     var dosageNb: Int,
     var dosageUnite: String,
     var dateFinTraitement: LocalDate?,
