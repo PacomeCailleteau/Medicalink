@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/confirmer"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
+
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Ajouter aux contacts"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/zipCodeVilleMedecin" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="273dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="59dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="start"
+        android:text="Récapitulatif du médecin"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/nomCompletMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Nom Complet Médecin"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Spécialité :"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/rpps" />
+
+    <TextView
+        android:id="@+id/textViewContactMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Contact :"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <TextView
+        android:id="@+id/textViewLieuMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Lieux :"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
+
+    <TextView
+        android:id="@+id/zipCodeVilleMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="ZIP CODE, ville"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/adresseMedecin"
+        app:layout_constraintTop_toBottomOf="@+id/adresseMedecin" />
+
+    <TextView
+        android:id="@+id/téléphoneMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Téléphone"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textViewContactMedecin"
+        app:layout_constraintTop_toBottomOf="@+id/textViewContactMedecin" />
+
+    <TextView
+        android:id="@+id/adresseMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Adresse"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textViewLieuMedecin"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLieuMedecin" />
+
+    <TextView
+        android:id="@+id/mailMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="Mail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/téléphoneMedecin"
+        app:layout_constraintTop_toBottomOf="@+id/téléphoneMedecin" />
+
+    <TextView
+        android:id="@+id/spécialitéMedecin"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="REMPLIR"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+    <TextView
+        android:id="@+id/rpps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="start"
+        android:text="RPPS"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/nomCompletMedecin" />
+
+    <ImageView
+        android:id="@+id/retour_schema_prise"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView18"
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black" />
+
+    <ImageView
+        android:id="@+id/retour_schema_prise4"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/téléphoneMedecin"
+        app:layout_constraintStart_toEndOf="@+id/téléphoneMedecin"
+        app:layout_constraintTop_toTopOf="@+id/téléphoneMedecin"
+        app:srcCompat="@drawable/telephone" />
+
+    <ImageView
+        android:id="@+id/retour_schema_prise5"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mailMedecin"
+        app:layout_constraintStart_toEndOf="@+id/mailMedecin"
+        app:layout_constraintTop_toTopOf="@+id/mailMedecin"
+        app:srcCompat="@drawable/email" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        android:text="@string/medicalink_title"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
