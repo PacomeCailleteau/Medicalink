@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -118,6 +119,7 @@ class AjoutManuelStock : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     traitement.dosageUnite,
@@ -153,6 +155,7 @@ class AjoutManuelStock : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     traitement.dosageUnite,
@@ -220,7 +223,7 @@ class AjoutManuelStock : Fragment() {
         val intervalleRegulierDialog = builder.create()
 
         val firstNumberPicker = dialogView.findViewById<NumberPicker>(R.id.firstNumberPicker)
-        val annulerButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
         val textJour = dialogView.findViewById<TextView>(R.id.textJour)
         var uniteJour = "jours"

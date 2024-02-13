@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -28,6 +28,9 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -68,6 +71,7 @@ class AjoutManuelSearchFragment : Fragment() {
             val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
             Log.d("CisBDPM list", listCisBdpm.toString())
             queue.add(listCisBdpm)
+
         }.start()
         originalItemList = queue.take()
         filteredItemList = originalItemList
@@ -131,10 +135,11 @@ class AjoutManuelSearchFragment : Fragment() {
         /*
         addManuallySearchBar.filters = arrayOf(filter)
          */
-        addManuallySearchBar.addTextChangedListener(textWatcher)
+        addManuallySearchBar.addTextChangedListener(textWatcher(traitement))
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
+
                 }
             }
 
@@ -143,7 +148,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
         Log.d("ICI", filteredItemList.toString())
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-            updateSearchBar(clickedItem.denomination)
+            updateSearchBar(clickedItem, traitement)
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -155,9 +160,13 @@ class AjoutManuelSearchFragment : Fragment() {
 
         addManuallyButton.setOnClickListener {
             val bundle = Bundle()
+            println("Traitement : ${addManuallySearchBar.text.toString()}")
+            println("TraitementCis : ${traitement.CodeCIS}")
+
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     addManuallySearchBar.text.toString(),
                     traitement.dosageNb,
                     traitement.dosageUnite,
@@ -197,19 +206,22 @@ class AjoutManuelSearchFragment : Fragment() {
         return view
     }
 
-    private val textWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
+    fun textWatcher(traitement: Traitement): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            filterItems(s.toString())
-            Log.d("Change", s.toString())
-        }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterItems(s.toString(), traitement)
+                Log.d("Change", s.toString())
+            }
 
-        override fun afterTextChanged(editable: Editable?) {
-            updateButtonState()
+            override fun afterTextChanged(editable: Editable?) {
+                updateButtonState()
+            }
         }
     }
+
 
     /**
      * Mise à jour de l'état du bouton "Ajouter" pour l'activer uniquement quand le champ de recherche n'est pas vide
@@ -258,13 +270,16 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
-    private fun filterItems(query: String) {
+    private fun filterItems(query: String, traitement: Traitement) {
         var filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-                updateSearchBar(clickedItem.denomination)
+                updateSearchBar(
+                    clickedItem,
+                    traitement
+                )//TODO ADD CODECIS l'autre es mis a jour ici ???
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()
@@ -276,8 +291,9 @@ class AjoutManuelSearchFragment : Fragment() {
      * (utilisé quand on clique sur un médicament pour l'ajouter directement dans la barre de recherche)
      * @param query la chaine de caractère représentant le médicament sur lequel on a cliqué, à remplacer dans la barre de recherche
      */
-    private fun updateSearchBar(query: String) {
-        addManuallySearchBar.setText(query)
+    private fun updateSearchBar(query: CisBdpm, traitement: Traitement) {
+        addManuallySearchBar.setText(query.denomination)
+        traitement.CodeCIS = query.CodeCIS
     }
 
 }

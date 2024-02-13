@@ -4,31 +4,31 @@ import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.util.Log
-import dev.mobile.medicalink.db.local.dao.CisBdpmDao
-import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.dao.CisCompoBdpmDao
+import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
 
-class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
+class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
     val commonFonctionnality = CsvCommonFonctionnality()
 
-    fun getAllCisBdpm(): List<CisBdpm> {
+    fun getAllCisCompoBdpm(): List<CisCompoBdpm> {
         return try {
-            CISbdpmDao.getAll()
+            cisCompoBdpmDao.getAll()
         } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun getOneCisBdpmById(CodeCIS: Int): List<CisBdpm> {
+    fun getOneCisCompoBdpmById(CodeCIS: Int): List<CisCompoBdpm> {
         return try {
-            CISbdpmDao.getById(CodeCIS)
+            cisCompoBdpmDao.getById(CodeCIS)
         } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun insertCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
+    fun insertCisCompoBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.insertAll(cisBdpm)
+            cisCompoBdpmDao.insertAll(cisCompoBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm already exists")
@@ -44,62 +44,65 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
      * @param context Context
      */
     fun insertFromCsv(context: Context) {
-        val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_bdpm.csv")
-        val cisBdpmList = parseCsv(csvContent)
+        val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_COMPO_bdpm.csv")
+        val cisCompoBdpmList = parseCsv(csvContent)
         try {
-            CISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
+            cisCompoBdpmDao.insertAll(*cisCompoBdpmList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
-            Log.e("CisBdpmRepository", "CIS_bdpm already exists")
+            Log.e("CisCompoBdpmRepository", "CIS_COMPO_bdpm already exists")
         } catch (e: SQLiteException) {
-            Log.e("CisBdpmRepository", "Database Error while inserting CIS_bdpm : ${e.message}")
+            Log.e(
+                "CisCompoBdpmRepository",
+                "Database Error while inserting CIS_COMPO_bdpm : ${e.message}"
+            )
         } catch (e: Exception) {
-            Log.e("CisBdpmRepository", "Unknown Error while inserting CIS_bdpm : ${e.message}")
+            Log.e(
+                "CisCompoBdpmRepository",
+                "Unknown Error while inserting CIS_COMPO_bdpm : ${e.message}"
+            )
         }
     }
-
 
     /**
      * Parse CSV file and insert all CIS_bdpm in database, the first line of the CSV file must be the header
      * @param csvContent CSV file content
      * @return Pair<Boolean, String> : Boolean is true if success, String is error message if error
      */
-    private fun parseCsv(csvContent: String): List<CisBdpm> {
-        val cisBdpmList = mutableListOf<CisBdpm>()
+    fun parseCsv(csvContent: String): List<CisCompoBdpm> {
+        val cisCompoBdpmList = mutableListOf<CisCompoBdpm>()
         val lines = csvContent.split("\n")
         //On ne prend ni la première ligne (header) ni la dernière ligne (vide)
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
             val values = commonFonctionnality.parseCsvLine(line)
-            if (values.size == 12) {
-                val cisBdpm = CisBdpm(
+            if (values.size == 8) {
+
+                val cisCompoBdpm = CisCompoBdpm(
                     CodeCIS = values[0].toInt(),
-                    denomination = values[1],
-                    formePharmaceutique = values[2],
-                    voiesAdministration = values[3],
-                    statutAdministratifAMM = values[4],
-                    typeProcedureAMM = values[5],
-                    etatCommercialisation = values[6],
-                    dateAMM = values[7],
-                    statutBdm = values[8],
-                    numeroAutorisationEuropeenne = values[9],
-                    titulaire = values[10],
-                    surveillanceRenforcee = values[11]
+                    designationForme = values[1],
+                    codeSubstance = values[2],
+                    denomination = values[3],
+                    dosage = values[4],
+                    referenceDosage = values[5],
+                    natureComposant = values[6],
+                    numeroLiaisonSAFT = values[7]
+
                 )
-                cisBdpmList.add(cisBdpm)
+                cisCompoBdpmList.add(cisCompoBdpm)
             } else {
                 Log.e("CisBdpmRepository", "Error while parsing CSV line : $line")
             }
         }
-        return cisBdpmList
+        return cisCompoBdpmList
     }
 
 
-    fun deleteCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
+    fun deleteCisBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.delete(cisBdpm)
+            cisCompoBdpmDao.delete(cisCompoBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "CisBdpm doesn't exist")
+            Pair(false, "CisCompoBdpm doesn't exist")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
@@ -107,12 +110,12 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
     }
 
-    fun updateCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
+    fun updateCisBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.update(cisBdpm)
+            cisCompoBdpmDao.update(cisCompoBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "CisBdpm doesn't exist")
+            Pair(false, "CisCompoBdpm doesn't exist")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {

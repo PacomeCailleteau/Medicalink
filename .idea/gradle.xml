@@ -7,11 +7,11 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="JDK" />
+        <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$USER_HOME$/reseau/Perso/Documents/BUT3/SAE/MedicalinkMaintenance" />
+            <option value="$USER_HOME$/reseau/Perso/Documents/BUT3/SAE/MedicalinkMaintenance/app" />
           </set>
         </option>
       </GradleProjectSettings>

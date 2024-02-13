@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -186,6 +187,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     traitement.dosageUnite,
@@ -241,6 +243,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             bundle.putSerializable(
                 "traitement",
                 Traitement(
+                    traitement.CodeCIS,
                     traitement.nomTraitement,
                     traitement.dosageNb,
                     traitement.dosageUnite,

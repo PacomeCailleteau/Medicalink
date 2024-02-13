@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.os.Build
 import android.util.Log

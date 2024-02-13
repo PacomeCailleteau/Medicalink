@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Prise
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -152,7 +153,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
         val titreDosage = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         val quantiteInput = dialogView.findViewById<EditText>(R.id.quantiteDialogInput)
-        val annulerButton = dialogView.findViewById<Button>(R.id.sauterButton)
+        val annulerButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
         titreDosage.text = holder.view.resources.getString(R.string.dosage)

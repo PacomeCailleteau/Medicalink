@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -24,7 +24,6 @@ class AjoutManuelSearchAdapterR(
 
         fun bind(item: CisBdpm) {
             nomMedic.text = item.denomination
-
         }
     }
 
