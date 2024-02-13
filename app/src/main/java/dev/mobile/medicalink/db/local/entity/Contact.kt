@@ -2,6 +2,7 @@ package dev.mobile.medicalink.db.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import dev.mobile.medicalink.api.rpps.Practician
 import java.io.Serializable
 
 @Entity
@@ -17,6 +18,12 @@ data class Contact(
     var city: String?,
     var phoneNumber: String?,
     var email: String?
-) : Serializable
+) : Serializable {
+    companion object {
+        fun fromPractician(uuid: String, practician: Practician): Contact {
+            return Contact(uuid, practician.rpps, practician.firstName, practician.lastName, practician.fullName, practician.specialty, practician.address, practician.zipcode, practician.city, practician.phoneNumber, null)
+        }
+    }
+}
 
 

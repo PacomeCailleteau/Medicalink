@@ -33,6 +33,7 @@ import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import java.util.concurrent.LinkedBlockingQueue
 import androidx.lifecycle.lifecycleScope
+import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelSearchAdapterR
 import kotlinx.coroutines.launch
 
@@ -50,6 +51,7 @@ class ContactsSearchFragment : Fragment() {
     private lateinit var retour: ImageView
 
     private lateinit var apiRpps: ApiRppsService
+    private lateinit var uuid: String
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -66,7 +68,12 @@ class ContactsSearchFragment : Fragment() {
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val contactDatabaseInterface = ContactRepository(db.contactDao())
+        val userDatabaseInterface = UserRepository(db.userDao())
         apiRpps = ApiRppsClient().apiService
+        Thread{
+            uuid = userDatabaseInterface.getUsersConnected()[0].uuid
+        }.start()
+
 
         //Récupération de la liste des Médicaments pour l'afficher
         val queue = LinkedBlockingQueue<List<Contact>>()
@@ -160,21 +167,23 @@ class ContactsSearchFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val searchText = s.toString() // Utilisez editable directement pour éviter une référence nulle
-                if (searchText.isNotEmpty()) {
                     lifecycleScope.launch {
-                        val response = apiRpps.getPractician(searchText)
+                        val response = apiRpps.getPractician(contactSearchBar.text.toString())
                         if (response.isSuccessful) {
-                            // Mettez à jour votre UI ici avec la réponse
                             val itemList = response.body()
-                            itemAdapter = ContactsSearchAdapterR(ItemList) { clickedItem ->
+                            Log.d("Practician list", itemList.toString())
+                            var itemListContact = mutableListOf<Contact>()
+                            if (itemList != null) {
+                                itemListContact = itemList.map { Contact.fromPractician(uuid, it)} as MutableList<Contact>
+                            }
+                            Log.d("Contact list", itemListContact.toString())
+                            itemAdapter = ContactsSearchAdapterR(itemListContact) { clickedItem ->
                                 afficherContact(clickedItem)
                             }
                             recyclerView.adapter = itemAdapter
                         } else {
                             // Gérez l'erreur ici
                         }
-                    }
                 }
         }
 
