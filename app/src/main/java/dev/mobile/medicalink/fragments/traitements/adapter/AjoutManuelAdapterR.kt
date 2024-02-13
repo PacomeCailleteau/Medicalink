@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.adapter
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Prise
 import java.text.SimpleDateFormat
 import java.util.*
 

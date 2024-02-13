@@ -59,20 +59,4 @@
     <string name="rappel_reappriovisionnement">Replenishment reminder</string>
     <string name="stock_faible">Low stock</string>
     <string name="rapport_journalier">Daily report :</string>
-    <string name="ajouter">Add</string>
-    <string name="supprimer_compte">Delete account</string>
-    <string name="vos_contacts">Your contacts</string>
-    <string name="prenom_message_item">Firstname</string>
-    <string name="nom_message_item">Lastname</string>
-    <string name="rechercher_par_prenom_et_nom">Search By first and last name</string>
-    <string name="rechercher_par_rpps">Search by RPPS</string>
-    <string name="rechercher_un_medecin">Search for a doctor</string>
-    <string name="prenom_s">Firstname : %s</string>
-    <string name="nom_s">Lastname : %s</string>
-    <string name="email_s">Email : %s</string>
-    <string name="phone_s">Phone number : %s</string>
-    <string name="adresse_s">Address : %s</string>
-    <string name="code_postal_s">Zip code : %s</string>
-    <string name="ville_s">City : %s</string>
-    <string name="sexe_s">Gender : %s</string>
 </resources>

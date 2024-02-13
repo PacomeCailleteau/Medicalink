@@ -16,6 +16,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.traitements.adapter.ListeEffetsSecondairesAdapterR
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.LinkedBlockingQueue
