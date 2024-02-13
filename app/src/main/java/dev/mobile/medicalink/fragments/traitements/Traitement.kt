@@ -34,6 +34,9 @@ class Traitement(
     }
 
     fun getProchainePrise(prise: Prise?): Prise {
+        if (prises == null) {
+            return Prise("-1", "14:38", 0, "")
+        }
         if (prise == null) {
             return prises!![0]
         } else {

@@ -123,7 +123,6 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
 
-
             val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
             val jourPremierePrise = newTraitement.dateDbtTraitement
             val date = LocalDate.now().toString()
