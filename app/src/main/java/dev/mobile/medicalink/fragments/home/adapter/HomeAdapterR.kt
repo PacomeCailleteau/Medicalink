@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.home
+package dev.mobile.medicalink.fragments.home.adapter
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
