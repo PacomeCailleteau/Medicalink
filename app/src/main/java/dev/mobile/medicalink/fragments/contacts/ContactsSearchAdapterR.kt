@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.contacts
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +8,21 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.entity.Contact
 
 
 class ContactsSearchAdapterR(
-    private val list: List<CisBdpm>,
-    private val onItemClick: (CisBdpm) -> Unit
+    private val list: List<Contact>,
+    private val onItemClick: (Contact) -> Unit
 ) :
     RecyclerView.Adapter<ContactsSearchAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomMedic: TextView = view.findViewById(R.id.nomSearch)
+        val nomContact: TextView = view.findViewById(R.id.nomSearch)
 
 
-        fun bind(item: CisBdpm) {
-            nomMedic.text = item.denomination
-
+        fun bind(item: Contact) {
+            nomContact.text = item.fullname
         }
     }
 
@@ -39,7 +37,6 @@ class ContactsSearchAdapterR(
         return TraitementViewHolder(layout)
     }
 
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val item = list[position]
