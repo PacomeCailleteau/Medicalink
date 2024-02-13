@@ -12,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
+import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -25,30 +25,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.api.rpps.ApiRppsClient
+import dev.mobile.medicalink.api.rpps.ApiRppsService
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
-import dev.mobile.medicalink.fragments.contacts.ContactsSearchAdapterR
 import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
-import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.util.concurrent.LinkedBlockingQueue
-
+import androidx.lifecycle.lifecycleScope
+import dev.mobile.medicalink.fragments.traitements.AjoutManuelSearchAdapterR
+import kotlinx.coroutines.launch
 
 class ContactsSearchFragment : Fragment() {
 
 
-    private lateinit var addManuallySearchBar: TextInputEditText
+    private lateinit var contactSearchBar: TextInputEditText
     private lateinit var recyclerView: RecyclerView
-    private lateinit var addManuallyButtonLauncher: ActivityResultLauncher<Intent>
+    private lateinit var contactButtonLauncher: ActivityResultLauncher<Intent>
     private lateinit var supprimerSearch: ImageView
-    private lateinit var originalItemList: List<Contact>
-    private lateinit var filteredItemList: List<Contact>
+    private lateinit var ItemList: List<Contact>
     private lateinit var itemAdapter: ContactsSearchAdapterR
 
-
     private lateinit var retour: ImageView
+
+    private lateinit var apiRpps: ApiRppsService
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,32 +65,23 @@ class ContactsSearchFragment : Fragment() {
         }
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
-        val ContactDatabaseInterface = ContactRepository(db.contactDao())
+        val contactDatabaseInterface = ContactRepository(db.contactDao())
+        apiRpps = ApiRppsClient().apiService
 
         //Récupération de la liste des Médicaments pour l'afficher
         val queue = LinkedBlockingQueue<List<Contact>>()
         Thread {
-            val listContact = ContactDatabaseInterface.getAllContact()
+            val listContact = contactDatabaseInterface.getAllContact()
             Log.d("Contact list", listContact.toString())
             queue.add(listContact)
         }.start()
-        originalItemList = queue.take()
-        filteredItemList = originalItemList
+        ItemList = queue.take()
 
-/*
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
-*/
-
-        addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
+        contactSearchBar = view.findViewById(R.id.add_manually_search_bar)
         supprimerSearch = view.findViewById(R.id.supprimerSearch)
 
         supprimerSearch.setOnClickListener {
-            addManuallySearchBar.setText("")
+            contactSearchBar.setText("")
         }
         // addManuallySearchBar.setText(traitement.nomTraitement)
         /* Regex : laisser en commentaire pour l'instant
@@ -133,8 +125,8 @@ class ContactsSearchFragment : Fragment() {
         /* Regex : laisser en commentaire pour l'instant
         addManuallySearchBar.filters = arrayOf(filter)
          */
-        addManuallySearchBar.addTextChangedListener(textWatcher)
-        addManuallyButtonLauncher =
+        contactSearchBar.addTextChangedListener(textWatcher)
+        contactButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                 }
@@ -143,49 +135,13 @@ class ContactsSearchFragment : Fragment() {
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
 
-        Log.d("ICI", filteredItemList.toString())
-        itemAdapter = ContactsSearchAdapterR(filteredItemList) { clickedItem ->
-            updateSearchBar(clickedItem.fullname)
+        itemAdapter = ContactsSearchAdapterR(ItemList) { clickedItem ->
+            afficherContact(clickedItem)
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
-
-
-        //à déplacer dans l'adapteur
-        /*addManuallyButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    addManuallySearchBar.text.toString(),
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    traitement.expire,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
-            val destinationFragment = AjoutManuelTypeMedic()
-            destinationFragment.arguments = bundle
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
-        }*/
 
         retour = view.findViewById(R.id.retour_schema_prise2)
 
@@ -204,18 +160,31 @@ class ContactsSearchFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            filterItems(s.toString())
-            Log.d("Change", s.toString())
+                val searchText = s.toString() // Utilisez editable directement pour éviter une référence nulle
+                if (searchText.isNotEmpty()) {
+                    lifecycleScope.launch {
+                        val response = apiRpps.getPractician(searchText)
+                        if (response.isSuccessful) {
+                            // Mettez à jour votre UI ici avec la réponse
+                            val itemList = response.body()
+                            itemAdapter = ContactsSearchAdapterR(ItemList) { clickedItem ->
+                                afficherContact(clickedItem)
+                            }
+                            recyclerView.adapter = itemAdapter
+                        } else {
+                            // Gérez l'erreur ici
+                        }
+                    }
+                }
         }
 
         override fun afterTextChanged(editable: Editable?) {
-            //updateButtonState()
-        }
+            }
     }
 
     fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
-        val editTextList = listOf(addManuallySearchBar) // Ajoute tous tes champs ici
+        val editTextList = listOf(contactSearchBar) // Ajoute tous tes champs ici
         for (editText in editTextList) {
             editText.clearFocus()
         }
@@ -226,13 +195,27 @@ class ContactsSearchFragment : Fragment() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    fun afficherContact(itemClicked: Contact) {
+        val bundle = Bundle()
+        bundle.putSerializable(
+            "contact",
+            itemClicked
+        )
+        val destinationFragment = InfosContactFragment()
+        destinationFragment.arguments = bundle
+        val fragTransaction = parentFragmentManager.beginTransaction()
+        fragTransaction.replace(R.id.FL, destinationFragment)
+        fragTransaction.addToBackStack(null)
+        fragTransaction.commit()
+    }
+
     override fun onResume() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+                fragTransaction.replace(R.id.FL, ContactsFragment())
                 fragTransaction.addToBackStack(null)
                 fragTransaction.commit()
             }
@@ -240,31 +223,4 @@ class ContactsSearchFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
-
-    /**
-     * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
-     * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
-     */
-    private fun filterItems(query: String) {
-        var filteredItemList = originalItemList.filter { item ->
-            item.fullname.contains(query, ignoreCase = true)
-        }
-        requireActivity().runOnUiThread {
-            itemAdapter = ContactsSearchAdapterR(filteredItemList) { clickedItem ->
-                updateSearchBar(clickedItem.fullname)
-            }
-            recyclerView.adapter = itemAdapter
-            itemAdapter.notifyDataSetChanged()
-        }
-    }
-
-    /**
-     * Fonction utilisé pour mettre à jour le contenu de la barre de recherche
-     * (utilisé quand on clique sur un médicament pour l'ajouter directement dans la barre de recherche)
-     * @param query la chaine de caractère représentant le médicament sur lequel on a cliqué, à remplacer dans la barre de recherche
-     */
-    private fun updateSearchBar(query: String) {
-        addManuallySearchBar.setText(query)
-    }
-
 }
