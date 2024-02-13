@@ -20,13 +20,6 @@ Le smiley et le rapport journalier sont beugués :
 ### Problème 5
 On a pas la page message
 
-### Problème 6
-Quand on ajoute un médicament "au besoin", il n'y a de prises donc quand on programme la notif ca crash
-```error
-at dev.mobile.medicalink.fragments.traitements.Traitement.getProchainePrise(Traitement.kt:37)
-at dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment.onCreateView(ListeTraitementsFragment.kt:126)
-```
-
 
 
 
