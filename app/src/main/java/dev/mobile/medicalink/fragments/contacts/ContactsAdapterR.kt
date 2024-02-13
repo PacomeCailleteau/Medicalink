@@ -8,9 +8,14 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.entity.Contact
 
-class ContactsFragmentAdapterR(private val list: MutableList<Pair<String, String>>) :
-    RecyclerView.Adapter<ContactsFragmentAdapterR.MessagesFragmentViewHolder>() {
+class ContactsAdapterR(
+    private val list: MutableList<Contact>,
+    private val onItemClick: (Contact) -> Unit
+) :
+    RecyclerView.Adapter<ContactsAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titreMessage: TextView = view.findViewById(R.id.nomMedecin)
@@ -34,9 +39,13 @@ class ContactsFragmentAdapterR(private val list: MutableList<Pair<String, String
     override fun onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int) {
         val item = list.get(position)
 
-        holder.titreMessage.text = item.first
-        holder.textMessage.text = item.second
+        holder.titreMessage.text = item.fullname
+        holder.textMessage.text = item.specialty
 
+        //On renvoie l'item au fragment pour qu'il récupère l'item cliqué
+        holder.view.setOnClickListener {
+            onItemClick.invoke(item)
+        }
     }
 
 }

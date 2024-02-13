@@ -26,8 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.entity.CisBdpm
-import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.db.local.entity.Contact
+import dev.mobile.medicalink.db.local.repository.ContactRepository
 import dev.mobile.medicalink.fragments.contacts.ContactsSearchAdapterR
 import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
@@ -40,12 +40,11 @@ class ContactsSearchFragment : Fragment() {
 
 
     private lateinit var addManuallySearchBar: TextInputEditText
-    private lateinit var addManuallyButton: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var addManuallyButtonLauncher: ActivityResultLauncher<Intent>
     private lateinit var supprimerSearch: ImageView
-    private lateinit var originalItemList: List<CisBdpm>
-    private lateinit var filteredItemList: List<CisBdpm>
+    private lateinit var originalItemList: List<Contact>
+    private lateinit var filteredItemList: List<Contact>
     private lateinit var itemAdapter: ContactsSearchAdapterR
 
 
@@ -65,14 +64,14 @@ class ContactsSearchFragment : Fragment() {
         }
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
-        val CisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
+        val ContactDatabaseInterface = ContactRepository(db.contactDao())
 
         //Récupération de la liste des Médicaments pour l'afficher
-        val queue = LinkedBlockingQueue<List<CisBdpm>>()
+        val queue = LinkedBlockingQueue<List<Contact>>()
         Thread {
-            val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
-            Log.d("CisBDPM list", listCisBdpm.toString())
-            queue.add(listCisBdpm)
+            val listContact = ContactDatabaseInterface.getAllContact()
+            Log.d("Contact list", listContact.toString())
+            queue.add(listContact)
         }.start()
         originalItemList = queue.take()
         filteredItemList = originalItemList
@@ -146,7 +145,7 @@ class ContactsSearchFragment : Fragment() {
 
         Log.d("ICI", filteredItemList.toString())
         itemAdapter = ContactsSearchAdapterR(filteredItemList) { clickedItem ->
-            updateSearchBar(clickedItem.denomination)
+            updateSearchBar(clickedItem.fullname)
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -192,7 +191,7 @@ class ContactsSearchFragment : Fragment() {
 
         retour.setOnClickListener {
             val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
+            fragTransaction.replace(R.id.FL, ContactsFragment())
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -248,11 +247,11 @@ class ContactsSearchFragment : Fragment() {
      */
     private fun filterItems(query: String) {
         var filteredItemList = originalItemList.filter { item ->
-            item.denomination.contains(query, ignoreCase = true)
+            item.fullname.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
             itemAdapter = ContactsSearchAdapterR(filteredItemList) { clickedItem ->
-                updateSearchBar(clickedItem.denomination)
+                updateSearchBar(clickedItem.fullname)
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()
