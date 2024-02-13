@@ -20,6 +20,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.home.adapter.HomeAdapterR
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement

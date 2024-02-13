@@ -13,11 +13,11 @@ class ContactMedecinRepository(private val contactMedecinDao: ContactMedecinDao)
         }
     }
 
-    fun getOneContactMedecinById(rpps: String): List<ContactMedecin> {
+    fun getOneContactMedecinById(rpps: String): ContactMedecin? {
         return try {
             contactMedecinDao.getById(rpps)
         } catch (e: Exception) {
-            emptyList()
+            null
         }
     }
 

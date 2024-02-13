@@ -10,7 +10,7 @@ interface ContactMedecinDao {
     fun getAll(): List<ContactMedecin>
 
     @Query("SELECT * FROM ContactMedecin WHERE rpps IN (:rpps)")
-    fun getById(rpps: String): List<ContactMedecin>
+    fun getById(rpps: String): ContactMedecin?
 
     @Query("SELECT * FROM ContactMedecin WHERE userUuid IN (:userUuid)")
     fun getByUserUuid(userUuid: String): List<ContactMedecin>

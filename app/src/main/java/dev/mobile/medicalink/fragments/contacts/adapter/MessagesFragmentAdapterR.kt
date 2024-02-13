@@ -1,15 +1,19 @@
 package dev.mobile.medicalink.fragments.contacts.adapter
 
 import android.os.Build
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.ContactMedecin
+import dev.mobile.medicalink.fragments.contacts.AfficheDetailsMedecinFragment
+import dev.mobile.medicalink.fragments.contacts.ContactsFragment
 
 class MessagesFragmentAdapterR(private val list: List<ContactMedecin>) :
     RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
@@ -42,8 +46,15 @@ class MessagesFragmentAdapterR(private val list: List<ContactMedecin>) :
         holder.rpps.text = item.rpps
 
         holder.view.setOnClickListener {
-            // On ouvre une dialog pour afficher toutes les informations du médecin
-
+            val bundle = Bundle()
+            bundle.putString("rpps", item.rpps)
+            val destinationFragment = AfficheDetailsMedecinFragment()
+            destinationFragment.arguments = bundle
+            val fragmentManager = holder.view.context as FragmentActivity
+            val fragmentTransaction = fragmentManager.supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.FL, destinationFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
 
         holder.phone.setOnClickListener {

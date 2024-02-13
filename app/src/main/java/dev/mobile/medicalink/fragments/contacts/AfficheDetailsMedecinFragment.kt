@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.repository.ContactMedecinRepository
 
 
 class AfficheDetailsMedecinFragment : Fragment() {
@@ -37,8 +39,24 @@ class AfficheDetailsMedecinFragment : Fragment() {
         city = view.findViewById(R.id.CityDetailMed)
         gender = view.findViewById(R.id.GenderDetailMed)
 
+        val rppsMedecin = arguments?.getString("rpps")
+        val db = AppDatabase.getInstance(view.context.applicationContext)
+        val contactMedecinInterface = ContactMedecinRepository(db.contactMedecinDao())
 
-
+        Thread {
+            val medecin = contactMedecinInterface.getOneContactMedecinById(rppsMedecin!!)
+            if (medecin != null) {
+                rpps.text = getString(R.string.rpps_s, medecin.rpps)
+                prenom.text = getString(R.string.prenom_s, medecin.firstname)
+                nom.text = getString(R.string.nom_s, medecin.lastname)
+                email.text = getString(R.string.email_s, medecin.email)
+                phone.text = getString(R.string.phone_s, medecin.phoneNumber)
+                address.text = getString(R.string.adresse_s, medecin.address)
+                zipCode.text = getString(R.string.code_postal_s, medecin.zipCode)
+                city.text = getString(R.string.ville_s, medecin.city)
+                gender.text = getString(R.string.sexe_s, medecin.gender)
+            }
+        }.start()
 
         return view
     }
