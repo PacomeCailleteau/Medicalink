@@ -18,6 +18,6 @@ data class Contact(
     var city: String?,
     var phoneNumber: String?,
     var email: String?
-): Serializable
+) : Serializable
 
 

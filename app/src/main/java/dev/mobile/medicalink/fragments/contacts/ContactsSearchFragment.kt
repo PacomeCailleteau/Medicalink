@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -28,11 +27,8 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
-import dev.mobile.medicalink.fragments.contacts.ContactsSearchAdapterR
 import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
-import dev.mobile.medicalink.fragments.traitements.AjoutManuelTypeMedic
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -76,14 +72,14 @@ class ContactsSearchFragment : Fragment() {
         originalItemList = queue.take()
         filteredItemList = originalItemList
 
-/*
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
-*/
+        /*
+                val traitement = arguments?.getSerializable("traitement") as Traitement
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val schema_prise1 = arguments?.getString("schema_prise1")
+                var provenance = arguments?.getString("provenance")
+                val dureePriseDbt = arguments?.getString("dureePriseDbt")
+                val dureePriseFin = arguments?.getString("dureePriseFin")
+        */
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         supprimerSearch = view.findViewById(R.id.supprimerSearch)
@@ -151,7 +147,6 @@ class ContactsSearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
 
 
         //à déplacer dans l'adapteur

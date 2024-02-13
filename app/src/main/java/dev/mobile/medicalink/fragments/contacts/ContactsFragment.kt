@@ -16,7 +16,6 @@ import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import kotlin.concurrent.thread
 
 
 class ContactsFragment : Fragment() {
@@ -69,13 +68,28 @@ class ContactsFragment : Fragment() {
 
         if (list_medecin.isEmpty()) {
             Thread {
-                list_medecin.add(Contact(userDatabaseInterface.getUsersConnected()[0].uuid, 10108074344, "Kevin", "OLYMPA-LENERAND", "Kevin OLYMPA-LENERAND", "Masseur-Kinésithérapeute", "5 Place ABBE PIERRE", "69009", "LYON", "+33478662149", "kevin.olympa-lenerand@email.com"))
+                list_medecin.add(
+                    Contact(
+                        userDatabaseInterface.getUsersConnected()[0].uuid,
+                        10108074344,
+                        "Kevin",
+                        "OLYMPA-LENERAND",
+                        "Kevin OLYMPA-LENERAND",
+                        "Masseur-Kinésithérapeute",
+                        "5 Place ABBE PIERRE",
+                        "69009",
+                        "LYON",
+                        "+33478662149",
+                        "kevin.olympa-lenerand@email.com"
+                    )
+                )
             }.start()
         }
 
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = ContactsAdapterR(list_medecin) { clickedItem -> afficherContact(clickedItem)}
+        recyclerView.adapter =
+            ContactsAdapterR(list_medecin) { clickedItem -> afficherContact(clickedItem) }
 
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
