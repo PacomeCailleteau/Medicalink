@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
@@ -18,6 +18,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
+import dev.mobile.medicalink.fragments.traitements.PreviewFragment
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDate

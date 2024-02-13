@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.traitements.AjoutManuelSearchFragment">
+    tools:context=".fragments.traitements.ajouts.AjoutManuelSearchFragment">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputIntervalle"
@@ -13,7 +13,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_white_black_stroke_button_background"
         android:clickable="true"
-        android:focusable="false"
+        android:focusable="true"
         android:fontFamily="@font/quicksand_semibold"
         android:hint="@string/intervalle"
         android:padding="15dp"
@@ -78,7 +78,7 @@
         android:layout_width="27dp"
         android:layout_height="27dp"
         android:layout_marginEnd="25dp"
-        android:tint="@color/black"
+        app:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView10"

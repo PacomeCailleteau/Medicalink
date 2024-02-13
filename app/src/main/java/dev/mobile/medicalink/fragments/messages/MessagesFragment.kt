@@ -1,6 +1,6 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.messages
 
-import MessagesFragmentAdapterR
+import dev.mobile.medicalink.fragments.messages.adapter.MessagesFragmentAdapterR
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 
 
 class MessagesFragment : Fragment() {

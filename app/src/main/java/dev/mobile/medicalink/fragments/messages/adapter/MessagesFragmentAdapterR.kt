@@ -1,3 +1,5 @@
+package dev.mobile.medicalink.fragments.messages.adapter
+
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View

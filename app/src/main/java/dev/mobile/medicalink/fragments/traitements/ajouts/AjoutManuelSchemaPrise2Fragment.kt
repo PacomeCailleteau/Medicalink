@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.Prise
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelAdapterR
 import java.util.UUID
 
 
