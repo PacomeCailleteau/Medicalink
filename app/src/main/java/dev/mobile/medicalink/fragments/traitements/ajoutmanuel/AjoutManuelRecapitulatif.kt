@@ -232,7 +232,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
-        //TODO("Si possible opti un peu les duplications")
+
         nomLayout.setOnClickListener {
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()

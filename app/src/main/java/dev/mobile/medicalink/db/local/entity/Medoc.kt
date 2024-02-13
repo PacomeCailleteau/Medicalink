@@ -12,13 +12,8 @@ import androidx.room.PrimaryKey
         parentColumns = ["uuid"],
         childColumns = ["uuidUser"],
         onDelete = ForeignKey.CASCADE
-    ),ForeignKey(
-        entity = CisCompoBdpm::class,
-        parentColumns = ["CodeCIS"],
-        childColumns = ["CodeCIS"],
-        onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index(value = ["uuidUser"]), Index(value = ["CodeCIS"])]
+    indices = [Index(value = ["uuidUser"])]
 )
 
 
