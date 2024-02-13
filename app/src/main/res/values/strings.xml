@@ -203,5 +203,6 @@
     <string name="code_postal_s">Code postal : %s</string>
     <string name="ville_s">Ville : %s</string>
     <string name="sexe_s">Sexe : %s</string>
+    <string name="contact">Contact</string>
 
 </resources>
