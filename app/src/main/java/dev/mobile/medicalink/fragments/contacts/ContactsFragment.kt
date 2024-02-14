@@ -31,13 +31,16 @@ class ContactsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_contacts, container, false)
+        // Récupération des éléments de la vue
+        ajouterContact = view.findViewById(R.id.ajouterContact)
+        recyclerView = view.findViewById(R.id.recyclerViewMessages)
 
+        // Récupération de la base de données et des interfaces
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val contactMedecinInterface = ContactMedecinRepository(db.contactMedecinDao())
         val userInterface = UserRepository(db.userDao())
 
         var listeContactMedecin = listOf<ContactMedecin>()
-
         // On récupère tous les contacts du user connecté
         val queue = LinkedBlockingQueue<Boolean>()
         Thread {
@@ -50,17 +53,15 @@ class ContactsFragment : Fragment() {
                 queue.put(false)
             }
         }.start()
-
         queue.take()
 
-        recyclerView = view.findViewById(R.id.recyclerViewMessages)
+        // Mise en place du recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         recyclerView.adapter = ContactsFragmentAdapterR(listeContactMedecin)
-
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
-        ajouterContact = view.findViewById(R.id.ajouterContact)
+        // Ajout d'un contact lors du clic sur le bouton ajouter (plus)
         ajouterContact.setOnClickListener {
             val fragment = AjoutContactMedecinFragment()
             val transaction = requireActivity().supportFragmentManager.beginTransaction()

@@ -31,6 +31,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_affiche_details_medecin, container, false)
+        //Récupération des éléments de la vue
         rpps = view.findViewById(R.id.RppsDetailMed)
         prenom = view.findViewById(R.id.PrenomDetailMed)
         nom = view.findViewById(R.id.NomDetailMed)
@@ -46,6 +47,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val contactMedecinInterface = ContactMedecinRepository(db.contactMedecinDao())
 
+        // Récupération des informations du médecin de la base de données pour les afficher
         Thread {
             val medecin = contactMedecinInterface.getOneContactMedecinById(rppsMedecin!!)
             if (medecin != null) {

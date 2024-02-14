@@ -54,6 +54,7 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
         holder.nom.text = item.lastname
         holder.rpps.text = item.rpps
 
+        // On ouvre le fragment de détails du médecin lors du clic sur le contact
         holder.view.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("rpps", item.rpps)
@@ -66,10 +67,12 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
             fragmentTransaction.commit()
         }
 
+        // On demande une confirmation avant de supprimer le contact
         holder.delete.setOnClickListener {
             showConfirmSuppressDialog(holder.view.context, item)
         }
 
+        // On ouvre l'application téléphone lors du clic sur l'icone téléphone
         holder.phone.setOnClickListener {
             val phone = item.phoneNumber
             if (phone == "unknown") {
@@ -83,6 +86,7 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
             }
         }
 
+        // On ouvre l'application mail lors du clic sur l'icone mail
         holder.email.setOnClickListener {
             val email = item.email
             if (email == "unknown") {
@@ -109,6 +113,8 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
 
     /**
      * Fonction pour la fenetre de confirmation lors de la suppression d'un traitement
+     * @param context : Context
+     * @param item : ContactMedecin
      */
     private fun showConfirmSuppressDialog(
         context: Context,
@@ -122,14 +128,17 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
         val dosageDialog = builder.create()
 
         val dialog = dialogView.findViewById<TextView>(R.id.titreHeurePrise)
+        // On réutilise la dialog box de suppression d'un medicament alors on doit changer le texte
         dialog.text = context.getString(R.string.voulez_vous_vraiment_retirer_ce_contact)
         val nonButton = dialogView.findViewById<Button>(R.id.sauterButton)
         val ouiButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
+        // On ferme la dialog box lors du clic sur le bouton annuler
         nonButton.setOnClickListener {
             dosageDialog.dismiss()
         }
 
+        // On supprime le contact lors du clic sur le bouton valider
         ouiButton.setOnClickListener {
             val queue = LinkedBlockingQueue<Boolean>()
             Thread {

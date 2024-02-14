@@ -17,6 +17,14 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
         }
     }
 
+    fun getAllCisSubstancesByCodeSubstance(codeSubstance: Int): List<CisSubstance> {
+        return try {
+            CisSubstanceDao.getAllByCodeSubstance(codeSubstance)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     fun getOneCisSubstanceById(CodeCIS: String): List<CisSubstance> {
         return try {
             CisSubstanceDao.getById(CodeCIS)

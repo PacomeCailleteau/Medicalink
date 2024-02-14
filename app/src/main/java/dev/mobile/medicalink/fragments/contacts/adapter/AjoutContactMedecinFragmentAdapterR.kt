@@ -66,6 +66,7 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
         holder.city.text = contextGetString.getString(R.string.ville_s, item.city)
         holder.gender.text = contextGetString.getString(R.string.sexe_s, item.gender)
 
+        // Ajout du contact lors du clic sur le bouton valider
         holder.valider.setOnClickListener {
             val queue = LinkedBlockingQueue<Boolean>()
             Thread {
