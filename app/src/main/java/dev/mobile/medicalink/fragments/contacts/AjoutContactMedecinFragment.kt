@@ -84,19 +84,27 @@ class AjoutContactMedecinFragment : Fragment() {
     }
 
     private fun rechercheMedecin(rpps: String, name: String) : List<Medecin> {
-        var lstMed = listOf<Medecin>()
+        var lstMed = mutableListOf<Medecin>()
         val queue = LinkedBlockingQueue<Boolean>()
         Thread {
             try {
                 if (rpps.isNotEmpty()) {
                     val medecin = medecinApi.getMedecin(rpps)
                     if (medecin != null) {
-                        lstMed = listOf(medecin)
+                        lstMed = mutableListOf(medecin)
                     }
                 } else if (name.isNotEmpty()) {
-                    val prenom = name.split(" ")[0]
-                    val nom = name.split(" ")[1]
-                    lstMed = medecinApi.getMedecins(prenom, nom)!!
+                    val sep = name.split(" ")
+                    val prenom = sep[0]
+                    val nom = if (sep.size > 1) sep[1] else null
+                    val res1 = medecinApi.getMedecins(prenom, nom)
+                    val res2 = medecinApi.getMedecins(nom, prenom)
+                    if (res1 != null) {
+                        lstMed.addAll(res1)
+                    }
+                    if (res2 != null) {
+                        lstMed.addAll(res2)
+                    }
                 }
                 queue.put(true)
             } catch (e: Exception) {

@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.fragments.contacts.adapter
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,22 +17,23 @@ import dev.mobile.medicalink.db.local.repository.ContactMedecinRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.contacts.ContactsFragment
 import dev.mobile.medicalink.utils.medecin.Medecin
+import dev.mobile.medicalink.utils.medecin.MedecinApi
 import java.util.concurrent.LinkedBlockingQueue
 
 class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
     RecyclerView.Adapter<AjoutContactMedecinFragmentAdapterR.AjoutContactMedecinViewHolder>() {
 
     class AjoutContactMedecinViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val rpps = view.findViewById<TextView>(R.id.RppsMed)
-        val prenom = view.findViewById<TextView>(R.id.PrenomMed)
-        val nom = view.findViewById<TextView>(R.id.NomMed)
-        val email = view.findViewById<TextView>(R.id.EmailMed)
-        val phoneNumber = view.findViewById<TextView>(R.id.PhoneMed)
-        val address = view.findViewById<TextView>(R.id.AddressMed)
-        val zipCode = view.findViewById<TextView>(R.id.ZipCodeMed)
-        val city = view.findViewById<TextView>(R.id.CityMed)
-        val gender = view.findViewById<TextView>(R.id.GenderMed)
-        val valider = view.findViewById<ImageView>(R.id.ValiderMed)
+        val rpps: TextView = view.findViewById(R.id.RppsMed)
+        val prenom: TextView = view.findViewById(R.id.PrenomMed)
+        val nom: TextView = view.findViewById(R.id.NomMed)
+        val email: TextView = view.findViewById(R.id.EmailMed)
+        val phoneNumber: TextView = view.findViewById(R.id.PhoneMed)
+        val address: TextView = view.findViewById(R.id.AddressMed)
+        val zipCode: TextView = view.findViewById(R.id.ZipCodeMed)
+        val city: TextView = view.findViewById(R.id.CityMed)
+        val gender: TextView = view.findViewById(R.id.GenderMed)
+        val valider: ImageView = view.findViewById(R.id.ValiderMed)
     }
 
     override fun getItemCount(): Int {
@@ -68,11 +70,14 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
             val queue = LinkedBlockingQueue<Boolean>()
             Thread {
                 try {
+                    val medecinApi = MedecinApi()
+                    val medecin = medecinApi.getMedecin(item.rpps)
+                    Log.d("AjoutContactMedecinFragmentAdapterR", medecin.toString())
                     val db = AppDatabase.getInstance(holder.view.context.applicationContext)
                     val contactMedecinInterface = ContactMedecinRepository(db.contactMedecinDao())
                     val userInterface = UserRepository(db.userDao())
                     val userUuid = userInterface.getUsersConnected()[0].uuid
-                    contactMedecinInterface.insertContactMedecin(item.asContactMedecin(userUuid))
+                    contactMedecinInterface.insertContactMedecin(medecin!!.asContactMedecin(userUuid))
                     queue.put(true)
                 } catch (e: Exception) {
                     queue.put(false)

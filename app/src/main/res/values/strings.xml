@@ -204,5 +204,6 @@
     <string name="ville_s">Ville : %s</string>
     <string name="sexe_s">Sexe : %s</string>
     <string name="contact">Contact</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
 
 </resources>

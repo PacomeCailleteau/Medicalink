@@ -62,4 +62,14 @@
         app:layout_constraintStart_toEndOf="@+id/PhoneMedecinMessage"
         app:srcCompat="@drawable/messages" />
 
+    <ImageView
+        android:id="@+id/DeleteMedecinMessage"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/RppsMedecinMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/NomMedecinMessage"
+        app:srcCompat="@drawable/bouton_moins" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

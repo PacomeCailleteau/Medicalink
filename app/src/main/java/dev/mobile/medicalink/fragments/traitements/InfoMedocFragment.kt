@@ -88,7 +88,7 @@ class InfoMedocFragment : Fragment() {
         restants.text = restants.text.toString() + monMedoc.comprimesRestants
 
         principeActif.text = principeActif.text.toString() + maSubstance.elementPharmaceutique
-        denomPrincipe.text = debTraitement.text.toString() + maSubstance.denominationSubstance
+        denomPrincipe.text = denomPrincipe.text.toString() + maSubstance.denominationSubstance
         doseSubstance.text = doseSubstance.text.toString() + maSubstance.dosageSubstance
 
         formePharma.text = formePharma.text.toString() + monBdpm.formePharmaceutique

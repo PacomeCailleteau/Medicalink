@@ -72,6 +72,7 @@
     <string name="param_buttun">Bouton Paramètre</string>
     <string name="rapport_journalier">Rapport journalier :</string>
     <string name="supprimer_compte">Supprimer le compte</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
     <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
     <string name="bienvenue_sur_medicalink">Bienvenue sur Medicazelda !</string>
     <string name="bienvenue">Bienvenue</string>

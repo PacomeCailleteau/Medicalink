@@ -172,4 +172,5 @@
     <string name="ville_s">City : %s</string>
     <string name="sexe_s">Gender : %s</string>
     <string name="contact">Contact</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Do you really want to remove this contact?</string>
 </resources>
