@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name" translatable="false">Medicalink</string>
+    <string name="app_name" translatable="false">Medicazelda</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="param_buttun">Boutton Paremètre</string>
-    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
+    <string name="param_buttun">Bouton Paramètre</string>
+    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicazelda !</string>
     <string name="bienvenue">Bienvenue</string>
     <string name="me_connecter">Me connecter</string>
     <string name="creer_mon_profil">Créer mon profil</string>
     <string name="changer_utilisateur">Changer d\'utilisateur</string>
     <string name="selectionner_un_profil">Sélectionner un profil</string>
     <string name="ajouter_un_profil">Ajouter un profil</string>
-    <string name="medicalink_title" translatable="false">Medicalink</string>
+    <string name="medicalink_title" translatable="false">Medicazelda</string>
     <string name="creer_profil_votre_profil">Votre profil</string>
     <string name="creer_profil_adresse_email">Adresse Email</string>
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>

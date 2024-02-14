@@ -69,11 +69,11 @@
     <string name="Deconnexion">Déconnexion</string>
     <string name="lundi">L</string>
     <string name="mardi">M</string>
-    <string name="param_buttun">Bouton Paremètre</string>
+    <string name="param_buttun">Bouton Paramètre</string>
     <string name="rapport_journalier">Rapport journalier :</string>
     <string name="supprimer_compte">Supprimer le compte</string>
     <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
-    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
+    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicazelda !</string>
     <string name="bienvenue">Bienvenue</string>
     <string name="me_connecter">Me connecter</string>
     <string name="creer_mon_profil">Créer mon profil</string>
