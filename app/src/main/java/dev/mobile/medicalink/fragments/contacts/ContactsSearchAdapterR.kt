@@ -18,11 +18,13 @@ class ContactsSearchAdapterR(
     RecyclerView.Adapter<ContactsSearchAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomContact: TextView = view.findViewById(R.id.nomSearch)
+        val nomContact: TextView = view.findViewById(R.id.nomMedecin)
+        val spécialisation = view.findViewById<TextView>(R.id.professionMedecin)
 
 
         fun bind(item: Contact) {
             nomContact.text = item.fullname
+            spécialisation.text = item.specialty
         }
     }
 
@@ -33,7 +35,7 @@ class ContactsSearchAdapterR(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_search, parent, false)
+            .inflate(R.layout.item_search_contact, parent, false)
         return TraitementViewHolder(layout)
     }
 

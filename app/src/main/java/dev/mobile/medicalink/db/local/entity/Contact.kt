@@ -21,7 +21,19 @@ data class Contact(
 ) : Serializable {
     companion object {
         fun fromPractician(uuid: String, practician: Practician): Contact {
-            return Contact(uuid, practician.rpps, practician.firstName, practician.lastName, practician.fullName, practician.specialty, practician.address, practician.zipcode, practician.city, practician.phoneNumber, null)
+            return Contact(
+                uuid,
+                practician.rpps,
+                practician.firstName,
+                practician.lastName,
+                practician.fullName,
+                practician.specialty,
+                practician.address,
+                practician.zipcode,
+                practician.city,
+                practician.phoneNumber,
+                null
+            )
         }
     }
 }

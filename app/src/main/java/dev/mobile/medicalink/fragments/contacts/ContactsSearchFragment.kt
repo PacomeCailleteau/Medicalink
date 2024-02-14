@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -29,13 +30,10 @@ import dev.mobile.medicalink.api.rpps.ApiRppsService
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
-import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
-import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import java.util.concurrent.LinkedBlockingQueue
-import androidx.lifecycle.lifecycleScope
 import dev.mobile.medicalink.db.local.repository.UserRepository
-import dev.mobile.medicalink.fragments.traitements.AjoutManuelSearchAdapterR
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import kotlinx.coroutines.launch
+import java.util.concurrent.LinkedBlockingQueue
 
 class ContactsSearchFragment : Fragment() {
 
@@ -70,7 +68,7 @@ class ContactsSearchFragment : Fragment() {
         val contactDatabaseInterface = ContactRepository(db.contactDao())
         val userDatabaseInterface = UserRepository(db.userDao())
         apiRpps = ApiRppsClient().apiService
-        Thread{
+        Thread {
             uuid = userDatabaseInterface.getUsersConnected()[0].uuid
         }.start()
 
@@ -167,28 +165,33 @@ class ContactsSearchFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    lifecycleScope.launch {
-                        val response = apiRpps.getPractician(contactSearchBar.text.toString())
-                        if (response.isSuccessful) {
-                            val itemList = response.body()
-                            Log.d("Practician list", itemList.toString())
-                            var itemListContact = mutableListOf<Contact>()
-                            if (itemList != null) {
-                                itemListContact = itemList.map { Contact.fromPractician(uuid, it)} as MutableList<Contact>
-                            }
-                            Log.d("Contact list", itemListContact.toString())
-                            itemAdapter = ContactsSearchAdapterR(itemListContact) { clickedItem ->
-                                afficherContact(clickedItem)
-                            }
-                            recyclerView.adapter = itemAdapter
-                        } else {
-                            // Gérez l'erreur ici
-                        }
+            lifecycleScope.launch {
+                val response = apiRpps.getPractician(contactSearchBar.text.toString())
+                if (response.isSuccessful) {
+                    val itemList = response.body()
+                    Log.d("Practician list", itemList.toString())
+                    var itemListContact = mutableListOf<Contact>()
+                    if (itemList != null) {
+                        itemListContact = itemList.map {
+                            Contact.fromPractician(
+                                uuid,
+                                it
+                            )
+                        } as MutableList<Contact>
+                    }
+                    Log.d("Contact list", itemListContact.toString())
+                    itemAdapter = ContactsSearchAdapterR(itemListContact) { clickedItem ->
+                        afficherContact(clickedItem)
+                    }
+                    recyclerView.adapter = itemAdapter
+                } else {
+                    // Gérez l'erreur ici
                 }
+            }
         }
 
         override fun afterTextChanged(editable: Editable?) {
-            }
+        }
     }
 
     fun clearFocusAndHideKeyboard(view: View) {

@@ -9,15 +9,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiRppsClient {
     private val BASE_URL = "http://157.230.115.110/"
 
-    private val gson : Gson by lazy {
+    private val gson: Gson by lazy {
         GsonBuilder().setLenient().create()
     }
 
-    private val httpClient : OkHttpClient by lazy {
+    private val httpClient: OkHttpClient by lazy {
         OkHttpClient.Builder().build()
     }
 
-    private val retrofit : Retrofit by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(httpClient)
@@ -25,7 +25,7 @@ class ApiRppsClient {
             .build()
     }
 
-    val apiService : ApiRppsService by lazy {
+    val apiService: ApiRppsService by lazy {
         retrofit.create(ApiRppsService::class.java)
     }
 }

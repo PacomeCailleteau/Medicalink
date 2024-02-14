@@ -30,7 +30,7 @@ class ContactsAdapterR(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesFragmentViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_message, parent, false)
+            .inflate(R.layout.item_search_contact, parent, false)
         return MessagesFragmentViewHolder(layout)
     }
 

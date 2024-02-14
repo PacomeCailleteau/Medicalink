@@ -32,7 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
 
 
     companion object {
-        private const val DATABASE_NAME = "medicalink.db"
+        private const val DATABASE_NAME = "medicalinkk.db"
         private var INSTANCE: AppDatabase? = null
 
         /**
