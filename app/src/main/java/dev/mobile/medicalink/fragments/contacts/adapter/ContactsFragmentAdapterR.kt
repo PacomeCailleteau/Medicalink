@@ -21,11 +21,11 @@ class ContactsFragmentAdapterR(private val list: List<ContactMedecin>) :
     RecyclerView.Adapter<ContactsFragmentAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val prenom = view.findViewById<TextView>(R.id.PrenomMedecinMessage)
-        val nom = view.findViewById<TextView>(R.id.NomMedecinMessage)
-        val rpps = view.findViewById<TextView>(R.id.RppsMedecinMessage)
-        val phone = view.findViewById<ImageView>(R.id.PhoneMedecinMessage)
-        val email = view.findViewById<ImageView>(R.id.EmailMedecinMessage)
+        val prenom: TextView = view.findViewById(R.id.PrenomMedecinMessage)
+        val nom: TextView = view.findViewById(R.id.NomMedecinMessage)
+        val rpps: TextView = view.findViewById(R.id.RppsMedecinMessage)
+        val phone: ImageView = view.findViewById(R.id.PhoneMedecinMessage)
+        val email: ImageView = view.findViewById(R.id.EmailMedecinMessage)
     }
 
     override fun getItemCount(): Int {
