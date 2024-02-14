@@ -83,7 +83,7 @@
     <string name="dosage">Dosage</string>
     <string name="accueil">Home</string>
     <string name="traitements">Treatments</string>
-    <string name="messages">Messages</string>
+    <string name="messages">Contacts</string>
     <string name="authentification_biometrique">Biometric authentication</string>
     <string name="utilisez_empreinte_digitale">Use your fingerprint to authenticate yourself</string>
     <string name="utilisez_mdp">Use password authentification</string>

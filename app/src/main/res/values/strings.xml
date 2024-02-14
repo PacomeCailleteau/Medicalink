@@ -107,7 +107,7 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="accueil">Accueil</string>
     <string name="traitements">Traitements</string>
-    <string name="messages">Messages</string>
+    <string name="messages">Contacts</string>
     <string name="authentification_biometrique">Authentification biométrique</string>
     <string name="utilisez_empreinte_digitale">Utilisez votre empreinte digitale pour vous authentifier</string>
     <string name="utilisez_mdp">Utiliser le mot de passe</string>
