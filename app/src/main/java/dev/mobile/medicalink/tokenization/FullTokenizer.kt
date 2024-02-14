@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/*package fr.medicapp.medicapp.tokenization
 
 
 final class FullTokenizer(
@@ -30,4 +30,4 @@ final class FullTokenizer(
         }
         return outputIds
     }
-}
+} */

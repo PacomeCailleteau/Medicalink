@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/*package fr.medicapp.medicapp.tokenization
 
 class CharChecker {
     companion object {
@@ -31,4 +31,4 @@ class CharChecker {
             return type == Character.CONNECTOR_PUNCTUATION.toInt() || type == Character.DASH_PUNCTUATION.toInt() || type == Character.START_PUNCTUATION.toInt() || type == Character.END_PUNCTUATION.toInt() || type == Character.INITIAL_QUOTE_PUNCTUATION.toInt() || type == Character.FINAL_QUOTE_PUNCTUATION.toInt() || type == Character.OTHER_PUNCTUATION.toInt()
         }
     }
-}
+} */

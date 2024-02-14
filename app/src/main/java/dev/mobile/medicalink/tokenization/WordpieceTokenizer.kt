@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/*package fr.medicapp.medicapp.tokenization
 
 final class WordpieceTokenizer(
     vocab: HashMap<String, Int>
@@ -77,3 +77,4 @@ final class WordpieceTokenizer(
         return outputTokens
     }
 }
+ */
