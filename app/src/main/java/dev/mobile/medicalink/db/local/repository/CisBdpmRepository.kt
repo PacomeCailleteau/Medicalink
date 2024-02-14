@@ -17,7 +17,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
     }
 
-    fun getOneCisBdpmById(CodeCIS: Int): List<CisBdpm> {
+    fun getOneCisBdpmById(CodeCIS: String): List<CisBdpm> {
         return try {
             CISbdpmDao.getById(CodeCIS)
         } catch (e: Exception) {
@@ -72,7 +72,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
             val values = csv.parseCsvLine(line)
             if (values.size == 12) {
                 val cisBdpm = CisBdpm(
-                    codeCIS = values[0].toInt(),
+                    codeCIS = values[0],
                     denomination = values[1],
                     formePharmaceutique = values[2],
                     voiesAdministration = values[3],

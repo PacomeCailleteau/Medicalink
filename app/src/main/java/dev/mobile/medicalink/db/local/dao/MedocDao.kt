@@ -14,6 +14,9 @@ interface MedocDao {
     @Query("SELECT * FROM Medoc WHERE uuidUser IN (:uuidUser)")
     fun getByUser(uuidUser: String): List<Medoc>
 
+    @Query("SELECT * FROM Medoc WHERE CodeCIS IN (:codeCIS)")
+    fun getByCIS(codeCIS : String): Medoc?
+
     @Insert
     fun insertAll(vararg Medocs: Medoc)
 
