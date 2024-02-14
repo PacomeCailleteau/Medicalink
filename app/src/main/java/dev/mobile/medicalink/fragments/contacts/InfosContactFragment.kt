@@ -45,8 +45,8 @@ class InfosContactFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_descriptif_contact, container, false)
-        textNomComplet = view.findViewById(R.id.nomCompletMedecin)
-        textRpps = view.findViewById(R.id.rpps)
+        textNomComplet = view.findViewById(R.id.nomCompletMedoc)
+        textRpps = view.findViewById(R.id.cis)
         textSpecialite = view.findViewById(R.id.spécialitéMedecin)
         textTelephone = view.findViewById(R.id.téléphoneMedecin)
         btnTelephone = view.findViewById(R.id.btnTelephone)
