@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -27,6 +28,7 @@ class LoaderFragment : Fragment() {
     private val handler = Handler()
 
     override fun onCreateView(
+        // Méthode appelée pour créer la vue du fragment
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -35,6 +37,7 @@ class LoaderFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Méthode appelée lorsque la vue est créée
         super.onViewCreated(view, savedInstanceState)
 
         startLoadingAnimation()
@@ -42,14 +45,15 @@ class LoaderFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val uri = (arguments?.getString("urimage"))?.toUri()
             val result = withContext(Dispatchers.IO) {
-                //createTraitement(uri!!)
+                createTraitement(uri!!, view.context)
             }
 
-            //handleResult(result)
+            handleResult(result)
         }
     }
 
     private fun handleResult(result: List<String?>) {
+        // Méthode appelée pour traiter le résultat du traitement
         for (i in result.indices) {
             Log.d("RESULT TXT TRAITE", "handleResult: " + result[i])
         }
@@ -61,6 +65,7 @@ class LoaderFragment : Fragment() {
     }
 
     private fun startLoadingAnimation() {
+        // Méthode appelée pour démarrer l'animation de chargement
         val loaderProgressBar = requireView().findViewById<View>(R.id.loaderProgressBar)
         val fadeInOut = ObjectAnimator.ofFloat(loaderProgressBar, "alpha", 0f, 1f).apply {
             duration = 500
@@ -75,76 +80,18 @@ class LoaderFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        // Méthode appelée lors de la destruction du fragment
         handler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
-    /*
-    // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createTraitement(text: Uri): List<String?> {
-        val myModel = PrescriptionAI(requireContext())
-        val texteAnalyze = myModel.analyse(text, onPrediction = { prediction ->
-            var treatment = mutableListOf<Traitement>()
-            prediction.forEach { (word, label) ->
-                when {
-                    // B -> début mot
-                    // I -> intermédiaire du mot
-                    // B-Doliprane I-500mg
-                    label.startsWith("B-") -> {
-                        // query est la barre de recherche pour associer ce qui est trouver au nom de médicament via un algo
-                        // donc cette condition -> si on trouve un nom de medic (drug) et que la barre de recherche est déjà pleine (indiquant qu'il sert déja à quelque chose) -> renvoyer les results + recréer un traitement
-                        if (label.removePrefix("B-") == "Drug" && treatment.query.isNotEmpty()) {
-                            // query -> suggestion
-                            treatment.query = treatment.query.trim()
-                            // posology -> quand prendre...
-                            treatment.posology = treatment.posology.trim()
-                            // renvoyer la page
-                            state.treatments.add(treatment)
-                            // recrée une instance pour le cas ou il y a plusieurs médic
-                            treatment = Treatment()
-                        }
-                        when (label.removePrefix("B-")) {
-                            "Drug" -> treatment.query += " $word"
-                            "DrugQuantity" -> treatment.posology += " $word"
-                            "DrugForm" -> treatment.posology += " $word"
-                            "DrugFrequency" -> treatment.posology += " $word"
-                            "DrugDuration" -> treatment.renew += " $word"
-                        }
-                    }
-
-                    label.startsWith("I-") -> {
-                        when (label.removePrefix("I-")) {
-                            "Drug" -> treatment.query += " $word"
-                            "DrugQuantity" -> treatment.posology += " $word"
-                            "DrugForm" -> treatment.posology += " $word"
-                            "DrugFrequency" -> treatment.posology += " $word"
-                            "DrugDuration" -> treatment.renew += " $word"
-                        }
-                    }
-                }
-            }
-            // dernier élément
-            if (treatment.query.isNotEmpty()) {
-                treatment.query = treatment.query.trim()
-                treatment.posology = treatment.posology.trim()
-                state.treatments.add(treatment)
-            }
-        },
-            // retirer le loader
-            onDismiss = {
-                loading.value = false
-            })
-        return texteAnalyze
-    }
-
-     */
 
     // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createTraitement1(text: Uri): List<String?> {
+    private fun createTraitement(text: Uri, context: Context): List<String?> {
+
         val myModel = PrescriptionAI(requireContext())
         val texteAnalyze = myModel.analyse(text, onPrediction = { prediction ->
-            var treatment = mutableListOf(Traitement(
+            val treatment = mutableListOf(Traitement(
                 "",
                 "",
                 0,
@@ -207,12 +154,11 @@ class LoaderFragment : Fragment() {
                 }
             }
             //lancer pour chaque élément le traitement du traitement
+            treatment.forEach { it.paufine(context) }
         },
             // retirer le loader
-            onDismiss = {
-                //loading.value = false
-            })
-        return listOf("")// texteAnalyze
+            onDismiss = {})
+        return  texteAnalyze
     }
 }
 
