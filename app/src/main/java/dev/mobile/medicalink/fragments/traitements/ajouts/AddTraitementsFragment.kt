@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.PreviewFragment
@@ -46,6 +47,7 @@ class AddTraitementsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_traitements, container, false)
+        val viewModel = ViewModelProvider(this)[AjoutSharedViewModel::class.java]
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
