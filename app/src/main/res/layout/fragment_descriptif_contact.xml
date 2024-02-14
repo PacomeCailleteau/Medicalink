@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/btnEmail"
@@ -42,23 +42,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                android:layout_above="@+id/zoomButton"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/confirmer"
-                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
-                app:layout_constraintStart_toStartOf="@+id/zipCodeVilleMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/zipCodeVilleMedecin" />
-
             <TextView
                 android:id="@+id/textViewContactMedecin"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
                 android:text="Contact :"
@@ -86,15 +74,15 @@
                 android:id="@+id/adresseMedecin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
                 android:text="Adresse"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/textViewLieuMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/textViewLieuMedecin" />
+                app:layout_constraintStart_toStartOf="@+id/mailMedecin"
+                app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
 
             <TextView
                 android:id="@+id/cis"
@@ -157,7 +145,7 @@
                 android:id="@+id/spécialitéMedecin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
                 android:text="REMPLIR"
@@ -174,20 +162,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/téléphoneMedecin"
                 app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
                 app:srcCompat="@drawable/telephone" />
-
-            <TextView
-                android:id="@+id/textViewLieuMedecin"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/quicksand_semibold"
-                android:gravity="start"
-                android:text="Lieux :"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/mailMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
 
             <ImageView
                 android:id="@+id/retour_schema_contact"
@@ -218,9 +192,11 @@
                 android:id="@+id/btnMaps"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/maps"
-                tools:layout_editor_absoluteX="309dp"
-                tools:layout_editor_absoluteY="354dp" />
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/btnEmail"
+                app:layout_constraintStart_toStartOf="@+id/zipCodeVilleMedecin"
+                app:layout_constraintTop_toBottomOf="@+id/zipCodeVilleMedecin"
+                app:srcCompat="@drawable/maps" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -235,7 +211,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
         android:fontFamily="@font/quicksand_bold"
-        android:text="Ajouter aux contacts"
+        android:text="Modif Contact"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="20sp"

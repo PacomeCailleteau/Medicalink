@@ -15,9 +15,18 @@ class ContactRepository(private val ContactDao: ContactDao) {
         }
     }
 
-    fun getOneContactById(Rpps: Int): List<Contact> {
+    fun getOneContactById(uuid: String, Rpps: Long): Contact? {
         return try {
-            ContactDao.getById(Rpps)
+            val c = ContactDao.getByIdAndUuid(Rpps, uuid)
+            c
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getContactsByUuid(uuid: String): List<Contact> {
+        return try {
+            ContactDao.getByUuid(uuid)
         } catch (e: Exception) {
             emptyList()
         }

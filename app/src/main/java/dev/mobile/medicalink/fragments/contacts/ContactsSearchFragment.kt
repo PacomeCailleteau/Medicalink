@@ -72,15 +72,7 @@ class ContactsSearchFragment : Fragment() {
             uuid = userDatabaseInterface.getUsersConnected()[0].uuid
         }.start()
 
-
-        //Récupération de la liste des Médicaments pour l'afficher
-        val queue = LinkedBlockingQueue<List<Contact>>()
-        Thread {
-            val listContact = contactDatabaseInterface.getAllContact()
-            Log.d("Contact list", listContact.toString())
-            queue.add(listContact)
-        }.start()
-        ItemList = queue.take()
+        ItemList = emptyList()
 
         contactSearchBar = view.findViewById(R.id.add_manually_search_bar)
         supprimerSearch = view.findViewById(R.id.supprimerSearch)
@@ -88,48 +80,7 @@ class ContactsSearchFragment : Fragment() {
         supprimerSearch.setOnClickListener {
             contactSearchBar.setText("")
         }
-        // addManuallySearchBar.setText(traitement.nomTraitement)
-        /* Regex : laisser en commentaire pour l'instant
-        addManuallySearchBar.filters =
-            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-                source?.let {
-                    if (it.contains("\n")) {
-                        // Bloquer le collage de texte
-                        return@InputFilter ""
-                    }
-                }
-                null
-            })
 
-        val rootLayout = view.findViewById<View>(R.id.constraint_layout_ajout_manuel_search)
-        rootLayout.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                clearFocusAndHideKeyboard(v)
-            }
-            return@setOnTouchListener false
-        }
-
-        val regex = Regex(
-            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$",
-            options = setOf(RegexOption.IGNORE_CASE)
-        )
-
-        val filter = InputFilter { source, start, end, dest, dstart, dend ->
-            val input = source.subSequence(start, end).toString()
-            val currentText =
-                dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
-            val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
-
-            if (regex.matches(newText)) {
-                null // Caractères autorisés
-            } else {
-                dest.subSequence(dstart, dend)
-            }
-        }
-        */
-        /* Regex : laisser en commentaire pour l'instant
-        addManuallySearchBar.filters = arrayOf(filter)
-         */
         contactSearchBar.addTextChangedListener(textWatcher)
         contactButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -166,27 +117,10 @@ class ContactsSearchFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             lifecycleScope.launch {
-                val response = apiRpps.getPractician(contactSearchBar.text.toString())
-                if (response.isSuccessful) {
-                    val itemList = response.body()
-                    Log.d("Practician list", itemList.toString())
-                    var itemListContact = mutableListOf<Contact>()
-                    if (itemList != null) {
-                        itemListContact = itemList.map {
-                            Contact.fromPractician(
-                                uuid,
-                                it
-                            )
-                        } as MutableList<Contact>
-                    }
-                    Log.d("Contact list", itemListContact.toString())
-                    itemAdapter = ContactsSearchAdapterR(itemListContact) { clickedItem ->
-                        afficherContact(clickedItem)
-                    }
-                    recyclerView.adapter = itemAdapter
-                } else {
-                    // Gérez l'erreur ici
+                itemAdapter = ContactsSearchAdapterR(getPracticiansToContact(uuid, contactSearchBar.text.toString())) { clickedItem ->
+                    afficherContact(clickedItem)
                 }
+                recyclerView.adapter = itemAdapter
             }
         }
 
@@ -234,5 +168,26 @@ class ContactsSearchFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact> {
+        val response = apiRpps.getPracticians(search)
+        if (response.isSuccessful) {
+            val itemList = response.body()
+            Log.d("Practician list", itemList.toString())
+            var itemListContact = mutableListOf<Contact>()
+            if (itemList != null) {
+                itemListContact = itemList.map {
+                    Contact.fromPractician(
+                        uuid,
+                        it
+                    )
+                } as MutableList<Contact>
+            }
+            Log.d("Contact list", itemListContact.toString())
+            return itemListContact
+        } else {
+            return emptyList()
+        }
     }
 }

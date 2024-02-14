@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 import dev.mobile.medicalink.api.rpps.Practician
 import java.io.Serializable
 
-@Entity
+@Entity(primaryKeys = ["uuid", "Rpps"])
 data class Contact(
-    @PrimaryKey val uuid: String,
+    val uuid: String,
     val Rpps: Long,
     var firstName: String,
     var lastName: String,

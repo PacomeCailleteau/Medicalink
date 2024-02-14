@@ -64,36 +64,18 @@ class ContactsFragment : Fragment() {
             fragTransaction.commit()
         }
 
-        val list_medecin = contactDatabaseInterface.getAllContact().toMutableList()
-
-        if (list_medecin.isEmpty()) {
-            Thread {
-                list_medecin.add(
-                    Contact(
-                        userDatabaseInterface.getUsersConnected()[0].uuid,
-                        10108074344,
-                        "Kevin",
-                        "OLYMPA-LENERAND",
-                        "Kevin OLYMPA-LENERAND",
-                        "Masseur-Kinésithérapeute",
-                        "5 Place ABBE PIERRE",
-                        "69009",
-                        "LYON",
-                        "+33478662149",
-                        "kevin.olympa-lenerand@email.com"
-                    )
-                )
-            }.start()
-        }
-
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter =
-            ContactsAdapterR(list_medecin) { clickedItem -> afficherContact(clickedItem) }
+        recyclerView.adapter = ContactsAdapterR(emptyList()) { clickedItem -> afficherContact(clickedItem) }
+
+        Thread {
+            val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
+            val listMedecin = contactDatabaseInterface.getContactsByUuid(uuid)
+            recyclerView.adapter = ContactsAdapterR(listMedecin) { clickedItem -> afficherContact(clickedItem) }
+        }.start()
 
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
 
         return view
     }

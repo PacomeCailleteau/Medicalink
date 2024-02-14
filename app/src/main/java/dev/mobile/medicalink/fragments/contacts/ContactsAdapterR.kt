@@ -11,7 +11,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.Contact
 
 class ContactsAdapterR(
-    private val list: MutableList<Contact>,
+    private val list: List<Contact>,
     private val onItemClick: (Contact) -> Unit
 ) :
     RecyclerView.Adapter<ContactsAdapterR.MessagesFragmentViewHolder>() {

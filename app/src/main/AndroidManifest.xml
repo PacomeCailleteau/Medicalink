@@ -67,10 +67,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBYPsR0Fv673_dNcmfMHtp6i0mpuz2IKII" />
-
         <service
             android:name=".utils.NotificationService"
             android:exported="false" />
