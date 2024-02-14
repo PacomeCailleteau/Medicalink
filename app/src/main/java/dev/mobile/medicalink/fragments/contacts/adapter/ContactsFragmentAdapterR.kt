@@ -1,22 +1,24 @@
 package dev.mobile.medicalink.fragments.contacts.adapter
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.ContactMedecin
 import dev.mobile.medicalink.fragments.contacts.AfficheDetailsMedecinFragment
-import dev.mobile.medicalink.fragments.contacts.ContactsFragment
 
-class MessagesFragmentAdapterR(private val list: List<ContactMedecin>) :
-    RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
+class ContactsFragmentAdapterR(private val list: List<ContactMedecin>) :
+    RecyclerView.Adapter<ContactsFragmentAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val prenom = view.findViewById<TextView>(R.id.PrenomMedecinMessage)
@@ -58,11 +60,38 @@ class MessagesFragmentAdapterR(private val list: List<ContactMedecin>) :
         }
 
         holder.phone.setOnClickListener {
-            //TODO(Appeler le médecin)
+            val phone = item.phoneNumber
+            if (phone == "unknown") {
+                Toast.makeText(holder.view.context, "Numéro de téléphone inconnu", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                // On ouvre l'application téléphone
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = android.net.Uri.parse("tel:$phone")
+                holder.view.context.startActivity(intent)
+            }
         }
 
         holder.email.setOnClickListener {
-            //TODO(Envoyer un mail au médecin)
+            val email = item.email
+            if (email == "unknown") {
+                Toast.makeText(holder.view.context, "Email inconnu", Toast.LENGTH_SHORT).show()
+            } else {
+                // On ouvre l'application mail
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "message/rfc822"
+                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+                try {
+                    holder.view.context.startActivity(
+                        Intent.createChooser(
+                            intent,
+                            "Envoyer un mail"
+                        )
+                    )
+                } catch (e: android.content.ActivityNotFoundException) {
+                    Log.e("Mail", "Aucune application pour envoyer un mail")
+                }
+            }
         }
     }
 

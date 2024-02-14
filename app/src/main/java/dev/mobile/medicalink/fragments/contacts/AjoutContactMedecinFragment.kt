@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -86,19 +87,28 @@ class AjoutContactMedecinFragment : Fragment() {
         var lstMed = listOf<Medecin>()
         val queue = LinkedBlockingQueue<Boolean>()
         Thread {
-            if (rpps.isNotEmpty()) {
+            try {
+                if (rpps.isNotEmpty()) {
                     val medecin = medecinApi.getMedecin(rpps)
                     if (medecin != null) {
                         lstMed = listOf(medecin)
                     }
-            } else if (name.isNotEmpty()) {
-                val prenom = name.split(" ")[0]
-                val nom = name.split(" ")[1]
-                lstMed = medecinApi.getMedecins(prenom, nom)!!
+                } else if (name.isNotEmpty()) {
+                    val prenom = name.split(" ")[0]
+                    val nom = name.split(" ")[1]
+                    lstMed = medecinApi.getMedecins(prenom, nom)!!
+                }
+                queue.put(true)
+            } catch (e: Exception) {
+                queue.put(false)
             }
-            queue.put(true)
         }.start()
-        queue.take()
+        val res = queue.take()
+        if (!res) {
+            Toast.makeText(this.context, "Erreur lors de la recherche, veuillez être plus précis", Toast.LENGTH_SHORT)
+                .show()
+        }
+
         return lstMed
     }
 

@@ -15,7 +15,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.ContactMedecin
 import dev.mobile.medicalink.db.local.repository.ContactMedecinRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
-import dev.mobile.medicalink.fragments.contacts.adapter.MessagesFragmentAdapterR
+import dev.mobile.medicalink.fragments.contacts.adapter.ContactsFragmentAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -30,7 +30,7 @@ class ContactsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_messages, container, false)
+        val view = inflater.inflate(R.layout.fragment_contacts, container, false)
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val contactMedecinInterface = ContactMedecinRepository(db.contactMedecinDao())
@@ -55,7 +55,7 @@ class ContactsFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = MessagesFragmentAdapterR(listeContactMedecin)
+        recyclerView.adapter = ContactsFragmentAdapterR(listeContactMedecin)
 
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -21,6 +22,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
     private lateinit var zipCode : TextView
     private lateinit var city : TextView
     private lateinit var gender : TextView
+    private lateinit var retour : ImageView
 
 
     override fun onCreateView(
@@ -38,6 +40,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
         zipCode = view.findViewById(R.id.ZipCodeDetailMed)
         city = view.findViewById(R.id.CityDetailMed)
         gender = view.findViewById(R.id.GenderDetailMed)
+        retour = view.findViewById(R.id.RetourDetailMed)
 
         val rppsMedecin = arguments?.getString("rpps")
         val db = AppDatabase.getInstance(view.context.applicationContext)
@@ -57,6 +60,11 @@ class AfficheDetailsMedecinFragment : Fragment() {
                 gender.text = getString(R.string.sexe_s, medecin.gender)
             }
         }.start()
+
+        retour.setOnClickListener {
+            val fragmentManager = this.parentFragmentManager
+            fragmentManager.popBackStack()
+        }
 
         return view
     }
