@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="bienvenue_sur_medicalink">Welcome on Medicalink !</string>
+    <string name="param_buttun">Settings button</string>
+    <string name="bienvenue_sur_medicalink">Welcome on Medicazelda !</string>
     <string name="bienvenue">Welcome</string>
     <string name="me_connecter">Log in</string>
     <string name="creer_mon_profil">Create my profile</string>
@@ -82,7 +83,7 @@
     <string name="dosage">Dosage</string>
     <string name="accueil">Home</string>
     <string name="traitements">Treatments</string>
-    <string name="messages">Messages</string>
+    <string name="messages">Contacts</string>
     <string name="authentification_biometrique">Biometric authentication</string>
     <string name="utilisez_empreinte_digitale">Use your fingerprint to authenticate yourself</string>
     <string name="utilisez_mdp">Use password authentification</string>
@@ -144,9 +145,31 @@
     <string name="aucun_effet_secondaire">No side effects</string>
     <string name="prendre">Take</string>
     <string name="pris">Taken</string>
+    <string name="Stock">Stock</string>
+    <string name="textStock">textStock</string>
     <string name="Messagerie">Messages</string>
+    <string name="textMessage">textMessage</string>
+    <string name="titreMessage">titreMessage</string>
     <string name="parametre">Parameters</string>
     <string name="aucun_traitement">No treatment</string>
     <string name="effets_secondaires">Side effects</string>
+    <string name="chargement">Loading</string>
+    <string name="ajouter">Add</string>
     <string name="supprimer_compte">Delete account</string>
+    <string name="vos_contacts">Your contacts</string>
+    <string name="prenom_message_item">Firstname</string>
+    <string name="nom_message_item">Lastname</string>
+    <string name="rechercher_par_prenom_et_nom">Search by first and last name</string>
+    <string name="rechercher_par_rpps">Search by RPPS</string>
+    <string name="rechercher_un_medecin">Search a doctor</string>
+    <string name="prenom_s">Firstname : %s</string>
+    <string name="nom_s">Lastname : %s</string>
+    <string name="email_s">Email : %s</string>
+    <string name="phone_s">Phone number : %s</string>
+    <string name="adresse_s">Address : %s</string>
+    <string name="code_postal_s">Zip code : %s</string>
+    <string name="ville_s">City : %s</string>
+    <string name="sexe_s">Gender : %s</string>
+    <string name="contact">Contact</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Do you really want to remove this contact?</string>
 </resources>

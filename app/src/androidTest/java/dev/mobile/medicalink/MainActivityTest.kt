@@ -49,7 +49,7 @@ class MainActivityTest {
     @Test
     fun testTexteBienvue() {
         // Vérification que le texte de bienvenue est bien présent
-        onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome on Medicalink !")))
+        onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome on Medicazelda !")))
     }
 
     @Test

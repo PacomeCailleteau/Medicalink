@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.utils.medecin
 
 
-import android.util.Log
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -37,9 +36,10 @@ class MedecinApi {
         }
     }
 
-    fun getMedecins(prenom: String, nom: String): List<Medecin>? {
+    fun getMedecins(prenom: String?, nom: String?) : List<Medecin>? {
         try {
-            val url = "${baseURL}medecin/$prenom/$nom"
+            // On ne cherche qu'avec instamed parce que c'est plus rapide
+            val url = "${baseURL}medecin_instamed/$prenom/$nom?perPage=10"
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
             val response: Response = client.newCall(request).execute()
@@ -50,7 +50,6 @@ class MedecinApi {
             }
 
             val body = response.body?.string()
-            Log.d("MedecinApi", body.toString())
             val gson = Gson()
 
             return gson.fromJson(body, Array<Medecin>::class.java).toList()

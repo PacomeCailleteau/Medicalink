@@ -143,8 +143,7 @@ class ListeTraitementAdapterR(
 
         val dosageDialog = builder.create()
 
-        val titreConfirmationSuppression =
-            dialogView.findViewById<TextView>(R.id.titreHeurePrise)
+        dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         val nonButton = dialogView.findViewById<Button>(R.id.sauterButton)
         val ouiButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
@@ -160,6 +159,10 @@ class ListeTraitementAdapterR(
         }
 
         dosageDialog.show()
+    }
+
+    private fun showMedicationInfos(context: Context,item: Traitement) {
+
     }
 
 }

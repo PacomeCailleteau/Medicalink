@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -38,7 +39,7 @@ class AjoutContactMedecinFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_contact_medecin, container, false)
-
+        // Récupération des éléments de la vue et mise en place du recyclerView
         retour = view.findViewById(R.id.retour_to_messages)
         supprimerSearch = view.findViewById(R.id.supprimerSearch)
         searchByRpps = view.findViewById(R.id.search_by_rpps)
@@ -51,6 +52,8 @@ class AjoutContactMedecinFragment : Fragment() {
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
+        // Recherche des médecins
+        // Appel l'api lors du clic sur le bouton de recherche et ferme le clavier
         search.setOnClickListener {
             // On ferme le clavier
             val imm = requireActivity().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
@@ -69,36 +72,55 @@ class AjoutContactMedecinFragment : Fragment() {
             searchByName.text?.clear()
         }
 
-        /* Retour vers la page précédente (MessagesFragment) */
+        // On dépile le fragment lors du clic sur le bouton de retour pour revenir au précédent
         retour.setOnClickListener {
-            val fragment = ContactsFragment()
-            val fragmentManager = requireActivity().supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.FL, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+            val fragmentManager = this.parentFragmentManager
+            fragmentManager.popBackStack()
         }
 
         return view
     }
 
+    /**
+     * Recherche des médecins (le rpps est prioritaire sur le nom/prenom)
+     * @param rpps : rpps du médecin
+     * @param name : nom du médecin
+     * @return la liste des médecins trouvés
+     */
     private fun rechercheMedecin(rpps: String, name: String) : List<Medecin> {
-        var lstMed = listOf<Medecin>()
+        var lstMed = mutableListOf<Medecin>()
         val queue = LinkedBlockingQueue<Boolean>()
         Thread {
-            if (rpps.isNotEmpty()) {
+            try {
+                if (rpps.isNotEmpty()) {
                     val medecin = medecinApi.getMedecin(rpps)
                     if (medecin != null) {
-                        lstMed = listOf(medecin)
+                        lstMed = mutableListOf(medecin)
                     }
-            } else if (name.isNotEmpty()) {
-                val prenom = name.split(" ")[0]
-                val nom = name.split(" ")[1]
-                lstMed = medecinApi.getMedecins(prenom, nom)!!
+                } else if (name.isNotEmpty()) {
+                    val sep = name.split(" ")
+                    val prenom = sep[0]
+                    val nom = if (sep.size > 1) sep[1] else null
+                    val res1 = medecinApi.getMedecins(prenom, nom)
+                    val res2 = medecinApi.getMedecins(nom, prenom)
+                    if (res1 != null) {
+                        lstMed.addAll(res1)
+                    }
+                    if (res2 != null) {
+                        lstMed.addAll(res2)
+                    }
+                }
+                queue.put(true)
+            } catch (e: Exception) {
+                queue.put(false)
             }
-            queue.put(true)
         }.start()
-        queue.take()
+        val res = queue.take()
+        if (!res) {
+            Toast.makeText(this.context, "Erreur lors de la recherche, veuillez être plus précis", Toast.LENGTH_SHORT)
+                .show()
+        }
+
         return lstMed
     }
 

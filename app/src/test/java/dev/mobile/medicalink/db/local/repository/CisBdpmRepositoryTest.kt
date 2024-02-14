@@ -19,7 +19,7 @@ class CisBdpmRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var CisBdpmRepository: CisBdpmRepository
     private val defaultCis = CisBdpm(
-        11111111,
+        "11111111",
         "denomination",
         "formePharmaceutique",
         "voiesAdministration",
@@ -100,7 +100,7 @@ class CisBdpmRepositoryTest {
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
         assert(cisBdpmFromDatabase.size == 1)
         assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
-        val cisBdpmUpdated = cisBdpm.copy(codeCIS = 22222222)
+        val cisBdpmUpdated = cisBdpm.copy(codeCIS = "22222222")
         CisBdpmRepository.updateCisBdpm(cisBdpmUpdated)
         val cisBdpmFromDatabaseUpdated = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
         assert(cisBdpmFromDatabaseUpdated.size == 1)
@@ -126,7 +126,7 @@ class CisBdpmRepositoryTest {
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
         assert(cisBdpmFromDatabase.size == 1)
         assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
-        val cisBdpmWrongId = cisBdpm.copy(codeCIS = 22222222)
+        val cisBdpmWrongId = cisBdpm.copy(codeCIS = "22222222")
         CisBdpmRepository.deleteCisBdpm(cisBdpmWrongId)
         val cisBdpmFromDatabaseDeleted = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
         assert(cisBdpmFromDatabaseDeleted.size == 1)

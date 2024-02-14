@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name" translatable="false">Medicalink</string>
+    <string name="app_name" translatable="false">Medicazelda</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="param_buttun">Boutton Paremètre</string>
-    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
+    <string name="param_buttun">Bouton Paramètre</string>
+    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicazelda !</string>
     <string name="bienvenue">Bienvenue</string>
     <string name="me_connecter">Me connecter</string>
     <string name="creer_mon_profil">Créer mon profil</string>
     <string name="changer_utilisateur">Changer d\'utilisateur</string>
     <string name="selectionner_un_profil">Sélectionner un profil</string>
     <string name="ajouter_un_profil">Ajouter un profil</string>
-    <string name="medicalink_title" translatable="false">Medicalink</string>
+    <string name="medicalink_title" translatable="false">Medicazelda</string>
     <string name="creer_profil_votre_profil">Votre profil</string>
     <string name="creer_profil_adresse_email">Adresse Email</string>
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
@@ -107,7 +107,7 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="accueil">Accueil</string>
     <string name="traitements">Traitements</string>
-    <string name="messages">Messages</string>
+    <string name="messages">Contacts</string>
     <string name="authentification_biometrique">Authentification biométrique</string>
     <string name="utilisez_empreinte_digitale">Utilisez votre empreinte digitale pour vous authentifier</string>
     <string name="utilisez_mdp">Utiliser le mot de passe</string>
@@ -204,5 +204,6 @@
     <string name="ville_s">Ville : %s</string>
     <string name="sexe_s">Sexe : %s</string>
     <string name="contact">Contact</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
 
 </resources>

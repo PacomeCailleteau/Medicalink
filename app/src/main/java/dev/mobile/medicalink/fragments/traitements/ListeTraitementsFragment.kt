@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -220,7 +221,15 @@ class ListeTraitementsFragment : Fragment() {
             ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
                 when (isSuppr) {
                     null -> {
-                        Log.d("test", clickedTraitement.codeCIS)
+                        Log.d("test", clickedTraitement.nomTraitement)
+                        val bundle = Bundle()
+                        bundle.putSerializable("medoc", clickedTraitement)
+                        val destinationFragment = InfoMedocFragment()
+                        destinationFragment.arguments = bundle
+                        val fragTransaction = parentFragmentManager.beginTransaction()
+                        fragTransaction.replace(R.id.FL, destinationFragment)
+                        fragTransaction.addToBackStack(null)
+                        fragTransaction.commit()
                     }
                     false -> {
                         viewModel.setIsAddingTraitement(false)

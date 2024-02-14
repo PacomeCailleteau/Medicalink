@@ -35,13 +35,13 @@
         android:id="@+id/RppsDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/quicksand_bold"
         android:text="@string/rpps_s"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titreContactsDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/RetourDetailMed" />
 
     <TextView
         android:id="@+id/PrenomDetailMed"
@@ -51,7 +51,7 @@
         android:text="@string/prenom_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/RppsDetailMed" />
 
     <TextView
@@ -62,7 +62,7 @@
         android:text="@string/nom_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/PrenomDetailMed" />
 
     <TextView
@@ -73,7 +73,7 @@
         android:text="@string/email_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/NomDetailMed" />
 
     <TextView
@@ -84,7 +84,7 @@
         android:text="@string/phone_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/EmailDetailMed" />
 
     <TextView
@@ -95,7 +95,7 @@
         android:text="@string/adresse_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/PhoneDetailMed" />
 
 
@@ -107,7 +107,7 @@
         android:text="@string/code_postal_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/AddressDetailMed" />
 
     <TextView
@@ -118,7 +118,7 @@
         android:text="@string/ville_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/ZipCodeDetailMed" />
 
     <TextView
@@ -129,8 +129,19 @@
         android:text="@string/sexe_s"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
         app:layout_constraintTop_toBottomOf="@+id/CityDetailMed" />
+
+    <ImageView
+        android:id="@+id/RetourDetailMed"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/annuler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toEndOf="@+id/titreContactsDetails"
+        app:layout_constraintTop_toBottomOf="@+id/titreContactsDetails" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

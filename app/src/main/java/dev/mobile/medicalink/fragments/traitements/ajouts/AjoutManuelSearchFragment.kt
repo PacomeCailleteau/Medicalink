@@ -2,6 +2,7 @@ package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -28,7 +29,12 @@ import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.entity.CisSubstance
+import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
+import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelSearchAdapterR
@@ -260,4 +266,52 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallySearchBar.setText(query)
     }
 
+    /**
+     * Fonction utilisé pour rechercher si un médicament est déjà présent dans la liste des médicaments de l'utilisateur
+     * @param context le contexte de l'application
+     * @param codeCis le codeCis du médicament que l'on veut ajouter
+     * @return la liste des médicaments en conflit avec le médicament que l'on veut ajouter
+     */
+    private fun searchForDuplcateSubstance(context: Context, codeCis: String): List<CisSubstance> {
+        val db = AppDatabase.getInstance(context)
+        val userInterface = UserRepository(db.userDao())
+        val medocInterface = MedocRepository(db.medocDao())
+        val cisSubstanceInterface = CisSubstanceRepository(db.cisSubstanceDao())
+        val queue = LinkedBlockingQueue<List<CisSubstance>>()
+        Thread {
+            try {
+                //Récupération de tout les codes de substances déjà pris par l'utilisateur
+                val userUuid = userInterface.getUsersConnected()[0].uuid
+                val codeCisMedicamentDejaPris : List<String> = medocInterface.getAllMedocByUserId(userUuid).map {
+                    it.codeCIS
+                }
+                val medicamentCisDejaPris : MutableList<CisSubstance> = mutableListOf()
+                for (code in codeCisMedicamentDejaPris) {
+                    medicamentCisDejaPris.add(cisSubstanceInterface.getOneCisSubstanceById(code)[0])
+                }
+
+                //Réupération du code de substance du médicament que l'on veut ajouter
+                val codeSubstanceMedicamentAjoute = cisSubstanceInterface.getOneCisSubstanceById(codeCis)[0].codeSubstance
+
+                //Vérification de la présence de ce code de substance dans la liste des médicaments déjà pris
+                val medicamentEnConflit = medicamentCisDejaPris.filter { it.codeSubstance == codeSubstanceMedicamentAjoute }
+
+                queue.add(medicamentEnConflit)
+            } catch (e: Exception) {
+                queue.add(listOf())
+                Log.e("Erreur", e.toString())
+            }
+        }.start()
+
+        return queue.take()
+    }
+
 }
+
+
+
+
+
+
+
+

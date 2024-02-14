@@ -25,7 +25,6 @@ import androidx.room.PrimaryKey
             ]
 )
 
-//TODO("rajouter un uuid lié au médicament dans la base de donnée médicamenteuse")
 data class Medoc(
     @PrimaryKey val uuid: String,
     @ColumnInfo(name = "uuidUser") var uuidUser: String,

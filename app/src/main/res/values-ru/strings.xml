@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="bienvenue_sur_medicalink">Добро пожаловать в Medicalink!</string>
+    <string name="bienvenue_sur_medicalink">Добро пожаловать в Medicazelda!</string>
     <string name="bienvenue">Добро пожаловать</string>
     <string name="me_connecter">Соедините меня</string>
     <string name="creer_mon_profil">Создать мой профиль</string>
@@ -145,4 +145,5 @@
     <string name="effets_secondaires">Побочные эффекты</string>
     <string name="rapport_journalier">Ежедневный отчет</string>
     <string name="supprimer_compte">Удалить аккаунт</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Вы действительно хотите удалить этот контакт?</string>
 </resources>
