@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.io.Serializable
@@ -24,6 +25,8 @@ class Traitement(
     var dateDbtTraitement: LocalDate?
 
 ) : Serializable {
+
+    var suggDuree: String? = null
 
     fun enMajuscule() {
         nomTraitement = nomTraitement.uppercase(Locale.getDefault())
@@ -62,6 +65,42 @@ class Traitement(
             //On est de toute façon dans le else alors prochainePrise ne peut pas être null
             return prochainePrise!!
         }
+    }
+
+    private fun trouveNom(context: Context) {
+        /*
+        Méthode qui va lancer un algorithme pour trouver ce qui se rapproche le plus du nom du médicament
+         */
+        val algo = JaroWinkler()
+        algo.getNomMedic(context)
+        algo.aChercher = this.nomTraitement
+
+        this.nomTraitement = algo.lancerDistance()
+    }
+
+
+    private fun trouveUnite() {
+        /*
+        Méthode qui conformise l'unité du médicament
+         */
+        TODO("not yet implemented")
+    }
+
+
+    private fun trouveDuree() {
+        /*
+        Méthode qui va remplir les variables dateDbtTraitement et dateFinTraitement
+         */
+        TODO("not yet implemented")
+    }
+
+
+    fun paufine() {
+        /*
+        Méthode qui va réellement créer un traitement à partir des données qu'il possède
+        va notament appeler les méthodes privées
+         */
+        TODO("Not yet Implemented")
     }
 
 }
