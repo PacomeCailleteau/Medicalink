@@ -42,10 +42,10 @@ class LoaderFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val uri = (arguments?.getString("urimage"))?.toUri()
             val result = withContext(Dispatchers.IO) {
-                createTraitement(uri!!)
+                //createTraitement(uri!!)
             }
 
-            handleResult(result)
+            //handleResult(result)
         }
     }
 
@@ -210,9 +210,9 @@ class LoaderFragment : Fragment() {
         },
             // retirer le loader
             onDismiss = {
-                loading.value = false
+                //loading.value = false
             })
-        return texteAnalyze
+        return listOf("")// texteAnalyze
     }
 }
 
