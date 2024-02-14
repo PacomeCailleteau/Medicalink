@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -20,6 +21,7 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutManuelRecapitulatif
+import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -40,10 +42,7 @@ class ListeTraitementsFragment : Fragment() {
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
 
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        var uuidUpdateTraitement = arguments?.getString("uuidUpdateTraitement")
-
-
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -54,36 +53,24 @@ class ListeTraitementsFragment : Fragment() {
         /* ##############################################################
         #               Partie update et insert du traitement           #
         ################################################################# */
-        if (isAddingTraitement == "true" || isAddingTraitement == "false") {
-            val newTraitement = arguments?.getSerializable("newTraitement") as Traitement
-
+        if (viewModel.isAddingTraitement.value == true || viewModel.isAddingTraitement.value == false) {
             val newMedoc: Medoc
             var traitementUUID: String = UUID.randomUUID().toString()
-            when (isAddingTraitement) {
-                "true" -> {
-                    traitementUUID = UUID.randomUUID().toString()
-                }
-
-                "false" -> {
-                    traitementUUID = newTraitement.UUID.toString()
-                }
-            }
 
             var newTraitementEffetsSec: String? = null
-            if (newTraitement.effetsSecondaires != null) {
+            if (viewModel.effetsSecondaires.value != null) {
                 var chaineDeChar = ""
-                for (effet in newTraitement.effetsSecondaires!!) {
+                for (effet in viewModel.effetsSecondaires.value!!) {
                     chaineDeChar += "$effet;"
                 }
-                chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
+                if (chaineDeChar != "") chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
                 newTraitementEffetsSec = chaineDeChar
             }
 
             var newTraitementPrises: String? = null
-            Log.d("test", newTraitement.prises.toString())
-            if (newTraitement.prises != null) {
+            if (viewModel.prises.value != null) {
                 var chaineDeChar = ""
-                for (prise in newTraitement.prises!!) {
+                for (prise in viewModel.prises.value!!) {
                     chaineDeChar += "${prise}/"
                 }
                 chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
@@ -94,37 +81,34 @@ class ListeTraitementsFragment : Fragment() {
             newMedoc = Medoc(
                 traitementUUID,
                 "",
-                newTraitement.nomTraitement,
-                newTraitement.codeCIS,
-                newTraitement.dosageNb.toString(),
-                newTraitement.dosageUnite,
-                newTraitement.dateFinTraitement.toString(),
-                newTraitement.typeComprime,
-                newTraitement.comprimesRestants,
-                newTraitement.expire,
-                newTraitementEffetsSec,
-                newTraitementPrises,
-                newTraitement.totalQuantite,
-                newTraitement.dateDbtTraitement.toString()
+                viewModel.nomTraitement.value?: "",
+                viewModel.codeCIS.value?: "",
+                viewModel.dosageNb.value.toString(),
+                viewModel.dosageUnite.value?: "",
+                viewModel.dateFinTraitement.value?.toString() ?: "null",
+                viewModel.typeComprime.value?: "",
+                viewModel.comprimesRestants.value?: 0,
+                viewModel.expire.value?: false,
+                newTraitementEffetsSec ?: "null",
+                newTraitementPrises ?: "null",
+                viewModel.totalQuantite.value?: 0,
+                viewModel.dateDbtTraitement.value?.toString() ?: "null"
             )
 
             val queue2 = LinkedBlockingQueue<Boolean>()
             Thread {
                 val uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
                 newMedoc.uuidUser = uuidUserCourant
-                when (isAddingTraitement) {
-                    "true" -> {
-                        medocDatabaseInterface.insertMedoc(newMedoc)
-                    }
-
-                    "false" -> {
-                        medocDatabaseInterface.updateMedoc(newMedoc)
-                    }
+                if (viewModel.isAddingTraitement.value!!) {
+                    medocDatabaseInterface.insertMedoc(newMedoc)
+                } else {
+                    medocDatabaseInterface.updateMedoc(newMedoc)
                 }
                 queue2.add(true)
             }.start()
             queue2.take()
 
+            val newTraitement = viewModel.makeTraitement()
             val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
             val jourPremierePrise = newTraitement.dateDbtTraitement
             val date = LocalDate.now().toString()
@@ -138,6 +122,8 @@ class ListeTraitementsFragment : Fragment() {
                     Pair(date, numero)
                 )
             }
+
+            viewModel.reset()
         }
 
 
@@ -237,59 +223,34 @@ class ListeTraitementsFragment : Fragment() {
                         Log.d("test", clickedTraitement.codeCIS)
                     }
                     false -> {
-                        val bundle = Bundle()
+                        viewModel.setIsAddingTraitement(false)
+                        viewModel.setNomTraitement(clickedTraitement.nomTraitement)
+                        viewModel.setCodeCIS(clickedTraitement.codeCIS)
+                        viewModel.setDosageNb(clickedTraitement.dosageNb)
+                        viewModel.setDosageUnite(clickedTraitement.dosageUnite)
+                        viewModel.setDateFinTraitement(clickedTraitement.dateFinTraitement)
+                        viewModel.setTypeComprime(clickedTraitement.typeComprime)
+                        viewModel.setComprimesRestants(clickedTraitement.comprimesRestants?:0)
+                        viewModel.setExpire(clickedTraitement.expire)
+                        viewModel.setEffetsSecondaires(clickedTraitement.effetsSecondaires?:mutableListOf())
+                        viewModel.setPrises(clickedTraitement.prises?:mutableListOf())
+                        viewModel.setTotalQuantite(clickedTraitement.totalQuantite?:0)
+                        viewModel.setUUID(clickedTraitement.UUID?:"")
+                        viewModel.setUUIDUSER(clickedTraitement.UUIDUSER?:"")
+                        viewModel.setDateDbtTraitement(clickedTraitement.dateDbtTraitement?:LocalDate.now())
 
-                        bundle.putString("isAddingTraitement", "false")
-                        bundle.putString("uuidUpdateTraitement", "$")
-
-
-                        bundle.putSerializable(
-                            "traitement",
-                            Traitement(
-                                clickedTraitement.nomTraitement,
-                                clickedTraitement.codeCIS,
-                                clickedTraitement.dosageNb,
-                                clickedTraitement.dosageUnite,
-                                clickedTraitement.dateFinTraitement,
-                                clickedTraitement.typeComprime,
-                                clickedTraitement.comprimesRestants,
-                                clickedTraitement.expire,
-                                clickedTraitement.effetsSecondaires,
-                                clickedTraitement.prises,
-                                clickedTraitement.totalQuantite,
-                                clickedTraitement.UUID,
-                                clickedTraitement.UUIDUSER,
-                                clickedTraitement.dateDbtTraitement
-                            )
-                        )
-
-                        val schema_prise1: String
-                        val provenance: String
                         if (clickedTraitement.dosageUnite == "auBesoin") {
-                            schema_prise1 = "auBesoin"
-                            provenance = "auBesoin"
+                            viewModel.setSchemaPrise1("auBesoin")
+                            viewModel.setProvenance("auBesoin")
                         } else if (clickedTraitement.dosageUnite == "quotidiennement") {
-                            schema_prise1 = "Quotidiennement"
-                            provenance = "quotidiennement"
+                            viewModel.setSchemaPrise1("Intervalle")
+                            viewModel.setProvenance("intervalleRegulier")
                         } else {
-                            schema_prise1 = "Intervalle"
-                            provenance = "intervalleRegulier"
+                            viewModel.setSchemaPrise1("Intervalle")
+                            viewModel.setProvenance("intervalleRegulier")
                         }
-
-                        val dureePriseFin: String = if (clickedTraitement.dateFinTraitement == null) {
-                            "sf"
-                        } else {
-                            "date"
-                        }
-                        //TODO("fusionner schema_prise1 et provenance dans le processus d'add traitement")
-                        bundle.putString("schema_prise1", schema_prise1)
-                        bundle.putString("provenance", provenance)
-                        bundle.putString("dureePriseDbt", "ajd")
-                        bundle.putString("dureePriseFin", dureePriseFin)
-
 
                         val destinationFragment = AjoutManuelRecapitulatif()
-                        destinationFragment.arguments = bundle
                         val fragTransaction = parentFragmentManager.beginTransaction()
                         fragTransaction.replace(R.id.FL, destinationFragment)
                         fragTransaction.addToBackStack(null)

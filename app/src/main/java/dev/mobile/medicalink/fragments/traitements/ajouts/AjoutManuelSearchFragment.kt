@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -46,8 +47,6 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
 
-    private var currentCIS: String = ""
-
 
     private lateinit var retour: ImageView
 
@@ -58,6 +57,7 @@ class AjoutManuelSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -78,14 +78,6 @@ class AjoutManuelSearchFragment : Fragment() {
         filteredItemList = originalItemList
 
 
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        var provenance = arguments?.getString("provenance")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
-
-
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
         supprimerSearch = view.findViewById(R.id.supprimerSearch)
@@ -93,7 +85,7 @@ class AjoutManuelSearchFragment : Fragment() {
         supprimerSearch.setOnClickListener {
             addManuallySearchBar.setText("")
         }
-        addManuallySearchBar.setText(traitement.nomTraitement)
+        addManuallySearchBar.setText(viewModel.nomTraitement.value)
         /*
         addManuallySearchBar.filters =
             arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
@@ -150,7 +142,8 @@ class AjoutManuelSearchFragment : Fragment() {
 
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
             updateSearchBar(clickedItem.denomination)
-            currentCIS = clickedItem.codeCIS.toString()
+            viewModel.setNomTraitement(clickedItem.denomination)
+            viewModel.setCodeCIS(clickedItem.codeCIS.toString())
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -161,32 +154,7 @@ class AjoutManuelSearchFragment : Fragment() {
 
 
         addManuallyButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    addManuallySearchBar.text.toString(),
-                    currentCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    traitement.expire,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
             val destinationFragment = AjoutManuelTypeMedic()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
@@ -209,6 +177,7 @@ class AjoutManuelSearchFragment : Fragment() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             filterItems(s.toString())
         }
@@ -265,14 +234,17 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun filterItems(query: String) {
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         var filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
                 updateSearchBar(clickedItem.denomination)
-                currentCIS = clickedItem.codeCIS.toString()
+                viewModel.setNomTraitement(clickedItem.denomination)
+                viewModel.setCodeCIS(clickedItem.codeCIS.toString())
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()

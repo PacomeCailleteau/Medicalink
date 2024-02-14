@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.animation.ObjectAnimator
 import android.os.Build
@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
 import dev.mobile.medicalink.utils.ModelOCR
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

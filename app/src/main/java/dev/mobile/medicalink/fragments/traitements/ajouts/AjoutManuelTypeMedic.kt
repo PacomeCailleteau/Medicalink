@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -25,14 +26,13 @@ class AjoutManuelTypeMedic : Fragment() {
     private lateinit var retour: ImageView
     private lateinit var suivant: Button
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -41,12 +41,6 @@ class AjoutManuelTypeMedic : Fragment() {
 
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
-
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         val listeTypeMedic: MutableList<String> =
             mutableListOf(
@@ -59,7 +53,12 @@ class AjoutManuelTypeMedic : Fragment() {
                 resources.getString(R.string.bonbon),
             )
 
-        val selected = traitement.typeComprime
+        var selected = viewModel.typeComprime.value.toString()
+        Log.d("selected", selected)
+        if (selected == "") {
+            viewModel.setTypeComprime(resources.getString(R.string.comprime))
+            selected = resources.getString(R.string.comprime)
+        }
 
         val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
@@ -68,79 +67,31 @@ class AjoutManuelTypeMedic : Fragment() {
         val AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
         recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
 
+
+
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacement = 20
         recyclerViewTypeMedic.addItemDecoration(SpacingRecyclerView(espacement))
 
         suivant.setOnClickListener {
-            val bundle = Bundle()
-            Log.d("LLLL", AjoutManuelTypeMedicAdapter.selected)
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    AjoutManuelTypeMedicAdapter.selected,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
+            Log.d("selected", AjoutManuelTypeMedicAdapter.selected)
+            viewModel.setTypeComprime(AjoutManuelTypeMedicAdapter.selected)
             val destinationFragment = AjoutManuelSchemaPriseFragment()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
-
-
 
         retour.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    AjoutManuelTypeMedicAdapter.selected,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
+            viewModel.setTypeComprime(AjoutManuelTypeMedicAdapter.selected)
             val destinationFragment = AjoutManuelSearchFragment()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
+
         return view
     }
 
@@ -152,11 +103,7 @@ class AjoutManuelTypeMedic : Fragment() {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
-                val traitement = arguments?.getSerializable("traitement") as Traitement
-                val isAddingTraitement = arguments?.getString("isAddingTraitement")
-                val schema_prise1 = arguments?.getString("schema_prise1")
-                val dureePriseDbt = arguments?.getString("dureePriseDbt")
-                val dureePriseFin = arguments?.getString("dureePriseFin")
+                val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
                 val listeTypeMedic: MutableList<String> =
                     mutableListOf(
                         resources.getString(R.string.comprime),
@@ -168,38 +115,16 @@ class AjoutManuelTypeMedic : Fragment() {
                         resources.getString(R.string.bonbon),
                     )
 
-                val selected = traitement.typeComprime
-                val AjoutManuelTypeMedicAdapter =
+                var selected = viewModel.typeComprime.value.toString()
+                if (selected == "") {
+                    viewModel.setTypeComprime(resources.getString(R.string.comprime))
+                    selected = resources.getString(R.string.comprime)
+                }
+                val ajoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
-                val bundle = Bundle()
-                bundle.putSerializable(
-                    "traitement",
-                    Traitement(
-                        traitement.nomTraitement,
-                        traitement.codeCIS,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        AjoutManuelTypeMedicAdapter.selected,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
-                )
-                bundle.putString("isAddingTraitement", "$isAddingTraitement")
-                bundle.putString("schema_prise1", "$schema_prise1")
-                bundle.putString("dureePriseDbt", "$dureePriseDbt")
-                bundle.putString("dureePriseFin", "$dureePriseFin")
-
+                viewModel.setTypeComprime(ajoutManuelTypeMedicAdapter.selected)
                 val destinationFragment = AjoutManuelSearchFragment()
-                destinationFragment.arguments = bundle
-
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, destinationFragment)
                 fragTransaction.addToBackStack(null)

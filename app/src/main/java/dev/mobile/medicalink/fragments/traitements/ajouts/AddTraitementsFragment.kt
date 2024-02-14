@@ -20,11 +20,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
-import dev.mobile.medicalink.fragments.traitements.PreviewFragment
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.io.File
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 
@@ -47,7 +44,7 @@ class AddTraitementsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_traitements, container, false)
-        val viewModel = ViewModelProvider(this)[AjoutSharedViewModel::class.java]
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -123,37 +120,8 @@ class AddTraitementsFragment : Fragment() {
 
         //Gestion du clic sur le bouton "import manuel d'un traitement"
         manualImportButton.setOnClickListener {
-            val bundle = Bundle()
-            /*
-            On créer un traitement vide avec des valeurs par défaut que l'on va passer à la
-            prochaine vue de création d'un traitement manuellement, et qui va passer
-            de vue en vue lors de sa création, en se remplissant au fur et à mesure pour finir complété.
-
-             */
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    "",
-                    "",
-                    2,
-                    resources.getString(R.string.semaines),
-                    null,
-                    resources.getString(R.string.comprime),
-                    25,
-                    false,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    LocalDate.now()
-                )
-            )
-            bundle.putString("isAddingTraitement", "true")
-            bundle.putString("schema_prise1", "Quotidiennement")
+            viewModel.setIsAddingTraitement(true)
             val destinationFragment = AjoutManuelSearchFragment()
-            destinationFragment.arguments = bundle
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)

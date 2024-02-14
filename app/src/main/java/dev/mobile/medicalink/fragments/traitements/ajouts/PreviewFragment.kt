@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,7 +23,6 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.ajouts.AddTraitementsFragment
 import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat

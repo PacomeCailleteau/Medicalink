@@ -16,6 +16,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
@@ -37,6 +38,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         val view =
             inflater.inflate(R.layout.fragment_ajout_manuel_intervalle_regulier, container, false)
 
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
+
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
             navBarre.visibility = View.GONE
@@ -45,13 +48,6 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         inputIntervalle = view.findViewById(R.id.inputIntervalle)
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
-
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        val provenance = arguments?.getString("provenance")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
 
         inputIntervalle.setText(resources.getString(R.string.toutes_2_semaines))
         inputIntervalle.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
@@ -66,77 +62,22 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         })
 
         inputIntervalle.setOnClickListener {
-            showIntervalleRegulierDialog(traitement, view.context)
+            showIntervalleRegulierDialog(viewModel, view.context)
         }
 
 
         suivant.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
-
             val destinationFragment = AjoutManuelSchemaPrise2Fragment()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
 
-
-
         retour.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
             val destinationFragment = AjoutManuelSchemaPriseFragment()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -147,7 +88,8 @@ class AjoutManuelIntervalleRegulier : Fragment() {
      * Fonction gérant la création et l'affichage de la dialog view s'affichant lors de la sélection
      * de l'intervalle
      */
-    private fun showIntervalleRegulierDialog(traitement: Traitement, context: Context) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showIntervalleRegulierDialog(viewModel: AjoutSharedViewModel, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
         val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
@@ -171,7 +113,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         )
         secondNumberPicker.minValue = 0
         secondNumberPicker.maxValue = 2
-        secondNumberPicker.value = when (traitement.dosageUnite) {
+        secondNumberPicker.value = when (viewModel.dosageUnite.value) {
             resources.getString(R.string.jours) -> 0
             resources.getString(R.string.semaines) -> 1
             resources.getString(R.string.mois) -> 2
@@ -182,11 +124,11 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         updateFirstNumberPickerValues(
             firstNumberPicker,
             secondNumberPicker.value,
-            traitement.dosageNb
+            viewModel.dosageNb.value ?: 1
         )
 
         secondNumberPicker.setOnValueChangedListener { _, _, newVal ->
-            updateFirstNumberPickerValues(firstNumberPicker, newVal, traitement.dosageNb)
+            updateFirstNumberPickerValues(firstNumberPicker, newVal, firstNumberPicker.value)
         }
 
         annulerButton.setOnClickListener {
@@ -194,32 +136,16 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         }
 
         okButton.setOnClickListener {
-            traitement.dosageNb = firstNumberPicker.value
-            traitement.dosageUnite = when (secondNumberPicker.value) {
-                0 -> resources.getString(R.string.jours)
-                1 -> resources.getString(R.string.semaines)
-                2 -> resources.getString(R.string.mois)
-                else -> resources.getString(R.string.jour)
-            }
-
-            //Gestion des variantes possible du français avec le féminin/masculin et pluriel/singulier
-            if (traitement.dosageNb == 1 && traitement.dosageUnite == resources.getString(R.string.semaines)) {
-                inputIntervalle.setText("${resources.getString(R.string.toutes_les)} ${traitement.dosageUnite}")
-            } else if (traitement.dosageNb > 1 && traitement.dosageUnite == resources.getString(R.string.semaines)) {
-                inputIntervalle.setText("${resources.getString(R.string.toutes_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
-            } else if (traitement.dosageNb == 1 && traitement.dosageUnite == resources.getString(R.string.mois)) {
-                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageUnite}")
-            } else if (traitement.dosageNb > 1 && traitement.dosageUnite == resources.getString(R.string.mois)) {
-                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
-            } else if (traitement.dosageUnite == resources.getString(R.string.jours)) {
-                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
-            } else {
-                inputIntervalle.setText("${resources.getString(R.string.tous_les)} ${traitement.dosageNb} ${traitement.dosageUnite}")
-            }
-
+            viewModel.setDosageNb(firstNumberPicker.value)
+            viewModel.setDosageUnite(
+                when (secondNumberPicker.value) {
+                    0 -> resources.getString(R.string.jours)
+                    1 -> resources.getString(R.string.semaines)
+                    2 -> resources.getString(R.string.mois)
+                    else -> resources.getString(R.string.jour)
+            })
             intervalleRegulierDialog.dismiss()
         }
-
         intervalleRegulierDialog.show()
     }
 
@@ -261,42 +187,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                val traitement = arguments?.getSerializable("traitement") as Traitement
-                val isAddingTraitement = arguments?.getString("isAddingTraitement")
-                val schema_prise1 = arguments?.getString("schema_prise1")
-                val provenance = arguments?.getString("provenance")
-                val dureePriseDbt = arguments?.getString("dureePriseDbt")
-                val dureePriseFin = arguments?.getString("dureePriseFin")
-
-                val bundle = Bundle()
-                bundle.putSerializable(
-                    "traitement",
-                    Traitement(
-                        traitement.nomTraitement,
-                        traitement.codeCIS,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
-                )
-                bundle.putString("isAddingTraitement", "$isAddingTraitement")
-                bundle.putString("schema_prise1", "$schema_prise1")
-                bundle.putString("provenance", "$provenance")
-                bundle.putString("dureePriseDbt", "$dureePriseDbt")
-                bundle.putString("dureePriseFin", "$dureePriseFin")
-
                 val destinationFragment = AjoutManuelSchemaPriseFragment()
-                destinationFragment.arguments = bundle
-
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, destinationFragment)
                 fragTransaction.addToBackStack(null)

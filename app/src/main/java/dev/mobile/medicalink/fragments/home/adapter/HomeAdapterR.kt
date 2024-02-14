@@ -182,7 +182,7 @@ class HomeAdapterR(
             list[1].first.heurePrise.split(":").first()
         }
         holder.nomMedic.text = item.second.nomTraitement
-        holder.nbComprime.text = "${item.first.quantite} ${item.first.dosageUnite}"
+        holder.nbComprime.text = "${item.first.quantite} ${item.first.typeComprime}"
         holder.heurePrise.text = item.first.heurePrise
         holder.mainHeure.text = "${item.first.heurePrise.split(":").first()}h"
         if (item == list[1] || item.first.heurePrise.split(":").first() != heureCourante) {

@@ -13,13 +13,13 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelAdapterR
 import java.util.UUID
 
@@ -37,6 +37,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_schema_prise2, container, false)
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -47,14 +48,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        val provenance = arguments?.getString("provenance")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
-
-        var listePrise: MutableList<Prise>? = traitement.prises
+        var listePrise: MutableList<Prise>? = viewModel.prises.value
         if (listePrise == null) {
             listePrise =
                 mutableListOf(
@@ -62,12 +56,12 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                         UUID.randomUUID().toString(),
                         resources.getString(R.string._17_00),
                         1,
-                        traitement.typeComprime
+                        viewModel.typeComprime.value?.toString() ?: ""
                     )
                 )
         } else {
             for (prise in listePrise) {
-                prise.dosageUnite = traitement.typeComprime
+                prise.typeComprime = viewModel.typeComprime.value?.toString() ?: ""
             }
         }
 
@@ -87,7 +81,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 UUID.randomUUID().toString(),
                 resources.getString(R.string._17_00),
                 1,
-                traitement.typeComprime
+                viewModel.typeComprime.value.toString()
             )
             listePrise.add(nouvellePrise)
             ajoutManuelAdapter.notifyItemInserted(listePrise.size - 1)
@@ -116,33 +110,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             }
 
             val totalQuantite: Int = listePrise.sumOf { it.quantite }
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    listePrise,
-                    totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
+            viewModel.setPrises(listePrise)
+            viewModel.setTotalQuantite(totalQuantite)
             val destinationFragment = AjoutManuelDateSchemaPrise()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
@@ -150,50 +120,25 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         }
 
         retour.setOnClickListener {
-            var totalQuantite = 0
-            for (prise in listePrise) {
-                totalQuantite += prise.quantite
-            }
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    listePrise,
-                    totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
+            val totalQuantite: Int = listePrise.sumOf { it.quantite }
+            viewModel.setPrises(listePrise)
+            viewModel.setTotalQuantite(totalQuantite)
+
             var destinationFragment = Fragment()
-            when (provenance) {
+            when (viewModel.provenance.value) {
                 "quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
 
                 }
-
                 "intervalleRegulier" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
                 }
+                null -> {
+                    destinationFragment = AjoutManuelSchemaPriseFragment()
+                }
             }
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -229,13 +174,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
-                val traitement = arguments?.getSerializable("traitement") as Traitement
-                val isAddingTraitement = arguments?.getString("isAddingTraitement")
-                val schema_prise1 = arguments?.getString("schema_prise1")
-                val provenance = arguments?.getString("provenance")
-                val dureePriseDbt = arguments?.getString("dureePriseDbt")
-                val dureePriseFin = arguments?.getString("dureePriseFin")
-                var listePrise: MutableList<Prise>? = traitement.prises
+                val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
+                var listePrise: MutableList<Prise>? = viewModel.prises.value
 
                 if (listePrise == null) {
                     listePrise = mutableListOf<Prise>(
@@ -243,43 +183,22 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                             UUID.randomUUID().toString(),
                             resources.getString(R.string._17_00),
                             1,
-                            traitement.typeComprime
+                            viewModel.typeComprime.value?.toString() ?: ""
                         )
                     )
                 } else {
                     for (prise in listePrise) {
-                        prise.dosageUnite = traitement.typeComprime
+                        prise.typeComprime = viewModel.typeComprime.value?.toString() ?: ""
                     }
                 }
 
-                val bundle = Bundle()
-                bundle.putSerializable(
-                    "traitement",
-                    Traitement(
-                        traitement.nomTraitement,
-                        traitement.codeCIS,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        listePrise,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
-                )
-                bundle.putString("isAddingTraitement", "$isAddingTraitement")
-                bundle.putString("schema_prise1", "$schema_prise1")
-                bundle.putString("provenance", "$provenance")
-                bundle.putString("dureePriseDbt", "$dureePriseDbt")
-                bundle.putString("dureePriseFin", "$dureePriseFin")
+                val totalQuantite: Int = listePrise.sumOf { it.quantite }
+                viewModel.setPrises(listePrise)
+                viewModel.setTotalQuantite(totalQuantite)
+
                 var destinationFragment: Fragment = AjoutManuelSchemaPriseFragment()
 
-                when (provenance) {
+                when (viewModel.provenance.value) {
                     "quotidiennement" -> {
                         destinationFragment = AjoutManuelSchemaPriseFragment()
                     }
@@ -288,9 +207,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                         destinationFragment = AjoutManuelIntervalleRegulier()
                     }
                 }
-
-                destinationFragment.arguments = bundle
-
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, destinationFragment)
                 fragTransaction.addToBackStack(null)

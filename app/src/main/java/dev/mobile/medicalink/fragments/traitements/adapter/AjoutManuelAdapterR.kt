@@ -66,7 +66,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
         holder.heurePriseInput.setText(item.heurePrise)
 
-        holder.quantiteInput.setText("${item.quantite} ${item.dosageUnite}(s)")
+        holder.quantiteInput.setText("${item.quantite} ${item.typeComprime}(s)")
 
         holder.heurePriseInput.setOnClickListener {
             // Utilisez la vue parente de l'élément du RecyclerView pour obtenir le contexte
@@ -169,7 +169,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
 
             prise.quantite = nouvelleQuantite
 
-            holder.quantiteInput.setText("$nouvelleQuantite ${prise.dosageUnite}(s)")
+            holder.quantiteInput.setText("$nouvelleQuantite ${prise.typeComprime}(s)")
 
             dosageDialog.dismiss()
         }

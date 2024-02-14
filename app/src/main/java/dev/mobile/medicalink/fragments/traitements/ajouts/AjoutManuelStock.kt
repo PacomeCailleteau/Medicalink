@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.text.SimpleDateFormat
@@ -45,6 +46,7 @@ class AjoutManuelStock : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_stock, container, false)
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -68,14 +70,7 @@ class AjoutManuelStock : Fragment() {
         inputRappelHeure = view.findViewById(R.id.heureRappelInput)
         switchStock = view.findViewById(R.id.switchStock)
 
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        val provenance = arguments?.getString("provenance")
-        val dureePriseDbt = arguments?.getString("dureePriseDbt")
-        val dureePriseFin = arguments?.getString("dureePriseFin")
-
-        inputStockActuel.setText(traitement.comprimesRestants.toString())
+        inputStockActuel.setText(viewModel.comprimesRestants.value.toString())
 
         switchStock.isChecked = true
 
@@ -103,7 +98,7 @@ class AjoutManuelStock : Fragment() {
         updateSwitchAppearance(switchStock.isChecked, layoutStock)
 
         inputRappelJour.setOnClickListener {
-            showJourStockDialog(traitement, view.context)
+            showJourStockDialog(viewModel, view.context)
         }
 
         inputRappelHeure.setOnClickListener {
@@ -115,72 +110,19 @@ class AjoutManuelStock : Fragment() {
         updateButtonState()
         //TODO("Faire la vérif sur tous les boutons suivant du processus de création de traitement")
         suivant.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    inputStockActuel.text.toString().toInt(),
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
+            viewModel.setComprimesRestants(inputStockActuel.text.toString().toInt())
             val destinationFragment = AjoutManuelRecapitulatif()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
 
-
-
         retour.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    inputStockActuel.text.toString().toInt(),
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
+            viewModel.setComprimesRestants(inputStockActuel.text.toString().toInt())
             val destinationFragment = AjoutManuelDateSchemaPrise()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -214,7 +156,7 @@ class AjoutManuelStock : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showJourStockDialog(traitement: Traitement, context: Context) {
+    private fun showJourStockDialog(viewModel: AjoutSharedViewModel, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)
         val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
@@ -247,8 +189,7 @@ class AjoutManuelStock : Fragment() {
         }
 
         okButton.setOnClickListener {
-            inputRappelJour.setText("${firstNumberPicker.value} ${uniteJour}")
-
+            inputRappelJour.setText("${firstNumberPicker.value} $uniteJour")
             intervalleRegulierDialog.dismiss()
         }
 

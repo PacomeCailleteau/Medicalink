@@ -10,7 +10,7 @@ class Prise(
     var numeroPrise: String,
     var heurePrise: String,
     var quantite: Int,
-    var dosageUnite: String
+    var typeComprime: String
 ) : Serializable {
 
     fun enMajuscule() {
@@ -22,7 +22,7 @@ class Prise(
     }
 
     override fun toString(): String {
-        return "$numeroPrise;$heurePrise;$quantite;$dosageUnite"
+        return "$numeroPrise;$heurePrise;$quantite;$typeComprime"
     }
 
     init {

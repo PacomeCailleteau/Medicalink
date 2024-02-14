@@ -15,6 +15,7 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
@@ -29,11 +30,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     private lateinit var finDate: Button
     private lateinit var inputDateDeDebut: TextInputEditText
     private lateinit var inputDateDeFin: TextInputEditText
-    private var dureePriseDbt: String? = null
-    private var dureePriseFin: String? = null
-    private var dateDeDebut: LocalDate? = null
-    private var dateDeFin: LocalDate? = null
-    private var sansFinClicked = false
 
 
     private lateinit var retour: ImageView
@@ -49,6 +45,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         // Inflate the layout for this fragment
         val view =
             inflater.inflate(R.layout.fragment_ajout_manuel_date_schema_prise, container, false)
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -62,46 +59,15 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        //Récupération des informations circulant entre toutes les vues de l'ajout du traitement
-        // pour garder les informations entre les vues
-        val traitement = arguments?.getSerializable("traitement") as Traitement
-        val isAddingTraitement = arguments?.getString("isAddingTraitement")
-        val schema_prise1 = arguments?.getString("schema_prise1")
-        val provenance = arguments?.getString("provenance")
-        dureePriseDbt = arguments?.getString("dureePriseDbt")
-        dureePriseFin = arguments?.getString("dureePriseFin")
-
-        //Mise à jour de la valeur par défaut des boutons en fonctions de ce qui a déjà été sélectionné
-        //auparavant (valable quand l'utilisateur revient sur cette vue pour modifier ou vérifier
-        //ce qu'il a mis)
-        if (dureePriseDbt == null) {
-            dureePriseDbt = "ajd"
-        }
-        if (dureePriseFin == null) {
-            dureePriseFin = "date"
-        }
-
-
-        when (dureePriseFin) {
-            "sf" -> {
-                finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-                finDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            }
-
-            "date" -> {
-                finSF.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-                finDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            }
-        }
-
         inputDateDeDebut.inputType =
             InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
-        inputDateDeDebut.setText("${traitement.dateDbtTraitement?.dayOfMonth.toString()}/${traitement.dateDbtTraitement?.monthValue}/${traitement.dateDbtTraitement?.year}")
-        dateDeDebut = LocalDate.of(
-            traitement.dateDbtTraitement!!.year,
-            traitement.dateDbtTraitement!!.monthValue,
-            traitement.dateDbtTraitement!!.dayOfMonth
-        )
+
+        if (viewModel.dateDbtTraitement.value == null) {
+            viewModel.setDateDbtTraitement(LocalDate.now())
+        }
+        val dateDbt = viewModel.dateDbtTraitement.value
+        inputDateDeDebut.setText("${dateDbt?.dayOfMonth}/${dateDbt?.monthValue}/${dateDbt?.year}")
+
         inputDateDeDebut.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             source?.let {
                 if (it.contains("\n")) {
@@ -111,6 +77,14 @@ class AjoutManuelDateSchemaPrise : Fragment() {
             }
             null
         })
+
+        if (viewModel.dateFinTraitement.value == null) {
+            finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+            finDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+        } else {
+            finSF.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
+            finDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
+        }
 
         inputDateDeFin.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
         inputDateDeFin.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
@@ -124,152 +98,41 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         })
 
         finSF.setOnClickListener {
-            sansFinClicked = true
             finSF.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             finDate.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             inputDateDeFin.visibility = View.GONE
-            suivant.alpha = 1f
-            suivant.isEnabled = true
             inputDateDeFin.text = null
-            dateDeFin = null
-            dureePriseFin = "sf"
-
-            // Mettez à jour le statut du bouton suivant
-            updateSuivantButtonStatus()
+            viewModel.setDateFinTraitement(null)
         }
 
         finDate.setOnClickListener {
-            sansFinClicked = false
             inputDateDeFin.visibility = View.VISIBLE
             finSF.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             finDate.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            showDatePicker(inputDateDeFin)
-            dureePriseFin = "date"
-
-            updateSuivantButtonStatus()
+            showDatePicker(inputDateDeFin, viewModel)
         }
 
-
         inputDateDeDebut.setOnClickListener {
-            showDatePicker(inputDateDeDebut)
+            showDatePicker(inputDateDeDebut, viewModel)
         }
 
         inputDateDeFin.setOnClickListener {
-            showDatePicker(inputDateDeFin)
+            showDatePicker(inputDateDeFin, viewModel)
         }
 
         suivant.setOnClickListener {
-            val bundle = Bundle()
-            //bundle.putSerializable("newTraitement", Traitement(traitement.nomTraitement,traitement.dosageNb,traitement.dosageUnite,dateFinDeTraitement,traitement.typeComprime,25,false,null,traitement.prises))
-            //bundle.putString("isAddingTraitement", "true")
-            Log.d("test", inputDateDeFin.text.toString().split("/").toString())
-
-            //Récupération et traitement des dates des inputs pour les reformater dans un format exploitable
-            //par la suite
-            var textFinTraite: LocalDate? = null
-            if ((inputDateDeFin.text != null) && (inputDateDeFin.text.toString() != "")) {
-                textFinTraite = LocalDate.of(
-                    inputDateDeFin.text.toString().split("/")[2].toInt(),
-                    inputDateDeFin.text.toString().split("/")[1].toInt(),
-                    inputDateDeFin.text.toString().split("/")[0].toInt()
-                )
-            }
-
-            var textDbtTraite: LocalDate? = null
-            if ((inputDateDeDebut.text != null) && (inputDateDeDebut.text.toString() != "")) {
-                textDbtTraite = LocalDate.of(
-                    inputDateDeDebut.text.toString().split("/")[2].toInt(),
-                    inputDateDeDebut.text.toString().split("/")[1].toInt(),
-                    inputDateDeDebut.text.toString().split("/")[0].toInt()
-                )
-            }
-
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    textFinTraite,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    textDbtTraite
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
-
-
             val destinationFragment = AjoutManuelStock()
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
 
-
-
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
-            var textFinTraite: LocalDate? = null
-            if ((inputDateDeFin.text != null) && (inputDateDeFin.text.toString() != "")) {
-                textFinTraite = LocalDate.of(
-                    inputDateDeFin.text.toString().split("/")[2].toInt(),
-                    inputDateDeFin.text.toString().split("/")[1].toInt(),
-                    inputDateDeFin.text.toString().split("/")[0].toInt()
-                )
-            }
-
-            var textDbtTraite: LocalDate? = null
-            if ((inputDateDeDebut.text != null) && (inputDateDeDebut.text.toString() != "")) {
-                textDbtTraite = LocalDate.of(
-                    inputDateDeDebut.text.toString().split("/")[2].toInt(),
-                    inputDateDeDebut.text.toString().split("/")[1].toInt(),
-                    inputDateDeDebut.text.toString().split("/")[0].toInt()
-                )
-            }
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "traitement",
-                Traitement(
-                    traitement.nomTraitement,
-                    traitement.codeCIS,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    textFinTraite,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    textDbtTraite
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schema_prise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
-
             var destinationFragment = Fragment()
-            when (provenance) {
+            when (viewModel.provenance.value) {
                 "quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
-
                 }
 
                 "intervalleRegulier" -> {
@@ -280,10 +143,8 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
                 }
             }
-            destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
-
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
@@ -291,59 +152,10 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     }
 
     /**
-     * Fonction qui vérifie que tous les champs de la vue ont bien été complété avant de pouvoir cliquer
-     * sur le bouton suivant et passer à la vue suivante
-     */
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun updateSuivantButtonStatus() {
-        // Vérifier si une date de début n'est pas null
-        if (dateDeDebut != null) {
-            // Si une date de fin est également sélectionnée
-            if (dureePriseFin == "sf" || (dureePriseFin == "date" && dateDeFin != null)) {
-                // Vérifier si la date de fin est supérieure à la date de début
-                if (dateDeFin == null || dateDeFin!!.isAfter(dateDeDebut)) {
-                    // Les conditions sont remplies, le bouton peut être activé
-                    suivant.isEnabled = true
-                    suivant.alpha = 1f
-                    suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
-                } else {
-                    // La date de fin n'est pas supérieure à la date de début, désactiver le bouton
-                    suivant.isEnabled = false
-                    suivant.alpha = 0.3f
-                }
-            } else {
-                // Pas de date de fin sélectionnée, activer le bouton
-                suivant.isEnabled = true
-                suivant.alpha = 1f
-                suivant.setBackgroundResource(R.drawable.rounded_darker_blue_button_no_stroke_background)
-            }
-        } else {
-            // Aucune des conditions n'est remplie, désactiver le bouton
-            suivant.isEnabled = false
-            suivant.alpha = 0.3f
-        }
-
-        if (dateDeDebut != null && dureePriseFin == "sf") {
-            suivant.isEnabled = true
-            suivant.alpha = 1f
-        }
-
-        if (dateDeDebut == null && dateDeFin != null) {
-            suivant.isEnabled = false
-            suivant.alpha = 0.3f
-        }
-
-        if (dateDeDebut != null && dureePriseFin == "date" && dateDeFin == null) {
-            suivant.isEnabled = false
-            suivant.alpha = 0.3f
-        }
-    }
-
-    /**
      * Fonction gérant le date Picker pour sélectionner les dates de début et de fin du traitement
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun showDatePicker(element: TextInputEditText) {
+    private fun showDatePicker(element: TextInputEditText, viewModel: AjoutSharedViewModel) {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = calendar.get(Calendar.MONTH)
@@ -353,28 +165,22 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            { _, year, month, day ->
                 val selectedDate = formatDate(day, month, year)
                 element.setText(selectedDate)
 
                 if (element == inputDateDeDebut) {
-                    dateDeDebut = LocalDate.of(year, month + 1, day)
+                    viewModel.setDateDbtTraitement(LocalDate.of(year, month + 1, day))
                 } else if (element == inputDateDeFin) {
-                    dateDeFin = LocalDate.of(year, month + 1, day)
+                    viewModel.setDateFinTraitement(LocalDate.of(year, month + 1, day))
                 }
-
-                updateSuivantButtonStatus()
             },
             currentYear,
             currentMonth,
             currentDay
         )
-
         datePickerDialog.datePicker.minDate = minDate
-
         datePickerDialog.show()
-
-        updateSuivantButtonStatus()
     }
 
 

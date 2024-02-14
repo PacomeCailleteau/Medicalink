@@ -292,7 +292,7 @@ class HomeFragment : Fragment() {
                             traitementPrise[0],
                             traitementPrise[1],
                             traitementPrise[2].toInt(),
-                            traitementPrise[3]
+                            medoc.typeComprime
                         )
                         listePrise.add(maPrise)
                     }
@@ -389,7 +389,7 @@ class HomeFragment : Fragment() {
                     else -> {
                         val jourEntreDeuxDates =
                             ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
-                        var tousLesXJours: Long = 0L
+                        var tousLesXJours: Long
                         when (element.second.dosageUnite) {
                             "Jours" -> {
                                 tousLesXJours = element.second.dosageNb.toLong()
@@ -442,7 +442,7 @@ class HomeFragment : Fragment() {
                         "123456",
                         "17:00",
                         7,
-                        "Comprime"
+                        "Comp"
                     ),
                     Traitement(
                         "x",

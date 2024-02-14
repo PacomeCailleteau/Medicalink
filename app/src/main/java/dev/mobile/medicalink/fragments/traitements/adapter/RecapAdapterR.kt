@@ -41,7 +41,7 @@ class RecapAdapterR(private val list: MutableList<Prise>) :
 
         Log.d("test", item.heurePrise)
         holder.heurePrise.text = item.heurePrise
-        holder.dosageRecap.text = "${item.quantite} ${item.dosageUnite}"
+        holder.dosageRecap.text = "${item.quantite} ${item.typeComprime}"
 
         holder.view.setOnLongClickListener {
 

@@ -27,7 +27,7 @@ class MedocRepositoryTest {
         "1",
         "nom",
         "dosageNB",
-        "dosageUnite",
+        "typeComprime",
         "dateFinTraitement",
         "typeComprime",
         1,
