@@ -279,7 +279,7 @@ class AjoutManuelSearchFragment : Fragment() {
                 updateSearchBar(
                     clickedItem,
                     traitement
-                )//TODO ADD CODECIS l'autre es mis a jour ici ???
+                )
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()

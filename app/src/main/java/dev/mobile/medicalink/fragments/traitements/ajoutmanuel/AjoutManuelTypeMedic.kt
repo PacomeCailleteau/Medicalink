@@ -31,6 +31,8 @@ class AjoutManuelTypeMedic : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
+
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
 
         if (activity != null) {
@@ -46,6 +48,13 @@ class AjoutManuelTypeMedic : Fragment() {
         val schema_prise1 = arguments?.getString("schema_prise1")
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
+
+        if (isAddingTraitement == "false") {
+            retour.visibility = View.INVISIBLE
+            retour.isClickable = false
+            retour.isFocusable = false
+            retour.isEnabled = false
+        }
 
         val listeTypeMedic: MutableList<String> =
             mutableListOf(
@@ -108,6 +117,41 @@ class AjoutManuelTypeMedic : Fragment() {
 
 
         retour.setOnClickListener {
+
+            if (isAddingTraitement == "false"){
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.CodeCIS,
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        traitement.comprimesRestants,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
+                bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+                val destinationFragment = AjoutManuelRecapitulatif()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+                return@setOnClickListener
+            }
+
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
@@ -156,6 +200,7 @@ class AjoutManuelTypeMedic : Fragment() {
                 val schema_prise1 = arguments?.getString("schema_prise1")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
+
                 val listeTypeMedic: MutableList<String> =
                     mutableListOf(
                         resources.getString(R.string.comprime),
@@ -170,6 +215,40 @@ class AjoutManuelTypeMedic : Fragment() {
                 val selected = traitement.typeComprime
                 val AjoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
+
+                if (isAddingTraitement == "false"){
+                    val bundle = Bundle()
+                    bundle.putSerializable(
+                        "traitement",
+                        Traitement(
+                            traitement.CodeCIS,
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            traitement.dosageUnite,
+                            null,
+                            AjoutManuelTypeMedicAdapter.selected,
+                            traitement.comprimesRestants,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
+                        )
+                    )
+                    bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
+                    val destinationFragment = AjoutManuelRecapitulatif()
+                    destinationFragment.arguments = bundle
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, destinationFragment)
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                    return
+                }
 
                 val bundle = Bundle()
                 bundle.putSerializable(

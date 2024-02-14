@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -205,11 +206,56 @@ class AjoutManuelRecapitulatif : Fragment() {
                     }
                 }
             }
+
+
+
+        }
+        if (isAddingTraitement == "false") {
+            val nomLayout = view.findViewById<ConstraintLayout>(R.id.nomLayout)
+            nomLayout.isClickable = false
+            nomLayout.isFocusable = false
+            nomLayout.isEnabled = false
+            val fleche = view.findViewById<ImageView>(R.id.imageview40)
+            fleche.visibility = View.GONE
         }
 
 
 
         retour.setOnClickListener {
+
+            if (isAddingTraitement == "false"){
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.CodeCIS,
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        traitement.comprimesRestants,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
+                bundle.putString("schema_prise1", "$schemaPrise1")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+                val destinationFragment = ListeTraitementsFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+                return@setOnClickListener
+            }
+
             //On appelle le parent pour changer de fragment
             val bundle = Bundle()
             bundle.putSerializable(
@@ -504,6 +550,91 @@ class AjoutManuelRecapitulatif : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                val traitement = arguments?.getSerializable("traitement") as Traitement
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val schema_prise1 = arguments?.getString("schema_prise1")
+                val provenance = arguments?.getString("provenance")
+                val dureePriseDbt = arguments?.getString("dureePriseDbt")
+                val dureePriseFin = arguments?.getString("dureePriseFin")
+
+                if (isAddingTraitement == "false"){
+                    val bundle = Bundle()
+                    bundle.putSerializable(
+                        "traitement",
+                        Traitement(
+                            traitement.CodeCIS,
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            traitement.dosageUnite,
+                            null,
+                            traitement.typeComprime,
+                            traitement.comprimesRestants,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
+                        )
+                    )
+                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
+                    val destinationFragment = ListeTraitementsFragment()
+                    destinationFragment.arguments = bundle
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, destinationFragment)
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                    return
+                }
+
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.CodeCIS,
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        traitement.comprimesRestants,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
+                bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("provenance", "$provenance")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+
+                val destinationFragment = AjoutManuelStock()
+                destinationFragment.arguments = bundle
+
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
 
     /**
      * Récupérer le nom de la substance1 dans cis compo a partir de la clé primaire cis
@@ -560,4 +691,6 @@ class AjoutManuelRecapitulatif : Fragment() {
 
 
     }
+
+
 }

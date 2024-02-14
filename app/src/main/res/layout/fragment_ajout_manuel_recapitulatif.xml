@@ -89,7 +89,7 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageview4"
+                    android:id="@+id/imageview40"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"

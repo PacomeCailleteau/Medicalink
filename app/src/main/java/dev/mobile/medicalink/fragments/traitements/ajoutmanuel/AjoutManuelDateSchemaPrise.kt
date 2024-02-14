@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -239,6 +240,41 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                     inputDateDeDebut.text.toString().split("/")[0].toInt()
                 )
             }
+
+            if (isAddingTraitement == "false"){
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.CodeCIS,
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        traitement.comprimesRestants,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
+                bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+                val destinationFragment = AjoutManuelRecapitulatif()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+                return@setOnClickListener
+            }
+
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
@@ -375,6 +411,92 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         datePickerDialog.show()
 
         updateSuivantButtonStatus()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                val traitement = arguments?.getSerializable("traitement") as Traitement
+                val isAddingTraitement = arguments?.getString("isAddingTraitement")
+                val schema_prise1 = arguments?.getString("schema_prise1")
+                val provenance = arguments?.getString("provenance")
+                val dureePriseDbt = arguments?.getString("dureePriseDbt")
+                val dureePriseFin = arguments?.getString("dureePriseFin")
+
+                if (isAddingTraitement == "false"){
+                    val bundle = Bundle()
+                    bundle.putSerializable(
+                        "traitement",
+                        Traitement(
+                            traitement.CodeCIS,
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            traitement.dosageUnite,
+                            null,
+                            traitement.typeComprime,
+                            traitement.comprimesRestants,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
+                        )
+                    )
+                    bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
+                    val destinationFragment = AjoutManuelRecapitulatif()
+                    destinationFragment.arguments = bundle
+                    val fragTransaction = parentFragmentManager.beginTransaction()
+                    fragTransaction.replace(R.id.FL, destinationFragment)
+                    fragTransaction.addToBackStack(null)
+                    fragTransaction.commit()
+                    return
+                }
+
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "traitement",
+                    Traitement(
+                        traitement.CodeCIS,
+                        traitement.nomTraitement,
+                        traitement.dosageNb,
+                        traitement.dosageUnite,
+                        null,
+                        traitement.typeComprime,
+                        traitement.comprimesRestants,
+                        false,
+                        null,
+                        traitement.prises,
+                        traitement.totalQuantite,
+                        traitement.UUID,
+                        traitement.UUIDUSER,
+                        traitement.dateDbtTraitement
+                    )
+                )
+                bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("provenance", "$provenance")
+                bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                bundle.putString("dureePriseFin", "$dureePriseFin")
+
+                val destinationFragment = AjoutManuelSchemaPrise2Fragment()
+                destinationFragment.arguments = bundle
+
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
 
