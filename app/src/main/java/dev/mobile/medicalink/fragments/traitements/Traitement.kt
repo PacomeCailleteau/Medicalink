@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.io.Serializable
+import java.lang.NumberFormatException
 import java.time.LocalDate
 import java.util.*
 
@@ -83,7 +84,18 @@ class Traitement(
         /*
         Méthode qui conformise l'unité du médicament
          */
-        TODO("not yet implemented")
+        val algo = JaroWinkler()
+        algo.base = listOf(
+            "auBesoin",
+            "quotidiennement",
+            "intervalle"
+        )
+        algo.aChercher = this.dosageUnite
+
+        this.nomTraitement = algo.lancerDistance()
+
+        if (this.nomTraitement.isEmpty())
+            this.dosageUnite = "intervalle régulier"
     }
 
 
@@ -91,16 +103,55 @@ class Traitement(
         /*
         Méthode qui va remplir les variables dateDbtTraitement et dateFinTraitement
          */
-        TODO("not yet implemented")
+        if (this.suggDuree != null) {
+            val test = this.suggDuree!!.split(" ")
+            var entier = 1
+            var mot: String? = null
+            var resultAlgo: String
+
+            val algo = JaroWinkler()
+            algo.base = listOf(
+                "jour",
+                "semaine",
+                "mois"
+            )
+            for (s: String in test) {
+                algo.aChercher = s
+                resultAlgo = algo.lancerDistance()
+
+                if (resultAlgo.isNotEmpty()) {
+                    mot = resultAlgo
+                } else {
+                    try {
+                        entier = s.toInt()
+                    } catch (e: NumberFormatException) {
+                        entier = 1
+                    }
+                }
+            }
+            if (mot != null) {
+                this.dateDbtTraitement = LocalDate.now()
+                when (mot) {
+                    "jour" -> this.dateFinTraitement = this.dateDbtTraitement!!.plusDays(entier.toLong())
+                    "semaine" -> this.dateFinTraitement = this.dateDbtTraitement!!.plusWeeks(entier.toLong())
+                    "mois" -> this.dateFinTraitement = this.dateDbtTraitement!!.plusMonths(entier.toLong())
+                }
+            } else {
+                this.dateDbtTraitement = null
+                this.dateFinTraitement = null
+            }
+        }
     }
 
 
-    fun paufine() {
+    fun paufine(context: Context) {
         /*
         Méthode qui va réellement créer un traitement à partir des données qu'il possède
         va notament appeler les méthodes privées
          */
-        TODO("Not yet Implemented")
+        trouveNom(context)
+        trouveDuree()
+        trouveUnite()
     }
 
 }
