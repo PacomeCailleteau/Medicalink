@@ -12,12 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.repository.MedocRepository
-import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.HomeFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
-import dev.mobile.medicalink.fragments.traitements.MessagesFragment
+import dev.mobile.medicalink.fragments.contacts.ContactsFragment
 
 /**
  * Fragment de la barre de navigation en bas de l'application (Accueil/Traitement/Messages)
@@ -76,7 +73,7 @@ class MainFragment : AppCompatActivity() {
 
         btnMessagesNav.setOnClickListener {
             changeMenu(2)
-            loadFrag(MessagesFragment(), 1)
+            loadFrag(ContactsFragment(), 1)
         }
 
     }

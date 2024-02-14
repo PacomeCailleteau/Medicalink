@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -28,6 +28,9 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelSearchAdapterR
 import java.util.concurrent.LinkedBlockingQueue
 
 

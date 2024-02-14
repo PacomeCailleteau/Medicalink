@@ -19,6 +19,8 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
+import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutManuelRecapitulatif
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -124,7 +126,6 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
 
-
             val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
             val jourPremierePrise = newTraitement.dateDbtTraitement
             val date = LocalDate.now().toString()
@@ -138,7 +139,6 @@ class ListeTraitementsFragment : Fragment() {
                     Pair(date, numero)
                 )
             }
-
         }
 
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_item_recap"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,26 +9,57 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/titreMessage"
+        android:id="@+id/PrenomMedecinMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
-        android:text="@string/titreMessage"
+        android:text="@string/prenom_message_item"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textMessage"
+        android:id="@+id/NomMedecinMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/nom_message_item"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/PrenomMedecinMessage"
+        app:layout_constraintStart_toEndOf="@+id/PrenomMedecinMessage"
+        app:layout_constraintTop_toTopOf="@+id/PrenomMedecinMessage" />
+
+    <TextView
+        android:id="@+id/RppsMedecinMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/quicksand_semibold"
-        android:text="@string/textMessage"
+        android:text="@string/rpps_message_item"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/titreMessage"
-        app:layout_constraintTop_toBottomOf="@+id/titreMessage" />
+        app:layout_constraintStart_toStartOf="@+id/PrenomMedecinMessage"
+        app:layout_constraintTop_toBottomOf="@+id/PrenomMedecinMessage" />
+
+    <ImageView
+        android:id="@+id/PhoneMedecinMessage"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RppsMedecinMessage"
+        app:srcCompat="@drawable/phone" />
+
+    <ImageView
+        android:id="@+id/EmailMedecinMessage"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/PhoneMedecinMessage"
+        app:layout_constraintEnd_toEndOf="@+id/NomMedecinMessage"
+        app:layout_constraintStart_toEndOf="@+id/PhoneMedecinMessage"
+        app:srcCompat="@drawable/messages" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

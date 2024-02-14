@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.adapter
 
 import android.annotation.SuppressLint
 import android.os.Build

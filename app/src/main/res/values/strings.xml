@@ -182,10 +182,27 @@
     <string name="professionnel">Professionnel</string>
     <string name="creer_profil_utilisateur">Utilisateur</string>
     <string name="rapport_journalier">Rapport journalier :</string>
-    <string name="x_x">X/X</string>
+    <string name="x_x" translatable="false">X/X</string>
     <string name="chargement">Chargement</string>
-    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode" translatable="false">Dark mode</string>
     <string name="ajouter">Ajouter</string>
     <string name="supprimer_compte">Supprimer le compte</string>
+    <string name="vos_contacts">Vos contacts</string>
+    <string name="prenom_message_item">Prénom</string>
+    <string name="nom_message_item">Nom</string>
+    <string name="rpps_message_item" translatable="false">RPPS</string>
+    <string name="rechercher_par_prenom_et_nom">Rechercher par prénom et nom</string>
+    <string name="rechercher_par_rpps">Rechercher par RPPS\n</string>
+    <string name="rechercher_un_medecin">Rechercher un medecin</string>
+    <string name="rpps_s" translatable="false">Rpps : %s</string>
+    <string name="prenom_s">Prénom : %s</string>
+    <string name="nom_s">Nom : %s</string>
+    <string name="email_s">Email : %s</string>
+    <string name="phone_s">Téléphone : %s</string>
+    <string name="adresse_s">Adresse : %s</string>
+    <string name="code_postal_s">Code postal : %s</string>
+    <string name="ville_s">Ville : %s</string>
+    <string name="sexe_s">Sexe : %s</string>
+    <string name="contact">Contact</string>
 
 </resources>

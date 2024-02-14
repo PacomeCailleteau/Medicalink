@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.traitements.ajouts.AddTraitementsFragment
 
 class MainTraitementsFragment : Fragment() {
     private lateinit var addTraitementButton: LinearLayout
