@@ -162,4 +162,8 @@ class ListeTraitementAdapterR(
         dosageDialog.show()
     }
 
+    private fun showMedicationInfos(context: Context,item: Traitement) {
+
+    }
+
 }

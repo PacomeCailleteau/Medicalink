@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class CisBdpm(
-    @PrimaryKey val codeCIS: Int,
+    @PrimaryKey val codeCIS: String,
     var denomination: String,
     var formePharmaceutique: String,
     var voiesAdministration: String,

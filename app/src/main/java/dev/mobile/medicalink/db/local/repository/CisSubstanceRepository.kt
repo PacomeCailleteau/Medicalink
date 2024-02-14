@@ -17,7 +17,7 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
         }
     }
 
-    fun getOneCisSubstanceById(CodeCIS: Int): List<CisSubstance> {
+    fun getOneCisSubstanceById(CodeCIS: String): List<CisSubstance> {
         return try {
             CisSubstanceDao.getById(CodeCIS)
         } catch (e: Exception) {
@@ -93,7 +93,7 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
             val line = lines[index]
             val csvValues = csv.parseCsvLine(line)
             val cisSubstance = CisSubstance(
-                codeCIS = csvValues[0].toInt(),
+                codeCIS = csvValues[0],
                 elementPharmaceutique = csvValues[1],
                 codeSubstance = csvValues[2].toInt(),
                 denominationSubstance = csvValues[3],

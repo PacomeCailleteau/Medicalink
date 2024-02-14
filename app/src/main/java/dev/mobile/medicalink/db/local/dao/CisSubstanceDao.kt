@@ -13,7 +13,7 @@ interface CisSubstanceDao {
     fun getAll(): List<CisSubstance>
 
     @Query("SELECT * FROM CisSubstance WHERE CodeCIS IN (:CodeCIS)")
-    fun getById(CodeCIS: Int): List<CisSubstance>
+    fun getById(CodeCIS: String): List<CisSubstance>
 
     @Insert
     fun insertAll(vararg CisSubstances: CisSubstance)
