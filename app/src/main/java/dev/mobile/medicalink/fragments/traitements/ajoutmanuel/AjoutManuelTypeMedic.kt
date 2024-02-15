@@ -49,12 +49,7 @@ class AjoutManuelTypeMedic : Fragment() {
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
 
-        if (isAddingTraitement == "false") {
-            retour.visibility = View.INVISIBLE
-            retour.isClickable = false
-            retour.isFocusable = false
-            retour.isEnabled = false
-        }
+
 
         val listeTypeMedic: MutableList<String> =
             mutableListOf(

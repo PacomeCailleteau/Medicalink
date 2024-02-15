@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
+import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelRecapitulatif
@@ -236,14 +238,15 @@ class ListeTraitementsFragment : Fragment() {
             ListeTraitementAdapterR(traitementsTries) { clickedTraitement, click ->
                 when (click){
                     "Info" -> {
-                        //TODO : afficher les informations du Medicament au lieu de ContactsFragment
                         val bundle = Bundle()
-                        val destinationFragment = ContactsFragment()
+                        bundle.putString("codeCIS", (clickedTraitement.CodeCIS?:return@ListeTraitementAdapterR).toString())
+                        val destinationFragment = InfoMedicamentFragment()
                         destinationFragment.arguments = bundle
                         val fragTransaction = parentFragmentManager.beginTransaction()
                         fragTransaction.replace(R.id.FL, destinationFragment)
                         fragTransaction.addToBackStack(null)
                         fragTransaction.commit()
+
                     }
                     "Supr" -> {
                         Thread {
