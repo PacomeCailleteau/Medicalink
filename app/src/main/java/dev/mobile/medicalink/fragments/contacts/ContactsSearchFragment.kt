@@ -32,8 +32,12 @@ import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.LinkedBlockingQueue
+import java.util.Timer
+import java.util.TimerTask
+
 
 class ContactsSearchFragment : Fragment() {
 
@@ -45,11 +49,11 @@ class ContactsSearchFragment : Fragment() {
     private lateinit var ItemList: List<Contact>
     private lateinit var itemAdapter: ContactsSearchAdapterR
 
-
     private lateinit var retour: ImageView
 
     private lateinit var apiRpps: ApiRppsService
     private lateinit var uuid: String
+    private var searchJob: Job? = null
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -116,16 +120,28 @@ class ContactsSearchFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            lifecycleScope.launch {
-                itemAdapter = ContactsSearchAdapterR(getPracticiansToContact(uuid, contactSearchBar.text.toString())) { clickedItem ->
-                    afficherContact(clickedItem)
-                }
-                recyclerView.adapter = itemAdapter
-            }
+
         }
 
         override fun afterTextChanged(editable: Editable?) {
+            searchJob?.cancel() // Annuler la recherche précédente
+            searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                delay(300) // Attendre 600ms de debounce
+                editable?.toString()?.let {
+                    if (it.isNotBlank()) {
+                        updateSearchResults(it) // Appeler la fonction de mise à jour
+                    }
+                }
+            }
         }
+    }
+
+    private suspend fun updateSearchResults(query: String) {
+        val results = getPracticiansToContact(uuid, query)
+        itemAdapter = ContactsSearchAdapterR(results) { clickedItem ->
+            afficherContact(clickedItem)
+        }
+        recyclerView.adapter = itemAdapter
     }
 
     fun clearFocusAndHideKeyboard(view: View) {
@@ -141,7 +157,7 @@ class ContactsSearchFragment : Fragment() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun afficherContact(itemClicked: Contact) {
+    private fun afficherContact(itemClicked: Contact) {
         val bundle = Bundle()
         bundle.putSerializable(
             "contact",
@@ -170,7 +186,7 @@ class ContactsSearchFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact> {
+    private suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact> {
         val response = apiRpps.getPracticians(search)
         if (response.isSuccessful) {
             val itemList = response.body()

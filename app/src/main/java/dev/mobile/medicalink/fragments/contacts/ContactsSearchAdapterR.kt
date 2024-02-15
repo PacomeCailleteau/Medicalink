@@ -19,11 +19,17 @@ class ContactsSearchAdapterR(
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val nomContact: TextView = view.findViewById(R.id.nomMedecin)
+        val ville = view.findViewById<TextView>(R.id.villeSearch)
         val spécialisation = view.findViewById<TextView>(R.id.professionMedecin)
 
 
         fun bind(item: Contact) {
             nomContact.text = item.fullname
+            if (item.city != null) {
+                ville.text = item.city
+            } else {
+                ville.visibility = View.GONE
+            }
             spécialisation.text = item.specialty
         }
     }

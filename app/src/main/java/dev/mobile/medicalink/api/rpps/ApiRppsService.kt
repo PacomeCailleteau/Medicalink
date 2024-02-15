@@ -5,9 +5,9 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiRppsService {
-    @GET("practicians/{search}")
+    @GET("practicians/{search}/50")
     suspend fun getPracticians(@Path("search") search: String): Response<List<Practician>>
 
     @GET("getEmails/{rpps}")
-    suspend fun getEmail(@Path("rpps") rpps: Long): Response<String>
+    suspend fun getEmail(@Path("rpps") rpps: Long): Response<Emails>
 }

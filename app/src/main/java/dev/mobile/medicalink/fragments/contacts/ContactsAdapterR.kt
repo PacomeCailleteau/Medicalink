@@ -18,6 +18,7 @@ class ContactsAdapterR(
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titreMessage: TextView = view.findViewById(R.id.nomMedecin)
+        val ville = view.findViewById<TextView>(R.id.villeSearch)
         val textMessage: TextView = view.findViewById(R.id.professionMedecin)
 
     }
@@ -39,6 +40,11 @@ class ContactsAdapterR(
         val item = list.get(position)
 
         holder.titreMessage.text = item.fullname
+        if (item.city != null) {
+            holder.ville.text = item.city
+        } else {
+            holder.ville.visibility = View.GONE
+        }
         holder.textMessage.text = item.specialty
 
         //On renvoie l'item au fragment pour qu'il récupère l'item cliqué

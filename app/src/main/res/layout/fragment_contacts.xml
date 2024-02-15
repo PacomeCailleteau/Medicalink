@@ -36,16 +36,18 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/creerContact"
-        android:layout_width="210dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="59dp"
+        android:layout_marginEnd="25dp"
         android:background="@drawable/rounded_blue_button_background"
         android:fontFamily="@font/quicksand_semibold"
-        android:text="Ajouter un contact"
+        android:text="Rechercher un contact"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titreContact" />
 

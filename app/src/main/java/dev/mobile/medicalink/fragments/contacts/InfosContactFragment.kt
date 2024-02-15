@@ -1,12 +1,10 @@
 package dev.mobile.medicalink.fragments.contacts
 
 import android.content.Intent
-import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -18,12 +16,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.api.rpps.ApiRppsClient
+import dev.mobile.medicalink.api.rpps.ApiRppsService
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
-import dev.mobile.medicalink.db.local.repository.UserRepository
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class InfosContactFragment : Fragment() {
     private lateinit var textNomComplet: TextView
@@ -41,6 +39,7 @@ class InfosContactFragment : Fragment() {
 
     private lateinit var db: AppDatabase
     private lateinit var contactDatabaseInterface: ContactRepository
+    private lateinit var apiRpps: ApiRppsService
     private var isInBase = false
     private lateinit var contact: Contact
 
@@ -63,6 +62,7 @@ class InfosContactFragment : Fragment() {
 
         db = AppDatabase.getInstance(requireContext())
         contactDatabaseInterface = ContactRepository(db.contactDao())
+        apiRpps = ApiRppsClient().apiService
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -110,15 +110,28 @@ class InfosContactFragment : Fragment() {
         textSpecialite.text = contact.specialty ?: "Spécialité non renseigné"
         if (contact.phoneNumber == null) {
             textTelephone.text = "Téléphone non renseigné"
-            btnTelephone.visibility = View.GONE
+            btnTelephone.visibility = View.INVISIBLE
         } else {
             textTelephone.text = contact.phoneNumber
+            btnTelephone.visibility = View.VISIBLE
         }
-        if (contact.email == null) {
-            btnEmail.visibility = View.GONE
-            textEmail.text = "E-mail non renseigné"
-        } else {
-            textEmail.text = contact.email
+
+        lifecycleScope.launch{
+            val res = apiRpps.getEmail(contact.Rpps)
+            Log.d("Email", res.body().toString())
+            if (res.isSuccessful) {
+                contact.email = res.body()?.emailAddresses?.get(0)
+                if (contact.email == null) {
+                    btnEmail.visibility = View.INVISIBLE
+                    textEmail.text = "Email non renseigné"
+                } else {
+                    textEmail.text = contact.email
+                    btnEmail.visibility = View.VISIBLE
+                }
+            } else {
+                textEmail.text = "Email non renseigné"
+                btnEmail.visibility = View.INVISIBLE
+            }
         }
         textAdresse.text = contact.address ?: "Adresse non renseigné"
         if (contact.zipcode == "") {
@@ -146,7 +159,7 @@ class InfosContactFragment : Fragment() {
         return view
     }
 
-    fun setButtonSupprimer(c: Contact) {
+    private fun setButtonSupprimer(c: Contact) {
         btnAjoutSupp.text = "Supprimer des contacts"
         btnAjoutSupp.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_darker_red_button_no_stroke_background, null)
         btnAjoutSupp.setOnClickListener {
@@ -158,7 +171,7 @@ class InfosContactFragment : Fragment() {
         }
     }
 
-    fun setButtonAjouter(c: Contact) {
+    private fun setButtonAjouter(c: Contact) {
         btnAjoutSupp.text = "Ajouter aux contacts"
         btnAjoutSupp.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_darker_blue_button_no_stroke_background, null)
         btnAjoutSupp.setOnClickListener {
