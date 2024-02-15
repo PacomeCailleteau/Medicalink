@@ -56,7 +56,6 @@ class ListeTraitementsFragment : Fragment() {
         ################################################################# */
         if (viewModel.isAddingTraitement.value == true || viewModel.isAddingTraitement.value == false) {
             val newMedoc: Medoc
-            var traitementUUID: String = UUID.randomUUID().toString()
 
             var newTraitementEffetsSec: String? = null
             if (viewModel.effetsSecondaires.value != null) {
@@ -74,13 +73,13 @@ class ListeTraitementsFragment : Fragment() {
                 for (prise in viewModel.prises.value!!) {
                     chaineDeChar += "${prise}/"
                 }
-                chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
+                if (chaineDeChar != "") chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
                 newTraitementPrises = chaineDeChar
             }
 
 
             newMedoc = Medoc(
-                traitementUUID,
+                if (viewModel.isAddingTraitement.value!!) UUID.randomUUID().toString() else viewModel.UUID.value!!,
                 "",
                 viewModel.nomTraitement.value?: "",
                 viewModel.codeCIS.value?: "",
@@ -103,6 +102,7 @@ class ListeTraitementsFragment : Fragment() {
                 if (viewModel.isAddingTraitement.value!!) {
                     medocDatabaseInterface.insertMedoc(newMedoc)
                 } else {
+                    Log.d("update le medoc", newMedoc.toString())
                     medocDatabaseInterface.updateMedoc(newMedoc)
                 }
                 queue2.add(true)
@@ -151,7 +151,7 @@ class ListeTraitementsFragment : Fragment() {
 
                 val listePrise = mutableListOf<Prise>()
 
-                if (medoc.prises != null) {
+                if (!medoc.prises.isNullOrEmpty()) {
                     for (prise in medoc.prises.split("/")) {
                         val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
                         val maPrise = Prise(
