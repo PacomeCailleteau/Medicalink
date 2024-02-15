@@ -18,7 +18,6 @@ class PriseValideeRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var priseValideeRepository: PriseValideeRepository
     private val defaultPriseValidee = PriseValidee("1", "2021-01-01", "1", "statut")
-    private val defaultPriseValidee2 = PriseValidee("2", "2021-02-02", "2", "statut2")
 
     @Before
     fun setupDatabase() {
@@ -40,7 +39,7 @@ class PriseValideeRepositoryTest {
     fun `test if we can get all priseValidee`() {
         // Should be empty
         val priseValidee = priseValideeRepository.getAllPriseValidee()
-        assert(priseValidee.isEmpty())
+        assertTrue(priseValidee.isEmpty())
     }
 
     @Test
@@ -50,8 +49,8 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
     }
 
     @Test
@@ -60,11 +59,11 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
         val res = priseValideeRepository.insertPriseValidee(priseValidee)
-        assert(!res.first)
-        assert(res.second == "PriseValidee already exists")
+        assertFalse(res.first)
+        assertEquals(res.second, "PriseValidee already exists")
     }
 
     @Test
@@ -73,8 +72,8 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
     }
 
     @Test
@@ -85,8 +84,8 @@ class PriseValideeRepositoryTest {
             priseValidee.date,
             priseValidee.uuidPrise
         )
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
     }
 
     @Test
@@ -95,14 +94,14 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
         val priseValideeUpdated = priseValidee.copy(statut = "statutUpdated")
         priseValideeRepository.updatePriseValidee(priseValideeUpdated)
         val priseValideeFromDatabaseUpdated =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabaseUpdated.size == 1)
-        assert(priseValideeFromDatabaseUpdated[0].statut == "statutUpdated")
+        assertEquals(priseValideeFromDatabaseUpdated.size, 1)
+        assertEquals(priseValideeFromDatabaseUpdated[0].statut, "statutUpdated")
     }
 
     @Test
@@ -111,14 +110,14 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
         val priseValideeUpdated = priseValidee.copy(uuid = "22222222")
         priseValideeRepository.updatePriseValidee(priseValideeUpdated)
         val priseValideeFromDatabaseUpdated =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabaseUpdated.size == 1)
-        assert(priseValideeFromDatabaseUpdated[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabaseUpdated.size, 1)
+        assertEquals(priseValideeFromDatabaseUpdated[0].uuid, priseValidee.uuid)
     }
 
     @Test
@@ -127,12 +126,12 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
         priseValideeRepository.deletePriseValidee(priseValideeFromDatabase[0])
         val priseValideeFromDatabaseAfterDelete =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabaseAfterDelete.isEmpty())
+        assertTrue(priseValideeFromDatabaseAfterDelete.isEmpty())
     }
 
     @Test
@@ -141,14 +140,14 @@ class PriseValideeRepositoryTest {
         priseValideeRepository.insertPriseValidee(priseValidee)
         val priseValideeFromDatabase =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabase.size == 1)
-        assert(priseValideeFromDatabase[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabase.size, 1)
+        assertEquals(priseValideeFromDatabase[0].uuid, priseValidee.uuid)
         val priseValideeWrongId = priseValidee.copy(uuid = "22222222")
         priseValideeRepository.deletePriseValidee(priseValideeWrongId)
         val priseValideeFromDatabaseAfterDelete =
             priseValideeRepository.getOnePriseValideeById(priseValidee.uuid)
-        assert(priseValideeFromDatabaseAfterDelete.size == 1)
-        assert(priseValideeFromDatabaseAfterDelete[0].uuid == priseValidee.uuid)
+        assertEquals(priseValideeFromDatabaseAfterDelete.size, 1)
+        assertEquals(priseValideeFromDatabaseAfterDelete[0].uuid, priseValidee.uuid)
     }
 
 }

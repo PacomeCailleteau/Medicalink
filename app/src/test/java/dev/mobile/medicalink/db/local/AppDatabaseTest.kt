@@ -2,6 +2,7 @@ package dev.mobile.medicalink.db.local
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -14,7 +15,7 @@ class AppDatabaseTest {
     fun `test singleton`() {
         val db1 = AppDatabase.getInstance(ApplicationProvider.getApplicationContext())
         val db2 = AppDatabase.getInstance(ApplicationProvider.getApplicationContext())
-        assert(db1 === db2)
+        assertEquals(db1, db2)
     }
 
 }

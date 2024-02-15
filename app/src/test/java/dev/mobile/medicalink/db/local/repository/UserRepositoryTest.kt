@@ -6,6 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,7 +46,7 @@ class UserRepositoryTest {
     fun `test if we can get all users`() {
         // Should be empty
         val users = userRepository.getAllUsers()
-        assert(users.isEmpty())
+        assertTrue(users.isEmpty())
     }
 
     @Test
@@ -54,8 +55,8 @@ class UserRepositoryTest {
         val user = defaultUser
         userRepository.insertUser(user)
         val userFromDatabase = userRepository.getOneUserById(user.uuid)
-        assert(userFromDatabase.size == 1)
-        assert(userFromDatabase[0].uuid == user.uuid)
+        assertEquals(userFromDatabase.size, 1)
+        assertEquals(userFromDatabase[0].uuid, user.uuid)
     }
 
     @Test
@@ -64,8 +65,8 @@ class UserRepositoryTest {
         val user2 = defaultUser.copy(prenom = "copyTest", nom = "copyTest")
         userRepository.insertUser(user)
         val res = userRepository.insertUser(user2)
-        assert(!res.first)
-        assert(res.second == "User already exists")
+        assertFalse(res.first)
+        assertEquals(res.second, "User already exists")
     }
 
     @Test
@@ -75,8 +76,8 @@ class UserRepositoryTest {
         userRepository.insertUser(user)
         userRepository.insertUser(user2)
         val connectedUsers = userRepository.getUsersConnected()
-        assert(connectedUsers.size == 1)
-        assert(connectedUsers[0].uuid == user2.uuid)
+        assertEquals(connectedUsers.size, 1)
+        assertEquals(connectedUsers[0].uuid, user2.uuid)
     }
 
     @Test
@@ -87,9 +88,8 @@ class UserRepositoryTest {
         userRepository.insertUser(user)
         // Check if the password is valid
         val isValid = userRepository.isValidPassword("test2")
-        println(isValid)
-        assert(isValid.first)
-        assert(isValid.second == "Success")
+        assertTrue(isValid.first)
+        assertEquals(isValid.second, "Success")
     }
 
     @Test
@@ -100,17 +100,16 @@ class UserRepositoryTest {
         userRepository.insertUser(user)
         // Check if the password is valid
         val isValid = userRepository.isValidPassword("wrongPassword")
-        assert(!isValid.first)
-        assert(isValid.second == "Success") //The second one is about the error message of the database but here it's a success
+        assertFalse(isValid.first)
+        assertEquals(isValid.second, "Success") //The second one is about the error message of the database but here it's a success
     }
 
     @Test
     fun `check if a password is valid (it only check for the connected user) with no connected user`() {
         // Check if the password is valid
         val isValid = userRepository.isValidPassword("ça va pas marcher héhé :)")
-        println(isValid)
-        assert(!isValid.first)
-        assert(isValid.second == "Unknown Error : List is empty.")
+        assertFalse(isValid.first)
+        assertEquals(isValid.second, "Unknown Error : List is empty.")
     }
 
     @Test
@@ -124,13 +123,13 @@ class UserRepositoryTest {
         //Update the user
         val userToUpdate = userFromDatabase[0].copy(nom = "testUpdate")
         val res = userRepository.updateUser(userToUpdate)
-        assert(res.first)
-        assert(res.second == "Success")
+        assertTrue(res.first)
+        assertEquals(res.second, "Success")
         //Get the user from database after update
         val userFromDatabaseAfterUpdate = userRepository.getOneUserById(user.uuid)
-        assert(userFromDatabaseAfterUpdate.size == 1)
-        assert(userFromDatabaseAfterUpdate[0].uuid == user.uuid)
-        assert(userFromDatabaseAfterUpdate[0].nom == "testUpdate")
+        assertEquals(userFromDatabaseAfterUpdate.size, 1)
+        assertEquals(userFromDatabaseAfterUpdate[0].uuid, user.uuid)
+        assertEquals(userFromDatabaseAfterUpdate[0].nom, "testUpdate")
     }
 
     @Test
@@ -140,7 +139,7 @@ class UserRepositoryTest {
         userRepository.updateUser(user)
         //Get the user from database
         val userFromDatabase = userRepository.getOneUserById(user.uuid)
-        assert(userFromDatabase.isEmpty())
+        assertTrue(userFromDatabase.isEmpty())
     }
 
     @Test
@@ -153,11 +152,11 @@ class UserRepositoryTest {
         assert(userFromDatabase[0].uuid == user.uuid)
         //Delete the user that we just get from database
         val res = userRepository.deleteUser(userFromDatabase[0])
-        assert(res.first)
-        assert(res.second == "Success")
+        assertTrue(res.first)
+        assertEquals(res.second, "Success")
         //Get the user from database after delete
         val userFromDatabaseAfterDelete = userRepository.getOneUserById(user.uuid)
-        assert(userFromDatabaseAfterDelete.isEmpty())
+        assertTrue(userFromDatabaseAfterDelete.isEmpty())
     }
 
     @Test
@@ -168,12 +167,12 @@ class UserRepositoryTest {
         userRepository.insertUser(user)
         //Delete user2 that doesn't exist in database
         val res = userRepository.deleteUser(user2)
-        assert(res.first)
-        assert(res.second == "Success")
+        assertTrue(res.first)
+        assertEquals(res.second, "Success")
         //Get the user from database after delete to verify that user is still here
         val userFromDatabaseAfterDelete = userRepository.getOneUserById(user.uuid)
-        assert(userFromDatabaseAfterDelete.size == 1)
-        assert(userFromDatabaseAfterDelete[0].uuid == user.uuid)
+        assertEquals(userFromDatabaseAfterDelete.size, 1)
+        assertEquals(userFromDatabaseAfterDelete[0].uuid, user.uuid)
     }
 
     @Test
@@ -186,18 +185,18 @@ class UserRepositoryTest {
         //Set user connected
         //It should also set user2 not connected
         val res = userRepository.setConnected(user)
-        assert(res.first)
-        assert(res.second == "Success")
+        assertTrue(res.first)
+        assertEquals(res.second, "Success")
         //Verify that user is connected
         val userFromDatabase = userRepository.getOneUserById(user.uuid)
-        assert(userFromDatabase.size == 1)
-        assert(userFromDatabase[0].uuid == user.uuid)
+        assertEquals(userFromDatabase.size, 1)
+        assertEquals(userFromDatabase[0].uuid, user.uuid)
         userFromDatabase[0].isConnected?.let { assert(it) }
         //Verify that user2 is not connected
         val user2FromDatabase = userRepository.getOneUserById(user2.uuid)
-        assert(user2FromDatabase.size == 1)
-        assert(user2FromDatabase[0].uuid == user2.uuid)
-        user2FromDatabase[0].isConnected?.let { assert(!it) }
+        assertEquals(user2FromDatabase.size ,1)
+        assertEquals(user2FromDatabase[0].uuid, user2.uuid)
+        user2FromDatabase[0].isConnected?.let { assertFalse(it) }
     }
 
 
