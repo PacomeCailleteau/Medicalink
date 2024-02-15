@@ -93,8 +93,8 @@ class MedocRepositoryTest {
         assertTrue(res.first)
         assertEquals(res.second, "Success")
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assertEquals(medocFromDatabase.size, 1)
-        assertEquals(medocFromDatabase[0].uuid, medoc.uuid)
+        assertEquals(1, medocFromDatabase.size)
+        assertEquals(medoc.uuid, medocFromDatabase[0].uuid)
     }
 
     @Test
@@ -102,8 +102,8 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assertEquals(medocFromDatabase.size, 1)
-        assertEquals(medocFromDatabase[0].uuid, medoc.uuid)
+        assertEquals(1, medocFromDatabase.size)
+        assertEquals(medoc.uuid, medocFromDatabase[0].uuid)
     }
 
     @Test
@@ -113,8 +113,8 @@ class MedocRepositoryTest {
         medocRepository.insertMedoc(medoc)
         medocRepository.insertMedoc(medoc2)
         val medocs = medocRepository.getAllMedocByUserId(medoc.uuidUser)
-        assertEquals(medocs.size, 1)
-        assertEquals(medocs[0].uuidUser, medoc.uuidUser)
+        assertEquals(1, medocs.size)
+        assertEquals(medoc.uuidUser, medocs[0].uuidUser)
     }
 
     @Test
@@ -132,8 +132,8 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assertEquals(medocFromDatabase.size, 1)
-        assertEquals(medocFromDatabase[0].uuid, medoc.uuid)
+        assertEquals(1, medocFromDatabase.size)
+        assertEquals(medoc.uuid, medocFromDatabase[0].uuid)
         val medocUpdated = medoc.copy(nom = "nomUpdated")
         medocRepository.updateMedoc(medocUpdated)
         val medocFromDatabaseUpdated = medocRepository.getOneMedocById(medoc.uuid)

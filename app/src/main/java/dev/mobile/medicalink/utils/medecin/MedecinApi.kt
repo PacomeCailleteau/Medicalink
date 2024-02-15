@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.utils.medecin
 
 
+import android.util.Log
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -19,10 +20,10 @@ class MedecinApi {
             val url = "${baseURL}medecin/$rpps"
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
+            println(url)
             val response: Response = client.newCall(request).execute()
-
+            println(" $rpps")
             if (!response.isSuccessful) {
-                // Gérer les erreurs HTTP ici
                 return null
             }
 
