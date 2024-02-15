@@ -148,8 +148,6 @@ class PrescriptionAI(
      * Analyse une image de prescription et génère des prédictions.
      *
      * @param imageUri L'URI de l'image à analyser.
-     * @param onPrediction Le callback à appeler avec les prédictions générées.
-     * @param onDismiss Le callback à appeler lorsque l'analyse est terminée.
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun analyse(
@@ -252,8 +250,6 @@ class PrescriptionAI(
      * Analyse une image de prescription et génère des prédictions.
      *
      * @param imageUri L'URI de l'image à analyser.
-     * @param onPrediction Le callback à appeler avec les prédictions générées.
-     * @param onDismiss Le callback à appeler lorsque l'analyse est terminée.
      */
     @WorkerThread
     private fun recognizeText(imageUri: Uri): String? {
