@@ -61,6 +61,34 @@
                 app:layout_constraintTop_toBottomOf="@+id/laboratoire" />
 
             <TextView
+                android:id="@+id/effetsSecondairesMedoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="start"
+                android:text="Effets secondaires"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/surveillanceRenforcee"
+                app:layout_constraintTop_toBottomOf="@+id/surveillanceRenforcee" />
+
+            <TextView
+                android:id="@+id/contreIndications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="start"
+                android:text="Contre-indications"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/effetsSecondairesMedoc"
+                app:layout_constraintTop_toBottomOf="@+id/effetsSecondairesMedoc" />
+
+            <TextView
                 android:id="@+id/laboratoire"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
