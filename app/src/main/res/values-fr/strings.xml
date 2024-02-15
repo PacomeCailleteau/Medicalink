@@ -74,7 +74,7 @@
     <string name="supprimer_compte">Supprimer le compte</string>
     <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
     <string name="j_ai_compris">J\'ai compris</string>
-    <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s. Voulez-vous vraiment ajouter ce médicament ?</string>
+    <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
     <string name="delete_all_data">Supprimer TOUTES mes données (cette action est irréversible)</string>
     <string name="bienvenue_sur_medicalink">Bienvenue sur Medicazelda !</string>
     <string name="bienvenue">Bienvenue</string>

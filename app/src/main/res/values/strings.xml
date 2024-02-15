@@ -206,6 +206,6 @@
     <string name="contact">Contact</string>
     <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
     <string name="j_ai_compris">J\'ai compris</string>
-    <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s. Voulez-vous vraiment ajouter ce médicament ?</string>
+    <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
 
 </resources>
