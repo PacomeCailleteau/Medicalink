@@ -2,6 +2,7 @@ package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -12,14 +13,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +30,6 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisSubstance
-import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
@@ -71,12 +70,12 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
-        val CisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
+        val cisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
         //Récupération de la liste des Médicaments pour l'afficher
         val queue = LinkedBlockingQueue<List<CisBdpm>>()
         Thread {
-            val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
+            val listCisBdpm = cisBdpmDatabaseInterface.getAllCisBdpm()
             Log.d("CisBDPM list", listCisBdpm.toString())
             queue.add(listCisBdpm)
         }.start()
@@ -92,48 +91,8 @@ class AjoutManuelSearchFragment : Fragment() {
             addManuallySearchBar.setText("")
         }
         addManuallySearchBar.setText(viewModel.nomTraitement.value)
-        /*
-        addManuallySearchBar.filters =
-            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-                source?.let {
-                    if (it.contains("\n")) {
-                        // Bloquer le collage de texte
-                        return@InputFilter ""
-                    }
-                }
-                null
-            })
-
-        val rootLayout = view.findViewById<View>(R.id.constraint_layout_ajout_manuel_search)
-        rootLayout.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                clearFocusAndHideKeyboard(v)
-            }
-            return@setOnTouchListener false
-        }
-
-        val regex = Regex(
-            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$",
-            options = setOf(RegexOption.IGNORE_CASE)
-        )
-
-        val filter = InputFilter { source, start, end, dest, dstart, dend ->
-            val input = source.subSequence(start, end).toString()
-            val currentText =
-                dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
-            val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
-
-            if (regex.matches(newText)) {
-                null // Caractères autorisés
-            } else {
-                dest.subSequence(dstart, dend)
-            }
-        }
-        */
         updateButtonState()
-        /*
-        addManuallySearchBar.filters = arrayOf(filter)
-         */
+
         addManuallySearchBar.addTextChangedListener(textWatcher)
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -142,22 +101,20 @@ class AjoutManuelSearchFragment : Fragment() {
             }
 
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
+        recyclerView = view.findViewById(R.id.recyclerViewSearch)
 
         Log.d("ICI", filteredItemList.toString())
 
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
+            searchForDuplcateSubstance(view.context, clickedItem.codeCIS)
             updateSearchBar(clickedItem.denomination)
             viewModel.setNomTraitement(clickedItem.denomination)
-            viewModel.setCodeCIS(clickedItem.codeCIS.toString())
+            viewModel.setCodeCIS(clickedItem.codeCIS)
         }
         recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
-
-
 
         addManuallyButton.setOnClickListener {
             val destinationFragment = AjoutManuelTypeMedic()
@@ -208,19 +165,6 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
-    fun clearFocusAndHideKeyboard(view: View) {
-        // Parcours tous les champs de texte, efface le focus
-        val editTextList = listOf(addManuallySearchBar) // Ajoute tous tes champs ici
-        for (editText in editTextList) {
-            editText.clearFocus()
-        }
-
-        // Cache le clavier
-        val imm =
-            requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -243,14 +187,15 @@ class AjoutManuelSearchFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun filterItems(query: String) {
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
-        var filteredItemList = originalItemList.filter { item ->
+        val filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
+               searchForDuplcateSubstance(requireContext(), clickedItem.codeCIS)
                 updateSearchBar(clickedItem.denomination)
                 viewModel.setNomTraitement(clickedItem.denomination)
-                viewModel.setCodeCIS(clickedItem.codeCIS.toString())
+                viewModel.setCodeCIS(clickedItem.codeCIS)
             }
             recyclerView.adapter = itemAdapter
             itemAdapter.notifyDataSetChanged()
@@ -268,11 +213,12 @@ class AjoutManuelSearchFragment : Fragment() {
 
     /**
      * Fonction utilisé pour rechercher si un médicament est déjà présent dans la liste des médicaments de l'utilisateur
+     * S'il y a un médicament en conflit, on affiche un dialog pour prévenir l'utilisateur
      * @param context le contexte de l'application
      * @param codeCis le codeCis du médicament que l'on veut ajouter
      * @return la liste des médicaments en conflit avec le médicament que l'on veut ajouter
      */
-    private fun searchForDuplcateSubstance(context: Context, codeCis: String): List<CisSubstance> {
+    private fun searchForDuplcateSubstance(context: Context, codeCis: String) {
         val db = AppDatabase.getInstance(context)
         val userInterface = UserRepository(db.userDao())
         val medocInterface = MedocRepository(db.medocDao())
@@ -292,7 +238,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
                 //Réupération du code de substance du médicament que l'on veut ajouter
                 val codeSubstanceMedicamentAjoute = cisSubstanceInterface.getOneCisSubstanceById(codeCis)[0].codeSubstance
-
                 //Vérification de la présence de ce code de substance dans la liste des médicaments déjà pris
                 val medicamentEnConflit = medicamentCisDejaPris.filter { it.codeSubstance == codeSubstanceMedicamentAjoute }
 
@@ -303,7 +248,35 @@ class AjoutManuelSearchFragment : Fragment() {
             }
         }.start()
 
-        return queue.take()
+        val res = queue.take()
+
+        if (res.isNotEmpty()) {
+            afficheDialogMedicamentEnConflit(context, res)
+        }
+    }
+
+    /**
+     * Fonction pour afficher un dialog prévenant l'utilisateur qu'il veut ajouter un médicament en conflit avec un médicament déjà présent dans sa liste
+     * @param context le contexte de l'application
+     * @param lstDuplicate la liste des médicaments en conflit
+     */
+    private fun afficheDialogMedicamentEnConflit(context: Context, lstDuplicate: List<CisSubstance>) {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_duplicate_substance, null)
+        val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
+        builder.setView(dialogView)
+
+        val dosageDialog = builder.create()
+
+        val dial = dialogView.findViewById<TextView>(R.id.ajouterVrm)
+        dial.text = context.resources.getString(R.string.ajouter_vrm_medoc_conflit, lstDuplicate.size.toString(), lstDuplicate[0].denominationSubstance)
+        val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
+
+        jaiCompris.setOnClickListener {
+            dosageDialog.dismiss()
+        }
+
+        dosageDialog.show()
     }
 
 }
