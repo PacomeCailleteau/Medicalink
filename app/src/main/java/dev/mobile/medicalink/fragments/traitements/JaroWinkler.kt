@@ -19,6 +19,10 @@ class JaroWinkler {
         return (this.aChercher != "" && this.base.isNotEmpty())
     }
 
+    /**
+     * Lance l'algorithme de recherche
+     * @return le mot le plus proche en String, s'il n'y en a pas, il renvoie un string vide
+     */
     fun lancerDistance(): String {
         if (!estPret()) {
             throw Exception("Les variables ne sont pas remplies.")
@@ -27,6 +31,13 @@ class JaroWinkler {
         return result.word
     }
 
+    /**
+     * Vérifie pour chaque mot de la base s'ils sont dans la range choisi en paramètre
+     * @param words liste de mot composant la base de recherche
+     * @param maxDistance distance maximale accepté comme étant un résultat pertinent
+     * @param string mot recherché
+     * @return le mot le plus proche sous forme de 'StringDistance' et s'il n'y en a pas, un 'StringDistance' mais vide
+     */
     private fun withinDistance(
         words: List<String>,
         maxDistance: Double,
@@ -47,6 +58,12 @@ class JaroWinkler {
         return result[0]
     }
 
+    /**
+     * Calcule la distance entre deux mots selon l'algorithme de JaroWinkler
+     * @param str1 mot dont on cherche à trouver le mot le plus proche
+     * @param str2 mot qui peut potentiellement être le mot le plus proche de 'str1'
+     * @return result distance entre les deux mots en Double
+     */
     private fun jaroWinklerDistance(str1: String, str2: String): Double {
         var string1 = str1
         var string2 = str2
@@ -100,6 +117,10 @@ class JaroWinkler {
         return 1.0 - (jaro + commonPrefix * 0.1 * (1.0 - jaro))
     }
 
+    /**
+     * Remplie la base de recherche avec tous les noms de médicaments
+     * @param context contexte nécessaire pour accéder à la BD
+     */
     fun getNomMedic(context: Context) {
         val db = AppDatabase.getInstance(context)
         val cisInterface = CisBdpmRepository(db.cisBdpmDao())
@@ -108,6 +129,11 @@ class JaroWinkler {
         base = res.map { it.denomination }
     }
 
+    /**
+     * Classe interne qui stock les résultats de l'algorithme
+     * @param word mot en string
+     * @param distance distance avec le mot recherché
+     */
     private inner class StringDistance(val word: String, val distance: Double) :
         Comparable<StringDistance?> {
         override fun compareTo(other: StringDistance?): Int {

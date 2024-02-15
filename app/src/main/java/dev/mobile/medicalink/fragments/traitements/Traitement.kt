@@ -68,10 +68,12 @@ class Traitement(
         }
     }
 
+
+    /**
+     * Lance un algorithme pour trouver ce qui se rapproche le plus du nom du médicament
+     * @param context contexte nécessaire à l'accès à la BD
+     */
     private fun trouveNom(context: Context) {
-        /*
-        Méthode qui va lancer un algorithme pour trouver ce qui se rapproche le plus du nom du médicament
-         */
         val algo = JaroWinkler()
         algo.getNomMedic(context)
         algo.aChercher = this.nomTraitement
@@ -80,10 +82,10 @@ class Traitement(
     }
 
 
+    /**
+     * Conformise l'unité du médicament
+     */
     private fun trouveUnite() {
-        /*
-        Méthode qui conformise l'unité du médicament
-         */
         val algo = JaroWinkler()
         algo.base = listOf(
             "auBesoin",
@@ -99,10 +101,10 @@ class Traitement(
     }
 
 
+    /**
+     * Remplie les variables dateDbtTraitement et dateFinTraitement
+     */
     private fun trouveDuree() {
-        /*
-        Méthode qui va remplir les variables dateDbtTraitement et dateFinTraitement
-         */
         if (this.suggDuree != null) {
             val test = this.suggDuree!!.split(" ")
             var entier = 1
@@ -143,12 +145,11 @@ class Traitement(
         }
     }
 
-
+    /**
+     * Créer un traitement à partir des données qu'il possède va notament appeler les méthodes privées
+     * @param context context nécessaire pour accéder à la BD
+     */
     fun paufine(context: Context) {
-        /*
-        Méthode qui va réellement créer un traitement à partir des données qu'il possède
-        va notament appeler les méthodes privées
-         */
         trouveNom(context)
         trouveDuree()
         trouveUnite()

@@ -148,6 +148,7 @@ class PrescriptionAI(
      * Analyse une image de prescription et génère des prédictions.
      *
      * @param imageUri L'URI de l'image à analyser.
+     * @return Liste de 'Traitement'
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun analyse(
@@ -176,6 +177,7 @@ class PrescriptionAI(
      * Analyse les résultats de l'OCR et créé des traitements
      *
      * @param prediction resultat de l'OCR avec les tokens
+     * @return liste de 'Traitement'
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun postAnalyse(prediction: MutableList<Pair<String, String>>): List<Traitement> {
