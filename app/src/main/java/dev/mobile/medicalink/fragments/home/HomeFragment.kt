@@ -285,9 +285,12 @@ class HomeFragment : Fragment() {
 
                 val listePrise = mutableListOf<Prise>()
 
-                if (medoc.prises != null) {
+                Log.d("test", medoc.toString())
+
+                if (!medoc.prises.isNullOrEmpty()) {
                     for (prise in medoc.prises.split("/")) {
                         val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
+                        Log.d("test", traitementPrise.toString())
                         val maPrise = Prise(
                             traitementPrise[0],
                             traitementPrise[1],

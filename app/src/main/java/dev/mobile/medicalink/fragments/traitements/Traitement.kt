@@ -34,7 +34,7 @@ class Traitement(
     }
 
     fun getProchainePrise(prise: Prise?): Prise {
-        if (prises == null) {
+        if (prises == null || prises!!.isEmpty()) {
             return Prise("-1", "14:38", 0, "Comprimé")
         }
         if (prise == null) {
