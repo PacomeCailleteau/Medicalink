@@ -52,16 +52,22 @@ class LoaderFragment : Fragment() {
         }
     }
 
-    private fun handleResult(result: List<String?>) {
-        // Méthode appelée pour traiter le résultat du traitement
-        for (i in result.indices) {
-            Log.d("RESULT TXT TRAITE", "handleResult: " + result[i])
+    private fun handleResult(result: List<Traitement>) {
+        // Création d'un bundle pour transmettre les résultats au nouveau fragment
+        val bundle = Bundle().apply {
+            putSerializable("result", ArrayList(result))
         }
+
+        // Création d'une instance du nouveau fragment
+        val listeTraitementsFragment = ListeTraitementsFragment().apply {
+            arguments = bundle
+        }
+
+        // Remplacement du fragment actuel par le nouveau fragment
         val fragTransaction = parentFragmentManager.beginTransaction()
-        fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
+        fragTransaction.replace(R.id.FL, listeTraitementsFragment)
         fragTransaction.addToBackStack(null)
         fragTransaction.commit()
-
     }
 
     private fun startLoadingAnimation() {
@@ -87,78 +93,9 @@ class LoaderFragment : Fragment() {
 
     // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createTraitement(text: Uri, context: Context): List<String?> {
-
+    private fun createTraitement(text: Uri, context: Context): List<Traitement> {
         val myModel = PrescriptionAI(requireContext())
-        val texteAnalyze = myModel.analyse(text, onPrediction = { prediction ->
-            val treatment = mutableListOf(Traitement(
-                "",
-                "",
-                0,
-                "",
-                null,
-                comprimesRestants = null,
-                effetsSecondaires = null,
-                totalQuantite = null,
-                UUID = null,
-                UUIDUSER = null,
-                dateDbtTraitement = null
-            ))
-            var last = 0
-            prediction.forEach { (word, label) ->
-                when {
-                    // B -> début mot
-                    // I -> intermédiaire du mot
-                    // B-Doliprane I-500mg
-                    label.startsWith("B-") -> {
-                        // query est la barre de recherche pour associer ce qui est trouver au nom de médicament via un algo
-                        // donc cette condition -> si on trouve un nom de medic (drug) et que la barre de recherche est déjà pleine (indiquant qu'il sert déja à quelque chose) -> renvoyer les results + recréer un traitement
-                        if (label.removePrefix("B-") == "Drug" && treatment[last].nomTraitement != "") {
-
-                            treatment.add(
-                                Traitement(
-                                    "",
-                                    "",
-                                    0,
-                                    "",
-                                    null,
-                                    comprimesRestants = null,
-                                    effetsSecondaires = null,
-                                    totalQuantite = null,
-                                    UUID = null,
-                                    UUIDUSER = null,
-                                    dateDbtTraitement = null
-                                )
-                            )
-                            last = treatment.size-1
-
-                        }
-                        when (label.removePrefix("B-")) {
-                            "Drug" -> treatment[last].nomTraitement = word
-                            "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
-                            "DrugForm" -> treatment[last].typeComprime = word
-                            "DrugFrequency" -> treatment[last].dosageUnite = word
-                            "DrugDuration" -> treatment[last].suggDuree = word
-                        }
-                    }
-
-                    label.startsWith("I-") -> {
-                        when (label.removePrefix("I-")) {
-                            "Drug" -> treatment[last].nomTraitement += " $word"
-                            "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
-                            "DrugForm" -> treatment[last].typeComprime = " $word"
-                            "DrugFrequency" -> treatment[last].dosageUnite = " $word"
-                            "DrugDuration" -> treatment[last].suggDuree += " $word"
-                        }
-                    }
-                }
-            }
-            //lancer pour chaque élément le traitement du traitement
-            treatment.forEach { it.paufine(context) }
-        },
-            // retirer le loader
-            onDismiss = {})
-        return  texteAnalyze
+        return  myModel.analyse(text)
     }
 }
 

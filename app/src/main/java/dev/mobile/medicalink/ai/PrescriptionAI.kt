@@ -3,13 +3,16 @@ package fr.medicapp.medicapp.ai
 import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import dev.mobile.medicalink.fragments.traitements.Traitement
 import fr.medicapp.medicapp.tokenization.Feature
 import fr.medicapp.medicapp.tokenization.FeatureConverter
 import org.pytorch.IValue
@@ -148,31 +151,101 @@ class PrescriptionAI(
      * @param onPrediction Le callback à appeler avec les prédictions générées.
      * @param onDismiss Le callback à appeler lorsque l'analyse est terminée.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     fun analyse(
-        imageUri: Uri,
-        onPrediction: (MutableList<Pair<String, String>>) -> Unit,
-        onDismiss: () -> Unit
-    ) {
-        mHandle.post {
-            // Attend que le module PyTorch soit chargé.
-            while (mModule == null) {
-                Thread.sleep(100)
-            }
-
-            // Reconnaît le texte dans l'image spécifiée par l'URI.
-            val visionText = recognizeText(imageUri)
-
-            if (visionText != null) {
-                // Exécute le modèle PyTorch sur le texte reconnu et génère des prédictions.
-                val sentenceTokenized = runModel(visionText)
-
-                // Appelle le callback avec les prédictions générées.
-                onPrediction(sentenceTokenized)
-            }
-
-            // Appelle le callback lorsque l'analyse est terminée.
-            onDismiss()
+        imageUri: Uri
+    ): List<Traitement> {
+        // Attend que le module PyTorch soit chargé.
+        while (mModule == null) {
+            Thread.sleep(100)
         }
+
+        // Reconnaît le texte dans l'image spécifiée par l'URI.
+        val visionText = recognizeText(imageUri)
+        var result = listOf<Traitement>()
+
+        if (visionText != null) {
+            // Exécute le modèle PyTorch sur le texte reconnu et génère des prédictions.
+            val sentenceTokenized = runModel(visionText)
+            result = postAnalyse(sentenceTokenized)
+        }
+
+        // Appelle le callback avec les prédictions générées.
+        return result
+    }
+
+    /**
+     * Analyse les résultats de l'OCR et créé des traitements
+     *
+     * @param prediction resultat de l'OCR avec les tokens
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun postAnalyse(prediction: MutableList<Pair<String, String>>): List<Traitement> {
+        val treatment = mutableListOf(Traitement(
+            "",
+            "",
+            0,
+            "",
+            null,
+            comprimesRestants = null,
+            effetsSecondaires = null,
+            totalQuantite = null,
+            UUID = null,
+            UUIDUSER = null,
+            dateDbtTraitement = null
+        ))
+        var last = 0
+        prediction.forEach { (word, label) ->
+            when {
+                // B -> début mot
+                // I -> intermédiaire du mot
+                // B-Doliprane I-500mg
+                label.startsWith("B-") -> {
+                    // query est la barre de recherche pour associer ce qui est trouver au nom de médicament via un algo
+                    // donc cette condition -> si on trouve un nom de medic (drug) et que la barre de recherche est déjà pleine (indiquant qu'il sert déja à quelque chose) -> renvoyer les results + recréer un traitement
+                    if (label.removePrefix("B-") == "Drug" && treatment[last].nomTraitement != "") {
+
+                        treatment.add(
+                            Traitement(
+                                "",
+                                "",
+                                0,
+                                "",
+                                null,
+                                comprimesRestants = null,
+                                effetsSecondaires = null,
+                                totalQuantite = null,
+                                UUID = null,
+                                UUIDUSER = null,
+                                dateDbtTraitement = null
+                            )
+                        )
+                        last = treatment.size-1
+
+                    }
+                    when (label.removePrefix("B-")) {
+                        "Drug" -> treatment[last].nomTraitement = word
+                        "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
+                        "DrugForm" -> treatment[last].typeComprime = word
+                        "DrugFrequency" -> treatment[last].dosageUnite = word
+                        "DrugDuration" -> treatment[last].suggDuree = word
+                    }
+                }
+
+                label.startsWith("I-") -> {
+                    when (label.removePrefix("I-")) {
+                        "Drug" -> treatment[last].nomTraitement += " $word"
+                        "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
+                        "DrugForm" -> treatment[last].typeComprime = " $word"
+                        "DrugFrequency" -> treatment[last].dosageUnite = " $word"
+                        "DrugDuration" -> treatment[last].suggDuree += " $word"
+                    }
+                }
+            }
+        }
+        //lancer pour chaque élément le traitement du traitement
+        treatment.forEach { it.paufine(context) }
+        return treatment
     }
 
     /**

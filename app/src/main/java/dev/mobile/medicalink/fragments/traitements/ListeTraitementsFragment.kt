@@ -36,6 +36,7 @@ class ListeTraitementsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
+        val resultList = arguments?.getStringArrayList("resultList")
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
