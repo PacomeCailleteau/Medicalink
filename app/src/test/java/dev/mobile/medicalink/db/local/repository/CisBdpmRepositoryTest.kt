@@ -53,7 +53,7 @@ class CisBdpmRepositoryTest {
     fun `test if we can get all cisBdpm`() {
         // Should be empty
         val cisBdpm = CisBdpmRepository.getAllCisBdpm()
-        assert(cisBdpm.isEmpty())
+        assertTrue(cisBdpm.isEmpty())
     }
 
     @Test
@@ -62,8 +62,8 @@ class CisBdpmRepositoryTest {
         val cisBdpm = defaultCis
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase.size == 1)
-        assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase.size, 1)
+        assertEquals(cisBdpmFromDatabase[0].codeCIS, cisBdpm.codeCIS)
     }
 
     @Test
@@ -71,12 +71,12 @@ class CisBdpmRepositoryTest {
         val cisBdpm = defaultCis
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase.size == 1)
-        assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase.size, 1)
+        assertEquals(cisBdpmFromDatabase[0].codeCIS, cisBdpm.codeCIS)
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase2 = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase2.size == 1)
-        assert(cisBdpmFromDatabase2[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase2.size, 1)
+        assertEquals(cisBdpmFromDatabase2[0].codeCIS, cisBdpm.codeCIS)
     }
 
     @Test
@@ -84,13 +84,13 @@ class CisBdpmRepositoryTest {
         val cisBdpm = defaultCis
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase.size == 1)
-        assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase.size, 1)
+        assertEquals(cisBdpmFromDatabase[0].codeCIS, cisBdpm.codeCIS)
         val cisBdpmUpdated = cisBdpm.copy(denomination = "denominationUpdated")
         CisBdpmRepository.updateCisBdpm(cisBdpmUpdated)
         val cisBdpmFromDatabaseUpdated = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabaseUpdated.size == 1)
-        assert(cisBdpmFromDatabaseUpdated[0].denomination == "denominationUpdated")
+        assertEquals(cisBdpmFromDatabaseUpdated.size, 1)
+        assertEquals(cisBdpmFromDatabaseUpdated[0].denomination, "denominationUpdated")
     }
 
     @Test
@@ -98,13 +98,13 @@ class CisBdpmRepositoryTest {
         val cisBdpm = defaultCis
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase.size == 1)
-        assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase.size, 1)
+        assertEquals(cisBdpmFromDatabase[0].codeCIS, cisBdpm.codeCIS)
         val cisBdpmUpdated = cisBdpm.copy(codeCIS = "22222222")
         CisBdpmRepository.updateCisBdpm(cisBdpmUpdated)
         val cisBdpmFromDatabaseUpdated = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabaseUpdated.size == 1)
-        assert(cisBdpmFromDatabaseUpdated[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabaseUpdated.size, 1)
+        assertEquals(cisBdpmFromDatabaseUpdated[0].codeCIS, cisBdpm.codeCIS)
     }
 
     @Test
@@ -112,11 +112,11 @@ class CisBdpmRepositoryTest {
         val cisBdpm = defaultCis
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase.size == 1)
-        assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase.size, 1)
+        assertEquals(cisBdpmFromDatabase[0].codeCIS, cisBdpm.codeCIS)
         CisBdpmRepository.deleteCisBdpm(cisBdpm)
         val cisBdpmFromDatabaseDeleted = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabaseDeleted.isEmpty())
+        assertTrue(cisBdpmFromDatabaseDeleted.isEmpty())
     }
 
     @Test
@@ -124,13 +124,13 @@ class CisBdpmRepositoryTest {
         val cisBdpm = defaultCis
         CisBdpmRepository.insertCisBdpm(cisBdpm)
         val cisBdpmFromDatabase = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabase.size == 1)
-        assert(cisBdpmFromDatabase[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabase.size, 1)
+        assertEquals(cisBdpmFromDatabase[0].codeCIS, cisBdpm.codeCIS)
         val cisBdpmWrongId = cisBdpm.copy(codeCIS = "22222222")
         CisBdpmRepository.deleteCisBdpm(cisBdpmWrongId)
         val cisBdpmFromDatabaseDeleted = CisBdpmRepository.getOneCisBdpmById(cisBdpm.codeCIS)
-        assert(cisBdpmFromDatabaseDeleted.size == 1)
-        assert(cisBdpmFromDatabaseDeleted[0].codeCIS == cisBdpm.codeCIS)
+        assertEquals(cisBdpmFromDatabaseDeleted.size, 1)
+        assertEquals(cisBdpmFromDatabaseDeleted[0].codeCIS, cisBdpm.codeCIS)
     }
 
     @Test
@@ -139,7 +139,7 @@ class CisBdpmRepositoryTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         CisBdpmRepository.insertFromCsv(context)
         val cisBdpmFromDatabase = CisBdpmRepository.getAllCisBdpm()
-        assert(cisBdpmFromDatabase.isNotEmpty())
+        assertTrue(cisBdpmFromDatabase.isNotEmpty())
     }
 
 

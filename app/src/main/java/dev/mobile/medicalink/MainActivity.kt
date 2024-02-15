@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity() {
         val queue = LinkedBlockingQueue<String>()
 
         // Thread pour récupérer le prénom de l'utilisateur connecté pour son affichage
-        Thread {
+        Thread {/*
             //On créer un user factice pour aller plus vite
             userDatabaseInterface.insertUser(
                 User("0","","nom","prenom", "", "", "666666", isConnected = true)
-            )
+            )*/
             val res = userDatabaseInterface.getUsersConnected()
             if (res.isNotEmpty()) {
                 queue.add(res.first().prenom)
