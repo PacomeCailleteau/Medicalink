@@ -14,7 +14,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
 
 
-class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var selected: String) :
+class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var selected: String, private val viewModel: AjoutSharedViewModel) :
     RecyclerView.Adapter<AjoutManuelTypeMedicAdapterR.AjoutManuelTypeMedicViewHolder>() {
 
     class AjoutManuelTypeMedicViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

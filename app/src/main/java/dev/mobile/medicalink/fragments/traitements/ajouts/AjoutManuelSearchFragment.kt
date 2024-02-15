@@ -127,6 +127,7 @@ class AjoutManuelSearchFragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
 
         retour.setOnClickListener {
+            viewModel.setIsAddingTraitement(null)
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, AddTraitementsFragment())
             fragTransaction.addToBackStack(null)
@@ -165,18 +166,19 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-
+        val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                viewModel.setIsAddingTraitement(null)
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, AddTraitementsFragment())
                 fragTransaction.addToBackStack(null)
                 fragTransaction.commit()
             }
         }
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 

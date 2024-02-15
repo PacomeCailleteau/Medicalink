@@ -64,7 +64,7 @@ class AjoutManuelTypeMedic : Fragment() {
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
 
 
-        val AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
+        val AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
         recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
 
 
@@ -121,7 +121,7 @@ class AjoutManuelTypeMedic : Fragment() {
                     selected = resources.getString(R.string.comprime)
                 }
                 val ajoutManuelTypeMedicAdapter =
-                    AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
+                    AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
 
                 viewModel.setTypeComprime(ajoutManuelTypeMedicAdapter.selected)
                 val destinationFragment = AjoutManuelSearchFragment()

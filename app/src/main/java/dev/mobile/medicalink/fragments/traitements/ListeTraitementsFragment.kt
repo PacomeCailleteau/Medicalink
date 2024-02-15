@@ -102,7 +102,6 @@ class ListeTraitementsFragment : Fragment() {
                 if (viewModel.isAddingTraitement.value!!) {
                     medocDatabaseInterface.insertMedoc(newMedoc)
                 } else {
-                    Log.d("update le medoc", newMedoc.toString())
                     medocDatabaseInterface.updateMedoc(newMedoc)
                 }
                 queue2.add(true)
