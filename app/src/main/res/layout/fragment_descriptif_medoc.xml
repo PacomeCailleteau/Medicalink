@@ -33,46 +33,46 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewContactMedecin"
+                android:id="@+id/formePharmaceutique"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
-                android:text="Contact :"
+                android:text="Forme pharmaceutique"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="@+id/textView18"
-                app:layout_constraintTop_toBottomOf="@+id/spécialitéMedecin" />
+                app:layout_constraintTop_toBottomOf="@+id/substanceActiveInfoMedoc" />
 
             <TextView
-                android:id="@+id/zipCodeVilleMedecin"
+                android:id="@+id/surveillanceRenforcee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
-                android:text="ZIP CODE, ville"
+                android:text="Surveillance renforcée"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/adresseMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/adresseMedecin" />
+                app:layout_constraintStart_toStartOf="@+id/laboratoire"
+                app:layout_constraintTop_toBottomOf="@+id/laboratoire" />
 
             <TextView
-                android:id="@+id/adresseMedecin"
+                android:id="@+id/laboratoire"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
-                android:text="Adresse"
+                android:text="Laboratoire"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/textViewLieuMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/textViewLieuMedecin" />
+                app:layout_constraintStart_toStartOf="@+id/dateAMM"
+                app:layout_constraintTop_toBottomOf="@+id/dateAMM" />
 
             <TextView
                 android:id="@+id/cis"
@@ -85,8 +85,8 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="15sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/nomCompletMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/nomCompletMedecin" />
+                app:layout_constraintStart_toStartOf="@+id/nomCompletMedoc"
+                app:layout_constraintTop_toBottomOf="@+id/nomCompletMedoc" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -104,41 +104,41 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
             <TextView
-                android:id="@+id/téléphoneMedecin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/quicksand_semibold"
-                android:gravity="start"
-                android:text="Téléphone"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/textViewContactMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/textViewContactMedecin" />
-
-            <TextView
-                android:id="@+id/mailMedecin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/quicksand_semibold"
-                android:gravity="start"
-                android:text="Mail"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/téléphoneMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/téléphoneMedecin" />
-
-            <TextView
-                android:id="@+id/spécialitéMedecin"
+                android:id="@+id/voieAdmission"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
-                android:text="REMPLIR"
+                android:text="Voie d'admission"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/formePharmaceutique"
+                app:layout_constraintTop_toBottomOf="@+id/formePharmaceutique" />
+
+            <TextView
+                android:id="@+id/etatDeCommercialisation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="start"
+                android:text="Etat de commercialisation"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/voieAdmission"
+                app:layout_constraintTop_toBottomOf="@+id/voieAdmission" />
+
+            <TextView
+                android:id="@+id/substanceActiveInfoMedoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="start"
+                android:text="Substance active, dosage"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -146,18 +146,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/cis" />
 
             <TextView
-                android:id="@+id/textViewLieuMedecin"
+                android:id="@+id/dateAMM"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
-                android:text="Lieux :"
+                android:text="Date AMM"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="@+id/mailMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
+                app:layout_constraintStart_toStartOf="@+id/etatDeCommercialisation"
+                app:layout_constraintTop_toBottomOf="@+id/etatDeCommercialisation" />
 
             <ImageView
                 android:id="@+id/retour_schema_contact"
@@ -171,7 +171,7 @@
                 app:tint="@color/black" />
 
             <TextView
-                android:id="@+id/nomCompletMedecin"
+                android:id="@+id/nomCompletMedoc"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="25dp"
