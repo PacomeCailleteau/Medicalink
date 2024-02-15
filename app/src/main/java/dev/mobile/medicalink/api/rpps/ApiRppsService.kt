@@ -1,8 +1,6 @@
 package dev.mobile.medicalink.api.rpps
 
 
-import android.util.Log
-import dev.mobile.medicalink.db.local.entity.Contact
 import retrofit2.Response
 import retrofit2.http.*
 

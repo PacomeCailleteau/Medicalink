@@ -85,7 +85,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
 
             <TextView
-                android:id="@+id/cis"
+                android:id="@+id/rpps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -153,7 +153,7 @@
                 android:textSize="16sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="@+id/textView18"
-                app:layout_constraintTop_toBottomOf="@+id/cis" />
+                app:layout_constraintTop_toBottomOf="@+id/rpps" />
 
             <ImageView
                 android:id="@+id/btnTelephone"

@@ -18,6 +18,9 @@ interface ContactDao {
     @Query("SELECT * FROM Contact WHERE rpps=(:Rpps) AND uuid=(:uuid)")
     fun getByIdAndUuid(Rpps: Long, uuid: String): Contact
 
+    @Query("SELECT * FROM Contact WHERE rpps IN (:Rpps) AND uuid IN (:uuid)")
+    fun getByIdAndUuid(Rpps: Int, uuid: String): Contact
+
     @Insert
     fun insertAll(vararg ContactDaos: Contact)
 

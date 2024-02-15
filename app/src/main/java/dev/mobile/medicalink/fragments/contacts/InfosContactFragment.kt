@@ -49,8 +49,8 @@ class InfosContactFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_descriptif_contact, container, false)
-        textNomComplet = view.findViewById(R.id.nomCompletMedoc)
-        textRpps = view.findViewById(R.id.cis)
+        textNomComplet = view.findViewById(R.id.nomCompletMedecin)
+        textRpps = view.findViewById(R.id.rpps)
         textSpecialite = view.findViewById(R.id.spécialitéMedecin)
         textTelephone = view.findViewById(R.id.téléphoneMedecin)
         btnTelephone = view.findViewById(R.id.btnTelephone)
@@ -74,9 +74,7 @@ class InfosContactFragment : Fragment() {
         val contact = requireArguments().getSerializable("contact") as Contact
         Log.d("Contact", contact.toString())
 
-        Thread {
-            val listContact = contactDatabaseInterface.getContactsByUuid(contact.uuid)
-            Log.d("listContact", listContact.toString())
+        lifecycleScope.launch {
             val res = contactDatabaseInterface.getOneContactById(contact.uuid, contact.Rpps)
             isInBase = res != null
             Log.d("isInBase", isInBase.toString())
@@ -85,7 +83,7 @@ class InfosContactFragment : Fragment() {
             } else {
                 setButtonAjouter(contact)
             }
-        }.start()
+        }
 
         btnTelephone.setOnClickListener(View.OnClickListener {
             val number = textTelephone.text.toString()
@@ -99,8 +97,6 @@ class InfosContactFragment : Fragment() {
             val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
             startActivity(intent)
         })
-
-
 
         retour.setOnClickListener {
             parentFragmentManager.popBackStack()
