@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
+import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelRecapitulatif
@@ -233,75 +235,91 @@ class ListeTraitementsFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
-            ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
+            ListeTraitementAdapterR(traitementsTries) { clickedTraitement, click ->
+                when (click){
+                    "Info" -> {
+                        val bundle = Bundle()
+                        bundle.putString("codeCIS", (clickedTraitement.CodeCIS?:return@ListeTraitementAdapterR).toString())
+                        val destinationFragment = InfoMedicamentFragment()
+                        destinationFragment.arguments = bundle
+                        val fragTransaction = parentFragmentManager.beginTransaction()
+                        fragTransaction.replace(R.id.FL, destinationFragment)
+                        fragTransaction.addToBackStack(null)
+                        fragTransaction.commit()
 
-                if (isSuppr) {
-                    Thread {
-                        medocDatabaseInterface.deleteMedoc(
-                            medocDatabaseInterface.getOneMedocById(
-                                clickedTraitement.UUID!!
-                            ).first()
-                        )
-                    }.start()
-                } else {
-                    val bundle = Bundle()
-
-                    bundle.putString("isAddingTraitement", "false")
-                    bundle.putString("uuidUpdateTraitement", "$")
-
-
-                    bundle.putSerializable(
-                        "traitement",
-                        Traitement(
-                            clickedTraitement.CodeCIS,
-                            clickedTraitement.nomTraitement,
-                            clickedTraitement.dosageNb,
-                            clickedTraitement.dosageUnite,
-                            clickedTraitement.dateFinTraitement,
-                            clickedTraitement.typeComprime,
-                            clickedTraitement.comprimesRestants,
-                            clickedTraitement.expire,
-                            clickedTraitement.effetsSecondaires,
-                            clickedTraitement.prises,
-                            clickedTraitement.totalQuantite,
-                            clickedTraitement.UUID,
-                            clickedTraitement.UUIDUSER,
-                            clickedTraitement.dateDbtTraitement
-                        )
-                    )
-
-                    val schema_prise1: String
-                    val provenance: String
-                    if (clickedTraitement.dosageUnite == "auBesoin") {
-                        schema_prise1 = "auBesoin"
-                        provenance = "auBesoin"
-                    } else if (clickedTraitement.dosageUnite == "quotidiennement") {
-                        schema_prise1 = "Quotidiennement"
-                        provenance = "quotidiennement"
-                    } else {
-                        schema_prise1 = "Intervalle"
-                        provenance = "intervalleRegulier"
                     }
-
-                    val dureePriseFin: String = if (clickedTraitement.dateFinTraitement == null) {
-                        "sf"
-                    } else {
-                        "date"
+                    "Supr" -> {
+                        Thread {
+                            medocDatabaseInterface.deleteMedoc(
+                                medocDatabaseInterface.getOneMedocById(
+                                    clickedTraitement.UUID!!
+                                ).first()
+                            )
+                        }.start()
                     }
-                    //TODO("fusionner schema_prise1 et provenance dans le processus d'add traitement")
-                    bundle.putString("schema_prise1", schema_prise1)
-                    bundle.putString("provenance", provenance)
-                    bundle.putString("dureePriseDbt", "ajd")
-                    bundle.putString("dureePriseFin", dureePriseFin)
+                    "Modif" ->{
+                        val bundle = Bundle()
+
+                        bundle.putString("isAddingTraitement", "false")
+                        bundle.putString("uuidUpdateTraitement", "$")
 
 
-                    val destinationFragment = AjoutManuelRecapitulatif()
-                    destinationFragment.arguments = bundle
-                    val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, destinationFragment)
-                    fragTransaction.addToBackStack(null)
-                    fragTransaction.commit()
+                        bundle.putSerializable(
+                            "traitement",
+                            Traitement(
+                                clickedTraitement.CodeCIS,
+                                clickedTraitement.nomTraitement,
+                                clickedTraitement.dosageNb,
+                                clickedTraitement.dosageUnite,
+                                clickedTraitement.dateFinTraitement,
+                                clickedTraitement.typeComprime,
+                                clickedTraitement.comprimesRestants,
+                                clickedTraitement.expire,
+                                clickedTraitement.effetsSecondaires,
+                                clickedTraitement.prises,
+                                clickedTraitement.totalQuantite,
+                                clickedTraitement.UUID,
+                                clickedTraitement.UUIDUSER,
+                                clickedTraitement.dateDbtTraitement
+                            )
+                        )
+
+                        val schema_prise1: String
+                        val provenance: String
+                        if (clickedTraitement.dosageUnite == "auBesoin") {
+                            schema_prise1 = "auBesoin"
+                            provenance = "auBesoin"
+                        } else if (clickedTraitement.dosageUnite == "quotidiennement") {
+                            schema_prise1 = "Quotidiennement"
+                            provenance = "quotidiennement"
+                        } else {
+                            schema_prise1 = "Intervalle"
+                            provenance = "intervalleRegulier"
+                        }
+
+                        val dureePriseFin: String = if (clickedTraitement.dateFinTraitement == null) {
+                            "sf"
+                        } else {
+                            "date"
+                        }
+                        //("fusionner schema_prise1 et provenance dans le processus d'add traitement")
+                        //pas nécésaire ça marche bien comme ça
+                        bundle.putString("schema_prise1", schema_prise1)
+                        bundle.putString("provenance", provenance)
+                        bundle.putString("dureePriseDbt", "ajd")
+                        bundle.putString("dureePriseFin", dureePriseFin)
+
+
+                        val destinationFragment = AjoutManuelRecapitulatif()
+                        destinationFragment.arguments = bundle
+                        val fragTransaction = parentFragmentManager.beginTransaction()
+                        fragTransaction.replace(R.id.FL, destinationFragment)
+                        fragTransaction.addToBackStack(null)
+                        fragTransaction.commit()
+                    }
                 }
+
+
 
 
             }

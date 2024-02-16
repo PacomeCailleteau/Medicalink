@@ -19,7 +19,7 @@ import java.time.LocalDate
 
 class ListeTraitementAdapterR(
     private val list: MutableList<Traitement>,
-    private val onItemClick: (Traitement, Boolean) -> Unit,
+    private val onItemClick: (Traitement, String) -> Unit,
 ) :
     RecyclerView.Adapter<ListeTraitementAdapterR.TraitementViewHolder>() {
 
@@ -117,11 +117,15 @@ class ListeTraitementAdapterR(
         }
 
         holder.modifierTraitement.setOnClickListener {
-            onItemClick.invoke(item, false)
+            onItemClick.invoke(item, "Modif")
         }
         holder.supprTraitement.setOnClickListener {
             showConfirmSuppressDialog(holder.itemView.context, item)
         }
+        holder.view.setOnClickListener {
+            onItemClick.invoke(item, "Info")
+        }
+
     }
 
     /**
@@ -150,7 +154,7 @@ class ListeTraitementAdapterR(
         ouiButton.setOnClickListener {
             list.remove(item)
             notifyDataSetChanged()
-            onItemClick.invoke(item, true)
+            onItemClick.invoke(item, "Suppr")
             dosageDialog.dismiss()
         }
 

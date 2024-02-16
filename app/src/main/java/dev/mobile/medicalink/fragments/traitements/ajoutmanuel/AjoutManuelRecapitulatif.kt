@@ -224,31 +224,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         retour.setOnClickListener {
 
             if (isAddingTraitement == "false"){
-                val bundle = Bundle()
-                bundle.putSerializable(
-                    "traitement",
-                    Traitement(
-                        traitement.CodeCIS,
-                        traitement.nomTraitement,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
-                )
-                bundle.putString("schema_prise1", "$schemaPrise1")
-                bundle.putString("dureePriseDbt", "$dureePriseDbt")
-                bundle.putString("dureePriseFin", "$dureePriseFin")
                 val destinationFragment = ListeTraitementsFragment()
-                destinationFragment.arguments = bundle
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, destinationFragment)
                 fragTransaction.addToBackStack(null)
