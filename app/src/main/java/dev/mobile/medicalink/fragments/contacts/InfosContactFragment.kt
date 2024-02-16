@@ -120,7 +120,7 @@ class InfosContactFragment : Fragment() {
             val res = apiRpps.getEmail(contact.Rpps)
             Log.d("Email", res.body().toString())
             if (res.isSuccessful) {
-                contact.email = res.body()?.emailAddresses?.get(0)
+                contact.email = res.body()?.getOrNull(0)
                 if (contact.email == null) {
                     btnEmail.visibility = View.INVISIBLE
                     textEmail.text = "Email non renseigné"

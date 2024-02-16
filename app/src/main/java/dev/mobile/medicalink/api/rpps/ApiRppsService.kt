@@ -9,5 +9,5 @@ interface ApiRppsService {
     suspend fun getPracticians(@Path("search") search: String): Response<List<Practician>>
 
     @GET("getEmails/{rpps}")
-    suspend fun getEmail(@Path("rpps") rpps: Long): Response<Emails>
+    suspend fun getEmail(@Path("rpps") rpps: Long): Response<Array<String>>
 }

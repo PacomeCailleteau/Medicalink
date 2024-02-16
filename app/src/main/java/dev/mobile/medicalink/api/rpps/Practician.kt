@@ -11,7 +11,3 @@ data class Practician(
     var city: String?,
     var phoneNumber: String?
 )
-
-data class Emails(
-    var emailAddresses: List<String>
-)
