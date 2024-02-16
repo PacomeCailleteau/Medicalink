@@ -60,9 +60,7 @@ class InfoMedicamentFragment : Fragment() {
             ).first()
             //informations du medicament : code CIS, denomination, forme pharmaceutique, voies administration, etat commercialisation, date AMM, titulaire, surveillance renforcée
 
-            //TODO :
-            // texte qui dépasse pas voir dans view ou ici,
-            // effet secondaire et contre-indications quand on aura
+            //TODO effet secondaire et contre-indications quand on aura
 
             nomMedocView.text = buildString {
                 append("Dénomination : \n")
@@ -77,11 +75,11 @@ class InfoMedicamentFragment : Fragment() {
                 append(cisBdpm.formePharmaceutique.trim())
             }
             voiesAdministrationView.text = buildString {
-                append("Voies d'administration : \n")
+                append("Voie d'administration : \n")
                 append(cisBdpm.voiesAdministration.trim())
             }
             etatCommercialisationView.text = buildString {
-                append("Etat de commercialisation : \n")
+                append("État de commercialisation : \n")
                 append(cisBdpm.etatCommercialisation.trim())
             }
             dateAmmView.text = buildString {
@@ -99,7 +97,7 @@ class InfoMedicamentFragment : Fragment() {
 
             //info Compo : denomination, dosage
             substanceActiveDosageView.text = buildString {
-                append("Substance active, dosage : \n")
+                append("Substance active : \n")
                 append(cisCompoBdpm.denomination.trim())
                 append(", ")
                 append(cisCompoBdpm.dosage.trim())

@@ -302,7 +302,8 @@ class ListeTraitementsFragment : Fragment() {
                         } else {
                             "date"
                         }
-                        //TODO("fusionner schema_prise1 et provenance dans le processus d'add traitement")
+                        //("fusionner schema_prise1 et provenance dans le processus d'add traitement")
+                        //pas nécésaire ça marche bien comme ça
                         bundle.putString("schema_prise1", schema_prise1)
                         bundle.putString("provenance", provenance)
                         bundle.putString("dureePriseDbt", "ajd")
