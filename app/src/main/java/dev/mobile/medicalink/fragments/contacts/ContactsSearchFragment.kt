@@ -2,17 +2,20 @@ package dev.mobile.medicalink.fragments.contacts
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,11 +35,12 @@ import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Timer
-import java.util.TimerTask
+import kotlinx.coroutines.withContext
+import java.io.IOException
 
 
 class ContactsSearchFragment : Fragment() {
@@ -48,6 +52,7 @@ class ContactsSearchFragment : Fragment() {
     private lateinit var supprimerSearch: ImageView
     private lateinit var ItemList: List<Contact>
     private lateinit var itemAdapter: ContactsSearchAdapterR
+    private lateinit var erreurRecherche: TextView
 
     private lateinit var retour: ImageView
 
@@ -63,10 +68,11 @@ class ContactsSearchFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_contact_search, container, false)
 
-        if (activity != null) {
-            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
-            navBarre.visibility = View.GONE
-        }
+        contactSearchBar = view.findViewById(R.id.add_manually_search_bar)
+        supprimerSearch = view.findViewById(R.id.supprimerSearch)
+        recyclerView = view.findViewById(R.id.recyclerViewSearch)
+        retour = view.findViewById(R.id.retour_schema_prise2)
+        erreurRecherche = view.findViewById(R.id.textViewErreurRecherche)
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val contactDatabaseInterface = ContactRepository(db.contactDao())
@@ -76,10 +82,12 @@ class ContactsSearchFragment : Fragment() {
             uuid = userDatabaseInterface.getUsersConnected()[0].uuid
         }.start()
 
-        ItemList = emptyList()
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
 
-        contactSearchBar = view.findViewById(R.id.add_manually_search_bar)
-        supprimerSearch = view.findViewById(R.id.supprimerSearch)
+        ItemList = emptyList()
 
         supprimerSearch.setOnClickListener {
             contactSearchBar.setText("")
@@ -92,9 +100,6 @@ class ContactsSearchFragment : Fragment() {
                 }
             }
 
-
-        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
-
         itemAdapter = ContactsSearchAdapterR(ItemList) { clickedItem ->
             afficherContact(clickedItem)
         }
@@ -102,8 +107,6 @@ class ContactsSearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
-        retour = view.findViewById(R.id.retour_schema_prise2)
 
         retour.setOnClickListener {
             val fragTransaction = parentFragmentManager.beginTransaction()
@@ -127,22 +130,61 @@ class ContactsSearchFragment : Fragment() {
             searchJob?.cancel() // Annuler la recherche précédente
             searchJob = viewLifecycleOwner.lifecycleScope.launch {
                 delay(300) // Attendre 600ms de debounce
-                editable?.toString()?.let {
-                    if (it.isNotBlank()) {
-                        updateSearchResults(it) // Appeler la fonction de mise à jour
-                    }
-                }
+                updateSearchResults(editable.toString())
             }
         }
     }
 
     private suspend fun updateSearchResults(query: String) {
-        val results = getPracticiansToContact(uuid, query)
+        erreurRecherche.visibility = View.GONE
+        var results = emptyList<Contact>()
+        if (isOnline(requireContext())) {
+            if (Regex("^([a-zA-Z]*|\\d{11})\$").containsMatchIn(query)) {
+                if (query.length < 3) {
+                    erreurRecherche.text = "Veuillez entrer au moins 3 caractères"
+                    erreurRecherche.visibility = View.VISIBLE
+
+                } else {
+                    results = getPracticiansToContact(uuid, query)
+                }
+            }
+        } else {
+            erreurRecherche.text = "Vérifiez votre connexion Internet"
+            erreurRecherche.visibility = View.VISIBLE
+        }
         itemAdapter = ContactsSearchAdapterR(results) { clickedItem ->
             afficherContact(clickedItem)
         }
         recyclerView.adapter = itemAdapter
     }
+
+    private suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact> {
+        return try {
+            val response = apiRpps.getPracticians(search)
+            if (response.isSuccessful) {
+                response.body()?.map { Contact.fromPractician(uuid, it) } ?: emptyList()
+            } else {
+                withContext(Dispatchers.Main) {
+                    erreurRecherche.text = "Erreur du serveur"
+                    erreurRecherche.visibility = View.VISIBLE
+                }
+                emptyList()
+            }
+        } catch (e: IOException) {
+            withContext(Dispatchers.Main) {
+                erreurRecherche.text = "Erreur de connexion"
+                erreurRecherche.visibility = View.VISIBLE
+            }
+            emptyList()
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                erreurRecherche.text = "Une erreur est survenue"
+                erreurRecherche.visibility = View.VISIBLE
+            }
+            emptyList()
+        }
+    }
+
 
     fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
@@ -186,24 +228,11 @@ class ContactsSearchFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    private suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact> {
-        val response = apiRpps.getPracticians(search)
-        if (response.isSuccessful) {
-            val itemList = response.body()
-            Log.d("Practician list", itemList.toString())
-            var itemListContact = mutableListOf<Contact>()
-            if (itemList != null) {
-                itemListContact = itemList.map {
-                    Contact.fromPractician(
-                        uuid,
-                        it
-                    )
-                } as MutableList<Contact>
-            }
-            Log.d("Contact list", itemListContact.toString())
-            return itemListContact
-        } else {
-            return emptyList()
-        }
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
+
 }

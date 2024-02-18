@@ -13,7 +13,7 @@ import dev.mobile.medicalink.db.local.entity.Contact
 
 class ContactsSearchAdapterR(
     private val list: List<Contact>,
-    private val onItemClick: (Contact) -> Unit
+    private val onItemClick: (Contact) -> Unit,
 ) :
     RecyclerView.Adapter<ContactsSearchAdapterR.TraitementViewHolder>() {
 
@@ -30,7 +30,12 @@ class ContactsSearchAdapterR(
             } else {
                 ville.visibility = View.GONE
             }
-            spécialisation.text = item.specialty
+            if (item.specialty != null) {
+                spécialisation.text = item.specialty
+            } else {
+                spécialisation.visibility = View.GONE
+            }
+
         }
     }
 
