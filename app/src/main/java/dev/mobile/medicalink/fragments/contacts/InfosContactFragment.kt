@@ -21,6 +21,7 @@ import dev.mobile.medicalink.api.rpps.ApiRppsService
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
+import dev.mobile.medicalink.db.local.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class InfosContactFragment : Fragment() {
@@ -39,6 +40,7 @@ class InfosContactFragment : Fragment() {
 
     private lateinit var db: AppDatabase
     private lateinit var contactDatabaseInterface: ContactRepository
+    private lateinit var userDataBaseInterface: UserRepository
     private lateinit var apiRpps: ApiRppsService
     private var isInBase = false
     private lateinit var contact: Contact
@@ -62,6 +64,7 @@ class InfosContactFragment : Fragment() {
 
         db = AppDatabase.getInstance(requireContext())
         contactDatabaseInterface = ContactRepository(db.contactDao())
+        userDataBaseInterface = UserRepository(db.userDao())
         apiRpps = ApiRppsClient().apiService
 
         if (activity != null) {
@@ -71,19 +74,18 @@ class InfosContactFragment : Fragment() {
 
         btnAjoutSupp = view.findViewById(R.id.confirmer)
 
-        val contact = requireArguments().getSerializable("contact") as Contact
-        Log.d("Contact", contact.toString())
 
-        lifecycleScope.launch {
+        val contact = requireArguments().getSerializable("contact") as Contact
+
+        Thread {
             val res = contactDatabaseInterface.getOneContactById(contact.uuid, contact.Rpps)
             isInBase = res != null
-            Log.d("isInBase", isInBase.toString())
             if (isInBase) {
                 setButtonSupprimer(contact)
             } else {
                 setButtonAjouter(contact)
             }
-        }
+        }.start()
 
         btnTelephone.setOnClickListener(View.OnClickListener {
             val number = textTelephone.text.toString()
@@ -118,7 +120,6 @@ class InfosContactFragment : Fragment() {
 
         lifecycleScope.launch{
             val res = apiRpps.getEmail(contact.Rpps)
-            Log.d("Email", res.body().toString())
             if (res.isSuccessful) {
                 contact.email = res.body()?.getOrNull(0)
                 if (contact.email == null) {
@@ -165,7 +166,6 @@ class InfosContactFragment : Fragment() {
         btnAjoutSupp.setOnClickListener {
             Thread {
                 val res = contactDatabaseInterface.deleteContact(c)
-                Log.d("Suppression", res.toString())
                 setButtonAjouter(c)
             }.start()
         }
@@ -177,7 +177,6 @@ class InfosContactFragment : Fragment() {
         btnAjoutSupp.setOnClickListener {
             Thread {
                 val res = contactDatabaseInterface.insertContact(c)
-                Log.d("Ajout", res.toString())
                 setButtonSupprimer(c)
             }.start()
         }
