@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements.ajoutmanuel
+package dev.mobile.medicalink.fragments.contacts
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,21 +8,34 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.db.local.entity.CisBdpm
+import dev.mobile.medicalink.db.local.entity.Contact
 
 
-class AjoutManuelSearchAdapterR(
-    private val list: List<CisBdpm>,
-    private val onItemClick: (CisBdpm) -> Unit
+class ContactsSearchAdapterR(
+    private val list: List<Contact>,
+    private val onItemClick: (Contact) -> Unit,
 ) :
-    RecyclerView.Adapter<AjoutManuelSearchAdapterR.TraitementViewHolder>() {
+    RecyclerView.Adapter<ContactsSearchAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomMedic: TextView = view.findViewById(R.id.nomSearch)
+        val nomContact: TextView = view.findViewById(R.id.nomMedecin)
+        val ville = view.findViewById<TextView>(R.id.villeSearch)
+        val spécialisation = view.findViewById<TextView>(R.id.professionMedecin)
 
 
-        fun bind(item: CisBdpm) {
-            nomMedic.text = item.denomination
+        fun bind(item: Contact) {
+            nomContact.text = item.fullname
+            if (item.city != null) {
+                ville.text = item.city
+            } else {
+                ville.visibility = View.GONE
+            }
+            if (item.specialty != null) {
+                spécialisation.text = item.specialty
+            } else {
+                spécialisation.visibility = View.GONE
+            }
+
         }
     }
 
@@ -33,7 +46,7 @@ class AjoutManuelSearchAdapterR(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_search, parent, false)
+            .inflate(R.layout.item_search_contact, parent, false)
         return TraitementViewHolder(layout)
     }
 
