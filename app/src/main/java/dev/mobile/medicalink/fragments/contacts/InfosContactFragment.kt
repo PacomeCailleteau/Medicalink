@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
@@ -37,13 +38,13 @@ class InfosContactFragment : Fragment() {
     private lateinit var retour: ImageView
     private lateinit var scroll: ScrollView
     private lateinit var btnAjoutSupp: AppCompatButton
+    private lateinit var openMapButton: ImageView
 
     private lateinit var db: AppDatabase
     private lateinit var contactDatabaseInterface: ContactRepository
     private lateinit var userDataBaseInterface: UserRepository
     private lateinit var apiRpps: ApiRppsService
     private var isInBase = false
-    private lateinit var contact: Contact
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +62,7 @@ class InfosContactFragment : Fragment() {
         textZipCodeVille = view.findViewById(R.id.zipCodeVilleMedecin)
         retour = view.findViewById(R.id.retour_schema_contact)
         scroll = view.findViewById(R.id.scroll_info_contact)
+        openMapButton = view.findViewById(R.id.btnMaps)
 
         db = AppDatabase.getInstance(requireContext())
         contactDatabaseInterface = ContactRepository(db.contactDao())
@@ -134,7 +136,16 @@ class InfosContactFragment : Fragment() {
                 btnEmail.visibility = View.INVISIBLE
             }
         }
-        textAdresse.text = contact.address ?: "Adresse non renseigné"
+
+        if (contact.address == null) {
+            textAdresse.text = "Adresse non renseigné"
+            openMapButton.visibility = View.GONE
+        } else {
+            textAdresse.text = contact.address
+            openMapButton.visibility = View.VISIBLE
+
+        }
+
         if (contact.zipcode == "") {
             contact.zipcode = null
         }
@@ -155,9 +166,22 @@ class InfosContactFragment : Fragment() {
 
         // Adresse à afficher sur la carte
         val address = textAdresse.text.toString() + ", " + textZipCodeVille.text.toString()
-
+        openMapButton.setOnClickListener {
+            openMapWithAddress(address)
+        }
 
         return view
+    }
+
+    private fun openMapWithAddress(address: String) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=${Uri.encode(address)}")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+
+        if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(mapIntent)
+        } else {
+            // Gérer le cas où aucune application de carte n'est disponible
+        }
     }
 
     private fun setButtonSupprimer(c: Contact) {

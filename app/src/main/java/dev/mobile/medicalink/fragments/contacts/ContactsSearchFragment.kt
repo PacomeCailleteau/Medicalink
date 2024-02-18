@@ -139,7 +139,7 @@ class ContactsSearchFragment : Fragment() {
         erreurRecherche.visibility = View.GONE
         var results = emptyList<Contact>()
         if (isOnline(requireContext())) {
-            if (Regex("^([a-zA-Z]*|\\d{11})\$").containsMatchIn(query)) {
+            if (Regex("^(\\D*|\\d{11})\$").containsMatchIn(query)) {
                 if (query.length < 3) {
                     erreurRecherche.text = "Veuillez entrer au moins 3 caractères"
                     erreurRecherche.visibility = View.VISIBLE
