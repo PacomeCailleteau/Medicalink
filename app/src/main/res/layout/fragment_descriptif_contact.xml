@@ -59,7 +59,7 @@
 
             <TextView
                 android:id="@+id/zipCodeVilleMedecin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/quicksand_semibold"
@@ -68,12 +68,13 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
                 app:layout_constraintStart_toStartOf="@+id/adresseMedecin"
                 app:layout_constraintTop_toBottomOf="@+id/adresseMedecin" />
 
             <TextView
                 android:id="@+id/adresseMedecin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand_semibold"
@@ -82,6 +83,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
                 app:layout_constraintStart_toStartOf="@+id/mailMedecin"
                 app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
 
