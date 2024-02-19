@@ -38,22 +38,12 @@ class MainActivityTest {
         Intents.release()
     }
 
-    @Test
-    fun testClickOnButtunCreateProfile() {
-        // Simulation du clic sur le bouton de création de profiles (oui oui, son id est bien button_connexion, merci Pacôme)
-        onView(withId(R.id.button_connexion)).perform(click())
-        // Vérification que l'activité de création de profiles est lancée
-        intended(hasComponent("dev.mobile.medicalink.CreerProfilActivity"))
-    }
-
-    @Test
-    fun testTexteBienvue() {
+    private fun testTexteBienvue() {
         // Vérification que le texte de bienvenue est bien présent
         onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome on Medicazelda !")))
     }
 
-    @Test
-    fun testPresenceImage() {
+    private fun testPresenceImage() {
         // Vérification que l'image est bien présente
         onView(withId(R.id.image_connexion)).check(matches(isDisplayed()))
     }
@@ -61,7 +51,15 @@ class MainActivityTest {
     // Problème : j'ai pas trouvé comment refresh la base de données entre chaque test
     // Probleme2 : je sais pas comment faire pour avoir une base de données séparée pour les tests
     @Test
-    fun testCreateUserFromMainActivity() {
+    fun testFromUserCreationToDelition() {
+        testTexteBienvue()
+        testPresenceImage()
+        fromCreation()
+        toDelition()
+        testTexteBienvue()
+    }
+
+    private fun fromCreation() {
         // Simulation du clic sur le bouton de création de profiles (oui oui, son id est bien button_connexion, merci Pacôme)
         onView(withId(R.id.button_connexion)).perform(click())
         // Vérification que l'activité de création de profiles est lancée
@@ -91,12 +89,36 @@ class MainActivityTest {
 
         // Maintenant que tous les champs sont remplis, on clique sur le bouton de création de profile
         onView(withId(R.id.button_creer_profil)).perform(click())
-        // On vérifie que l'on est bien sur l'activité principale
-        intended(hasComponent("dev.mobile.medicalink.MainActivity"))
 
         // On a un compte alors le texte devait avoir changé
         onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome prenom !")))
     }
+
+    private fun toDelition() {
+        Thread.sleep(1000)
+
+        // On se connecte
+        onView(withId(R.id.button_connexion)).perform(click())
+
+        onView(withId(R.id.editTextPassword)).perform(typeText("123456"))
+        onView(withId(R.id.buttonValidate)).perform(click())
+
+        // On vérifie qu'on est bien sur le fragment d'accueil
+        onView(withId(R.id.homeFragment)).check(matches(isDisplayed()))
+
+        // On clique sur le bouton paramètre
+        onView(withId(R.id.btnParam)).perform(click())
+
+        //On attend que la page de paramètre soit chargée
+        Thread.sleep(1000)
+
+        // On vérifie qu'on est bien sur le fragment de paramètre
+        onView(withId(R.id.parametreFragment)).check(matches(isDisplayed()))
+
+        // On clique sur le bouton supprimer le compte
+        onView(withId(R.id.deleteAccount)).perform(click())
+    }
+
 
 
 }
