@@ -10,32 +10,43 @@
 
     <TextView
         android:id="@+id/nomMedecin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:text="nomMedecin"
         android:textColor="@color/black"
         android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageMedecin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/professionMedecin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_semibold"
         android:text="professionMedecin"
         android:textColor="@color/black"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/nomMedecin"
         app:layout_constraintStart_toStartOf="@+id/nomMedecin"
         app:layout_constraintTop_toBottomOf="@+id/villeSearch" />
 
     <TextView
         android:id="@+id/villeSearch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Ville"
+        app:layout_constraintEnd_toEndOf="@+id/nomMedecin"
         app:layout_constraintStart_toStartOf="@+id/nomMedecin"
         app:layout_constraintTop_toBottomOf="@+id/nomMedecin" />
+
+    <ImageView
+        android:id="@+id/imageMedecin"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

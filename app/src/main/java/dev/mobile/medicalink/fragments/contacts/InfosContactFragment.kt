@@ -23,6 +23,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.repository.ContactRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.utils.MapIconeMedecin
 import kotlinx.coroutines.launch
 
 class InfosContactFragment : Fragment() {
@@ -39,6 +40,7 @@ class InfosContactFragment : Fragment() {
     private lateinit var scroll: ScrollView
     private lateinit var btnAjoutSupp: AppCompatButton
     private lateinit var openMapButton: ImageView
+    private lateinit var imageMedecin: ImageView
 
     private lateinit var db: AppDatabase
     private lateinit var contactDatabaseInterface: ContactRepository
@@ -63,7 +65,7 @@ class InfosContactFragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_contact)
         scroll = view.findViewById(R.id.scroll_info_contact)
         openMapButton = view.findViewById(R.id.btnMaps)
-
+        imageMedecin = view.findViewById(R.id.imageMedecinInfoContact)
 
         db = AppDatabase.getInstance(requireContext())
         contactDatabaseInterface = ContactRepository(db.contactDao())
@@ -102,6 +104,13 @@ class InfosContactFragment : Fragment() {
             val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
             startActivity(intent)
         })
+
+        val mapIconeMedecin = MapIconeMedecin()
+
+        val matchingSpecialty = mapIconeMedecin.keys.find { contact.specialty?.contains(it, ignoreCase = true) == true }
+
+        val imageResource = mapIconeMedecin[matchingSpecialty] ?: R.drawable.docteur
+        imageMedecin.setBackgroundResource(imageResource)
 
         retour.setOnClickListener {
             parentFragmentManager.popBackStack()

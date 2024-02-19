@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.Contact
+import dev.mobile.medicalink.utils.MapIconeMedecin
 
 
 class ContactsSearchAdapterR(
@@ -21,7 +22,7 @@ class ContactsSearchAdapterR(
         val nomContact: TextView = view.findViewById(R.id.nomMedecin)
         val ville = view.findViewById<TextView>(R.id.villeSearch)
         val spécialisation = view.findViewById<TextView>(R.id.professionMedecin)
-
+        val image: View = view.findViewById(R.id.imageMedecin)
 
         fun bind(item: Contact) {
             nomContact.text = item.fullname
@@ -54,6 +55,13 @@ class ContactsSearchAdapterR(
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)
+
+        val mapIconeMedecin = MapIconeMedecin()
+
+        val matchingSpecialty = mapIconeMedecin.keys.find { item.specialty?.contains(it, ignoreCase = true) == true }
+
+        val imageResource = mapIconeMedecin[matchingSpecialty] ?: R.drawable.docteur
+        holder.image.setBackgroundResource(imageResource)
 
         //On renvoie l'item au fragment pour qu'il récupère l'item cliqué
         holder.view.setOnClickListener {

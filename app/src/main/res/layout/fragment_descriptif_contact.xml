@@ -43,6 +43,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageMedecinInfoContact"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintBottom_toBottomOf="@+id/spécialitéMedecin"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
+                app:layout_constraintTop_toTopOf="@+id/nomCompletMedecin" />
+
             <TextView
                 android:id="@+id/textViewContactMedecin"
                 android:layout_width="wrap_content"
@@ -68,7 +76,8 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
+                app:layout_constraintEnd_toEndOf="@+id/adresseMedecin"
+                app:layout_constraintEnd_toStartOf="@+id/btnMaps"
                 app:layout_constraintStart_toStartOf="@+id/adresseMedecin"
                 app:layout_constraintTop_toBottomOf="@+id/adresseMedecin" />
 
@@ -83,13 +92,13 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
+                app:layout_constraintEnd_toStartOf="@+id/btnMaps"
                 app:layout_constraintStart_toStartOf="@+id/mailMedecin"
                 app:layout_constraintTop_toBottomOf="@+id/mailMedecin" />
 
             <TextView
                 android:id="@+id/rpps"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/quicksand_semibold"
@@ -98,6 +107,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="15sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/nomCompletMedecin"
                 app:layout_constraintStart_toStartOf="@+id/nomCompletMedecin"
                 app:layout_constraintTop_toBottomOf="@+id/nomCompletMedecin" />
 
@@ -145,7 +155,7 @@
 
             <TextView
                 android:id="@+id/spécialitéMedecin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/quicksand_semibold"
@@ -154,6 +164,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="@+id/nomCompletMedecin"
                 app:layout_constraintStart_toStartOf="@+id/textView18"
                 app:layout_constraintTop_toBottomOf="@+id/rpps" />
 
@@ -179,8 +190,8 @@
 
             <TextView
                 android:id="@+id/nomCompletMedecin"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/quicksand_semibold"
                 android:gravity="start"
@@ -188,6 +199,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/imageMedecinInfoContact"
                 app:layout_constraintStart_toStartOf="@+id/textView18"
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -195,10 +207,9 @@
                 android:id="@+id/btnMaps"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="@+id/btnEmail"
-                app:layout_constraintStart_toStartOf="@+id/zipCodeVilleMedecin"
-                app:layout_constraintTop_toBottomOf="@+id/zipCodeVilleMedecin"
+                app:layout_constraintBottom_toBottomOf="@+id/zipCodeVilleMedecin"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_contact"
+                app:layout_constraintTop_toTopOf="@+id/adresseMedecin"
                 app:srcCompat="@drawable/maps" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
