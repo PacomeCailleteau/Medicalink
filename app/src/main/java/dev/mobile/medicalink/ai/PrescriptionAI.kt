@@ -163,12 +163,12 @@ class PrescriptionAI(
         val visionText = recognizeText(imageUri)
         var result = listOf<Traitement>()
 
+
         if (visionText != null) {
             // Exécute le modèle PyTorch sur le texte reconnu et génère des prédictions.
             val sentenceTokenized = runModel(visionText)
             result = postAnalyse(sentenceTokenized)
         }
-
         // Appelle le callback avec les prédictions générées.
         return result
     }
@@ -259,9 +259,11 @@ class PrescriptionAI(
         var visionText: String? = null
 
         // Compteur pour attendre que la tâche de reconnaissance de texte soit terminée.
-        val latch = CountDownLatch(1)
+        // val latch = CountDownLatch(1)
 
         // Crée une image à partir de l'URI spécifiée.
+        visionText = imageUri.toString()
+        /*
         val image = InputImage.fromFilePath(context, imageUri)
 
         // Commence le processus de reconnaissance de texte sur l'image.
@@ -277,9 +279,10 @@ class PrescriptionAI(
                 // Décrémente le compteur pour indiquer que la tâche de reconnaissance de texte est terminée, même si une erreur s'est produite.
                 latch.countDown()
             }
+            */
 
         // Attend que la tâche de reconnaissance de texte soit terminée.
-        latch.await()
+        //latch.await()
 
         // Retourne le texte reconnu.
         return visionText

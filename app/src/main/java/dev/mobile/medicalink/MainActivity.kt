@@ -29,6 +29,7 @@ import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import fr.medicapp.medicapp.ai.PrescriptionAI
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         buttonConnexion = findViewById(R.id.button_connexion)
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
+        // Initialisation de l'IA de prescription
+        PrescriptionAI.getInstance(this)
 
         //Connection à la base de données
         val db = AppDatabase.getInstance(this)

@@ -2,6 +2,8 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.content.Context
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.lang.NumberFormatException
@@ -86,18 +88,20 @@ class Traitement(
      * Conformise l'unité du médicament
      */
     private fun trouveUnite() {
-        val algo = JaroWinkler()
-        algo.base = listOf(
-            "auBesoin",
-            "quotidiennement",
-            "intervalle"
-        )
-        algo.aChercher = this.dosageUnite
+        if (this.dosageUnite.isNotEmpty()) {
+            val algo = JaroWinkler()
+            algo.base = listOf(
+                "auBesoin",
+                "quotidiennement",
+                "intervalle"
+            )
+            algo.aChercher = this.dosageUnite
 
-        this.nomTraitement = algo.lancerDistance()
+            this.dosageUnite = algo.lancerDistance()
 
-        if (this.nomTraitement.isEmpty())
-            this.dosageUnite = "intervalle régulier"
+            if (this.dosageUnite.isEmpty())
+                this.dosageUnite = "intervalle régulier"
+        }
     }
 
 
@@ -134,9 +138,14 @@ class Traitement(
             if (mot != null) {
                 this.dateDbtTraitement = LocalDate.now()
                 when (mot) {
-                    "jour" -> this.dateFinTraitement = this.dateDbtTraitement!!.plusDays(entier.toLong())
-                    "semaine" -> this.dateFinTraitement = this.dateDbtTraitement!!.plusWeeks(entier.toLong())
-                    "mois" -> this.dateFinTraitement = this.dateDbtTraitement!!.plusMonths(entier.toLong())
+                    "jour" -> this.dateFinTraitement =
+                        this.dateDbtTraitement!!.plusDays(entier.toLong())
+
+                    "semaine" -> this.dateFinTraitement =
+                        this.dateDbtTraitement!!.plusWeeks(entier.toLong())
+
+                    "mois" -> this.dateFinTraitement =
+                        this.dateDbtTraitement!!.plusMonths(entier.toLong())
                 }
             } else {
                 this.dateDbtTraitement = null
@@ -155,4 +164,21 @@ class Traitement(
         trouveUnite()
     }
 
+    override fun toString(): String {
+        return "Traitement(nomTraitement: '$nomTraitement', " +
+                "codeCIS: '$codeCIS', " +
+                "dosageNb: $dosageNb, " +
+                "dosageUnite: '$dosageUnite', " +
+                "dateFinTraitement: $dateFinTraitement, " +
+                "typeComprime: '$typeComprime', " +
+                "comprimesRestants: $comprimesRestants, " +
+                "expire: $expire, " +
+                "effetsSecondaires: $effetsSecondaires, " +
+                "prises: $prises, " +
+                "totalQuantite: $totalQuantite, " +
+                "UUID: '$UUID', " +
+                "UUIDUSER: '$UUIDUSER', " +
+                "dateDbtTraitement: $dateDbtTraitement)"
+    }
 }
+

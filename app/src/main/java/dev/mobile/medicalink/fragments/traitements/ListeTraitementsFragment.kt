@@ -21,6 +21,7 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutManuelRecapitulatif
 import dev.mobile.medicalink.utils.notification.NotificationService
+import java.io.Console
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -36,7 +37,9 @@ class ListeTraitementsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
-        val resultList = arguments?.getStringArrayList("resultList")
+        //val resultList = arguments?.getStringArrayList("result")
+        val resultList = arguments?.getSerializable("result") as? ArrayList<Traitement>
+        Log.d("zeubi?", resultList!![0].toString())
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
