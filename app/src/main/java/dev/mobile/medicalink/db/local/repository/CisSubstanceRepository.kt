@@ -7,11 +7,11 @@ import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisSubstanceDao
 import dev.mobile.medicalink.db.local.entity.CisSubstance
 
-class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
+class CisSubstanceRepository (private val cisSubstanceDao: CisSubstanceDao) {
 
     fun getAllCisSubstances(): List<CisSubstance> {
         return try {
-            CisSubstanceDao.getAll()
+            cisSubstanceDao.getAll()
         } catch (e: Exception) {
             emptyList()
         }
@@ -19,23 +19,23 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
 
     fun getAllCisSubstancesByCodeSubstance(codeSubstance: Int): List<CisSubstance> {
         return try {
-            CisSubstanceDao.getAllByCodeSubstance(codeSubstance)
+            cisSubstanceDao.getAllByCodeSubstance(codeSubstance)
         } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun getOneCisSubstanceById(CodeCIS: String): List<CisSubstance> {
+    fun getOneCisSubstanceById(codeCIS: String): CisSubstance? {
         return try {
-            CisSubstanceDao.getById(CodeCIS)
+            cisSubstanceDao.getById(codeCIS)
         } catch (e: Exception) {
-            emptyList()
+            null
         }
     }
 
     fun insertCisSubstance(cisSubstance: CisSubstance): Pair<Boolean, String> {
         return try {
-            CisSubstanceDao.insertAll(cisSubstance)
+            cisSubstanceDao.insertAll(cisSubstance)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisSubstance already exists")
@@ -48,7 +48,7 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
 
     fun deleteCisSubstance(cisSubstance: CisSubstance): Pair<Boolean, String> {
         return try {
-            CisSubstanceDao.delete(cisSubstance)
+            cisSubstanceDao.delete(cisSubstance)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisSubstance doesn't exist")
@@ -61,7 +61,7 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
 
     fun updateCisSubstance(cisSubstance: CisSubstance): Pair<Boolean, String> {
         return try {
-            CisSubstanceDao.update(cisSubstance)
+            cisSubstanceDao.update(cisSubstance)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisSubstance doesn't exist")
@@ -77,7 +77,7 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
         val csvContent = csv.readCsvFromAssets(context, "CIS_COMPO_bdpm.csv")
         val cisSubstanceList = parseCsv(csvContent)
         try {
-            CisSubstanceDao.insertAll(*cisSubstanceList.toTypedArray())
+            cisSubstanceDao.insertAll(*cisSubstanceList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
             Log.e("CisSubstanceRepository", "CIS_substance already exists")
         } catch (e: SQLiteException) {
@@ -100,17 +100,21 @@ class CisSubstanceRepository (private val CisSubstanceDao: CisSubstanceDao) {
         for (index in 1 until lines.size - 1) {
             val line = lines[index]
             val csvValues = csv.parseCsvLine(line)
-            val cisSubstance = CisSubstance(
-                codeCIS = csvValues[0],
-                elementPharmaceutique = csvValues[1],
-                codeSubstance = csvValues[2].toInt(),
-                denominationSubstance = csvValues[3],
-                dosageSubstance = csvValues[4],
-                referenceDosage = csvValues[5],
-                natureComposant = csvValues[6],
-                numeroLiaison = csvValues[7].toInt(),
-            )
-            cisSubstanceList.add(cisSubstance)
+            if (csvValues.size == 8) {
+                val cisSubstance = CisSubstance(
+                    codeCIS = csvValues[0],
+                    elementPharmaceutique = csvValues[1],
+                    codeSubstance = csvValues[2].toInt(),
+                    denominationSubstance = csvValues[3],
+                    dosageSubstance = csvValues[4],
+                    referenceDosage = csvValues[5],
+                    natureComposant = csvValues[6],
+                    numeroLiaison = 8
+                )
+                cisSubstanceList.add(cisSubstance)
+            } else {
+                Log.e("CisSubstanceRepository", "Error while parsing CSV line : $line")
+            }
         }
         return cisSubstanceList
     }
