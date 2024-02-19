@@ -42,26 +42,15 @@
         app:layout_constraintTop_toBottomOf="@+id/PrenomMed" />
 
     <TextView
-        android:id="@+id/EmailMed"
+        android:id="@+id/SpeMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
-        android:text="@string/email_s"
+        android:text="@string/specialite_s"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NomMed" />
-
-    <TextView
-        android:id="@+id/PhoneMed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/phone_s"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailMed" />
 
     <TextView
         android:id="@+id/AddressMed"
@@ -72,49 +61,17 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PhoneMed" />
+        app:layout_constraintTop_toBottomOf="@+id/SpeMed" />
 
-    
-    <TextView
-        android:id="@+id/ZipCodeMed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/code_postal_s"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddressMed" />
-
-    <TextView
-        android:id="@+id/CityMed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/ville_s"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ZipCodeMed" />
-
-    <TextView
-        android:id="@+id/GenderMed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="@string/sexe_s"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CityMed" />
 
     <ImageView
         android:id="@+id/ValiderMed"
         android:layout_width="44dp"
         android:layout_height="44dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CityMed"
+        app:layout_constraintTop_toTopOf="@+id/RppsMed"
         app:srcCompat="@drawable/valide_vert" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

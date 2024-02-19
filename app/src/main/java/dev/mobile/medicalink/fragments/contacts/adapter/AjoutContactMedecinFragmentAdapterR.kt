@@ -27,12 +27,8 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
         val rpps: TextView = view.findViewById(R.id.RppsMed)
         val prenom: TextView = view.findViewById(R.id.PrenomMed)
         val nom: TextView = view.findViewById(R.id.NomMed)
-        val email: TextView = view.findViewById(R.id.EmailMed)
-        val phoneNumber: TextView = view.findViewById(R.id.PhoneMed)
+        val specialty: TextView = view.findViewById(R.id.SpeMed)
         val address: TextView = view.findViewById(R.id.AddressMed)
-        val zipCode: TextView = view.findViewById(R.id.ZipCodeMed)
-        val city: TextView = view.findViewById(R.id.CityMed)
-        val gender: TextView = view.findViewById(R.id.GenderMed)
         val valider: ImageView = view.findViewById(R.id.ValiderMed)
     }
 
@@ -59,12 +55,8 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
         holder.rpps.text = contextGetString.getString(R.string.rpps_s, item.rpps)
         holder.prenom.text = contextGetString.getString(R.string.prenom_s, item.firstname)
         holder.nom.text = contextGetString.getString(R.string.nom_s, item.lastname)
-        holder.email.text = contextGetString.getString(R.string.email_s, item.email)
-        holder.phoneNumber.text = contextGetString.getString(R.string.phone_s, item.phoneNumber)
+        holder.specialty.text = contextGetString.getString(R.string.specialite_s, item.specialty)
         holder.address.text = contextGetString.getString(R.string.adresse_s, item.address)
-        holder.zipCode.text = contextGetString.getString(R.string.code_postal_s, item.zipCode)
-        holder.city.text = contextGetString.getString(R.string.ville_s, item.city)
-        holder.gender.text = contextGetString.getString(R.string.sexe_s, item.gender)
 
         // Ajout du contact lors du clic sur le bouton valider
         holder.valider.setOnClickListener {

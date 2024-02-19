@@ -18,9 +18,9 @@ class ContactMedecinRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var contactMedecinRepository: ContactMedecinRepository
     private val defaultContactMedecin =
-        ContactMedecin("1", "1", "prenom", "nom", "email", "0123456789", "ici", "44444", "ville", "M")
+        ContactMedecin("1", "1", "prenom", "nom", "specialite", "email", "0123456789", "ici", "44444", "ville", "M")
     private val defaultContactMedecin2 =
-        ContactMedecin("2", "2", "prenom2", "nom2", "email2", "9876543210", "la", "55555", "ville2", "F")
+        ContactMedecin("2", "2", "prenom2", "nom2", "specialite2", "email2", "9876543210", "la", "55555", "ville2", "F")
     private val userOfDefaultMedoc =
         User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
     private val userOfDefaultMedoc2 =

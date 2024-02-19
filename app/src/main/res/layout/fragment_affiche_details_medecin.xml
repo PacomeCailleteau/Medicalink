@@ -66,6 +66,18 @@
         app:layout_constraintTop_toBottomOf="@+id/PrenomDetailMed" />
 
     <TextView
+        android:id="@+id/SpecialiteDetailMed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/specialite_s"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
+        app:layout_constraintTop_toBottomOf="@+id/NomDetailMed" />
+
+
+    <TextView
         android:id="@+id/EmailDetailMed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +86,7 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/RppsDetailMed"
-        app:layout_constraintTop_toBottomOf="@+id/NomDetailMed" />
+        app:layout_constraintTop_toBottomOf="@+id/SpecialiteDetailMed" />
 
     <TextView
         android:id="@+id/PhoneDetailMed"

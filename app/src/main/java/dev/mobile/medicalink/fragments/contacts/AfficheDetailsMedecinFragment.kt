@@ -16,6 +16,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
     private lateinit var rpps : TextView
     private lateinit var prenom : TextView
     private lateinit var nom : TextView
+    private lateinit var specialty : TextView
     private lateinit var email : TextView
     private lateinit var phone : TextView
     private lateinit var address : TextView
@@ -35,6 +36,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
         rpps = view.findViewById(R.id.RppsDetailMed)
         prenom = view.findViewById(R.id.PrenomDetailMed)
         nom = view.findViewById(R.id.NomDetailMed)
+        specialty = view.findViewById(R.id.SpecialiteDetailMed)
         email = view.findViewById(R.id.EmailDetailMed)
         phone = view.findViewById(R.id.PhoneDetailMed)
         address = view.findViewById(R.id.AddressDetailMed)
@@ -54,6 +56,7 @@ class AfficheDetailsMedecinFragment : Fragment() {
                 rpps.text = getString(R.string.rpps_s, medecin.rpps)
                 prenom.text = getString(R.string.prenom_s, medecin.firstname)
                 nom.text = getString(R.string.nom_s, medecin.lastname)
+                specialty.text = getString(R.string.specialite_s, medecin.specialty)
                 email.text = getString(R.string.email_s, medecin.email)
                 phone.text = getString(R.string.phone_s, medecin.phoneNumber)
                 address.text = getString(R.string.adresse_s, medecin.address)
