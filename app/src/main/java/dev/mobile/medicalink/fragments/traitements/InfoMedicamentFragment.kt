@@ -40,15 +40,24 @@ class InfoMedicamentFragment : Fragment() {
         //informations du medicament : code CIS, denomination, forme pharmaceutique, voies administration, etat commercialisation, date AMM, titulaire, surveillance renforcée
         val nomMedocView = view.findViewById<TextView>(R.id.nomCompletMedoc)
         val codeCisView = view.findViewById<TextView>(R.id.cis)
-        val formePharmaceutiqueView = view.findViewById<TextView>(R.id.formePharmaceutique)
-        val voiesAdministrationView = view.findViewById<TextView>(R.id.voieAdmission)
-        val etatCommercialisationView = view.findViewById<TextView>(R.id.etatDeCommercialisation)
-        val dateAmmView = view.findViewById<TextView>(R.id.dateAMM)
-        val titulaireView = view.findViewById<TextView>(R.id.laboratoire)
-        val surveillanceRenforceeView = view.findViewById<TextView>(R.id.surveillanceRenforcee)
-
-        //info Compo : denomination, dosage
         val substanceActiveDosageView = view.findViewById<TextView>(R.id.substanceActiveInfoMedoc)
+        val textSubstanceActiveDosageView = view.findViewById<TextView>(R.id.textSubstanceActiveInfoMedoc)
+        val formePharmaceutiqueView = view.findViewById<TextView>(R.id.formePharmaceutique)
+        val textFormePharmaceutiqueView = view.findViewById<TextView>(R.id.textFormePharmaceutique)
+        val voiesAdministrationView = view.findViewById<TextView>(R.id.voieAdmission)
+        val textVoiesAdministrationView = view.findViewById<TextView>(R.id.textVoieAdmission)
+        val etatCommercialisationView = view.findViewById<TextView>(R.id.etatDeCommercialisation)
+        val textEtatCommercialisationView = view.findViewById<TextView>(R.id.textEtatDeCommercialisation)
+        val dateAmmView = view.findViewById<TextView>(R.id.dateAMM)
+        val textDateAmmView = view.findViewById<TextView>(R.id.textDateAMM)
+        val titulaireView = view.findViewById<TextView>(R.id.laboratoire)
+        val textTitulaireView = view.findViewById<TextView>(R.id.textLaboratoire)
+        val surveillanceRenforceeView = view.findViewById<TextView>(R.id.surveillanceRenforcee)
+        val textSurveillanceRenforceeView = view.findViewById<TextView>(R.id.textSurveillanceRenforcee)
+        val contresIndications = view.findViewById<TextView>(R.id.contreIndications)
+        val textcontresIndications = view.findViewById<TextView>(R.id.textContreIndications)
+        val allergies = view.findViewById<TextView>(R.id.allergies)
+        val textAllergies = view.findViewById<TextView>(R.id.textAllergies)
 
 
         Thread{
@@ -63,44 +72,50 @@ class InfoMedicamentFragment : Fragment() {
             //TODO effet secondaire et contre-indications quand on aura
 
             nomMedocView.text = buildString {
-                append("Dénomination : \n")
                 append(cisBdpm.denomination.trim())
             }
             codeCisView.text = buildString {
                 append("Code CIS : ")
                 append(cisBdpm.CodeCIS.toString().trim())
             }
-            formePharmaceutiqueView.text = buildString {
-                append("Forme pharmaceutique : \n")
-                append(cisBdpm.formePharmaceutique.trim())
-            }
-            voiesAdministrationView.text = buildString {
-                append("Voie d'administration : \n")
-                append(cisBdpm.voiesAdministration.trim())
-            }
-            etatCommercialisationView.text = buildString {
-                append("État de commercialisation : \n")
-                append(cisBdpm.etatCommercialisation.trim())
-            }
-            dateAmmView.text = buildString {
-                append("Date d'autorisation de mise sur le marché : \n")
-                append(cisBdpm.dateAMM.trim())
-            }
-            titulaireView.text = buildString {
-                append("Laboratoire : \n")
-                append(cisBdpm.titulaire.trim())
-            }
-            surveillanceRenforceeView.text = buildString {
-                append("Surveillance renforcée : \n")
-                append(cisBdpm.surveillanceRenforcee.trim())
-            }
-
             //info Compo : denomination, dosage
+            textSubstanceActiveDosageView.text = "Substance active :"
             substanceActiveDosageView.text = buildString {
-                append("Substance active : \n")
                 append(cisCompoBdpm.denomination.trim())
                 append(", ")
                 append(cisCompoBdpm.dosage.trim())
+            }
+            textFormePharmaceutiqueView.text = "Forme pharmaceutique :"
+            formePharmaceutiqueView.text = buildString {
+                append(cisBdpm.formePharmaceutique.trim())
+            }
+            textVoiesAdministrationView.text = "Voie d'administration :"
+            voiesAdministrationView.text = buildString {
+                append(cisBdpm.voiesAdministration.trim())
+            }
+            textEtatCommercialisationView.text = "État de commercialisation :"
+            etatCommercialisationView.text = buildString {
+                append(cisBdpm.etatCommercialisation.trim())
+            }
+            textDateAmmView.text = "Date d'autorisation de mise sur le marché :"
+            dateAmmView.text = buildString {
+                append(cisBdpm.dateAMM.trim())
+            }
+            textTitulaireView.text = "Laboratoire :"
+            titulaireView.text = buildString {
+                append(cisBdpm.titulaire.trim())
+            }
+            textSurveillanceRenforceeView.text = "Surveillance renforcée :"
+            surveillanceRenforceeView.text = buildString {
+                append(cisBdpm.surveillanceRenforcee.trim())
+            }
+            textcontresIndications.text = "Contre-indications :"
+            contresIndications.text = buildString {
+                append("Aucune contre-indication")
+            }
+            textAllergies.text = "Allergies :"
+            allergies.text = buildString {
+                append("Aucune allergie")
             }
 
         }.start()
