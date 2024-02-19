@@ -310,7 +310,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 }
             }
 
-            if (isAddingTraitement == "false"){
+            if (isAddingTraitement == "false") {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
@@ -408,7 +408,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
                 val AjoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
-                if (isAddingTraitement == "false"){
+                if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",

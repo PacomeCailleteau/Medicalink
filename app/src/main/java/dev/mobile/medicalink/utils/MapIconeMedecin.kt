@@ -1,4 +1,5 @@
 package dev.mobile.medicalink.utils
+
 import dev.mobile.medicalink.R
 
 class MapIconeMedecin : HashMap<String, Int>() {
@@ -17,7 +18,7 @@ class MapIconeMedecin : HashMap<String, Int>() {
         this["Laryngo"] = R.drawable.medecin_oreille
         this["Cardio"] = R.drawable.cardiologue
         this["Radio"] = R.drawable.radiologue
-        this["Dentiste"] = R.drawable.dentiste
+        this["Dentaire"] = R.drawable.dentiste
         this["Ophtalmolo"] = R.drawable.ophtalmologie
         this["Psych"] = R.drawable.psychologue
         this["social"] = R.drawable.psychologue

@@ -66,12 +66,14 @@ class ContactsFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewMessages)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = ContactsAdapterR(emptyList()) { clickedItem -> afficherContact(clickedItem) }
+        recyclerView.adapter =
+            ContactsAdapterR(emptyList()) { clickedItem -> afficherContact(clickedItem) }
 
         Thread {
             val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
             val listMedecin = contactDatabaseInterface.getContactsByUuid(uuid)
-            recyclerView.adapter = ContactsAdapterR(listMedecin) { clickedItem -> afficherContact(clickedItem) }
+            recyclerView.adapter =
+                ContactsAdapterR(listMedecin) { clickedItem -> afficherContact(clickedItem) }
         }.start()
 
         val espacementEnDp = 10

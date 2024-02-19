@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.db.local.entity
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import dev.mobile.medicalink.api.rpps.Practician
 import java.io.Serializable
 

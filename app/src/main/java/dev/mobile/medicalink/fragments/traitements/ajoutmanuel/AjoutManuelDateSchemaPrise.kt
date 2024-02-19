@@ -241,7 +241,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 )
             }
 
-            if (isAddingTraitement == "false"){
+            if (isAddingTraitement == "false") {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
@@ -426,7 +426,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
-                if (isAddingTraitement == "false"){
+                if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",

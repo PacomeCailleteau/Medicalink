@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
-import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
-import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelRecapitulatif
@@ -236,10 +234,13 @@ class ListeTraitementsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
             ListeTraitementAdapterR(traitementsTries) { clickedTraitement, click ->
-                when (click){
+                when (click) {
                     "Info" -> {
                         val bundle = Bundle()
-                        bundle.putString("codeCIS", (clickedTraitement.CodeCIS?:return@ListeTraitementAdapterR).toString())
+                        bundle.putString(
+                            "codeCIS",
+                            (clickedTraitement.CodeCIS ?: return@ListeTraitementAdapterR).toString()
+                        )
                         val destinationFragment = InfoMedicamentFragment()
                         destinationFragment.arguments = bundle
                         val fragTransaction = parentFragmentManager.beginTransaction()
@@ -248,6 +249,7 @@ class ListeTraitementsFragment : Fragment() {
                         fragTransaction.commit()
 
                     }
+
                     "Supr" -> {
                         Thread {
                             medocDatabaseInterface.deleteMedoc(
@@ -257,7 +259,8 @@ class ListeTraitementsFragment : Fragment() {
                             )
                         }.start()
                     }
-                    "Modif" ->{
+
+                    "Modif" -> {
                         val bundle = Bundle()
 
                         bundle.putString("isAddingTraitement", "false")
@@ -297,11 +300,12 @@ class ListeTraitementsFragment : Fragment() {
                             provenance = "intervalleRegulier"
                         }
 
-                        val dureePriseFin: String = if (clickedTraitement.dateFinTraitement == null) {
-                            "sf"
-                        } else {
-                            "date"
-                        }
+                        val dureePriseFin: String =
+                            if (clickedTraitement.dateFinTraitement == null) {
+                                "sf"
+                            } else {
+                                "date"
+                            }
                         //("fusionner schema_prise1 et provenance dans le processus d'add traitement")
                         //pas nécésaire ça marche bien comme ça
                         bundle.putString("schema_prise1", schema_prise1)
@@ -318,8 +322,6 @@ class ListeTraitementsFragment : Fragment() {
                         fragTransaction.commit()
                     }
                 }
-
-
 
 
             }

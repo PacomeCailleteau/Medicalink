@@ -154,7 +154,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 totalQuantite += prise.quantite
             }
 
-            if (isAddingTraitement == "false"){
+            if (isAddingTraitement == "false") {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
@@ -286,7 +286,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                     }
                 }
 
-                if (isAddingTraitement == "false"){
+                if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",

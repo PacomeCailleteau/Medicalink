@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
@@ -107,7 +106,8 @@ class InfosContactFragment : Fragment() {
 
         val mapIconeMedecin = MapIconeMedecin()
 
-        val matchingSpecialty = mapIconeMedecin.keys.find { contact.specialty?.contains(it, ignoreCase = true) == true }
+        val matchingSpecialty =
+            mapIconeMedecin.keys.find { contact.specialty?.contains(it, ignoreCase = true) == true }
 
         val imageResource = mapIconeMedecin[matchingSpecialty] ?: R.drawable.docteur
         imageMedecin.setBackgroundResource(imageResource)
@@ -130,7 +130,7 @@ class InfosContactFragment : Fragment() {
             btnTelephone.visibility = View.VISIBLE
         }
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             val res = apiRpps.getEmail(contact.Rpps)
             if (res.isSuccessful) {
                 contact.email = res.body()?.getOrNull(0)
@@ -197,7 +197,11 @@ class InfosContactFragment : Fragment() {
 
     private fun setButtonSupprimer(c: Contact) {
         btnAjoutSupp.text = "Supprimer des contacts"
-        btnAjoutSupp.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_darker_red_button_no_stroke_background, null)
+        btnAjoutSupp.background = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.rounded_darker_red_button_no_stroke_background,
+            null
+        )
         btnAjoutSupp.setOnClickListener {
             Thread {
                 val bundle = Bundle()
@@ -214,7 +218,11 @@ class InfosContactFragment : Fragment() {
 
     private fun setButtonAjouter(c: Contact) {
         btnAjoutSupp.text = "Ajouter aux contacts"
-        btnAjoutSupp.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_darker_blue_button_no_stroke_background, null)
+        btnAjoutSupp.background = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.rounded_darker_blue_button_no_stroke_background,
+            null
+        )
         btnAjoutSupp.setOnClickListener {
             Thread {
                 val bundle = Bundle()

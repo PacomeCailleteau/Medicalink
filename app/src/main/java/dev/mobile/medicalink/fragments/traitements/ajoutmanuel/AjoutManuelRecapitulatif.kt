@@ -208,7 +208,6 @@ class AjoutManuelRecapitulatif : Fragment() {
             }
 
 
-
         }
         if (isAddingTraitement == "false") {
             val nomLayout = view.findViewById<ConstraintLayout>(R.id.nomLayout)
@@ -223,7 +222,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         retour.setOnClickListener {
 
-            if (isAddingTraitement == "false"){
+            if (isAddingTraitement == "false") {
                 val destinationFragment = ListeTraitementsFragment()
                 val fragTransaction = parentFragmentManager.beginTransaction()
                 fragTransaction.replace(R.id.FL, destinationFragment)
@@ -539,7 +538,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
-                if (isAddingTraitement == "false"){
+                if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",

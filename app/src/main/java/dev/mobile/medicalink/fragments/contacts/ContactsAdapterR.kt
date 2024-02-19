@@ -50,7 +50,8 @@ class ContactsAdapterR(
 
         val mapIconeMedecin = MapIconeMedecin()
 
-        val matchingSpecialty = mapIconeMedecin.keys.find { item.specialty?.contains(it, ignoreCase = true) == true }
+        val matchingSpecialty =
+            mapIconeMedecin.keys.find { item.specialty?.contains(it, ignoreCase = true) == true }
 
         val imageResource = mapIconeMedecin[matchingSpecialty] ?: R.drawable.docteur
         holder.image.setBackgroundResource(imageResource)

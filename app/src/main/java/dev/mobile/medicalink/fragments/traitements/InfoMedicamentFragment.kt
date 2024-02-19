@@ -51,9 +51,9 @@ class InfoMedicamentFragment : Fragment() {
         val substanceActiveDosageView = view.findViewById<TextView>(R.id.substanceActiveInfoMedoc)
 
 
-        Thread{
+        Thread {
             val cisBdpm = cisBdpmDatabaseInterface.getOneCisBdpmById(
-                (codeCis?:return@Thread).toInt()
+                (codeCis ?: return@Thread).toInt()
             ).first()
             val cisCompoBdpm = cisCompoDatabaseInterface.getOneCisCompoBdpmById(
                 codeCis.toInt()

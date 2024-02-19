@@ -32,7 +32,6 @@ class AjoutManuelTypeMedic : Fragment() {
     ): View? {
 
 
-
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_type_medic, container, false)
 
         if (activity != null) {
@@ -48,7 +47,6 @@ class AjoutManuelTypeMedic : Fragment() {
         val schema_prise1 = arguments?.getString("schema_prise1")
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
-
 
 
         val listeTypeMedic: MutableList<String> =
@@ -113,7 +111,7 @@ class AjoutManuelTypeMedic : Fragment() {
 
         retour.setOnClickListener {
 
-            if (isAddingTraitement == "false"){
+            if (isAddingTraitement == "false") {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
@@ -211,7 +209,7 @@ class AjoutManuelTypeMedic : Fragment() {
                 val AjoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
-                if (isAddingTraitement == "false"){
+                if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",

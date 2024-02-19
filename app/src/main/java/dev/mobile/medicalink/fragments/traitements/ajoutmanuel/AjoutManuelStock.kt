@@ -153,7 +153,7 @@ class AjoutManuelStock : Fragment() {
 
         retour.setOnClickListener {
 
-            if (isAddingTraitement == "false"){
+            if (isAddingTraitement == "false") {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
@@ -377,7 +377,7 @@ class AjoutManuelStock : Fragment() {
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
-                if (isAddingTraitement == "false"){
+                if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",
