@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -67,9 +66,9 @@ class MainActivity : AppCompatActivity() {
         // Thread pour récupérer le prénom de l'utilisateur connecté pour son affichage
         Thread {
             //On créer un user factice pour aller plus vite
-            userDatabaseInterface.insertUser(
+            /*userDatabaseInterface.insertUser(
                 User("0","","nom","prenom", "", "", "666666", isConnected = true)
-            )
+            )*/
             val res = userDatabaseInterface.getUsersConnected()
             if (res.isNotEmpty()) {
                 queue.add(res.first().prenom)
@@ -92,12 +91,11 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
-                val intent = Intent(this, MainFragment::class.java)
+                /*val intent = Intent(this, MainFragment::class.java)
                 startActivity(intent)
-                /*
+                */
                 showPasswordDialog()
                 authenticateWithBiometric()
-                */
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)
@@ -310,18 +308,16 @@ class MainActivity : AppCompatActivity() {
         // Création de l'adapter pour le RecyclerView
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
-            val queue = LinkedBlockingQueue<String>()
+            val queueStr = LinkedBlockingQueue<String>()
             Thread {
                 userDatabaseInterface.setConnected(
                     userDatabaseInterface.getOneUserById(clickedUser.uuid).first()
                 )
-                queue.add(clickedUser.prenom)
+                queueStr.add(clickedUser.prenom)
             }.start()
-            val prenom = queue.take()
-            Log.d("test", prenom.toString())
+            val prenom = queueStr.take()
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
             textBienvenue.text = txtBienvenue
-
             dialog.dismiss()
         }
 

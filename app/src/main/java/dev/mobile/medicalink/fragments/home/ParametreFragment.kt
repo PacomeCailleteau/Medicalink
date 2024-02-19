@@ -36,7 +36,7 @@ class ParametreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_parametre_fragement, container, false)
+        val view = inflater.inflate(R.layout.fragment_parametre, container, false)
 
         //Récupérer les elements de la view
         btnDeconnexion = view.findViewById(R.id.cardDeconnexion)
