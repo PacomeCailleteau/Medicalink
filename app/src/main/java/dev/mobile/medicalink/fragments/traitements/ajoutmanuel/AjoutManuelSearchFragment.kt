@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -93,7 +95,8 @@ class AjoutManuelSearchFragment : Fragment() {
             addManuallySearchBar.setText("")
         }
         addManuallySearchBar.setText(traitement.nomTraitement)
-        /*
+
+
         addManuallySearchBar.filters =
             arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
                 source?.let {
@@ -114,7 +117,7 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         val regex = Regex(
-            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$",
+            pattern = "^[a-zA-Z,/()'.%éèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ\\d\\s-]*$",
             options = setOf(RegexOption.IGNORE_CASE)
         )
 
@@ -130,11 +133,11 @@ class AjoutManuelSearchFragment : Fragment() {
                 dest.subSequence(dstart, dend)
             }
         }
-        */
+
         updateButtonState()
-        /*
+
         addManuallySearchBar.filters = arrayOf(filter)
-         */
+
         addManuallySearchBar.addTextChangedListener(textWatcher(traitement))
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

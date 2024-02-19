@@ -1,3 +1,5 @@
+package dev.mobile.medicalink.fragments.contacts
+
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +8,17 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.entity.Contact
 
-class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String>>) :
-    RecyclerView.Adapter<MessagesFragmentAdapterR.MessagesFragmentViewHolder>() {
+class ContactsAdapterR(
+    private val list: List<Contact>,
+    private val onItemClick: (Contact) -> Unit
+) :
+    RecyclerView.Adapter<ContactsAdapterR.MessagesFragmentViewHolder>() {
 
     class MessagesFragmentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val titreMessage: TextView = view.findViewById(R.id.nomMedecin)
+        val ville = view.findViewById<TextView>(R.id.villeSearch)
         val textMessage: TextView = view.findViewById(R.id.professionMedecin)
 
     }
@@ -24,7 +31,7 @@ class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesFragmentViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_message, parent, false)
+            .inflate(R.layout.item_search_contact, parent, false)
         return MessagesFragmentViewHolder(layout)
     }
 
@@ -32,9 +39,18 @@ class MessagesFragmentAdapterR(private val list: MutableList<Pair<String, String
     override fun onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int) {
         val item = list.get(position)
 
-        holder.titreMessage.text = item.first
-        holder.textMessage.text = item.second
+        holder.titreMessage.text = item.fullname
+        if (item.city != null) {
+            holder.ville.text = item.city
+        } else {
+            holder.ville.visibility = View.GONE
+        }
+        holder.textMessage.text = item.specialty
 
+        //On renvoie l'item au fragment pour qu'il récupère l'item cliqué
+        holder.view.setOnClickListener {
+            onItemClick.invoke(item)
+        }
     }
 
 }

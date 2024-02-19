@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.contacts.ContactsFragment
 import dev.mobile.medicalink.fragments.home.HomeFragment
-import dev.mobile.medicalink.fragments.traitements.ContactsFragment
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
 
 /**
