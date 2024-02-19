@@ -53,6 +53,7 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var se
         holder.layoutTypeMedic.setOnClickListener {
             selected = item
             Log.d("LLLL", selected)
+            viewModel.setTypeComprime(selected)
             notifyDataSetChanged()
         }
     }

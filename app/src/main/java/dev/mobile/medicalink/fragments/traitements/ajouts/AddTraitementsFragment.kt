@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
+import dev.mobile.medicalink.utils.GoTo
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -74,15 +75,9 @@ class AddTraitementsFragment : Fragment() {
                     bundle.putString("type", "photo")
                     val destinationFragment = PreviewFragment()
                     destinationFragment.arguments = bundle
-                    val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, destinationFragment)
-                    fragTransaction.addToBackStack(null)
-                    fragTransaction.commit()
+                    GoTo.fragment(destinationFragment, parentFragmentManager)
                 } else {
-                    val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-                    fragTransaction.addToBackStack(null)
-                    fragTransaction.commit()
+                    GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
                 }
             }
 
@@ -94,15 +89,9 @@ class AddTraitementsFragment : Fragment() {
                 bundle.putString("type", "charger")
                 val destinationFragment = PreviewFragment()
                 destinationFragment.arguments = bundle
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(destinationFragment, parentFragmentManager)
             } else {
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
             }
         }
 
@@ -121,23 +110,13 @@ class AddTraitementsFragment : Fragment() {
         //Gestion du clic sur le bouton "import manuel d'un traitement"
         manualImportButton.setOnClickListener {
             viewModel.setIsAddingTraitement(true)
-            val destinationFragment = AjoutManuelSearchFragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSearchFragment(), parentFragmentManager)
         }
 
         //Retour à la page précédente (MainTraitementsFragment)
         annuler.setOnClickListener {
-            //On appelle le parent pour changer de fragment
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, MainTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
         }
-
-
         return view
     }
 

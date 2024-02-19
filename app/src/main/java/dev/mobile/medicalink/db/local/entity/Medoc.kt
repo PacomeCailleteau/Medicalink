@@ -31,7 +31,7 @@ data class Medoc(
     @ColumnInfo(name = "nom") val nom: String,
     @ColumnInfo(name = "codeCIS") val codeCIS: String,
     @ColumnInfo(name = "dosageNB") val dosageNB: String,
-    @ColumnInfo(name = "dosageUnite") val dosageUnite: String,
+    @ColumnInfo(name = "frequencePrise") val frequencePrise: String,
     @ColumnInfo(name = "dateFinTraitement") var dateFinTraitement: String?,
     @ColumnInfo(name = "typeComprime") val typeComprime: String,
     @ColumnInfo(name = "comprimesRestants") var comprimesRestants: Int?,

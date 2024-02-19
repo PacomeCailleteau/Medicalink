@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.NumberPicker
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,12 +20,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.utils.GoTo
 
 
 class AjoutManuelIntervalleRegulier : Fragment() {
 
-    private lateinit var inputIntervalle: TextInputEditText
+    private lateinit var inputIntervalle: TextView
     private lateinit var retour: ImageView
     private lateinit var suivant: Button
 
@@ -49,37 +50,30 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        inputIntervalle.setText(resources.getString(R.string.toutes_2_semaines))
-        inputIntervalle.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
-        inputIntervalle.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            source?.let {
-                if (it.contains("\n")) {
-                    // Empeche le collage de texte
-                    return@InputFilter ""
-                }
-            }
-            null
-        })
+        var dosage = viewModel.dosageNb.value ?: 2
+        if (dosage == 0) {
+            dosage = 2
+            viewModel.setDosageNb(2)
+        }
+
+        var freq = viewModel.frequencePrise.value ?: resources.getString(R.string.jours)
+        if (freq == "" || freq == "quotidiennement" || freq == "auBesoin") {
+            freq = resources.getString(R.string.jours)
+            viewModel.setFrequencePrise(resources.getString(R.string.jours))
+        }
+
+        updateTextViewIntervalleRegulier(dosage, freq)
 
         inputIntervalle.setOnClickListener {
             showIntervalleRegulierDialog(viewModel, view.context)
         }
 
-
         suivant.setOnClickListener {
-            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSchemaPrise2Fragment(), parentFragmentManager)
         }
 
         retour.setOnClickListener {
-            val destinationFragment = AjoutManuelSchemaPriseFragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSchemaPriseFragment(), parentFragmentManager)
         }
         return view
     }
@@ -113,7 +107,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         )
         secondNumberPicker.minValue = 0
         secondNumberPicker.maxValue = 2
-        secondNumberPicker.value = when (viewModel.dosageUnite.value) {
+        secondNumberPicker.value = when (viewModel.frequencePrise.value) {
             resources.getString(R.string.jours) -> 0
             resources.getString(R.string.semaines) -> 1
             resources.getString(R.string.mois) -> 2
@@ -124,7 +118,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         updateFirstNumberPickerValues(
             firstNumberPicker,
             secondNumberPicker.value,
-            viewModel.dosageNb.value ?: 1
+            viewModel.dosageNb.value ?: 2
         )
 
         secondNumberPicker.setOnValueChangedListener { _, _, newVal ->
@@ -137,13 +131,14 @@ class AjoutManuelIntervalleRegulier : Fragment() {
 
         okButton.setOnClickListener {
             viewModel.setDosageNb(firstNumberPicker.value)
-            viewModel.setDosageUnite(
-                when (secondNumberPicker.value) {
-                    0 -> resources.getString(R.string.jours)
-                    1 -> resources.getString(R.string.semaines)
-                    2 -> resources.getString(R.string.mois)
-                    else -> resources.getString(R.string.jour)
-            })
+            val freq = when (secondNumberPicker.value) {
+                0 -> resources.getString(R.string.jours)
+                1 -> resources.getString(R.string.semaines)
+                2 -> resources.getString(R.string.mois)
+                else -> resources.getString(R.string.jours)
+            }
+            viewModel.setFrequencePrise(freq)
+            updateTextViewIntervalleRegulier(firstNumberPicker.value, freq)
             intervalleRegulierDialog.dismiss()
         }
         intervalleRegulierDialog.show()
@@ -180,6 +175,22 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             currentDosage.coerceIn(firstNumberPicker.minValue, firstNumberPicker.maxValue)
     }
 
+    private fun updateTextViewIntervalleRegulier(
+        dosage: Int,
+        frequence: String
+    ) {
+        var s = ""
+        s += when (frequence) {
+            resources.getString(R.string.jours) -> resources.getString(R.string.tous_les)
+            resources.getString(R.string.semaines) -> resources.getString(R.string.toutes_les)
+            resources.getString(R.string.mois) -> resources.getString(R.string.tous_les)
+            else -> resources.getString(R.string.tous_les)
+        }
+        s += " $dosage "
+        s += frequence
+        inputIntervalle.text = s
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -187,11 +198,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                val destinationFragment = AjoutManuelSchemaPriseFragment()
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(AjoutManuelSchemaPriseFragment(), parentFragmentManager)
             }
         }
 

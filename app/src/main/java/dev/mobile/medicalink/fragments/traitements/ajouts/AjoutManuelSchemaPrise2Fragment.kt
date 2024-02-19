@@ -21,6 +21,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelAdapterR
+import dev.mobile.medicalink.utils.GoTo
 import java.util.UUID
 
 
@@ -49,7 +50,10 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         var listePrise: MutableList<Prise>? = viewModel.prises.value
-        if (listePrise == null) {
+        if (listePrise == null){
+            listePrise = mutableListOf()
+        }
+        if (listePrise.isEmpty()) {
             listePrise =
                 mutableListOf(
                     Prise(
@@ -112,11 +116,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             val totalQuantite: Int = listePrise.sumOf { it.quantite }
             viewModel.setPrises(listePrise)
             viewModel.setTotalQuantite(totalQuantite)
-            val destinationFragment = AjoutManuelDateSchemaPrise()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelDateSchemaPrise(), parentFragmentManager)
         }
 
         retour.setOnClickListener {
@@ -128,7 +128,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
             when (viewModel.provenance.value) {
                 "quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
-
                 }
                 "intervalleRegulier" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
@@ -137,13 +136,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
                 }
             }
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(destinationFragment, parentFragmentManager)
         }
-
-
         return view
     }
 
@@ -207,10 +201,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                         destinationFragment = AjoutManuelIntervalleRegulier()
                     }
                 }
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(destinationFragment, parentFragmentManager)
             }
         }
 

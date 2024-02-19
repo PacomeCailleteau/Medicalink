@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.Traitement
-import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelTypeMedicAdapterR
+import dev.mobile.medicalink.utils.GoTo
 
 
 class AjoutManuelSchemaPriseFragment : Fragment() {
@@ -180,6 +180,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
         }
 
+        Log.d("cacapipi", viewModel.frequencePrise.value.toString())
+
         suivant.setOnClickListener {
             //Gestion de la redirection en fonction du bouton sélectionné
 
@@ -187,36 +189,28 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             when (viewModel.schema_prise1.value) {
                 "Quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
-                    viewModel.setDosageUnite(resources.getString(R.string.quoti))
+                    viewModel.setFrequencePrise("quotidiennement")
                     viewModel.setProvenance("quotidiennement")
                 }
 
                 "Intervalle" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
-                    viewModel.setDosageUnite(resources.getString(R.string.semaines))
                     viewModel.setProvenance("intervalleRegulier")
                 }
 
                 "auBesoin" -> {
                     destinationFragment = AjoutManuelDateSchemaPrise()
-                    viewModel.setDosageUnite("auBesoin")
+                    viewModel.setFrequencePrise("auBesoin")
                     viewModel.setProvenance("auBesoin")
                 }
             }
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(destinationFragment, parentFragmentManager)
         }
 
 
         //On retourne au fragment précédent
         retour.setOnClickListener {
-            val destinationFragment = AjoutManuelTypeMedic()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
         }
 
         return view
@@ -228,12 +222,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                // Code à exécuter lorsque le bouton de retour arrière est pressé
-                val destinationFragment = AjoutManuelTypeMedic()
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
             }
         }
 

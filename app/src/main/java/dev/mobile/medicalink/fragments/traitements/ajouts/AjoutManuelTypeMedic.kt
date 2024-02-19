@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelTypeMedicAdapterR
+import dev.mobile.medicalink.utils.GoTo
 
 
 class AjoutManuelTypeMedic : Fragment() {
@@ -63,33 +63,19 @@ class AjoutManuelTypeMedic : Fragment() {
         val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
 
-
         val AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
         recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
-
-
 
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacement = 20
         recyclerViewTypeMedic.addItemDecoration(SpacingRecyclerView(espacement))
 
         suivant.setOnClickListener {
-            Log.d("selected", AjoutManuelTypeMedicAdapter.selected)
-            viewModel.setTypeComprime(AjoutManuelTypeMedicAdapter.selected)
-            val destinationFragment = AjoutManuelSchemaPriseFragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSchemaPriseFragment(), parentFragmentManager)
         }
 
         retour.setOnClickListener {
-            viewModel.setTypeComprime(AjoutManuelTypeMedicAdapter.selected)
-            val destinationFragment = AjoutManuelSearchFragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSearchFragment(), parentFragmentManager)
         }
 
         return view
@@ -102,33 +88,7 @@ class AjoutManuelTypeMedic : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                // Code à exécuter lorsque le bouton de retour arrière est pressé
-                val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
-                val listeTypeMedic: MutableList<String> =
-                    mutableListOf(
-                        resources.getString(R.string.comprime),
-                        resources.getString(R.string.gellule),
-                        resources.getString(R.string.sachet),
-                        resources.getString(R.string.sirop),
-                        resources.getString(R.string.pipette),
-                        resources.getString(R.string.seringue),
-                        resources.getString(R.string.bonbon),
-                    )
-
-                var selected = viewModel.typeComprime.value.toString()
-                if (selected == "") {
-                    viewModel.setTypeComprime(resources.getString(R.string.comprime))
-                    selected = resources.getString(R.string.comprime)
-                }
-                val ajoutManuelTypeMedicAdapter =
-                    AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
-
-                viewModel.setTypeComprime(ajoutManuelTypeMedicAdapter.selected)
-                val destinationFragment = AjoutManuelSearchFragment()
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(AjoutManuelSearchFragment(), parentFragmentManager)
             }
         }
 

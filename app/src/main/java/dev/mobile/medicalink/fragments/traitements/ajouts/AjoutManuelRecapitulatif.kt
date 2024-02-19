@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.traitements.ajouts
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +19,8 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.fragments.traitements.adapter.RecapAdapterR
+import dev.mobile.medicalink.utils.GoTo
 
 
 class AjoutManuelRecapitulatif : Fragment() {
@@ -75,16 +74,21 @@ class AjoutManuelRecapitulatif : Fragment() {
         var schemaPriseFormatee = ""
         when (viewModel.schema_prise1.value) {
             "Quotidiennement" -> {
-                schemaPriseFormatee = "Quotidiennement"
+                schemaPriseFormatee = getString(R.string.quotidiennement)
             }
 
             "Intervalle" -> {
-                schemaPriseFormatee =
-                    "Tous les ${viewModel.dosageNb.value} ${viewModel.dosageUnite.value}"
+                schemaPriseFormatee = if (viewModel.frequencePrise.value == getString(R.string.semaines)) {
+                    getString(R.string.toutes_les) +
+                    " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
+                } else {
+                    getString(R.string.tous_les) +
+                    " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
+                }
             }
 
             "auBesoin" -> {
-                schemaPriseFormatee = "Au besoin"
+                schemaPriseFormatee = getString(R.string.au_besoin)
             }
         }
 
@@ -96,7 +100,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         }
         val dft = viewModel.dateFinTraitement.value
         if (dft == null) {
-            dateFindeTraitement.text = resources.getString(R.string.indetermine)
+            dateFindeTraitement.text = resources.getString(R.string.sans_fin)
         } else {
             dateFindeTraitement.text =
                 "${dft.dayOfMonth}/${dft.monthValue}/${dft.year}"
@@ -121,57 +125,29 @@ class AjoutManuelRecapitulatif : Fragment() {
         }
 
         suivant.setOnClickListener {
-            val destinationFragment = ListeTraitementsFragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(ListeTraitementsFragment(), parentFragmentManager)
         }
 
         retour.setOnClickListener {
-            val destinationFragment = AjoutManuelStock()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelStock(), parentFragmentManager)
         }
         nomLayout.setOnClickListener {
-            val destinationFragment = AjoutManuelSearchFragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSearchFragment(), parentFragmentManager)
         }
         caracteristiqueLayout.setOnClickListener {
-            val destinationFragment = AjoutManuelTypeMedic()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
         }
 
         periodiciteLayout.setOnClickListener {
-            val destinationFragment = AjoutManuelDateSchemaPrise()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSchemaPriseFragment(), parentFragmentManager)
         }
 
         priseLayout.setOnClickListener {
-            val destinationFragment = AjoutManuelSchemaPrise2Fragment()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelSchemaPrise2Fragment(), parentFragmentManager)
         }
 
         reapprovisionnementLayout.setOnClickListener {
-            val destinationFragment = AjoutManuelStock()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelStock(), parentFragmentManager)
         }
 
         return view

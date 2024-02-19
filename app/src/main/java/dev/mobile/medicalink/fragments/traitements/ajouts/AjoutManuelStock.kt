@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.utils.GoTo
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -111,20 +112,12 @@ class AjoutManuelStock : Fragment() {
         //TODO("Faire la vérif sur tous les boutons suivant du processus de création de traitement")
         suivant.setOnClickListener {
             viewModel.setComprimesRestants(inputStockActuel.text.toString().toInt())
-            val destinationFragment = AjoutManuelRecapitulatif()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelRecapitulatif(), parentFragmentManager)
         }
 
         retour.setOnClickListener {
             viewModel.setComprimesRestants(inputStockActuel.text.toString().toInt())
-            val destinationFragment = AjoutManuelDateSchemaPrise()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelDateSchemaPrise(), parentFragmentManager)
         }
         return view
     }

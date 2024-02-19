@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +22,7 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutManuelRecapitulatif
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
+import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -84,11 +84,11 @@ class ListeTraitementsFragment : Fragment() {
                 viewModel.nomTraitement.value?: "",
                 viewModel.codeCIS.value?: "",
                 viewModel.dosageNb.value.toString(),
-                viewModel.dosageUnite.value?: "",
+                viewModel.frequencePrise.value?: "",
                 viewModel.dateFinTraitement.value?.toString() ?: "null",
                 viewModel.typeComprime.value?: "",
                 viewModel.comprimesRestants.value?: 0,
-                viewModel.expire.value?: false,
+                viewModel.dateFinTraitement.value != null && viewModel.dateFinTraitement.value!! > LocalDate.now(),
                 newTraitementEffetsSec ?: "null",
                 newTraitementPrises ?: "null",
                 viewModel.totalQuantite.value?: 0,
@@ -187,7 +187,7 @@ class ListeTraitementsFragment : Fragment() {
                     medoc.nom,
                     medoc.codeCIS,
                     medoc.dosageNB.toInt(),
-                    medoc.dosageUnite,
+                    medoc.frequencePrise,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,
                     medoc.comprimesRestants,
@@ -225,21 +225,17 @@ class ListeTraitementsFragment : Fragment() {
                         bundle.putSerializable("medoc", clickedTraitement)
                         val destinationFragment = InfoMedocFragment()
                         destinationFragment.arguments = bundle
-                        val fragTransaction = parentFragmentManager.beginTransaction()
-                        fragTransaction.replace(R.id.FL, destinationFragment)
-                        fragTransaction.addToBackStack(null)
-                        fragTransaction.commit()
+                        GoTo.fragment(destinationFragment, parentFragmentManager)
                     }
                     false -> {
                         viewModel.setIsAddingTraitement(false)
                         viewModel.setNomTraitement(clickedTraitement.nomTraitement)
                         viewModel.setCodeCIS(clickedTraitement.codeCIS)
                         viewModel.setDosageNb(clickedTraitement.dosageNb)
-                        viewModel.setDosageUnite(clickedTraitement.dosageUnite)
+                        viewModel.setFrequencePrise(clickedTraitement.frequencePrise)
                         viewModel.setDateFinTraitement(clickedTraitement.dateFinTraitement)
                         viewModel.setTypeComprime(clickedTraitement.typeComprime)
                         viewModel.setComprimesRestants(clickedTraitement.comprimesRestants?:0)
-                        viewModel.setExpire(clickedTraitement.expire)
                         viewModel.setEffetsSecondaires(clickedTraitement.effetsSecondaires?:mutableListOf())
                         viewModel.setPrises(clickedTraitement.prises?:mutableListOf())
                         viewModel.setTotalQuantite(clickedTraitement.totalQuantite?:0)
@@ -247,22 +243,17 @@ class ListeTraitementsFragment : Fragment() {
                         viewModel.setUUIDUSER(clickedTraitement.UUIDUSER?:"")
                         viewModel.setDateDbtTraitement(clickedTraitement.dateDbtTraitement?:LocalDate.now())
 
-                        if (clickedTraitement.dosageUnite == "auBesoin") {
+                        if (clickedTraitement.frequencePrise == "auBesoin") {
                             viewModel.setSchemaPrise1("auBesoin")
                             viewModel.setProvenance("auBesoin")
-                        } else if (clickedTraitement.dosageUnite == "quotidiennement") {
-                            viewModel.setSchemaPrise1("Intervalle")
-                            viewModel.setProvenance("intervalleRegulier")
+                        } else if (clickedTraitement.frequencePrise == "quotidiennement") {
+                            viewModel.setSchemaPrise1("Quotidiennement")
+                            viewModel.setProvenance("quotidiennement")
                         } else {
                             viewModel.setSchemaPrise1("Intervalle")
                             viewModel.setProvenance("intervalleRegulier")
                         }
-
-                        val destinationFragment = AjoutManuelRecapitulatif()
-                        val fragTransaction = parentFragmentManager.beginTransaction()
-                        fragTransaction.replace(R.id.FL, destinationFragment)
-                        fragTransaction.addToBackStack(null)
-                        fragTransaction.commit()
+                        GoTo.fragment(AjoutManuelRecapitulatif(), parentFragmentManager)
                     }
                     true -> {
                         Thread {
@@ -274,13 +265,7 @@ class ListeTraitementsFragment : Fragment() {
                         }.start()
                     }
                 }
-
-
             }
-
-
-
-
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
@@ -288,10 +273,7 @@ class ListeTraitementsFragment : Fragment() {
         //Ajout de la fonctionnalité de retour à la page précédente
         val retour = view.findViewById<ImageView>(R.id.annulerListeEffetsSecondaires)
         retour.setOnClickListener {
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, MainTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
         }
 
         return view
@@ -303,10 +285,7 @@ class ListeTraitementsFragment : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, MainTraitementsFragment())
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
             }
         }
 

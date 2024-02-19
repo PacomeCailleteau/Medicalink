@@ -2,14 +2,11 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -19,7 +16,6 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
-import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.lang.Exception
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -76,7 +72,7 @@ class InfoMedocFragment : Fragment() {
 
         titre.text = monMedoc.nom
         dosage.text = dosage.text.toString() + monMedoc.dosageNB
-        dosageUnite.text = dosageUnite.text.toString() + monMedoc.dosageUnite
+        dosageUnite.text = dosageUnite.text.toString() + monMedoc.frequencePrise
         typeComprime.text = typeComprime.text.toString() + monMedoc.typeComprime
         restants.text = restants.text.toString() + monMedoc.comprimesRestants
         quantite.text = quantite.text.toString() + monMedoc.totalQuantite
