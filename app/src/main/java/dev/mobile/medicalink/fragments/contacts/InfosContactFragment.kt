@@ -64,6 +64,7 @@ class InfosContactFragment : Fragment() {
         scroll = view.findViewById(R.id.scroll_info_contact)
         openMapButton = view.findViewById(R.id.btnMaps)
 
+
         db = AppDatabase.getInstance(requireContext())
         contactDatabaseInterface = ContactRepository(db.contactDao())
         userDataBaseInterface = UserRepository(db.userDao())
@@ -176,11 +177,12 @@ class InfosContactFragment : Fragment() {
     private fun openMapWithAddress(address: String) {
         val gmmIntentUri = Uri.parse("geo:0,0?q=${Uri.encode(address)}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-
+        Log.d("Map", "ça rentre")
         if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
+            Log.d("Map", "ça rentre deux fois")
             startActivity(mapIntent)
         } else {
-            // Gérer le cas où aucune application de carte n'est disponible
+            Log.d("Map", "Aucune application de cartographie n'est installée.")
         }
     }
 
@@ -189,8 +191,14 @@ class InfosContactFragment : Fragment() {
         btnAjoutSupp.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_darker_red_button_no_stroke_background, null)
         btnAjoutSupp.setOnClickListener {
             Thread {
-                val res = contactDatabaseInterface.deleteContact(c)
-                setButtonAjouter(c)
+                val bundle = Bundle()
+                contactDatabaseInterface.deleteContact(c)
+                val destinationFragment = ContactsFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }.start()
         }
     }
@@ -200,8 +208,14 @@ class InfosContactFragment : Fragment() {
         btnAjoutSupp.background = ResourcesCompat.getDrawable(resources, R.drawable.rounded_darker_blue_button_no_stroke_background, null)
         btnAjoutSupp.setOnClickListener {
             Thread {
-                val res = contactDatabaseInterface.insertContact(c)
-                setButtonSupprimer(c)
+                val bundle = Bundle()
+                contactDatabaseInterface.insertContact(c)
+                val destinationFragment = ContactsFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }.start()
         }
     }
