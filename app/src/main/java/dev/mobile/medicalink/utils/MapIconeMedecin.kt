@@ -26,5 +26,7 @@ class MapIconeMedecin : HashMap<String, Int>() {
         this["ORL"] = R.drawable.medecin_oreille
         this["Gynéco"] = R.drawable.gynecologue
         this["Sage"] = R.drawable.sage_femme
+        this["Biologi"] = R.drawable.biologiste
+        this["Radiologue"] = R.drawable.radiologue
     }
 }
