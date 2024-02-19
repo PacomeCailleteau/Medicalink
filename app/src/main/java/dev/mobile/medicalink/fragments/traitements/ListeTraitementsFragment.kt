@@ -26,6 +26,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
+import kotlin.collections.ArrayList
 
 
 class ListeTraitementsFragment : Fragment() {
@@ -37,9 +38,6 @@ class ListeTraitementsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
-        //val resultList = arguments?.getStringArrayList("result")
-        val resultList = arguments?.getSerializable("result") as? ArrayList<Traitement>
-        Log.d("zeubi?", resultList!![0].toString())
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
@@ -54,6 +52,13 @@ class ListeTraitementsFragment : Fragment() {
             navBarre.visibility = View.VISIBLE
         }
 
+
+        // ajout des nouveaux traitements si on vient de l'OCR
+        val resultList = arguments?.getSerializable("result") as? ArrayList<Traitement>
+        if (resultList != null) {
+            Log.d("zeubie", "test")
+            ajoutPlusieursTraitements(inflater, container, resultList)
+        }
 
         /* ##############################################################
         #               Partie update et insert du traitement           #
@@ -330,6 +335,43 @@ class ListeTraitementsFragment : Fragment() {
         }
 
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun ajoutPlusieursTraitements(inflater: LayoutInflater, container: ViewGroup?, traitements: ArrayList<Traitement>) {
+        val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
+        val db = AppDatabase.getInstance(view.context.applicationContext)
+        val userDatabaseInterface = UserRepository(db.userDao())
+        val medocDatabaseInterface = MedocRepository(db.medocDao())
+        var newMedoc: Medoc
+
+        traitements.forEach {
+            newMedoc = Medoc(
+                UUID.randomUUID().toString(),
+                "",
+                it.nomTraitement,
+                it.codeCIS,
+                it.dosageNb.toString(),
+                it.dosageUnite,
+                it.dateFinTraitement.toString(),
+                it.typeComprime,
+                it.comprimesRestants,
+                it.expire,
+                null,
+                null,
+                it.totalQuantite,
+                it.dateDbtTraitement.toString()
+            )
+            val queue2 = LinkedBlockingQueue<Boolean>()
+            Thread {
+                val uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
+                newMedoc.uuidUser = uuidUserCourant
+                val res = medocDatabaseInterface.insertMedoc(newMedoc)
+                Log.d("zeubie", res.second)
+                queue2.add(true)
+            }.start()
+            queue2.take()
+        }
     }
 
     override fun onResume() {

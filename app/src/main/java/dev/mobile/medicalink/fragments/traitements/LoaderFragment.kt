@@ -63,8 +63,6 @@ class LoaderFragment : Fragment() {
             arguments = bundle
         }
 
-        Log.d("zeubi?", result.toString())
-
         // Remplacement du fragment actuel par le nouveau fragment
         val fragTransaction = parentFragmentManager.beginTransaction()
         fragTransaction.replace(R.id.FL, listeTraitementsFragment)
