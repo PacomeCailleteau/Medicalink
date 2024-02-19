@@ -154,7 +154,7 @@ class ListeTraitementAdapterR(
         ouiButton.setOnClickListener {
             list.remove(item)
             notifyDataSetChanged()
-            onItemClick.invoke(item, "Suppr")
+            onItemClick.invoke(item, "Supr")
             dosageDialog.dismiss()
         }
 
