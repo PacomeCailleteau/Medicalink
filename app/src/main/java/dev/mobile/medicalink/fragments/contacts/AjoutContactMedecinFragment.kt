@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ class AjoutContactMedecinFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var search : Button
     private lateinit var itemAdapter : AjoutContactMedecinFragmentAdapterR
+    private lateinit var progressBarMedecin : ProgressBar
     private val medecinApi = MedecinApi()
 
 
@@ -45,6 +47,7 @@ class AjoutContactMedecinFragment : Fragment() {
         searchByRpps = view.findViewById(R.id.search_by_rpps)
         searchByName = view.findViewById(R.id.search_by_prenom_nom)
         search = view.findViewById(R.id.rechercherMedecin)
+        progressBarMedecin = view.findViewById(R.id.progressBarMedecin)
         recyclerView = view.findViewById(R.id.recyclerViewSearch)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         itemAdapter = AjoutContactMedecinFragmentAdapterR(listOf())
@@ -60,9 +63,17 @@ class AjoutContactMedecinFragment : Fragment() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
             val rpps = searchByRpps.text.toString()
             val name = searchByName.text.toString()
-            val medecins = rechercheMedecin(rpps, name)
-            itemAdapter.setList(medecins)
-            itemAdapter.notifyDataSetChanged()
+            progressBarMedecin.visibility = View.VISIBLE
+            recyclerView.alpha = 0.3F
+            Thread {
+                val medecins = rechercheMedecin(rpps, name)
+                requireActivity().runOnUiThread {
+                    progressBarMedecin.visibility = View.GONE
+                    recyclerView.alpha = 1F
+                    itemAdapter.setList(medecins)
+                    itemAdapter.notifyDataSetChanged()
+                }
+            }.start()
         }
 
 
@@ -89,38 +100,28 @@ class AjoutContactMedecinFragment : Fragment() {
      */
     private fun rechercheMedecin(rpps: String, name: String) : List<Medecin> {
         var lstMed = mutableListOf<Medecin>()
-        val queue = LinkedBlockingQueue<Boolean>()
-        Thread {
-            try {
-                if (rpps.isNotEmpty()) {
-                    val medecin = medecinApi.getMedecin(rpps)
-                    if (medecin != null) {
-                        lstMed = mutableListOf(medecin)
-                    }
-                } else if (name.isNotEmpty()) {
-                    val sep = name.split(" ")
-                    val prenom = sep[0]
-                    val nom = if (sep.size > 1) sep[1] else null
-                    val res1 = medecinApi.getMedecins(prenom, nom)
-                    val res2 = medecinApi.getMedecins(nom, prenom)
-                    if (res1 != null) {
-                        lstMed.addAll(res1)
-                    }
-                    if (res2 != null) {
-                        lstMed.addAll(res2)
-                    }
+        try {
+            if (rpps.isNotEmpty()) {
+                val medecin = medecinApi.getMedecin(rpps)
+                if (medecin != null) {
+                    lstMed = mutableListOf(medecin)
                 }
-                queue.put(true)
-            } catch (e: Exception) {
-                queue.put(false)
+            } else if (name.isNotEmpty()) {
+                val sep = name.split(" ")
+                val prenom = sep[0]
+                val nom = if (sep.size > 1) sep[1] else null
+                val res1 = medecinApi.getMedecins(prenom, nom)
+                val res2 = medecinApi.getMedecins(nom, prenom)
+                if (res1 != null) {
+                    lstMed.addAll(res1)
+                }
+                if (res2 != null) {
+                    lstMed.addAll(res2)
+                }
             }
-        }.start()
-        val res = queue.take()
-        if (!res) {
-            Toast.makeText(this.context, "Erreur lors de la recherche, veuillez être plus précis", Toast.LENGTH_SHORT)
-                .show()
+        } catch (e: Exception) {
+            Toast.makeText(this.context, "Erreur lors de la recherche, veuillez être plus précis", Toast.LENGTH_SHORT).show()
         }
-
         return lstMed
     }
 
