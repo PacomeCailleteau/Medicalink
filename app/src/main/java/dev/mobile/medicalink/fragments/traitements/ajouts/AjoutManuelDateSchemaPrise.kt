@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.utils.GoTo
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -121,11 +122,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         }
 
         suivant.setOnClickListener {
-            val destinationFragment = AjoutManuelStock()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelStock(), parentFragmentManager)
         }
 
         retour.setOnClickListener {
@@ -143,12 +140,13 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
                 }
             }
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(destinationFragment, parentFragmentManager)
         }
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     /**

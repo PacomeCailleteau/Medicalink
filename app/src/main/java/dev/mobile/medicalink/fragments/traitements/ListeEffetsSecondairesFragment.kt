@@ -101,17 +101,16 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     medoc.nom,
                     medoc.codeCIS,
                     medoc.dosageNB.toInt(),
-                    medoc.dosageUnite,
+                    medoc.frequencePrise,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,
                     medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
+                    effetsSecondaires = listeEffetsSec,
+                    prises = listePrise,
+                    totalQuantite = medoc.totalQuantite,
+                    UUID = medoc.uuid,
+                    UUIDUSER = medoc.uuidUser,
+                    dateDbtTraitement = newTraitementDbtDeTraitement
                 )
 
                 listeTraitement.add(traitement)

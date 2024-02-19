@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
+import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.ModelOCR
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,11 +51,7 @@ class LoaderFragment : Fragment() {
         for (i in result.indices) {
             Log.d("RESULT TXT TRAITE", "handleResult: " + result[i])
         }
-        val fragTransaction = parentFragmentManager.beginTransaction()
-        fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
-        fragTransaction.addToBackStack(null)
-        fragTransaction.commit()
-
+        GoTo.fragment(ListeTraitementsFragment(), parentFragmentManager)
     }
 
     private fun startLoadingAnimation() {

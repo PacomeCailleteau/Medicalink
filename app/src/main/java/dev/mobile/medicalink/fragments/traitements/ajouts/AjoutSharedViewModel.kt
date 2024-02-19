@@ -31,10 +31,10 @@ class AjoutSharedViewModel : ViewModel() {
         _dosageNb.value = dosage
     }
 
-    private val _dosageUnite = MutableLiveData<String>("")
-    val dosageUnite: LiveData<String> get() = _dosageUnite
-    fun setDosageUnite(unite: String) {
-        _dosageUnite.value = unite
+    private val _frequencePrise = MutableLiveData<String>("")
+    val frequencePrise: LiveData<String> get() = _frequencePrise
+    fun setFrequencePrise(unite: String) {
+        _frequencePrise.value = unite
     }
 
     private val _dateFinTraitement = MutableLiveData<LocalDate?>()
@@ -53,12 +53,6 @@ class AjoutSharedViewModel : ViewModel() {
     val comprimesRestants: LiveData<Int> get() = _comprimesRestants
     fun setComprimesRestants(comprimes: Int) {
         _comprimesRestants.value = comprimes
-    }
-
-    private val _expire = MutableLiveData<Boolean>(false)
-    val expire: LiveData<Boolean> get() = _expire
-    fun setExpire(expire: Boolean) {
-        _expire.value = expire
     }
 
     private val _effetsSecondaires = MutableLiveData<MutableList<String>>(mutableListOf())
@@ -125,17 +119,16 @@ class AjoutSharedViewModel : ViewModel() {
         nomTraitement.value?:"",
         codeCIS.value?:"",
         dosageNb.value?:0,
-        dosageUnite.value?:"",
+        frequencePrise.value?:"",
         dateFinTraitement.value,
         typeComprime.value?:"",
         comprimesRestants.value?:0,
-        expire.value?:false,
-        effetsSecondaires.value?:mutableListOf(),
-        prises.value?:mutableListOf(),
-        totalQuantite.value?:0,
-        UUID.value?:"",
-        UUIDUSER.value?:"",
-        dateDbtTraitement.value?:LocalDate.now()
+        effetsSecondaires = effetsSecondaires.value?:mutableListOf(),
+        prises = prises.value?:mutableListOf(),
+        totalQuantite = totalQuantite.value?:0,
+        UUID = UUID.value?:"",
+        UUIDUSER = UUIDUSER.value?:"",
+        dateDbtTraitement = dateDbtTraitement.value?:LocalDate.now()
     )
 
     fun addTraitement(traitement: Traitement = makeTraitement()) {
@@ -160,11 +153,10 @@ class AjoutSharedViewModel : ViewModel() {
         setNomTraitement("")
         setCodeCIS("")
         setDosageNb(0)
-        setDosageUnite("")
+        setFrequencePrise("")
         setDateFinTraitement(null)
         setTypeComprime("")
         setComprimesRestants(0)
-        setExpire(false)
         setEffetsSecondaires(mutableListOf())
         setPrises(mutableListOf())
         setTotalQuantite(0)

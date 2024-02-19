@@ -336,7 +336,7 @@ class HomeFragment : Fragment() {
                     medoc.nom,
                     medoc.codeCIS,
                     medoc.dosageNB.toInt(),
-                    medoc.dosageUnite,
+                    medoc.frequencePrise,
                     newTraitementFinDeTraitement,
                     medoc.typeComprime,
                     medoc.comprimesRestants,
@@ -379,8 +379,8 @@ class HomeFragment : Fragment() {
                     //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
                     break
                 }
-                Log.d("unite", element.second.dosageUnite)
-                when (element.second.dosageUnite) {
+                Log.d("unite", element.second.frequencePrise)
+                when (element.second.frequencePrise) {
                     "auBesoin" -> {
                         doIaddIt = false
                     }
@@ -393,7 +393,7 @@ class HomeFragment : Fragment() {
                         val jourEntreDeuxDates =
                             ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
                         var tousLesXJours: Long
-                        when (element.second.dosageUnite) {
+                        when (element.second.frequencePrise) {
                             "Jours" -> {
                                 tousLesXJours = element.second.dosageNb.toLong()
                                 doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
@@ -460,7 +460,8 @@ class HomeFragment : Fragment() {
                         null,
                         null,
                         null,
-                        null, null
+                        null,
+                        null
                     )
                 )
             )

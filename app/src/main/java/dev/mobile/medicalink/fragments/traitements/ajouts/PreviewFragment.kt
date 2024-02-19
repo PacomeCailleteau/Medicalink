@@ -23,6 +23,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.utils.GoTo
 import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat
@@ -112,13 +113,8 @@ class PreviewFragment : Fragment() {
 
         //Retour à la page précédente (AddTraitementsFragment)
         retour.setOnClickListener {
-            //On appelle le parent pour changer de fragment
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
         }
-
         return view
     }
 
@@ -198,10 +194,7 @@ class PreviewFragment : Fragment() {
                     bundle.putString("texte", text)
                     destination.arguments = bundle
                     //On appelle le parent pour changer de fragment
-                    val fragTransaction = parentFragmentManager.beginTransaction()
-                    fragTransaction.replace(R.id.FL, destination)
-                    fragTransaction.addToBackStack(null)
-                    fragTransaction.commit()
+                    GoTo.fragment(destination, parentFragmentManager)
                 }
             }
             true

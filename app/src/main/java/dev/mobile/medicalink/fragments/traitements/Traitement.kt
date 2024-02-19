@@ -11,7 +11,7 @@ class Traitement(
     var nomTraitement: String,
     var codeCIS: String,
     var dosageNb: Int,
-    var dosageUnite: String,
+    var frequencePrise: String,
     var dateFinTraitement: LocalDate?,
     var typeComprime: String = "Comprimé",
     var comprimesRestants: Int?,
@@ -24,14 +24,6 @@ class Traitement(
     var dateDbtTraitement: LocalDate?
 
 ) : Serializable {
-
-    fun enMajuscule() {
-        nomTraitement = nomTraitement.uppercase(Locale.getDefault())
-    }
-
-    fun getName(): String {
-        return nomTraitement
-    }
 
     fun getProchainePrise(prise: Prise?): Prise {
         if (prises == null || prises!!.isEmpty()) {

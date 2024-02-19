@@ -37,6 +37,7 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelSearchAdapterR
+import dev.mobile.medicalink.utils.GoTo
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -117,21 +118,14 @@ class AjoutManuelSearchFragment : Fragment() {
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
         addManuallyButton.setOnClickListener {
-            val destinationFragment = AjoutManuelTypeMedic()
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
         }
 
         retour = view.findViewById(R.id.retour_schema_prise2)
 
         retour.setOnClickListener {
             viewModel.setIsAddingTraitement(null)
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
         }
 
         return view
@@ -162,7 +156,7 @@ class AjoutManuelSearchFragment : Fragment() {
             addManuallyButton.alpha = 1.0f
         } else {
             addManuallyButton.isEnabled = false
-            addManuallyButton.alpha = 0.3.toFloat()
+            addManuallyButton.alpha = 0.3f
         }
     }
 
@@ -173,10 +167,7 @@ class AjoutManuelSearchFragment : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 viewModel.setIsAddingTraitement(null)
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

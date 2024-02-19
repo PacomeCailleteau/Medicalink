@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,14 +64,15 @@ class ListeTraitementAdapterR(
         }
         val item = list.get(position)
         holder.nomTraitement.text = item.nomTraitement
-        if (item.dosageUnite == "auBesoin") {
+        Log.d("cacapipi", item.frequencePrise)
+        if (item.frequencePrise == "auBesoin") {
             holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
-        } else if (item.dosageUnite == "quotidiennement") {
+        } else if (item.frequencePrise == "quotidiennement") {
             holder.dosage.text =
-                "${item.dosageNb} ${holder.view.resources.getString(R.string.par_jour)}"
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.par_jour)}"
         } else {
             holder.dosage.text =
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.frequencePrise}"
         }
         //Si le traitement est expiré, un format spécial lui est appliqué
         if (item.expire) {
@@ -110,7 +112,7 @@ class ListeTraitementAdapterR(
                 }"
             if (item.dateFinTraitement == null) {
                 holder.dateExpirationTraitement.text =
-                    holder.view.resources.getString(R.string.indetermine)
+                    holder.view.resources.getString(R.string.sans_fin)
             } else {
                 holder.dateExpirationTraitement.text =
                     "${holder.view.resources.getString(R.string.jusquau)} ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
