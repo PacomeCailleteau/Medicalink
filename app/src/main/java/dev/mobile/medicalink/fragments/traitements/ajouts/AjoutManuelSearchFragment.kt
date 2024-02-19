@@ -226,11 +226,11 @@ class AjoutManuelSearchFragment : Fragment() {
                 }
                 val medicamentCisDejaPris : MutableList<CisSubstance> = mutableListOf()
                 for (code in codeCisMedicamentDejaPris) {
-                    medicamentCisDejaPris.add(cisSubstanceInterface.getOneCisSubstanceById(code)[0])
+                    medicamentCisDejaPris.add(cisSubstanceInterface.getOneCisSubstanceById(code)!!)
                 }
 
                 //Réupération du code de substance du médicament que l'on veut ajouter
-                val codeSubstanceMedicamentAjoute = cisSubstanceInterface.getOneCisSubstanceById(codeCis)[0].codeSubstance
+                val codeSubstanceMedicamentAjoute = cisSubstanceInterface.getOneCisSubstanceById(codeCis)!!.codeSubstance
                 //Vérification de la présence de ce code de substance dans la liste des médicaments déjà pris
                 val medicamentEnConflit = medicamentCisDejaPris.filter { it.codeSubstance == codeSubstanceMedicamentAjoute }
 

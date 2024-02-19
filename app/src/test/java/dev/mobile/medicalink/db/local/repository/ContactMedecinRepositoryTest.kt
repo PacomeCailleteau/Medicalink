@@ -78,7 +78,46 @@ class ContactMedecinRepositoryTest {
         assertEquals(contactMedecins[0].rpps, contactMedecin.rpps)
     }
 
+    @Test
+    fun `update a contact medecin`() {
+        val toAdd = defaultContactMedecin
+        contactMedecinRepository.insertContactMedecin(toAdd)
+        val fromDb = contactMedecinRepository.getOneContactMedecinById(toAdd.rpps)
+        assertNotNull(fromDb)
+        assertEquals(toAdd.rpps, fromDb!!.rpps)
 
+        val updated = fromDb.copy(email = "ff@ff.ff")
+        contactMedecinRepository.updateContactMedecin(updated)
+        val updatedFromDb = contactMedecinRepository.getOneContactMedecinById(updated.rpps)
+        assertNotNull(updatedFromDb)
+        assertEquals(updated.email, updatedFromDb!!.email)
+    }
+
+    @Test
+    fun `update a contact medecin that doesn't exist`() {
+        val toUpdate = defaultContactMedecin
+        contactMedecinRepository.updateContactMedecin(toUpdate)
+        // Comme Room ne renvoie pas d'erreur si on update un élément qui n'existe pas, on va vérifier qu'il n'a pas ajouter un élément à la place d'en update un
+        // On vérifie donc qu'il n'y a pas d'effet de bord
+        val fromDb = contactMedecinRepository.getOneContactMedecinById(toUpdate.rpps)
+        assertNull(fromDb)
+    }
+
+    @Test
+    fun `delete a contact medecin`() {
+        val toAdd = defaultContactMedecin
+        contactMedecinRepository.insertContactMedecin(toAdd)
+        val fromDb = contactMedecinRepository.getOneContactMedecinById(toAdd.rpps)
+        assertNotNull(fromDb)
+        assertEquals(toAdd.rpps, fromDb!!.rpps)
+
+        val res = contactMedecinRepository.deleteContactMedecin(fromDb)
+        assertTrue(res.first)
+        assertEquals("Success", res.second)
+
+        val deletedDromDb = contactMedecinRepository.getOneContactMedecinById(toAdd.rpps)
+        assertNull(deletedDromDb)
+    }
 
 
 

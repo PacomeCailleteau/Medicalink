@@ -61,7 +61,7 @@ class InfoMedocFragment : Fragment() {
         Thread {
             try {
                 monMedoc = medocDatabaseInterface.getOneMedocByCIS(codeCIS) as Medoc
-                maSubstance = substancecDatabaseInterface.getOneCisSubstanceById(codeCIS)[0]
+                maSubstance = substancecDatabaseInterface.getOneCisSubstanceById(codeCIS)!!
                 monBdpm = bdpmDatabaseInterface.getOneCisBdpmById(codeCIS)[0]
             } catch (e : Exception) {
                 throw e
