@@ -40,7 +40,7 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var se
 
     
     override fun onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int) {
-        val item = list.get(position)
+        val item = list[position]
 
         holder.textTypeMedic.text = item
 

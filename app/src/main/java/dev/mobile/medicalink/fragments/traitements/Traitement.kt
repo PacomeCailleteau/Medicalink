@@ -26,11 +26,10 @@ class Traitement(
 ) : Serializable {
 
     fun getProchainePrise(prise: Prise?): Prise {
-        if (prises == null || prises!!.isEmpty()) {
+        return if (prises == null || prises!!.isEmpty()) {
             return Prise("-1", "14:38", 0, "Comprimé")
-        }
-        if (prise == null) {
-            return prises!![0]
+        } else if (prise == null) {
+            prises!![0]
         } else {
             var prochainePrise = prise
             //S'il n'y a qu'une seule prise, on retourne cette prise
@@ -52,7 +51,7 @@ class Traitement(
             }
 
             //On est de toute façon dans le else alors prochainePrise ne peut pas être null
-            return prochainePrise!!
+            prochainePrise!!
         }
     }
 

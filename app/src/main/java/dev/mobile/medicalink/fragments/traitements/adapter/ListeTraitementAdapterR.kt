@@ -62,7 +62,7 @@ class ListeTraitementAdapterR(
         if (textAucunTraitement != null) {
             textAucunTraitement.visibility = View.GONE
         }
-        val item = list.get(position)
+        val item = list[position]
         holder.nomTraitement.text = item.nomTraitement
         Log.d("cacapipi", item.frequencePrise)
         if (item.frequencePrise == "auBesoin") {
@@ -162,9 +162,4 @@ class ListeTraitementAdapterR(
 
         dosageDialog.show()
     }
-
-    private fun showMedicationInfos(context: Context,item: Traitement) {
-        //TODO: Afficher les informations du traitement
-    }
-
 }

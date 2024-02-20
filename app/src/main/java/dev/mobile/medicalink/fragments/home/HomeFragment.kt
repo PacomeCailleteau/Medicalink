@@ -323,12 +323,10 @@ class HomeFragment : Fragment() {
                     newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
                 }
                 //Vérification de la date de fin de traitement
-                if ((!medoc.expire) && (newTraitementFinDeTraitement != null)) {
-                    if (LocalDate.now() > newTraitementFinDeTraitement) {
-                        //Si la date de fin de traitement est dépassée, on met le traitement en expiré
-                        medoc.expire = true
-                        medocDatabaseInterface.updateMedoc(medoc)
-                    }
+                if ((!medoc.expire) && (newTraitementFinDeTraitement != null) && LocalDate.now() > newTraitementFinDeTraitement) {
+                    //Si la date de fin de traitement est dépassée, on met le traitement en expiré
+                    medoc.expire = true
+                    medocDatabaseInterface.updateMedoc(medoc)
                 }
 
                 //Création du traitement
@@ -437,7 +435,7 @@ class HomeFragment : Fragment() {
         }
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
-        if (traitementsTries.size > 0) {
+        if (traitementsTries.isNotEmpty()) {
             traitementsTries.add(
                 0,
                 Pair(

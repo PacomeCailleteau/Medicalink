@@ -106,8 +106,8 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         item: Prise
     ) {
         val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = calendar.get(Calendar.MINUTE)
+        val currentHour = calendar[Calendar.HOUR_OF_DAY]
+        val currentMinute = calendar[Calendar.MINUTE]
 
         val timePickerDialog = TimePickerDialog(
             context,
@@ -130,8 +130,8 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
      */
     private fun formatTime(hour: Int, minute: Int): String {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
+        calendar[Calendar.HOUR_OF_DAY] = hour
+        calendar[Calendar.MINUTE] = minute
         val timeFormat =
             SimpleDateFormat("HH:mm", Locale.FRENCH)
         return timeFormat.format(calendar.time)
@@ -201,6 +201,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
                     return null
                 }
             } catch (e: NumberFormatException) {
+                return ""
             }
 
             return ""

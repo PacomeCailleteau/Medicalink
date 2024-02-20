@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -98,6 +99,11 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButtonLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(
+                        context,
+                        result.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 

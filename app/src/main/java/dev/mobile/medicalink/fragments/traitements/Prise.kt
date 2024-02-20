@@ -17,15 +17,7 @@ class Prise(
         heurePrise = heurePrise.uppercase(Locale.getDefault())
     }
 
-    fun getName(): String {
-        return heurePrise
-    }
-
     override fun toString(): String {
         return "$numeroPrise;$heurePrise;$quantite;$typeComprime"
-    }
-
-    init {
-
     }
 }
