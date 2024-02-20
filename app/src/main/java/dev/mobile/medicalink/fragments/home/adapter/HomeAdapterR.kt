@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,7 @@ class HomeAdapterR(
 ) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
 
-    var heureCourante: String? = null
+    private var heureCourante: String? = null
 
     /**
      * Mettre à jour les données de l'adaptateur
@@ -61,7 +60,6 @@ class HomeAdapterR(
         list = listeTraitementUpdated
         listePriseValidee = listePriseValideeUpdated
         dateCourante = date
-        Log.d("LISTE", listePriseValidee.size.toString())
         updatePriseValideeList(listePriseValideeUpdated) // Mettez à jour la listePriseValidee
         updateRapportText() // Mettez à jour le texte du rapport
     }
@@ -73,13 +71,12 @@ class HomeAdapterR(
      */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
-        val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
-        val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
-        val circleTick = view.findViewById<ImageView>(R.id.circleTick)
-        val imageMedoc = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
-        val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
-        val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
+        val nomMedic : TextView = view.findViewById(R.id.nomMedic)
+        val nbComprime : TextView = view.findViewById(R.id.nbComprime)
+        val heurePrise : TextView = view.findViewById(R.id.heurePriseAccueil)
+        val circleTick : ImageView = view.findViewById(R.id.circleTick)
+        val mainHeure : TextView = view.findViewById(R.id.mainHeureMedic)
+        val mainHeureLayout : ConstraintLayout = view.findViewById(R.id.layoutMainHeure)
 
 
     }
@@ -163,7 +160,6 @@ class HomeAdapterR(
         // Si la position est 0, on affiche le rapport
         if (list[position] == list[0]) {
             val rapport = holder.view.findViewById<TextView>(R.id.rapport)
-            Log.d("LISTE", rapport.text.toString())
             val listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
             for (element in listePriseValidee) {
                 if (element.first == LocalDate.now()) {
@@ -171,7 +167,6 @@ class HomeAdapterR(
                 }
             }
             rapport.text = "${listePriseAjd.size}/${list.size - 1}"
-            Log.d("LISTE", rapport.text.toString())
             return
         }
 
@@ -203,7 +198,7 @@ class HomeAdapterR(
                 val isPriseCouranteValidee =
                     priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
                         dateCourante.toString(),
-                        item.first.numeroPrise.toString()
+                        item.first.numeroPrise
                     )
                 if (isPriseCouranteValidee.isEmpty()) {
                     queue.add("null")
@@ -213,9 +208,7 @@ class HomeAdapterR(
                     queue.add("sauter")
                 }
             }.start()
-            val result = queue.take()
-            Log.d("RESULTAT", result)
-            when (result) {
+            when (queue.take()) {
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
                 }
@@ -240,7 +233,7 @@ class HomeAdapterR(
      * Met à jour la liste des prises validées
      * @param newListePriseValidee : nouvelle liste des prises validées
      */
-    fun updatePriseValideeList(newListePriseValidee: List<Pair<LocalDate, String>>) {
+    private fun updatePriseValideeList(newListePriseValidee: List<Pair<LocalDate, String>>) {
         this.listePriseValidee = newListePriseValidee
         notifyItemChanged(0) // Mettre à jour seulement l'élément à la position 0 (le rapport)
     }
@@ -259,9 +252,6 @@ class HomeAdapterR(
                 )
 
             if (list.isNotEmpty()) {
-                if (rapport != null) {
-                    Log.d("LISTE", rapport.text.toString())
-                }
                 val listePriseAjd = mutableListOf<Pair<LocalDate, String>>()
                 for (element in listePriseValidee) {
                     if (element.first == LocalDate.now()) {
@@ -270,9 +260,6 @@ class HomeAdapterR(
                 }
                 if (rapport != null) {
                     rapport.text = "${listePriseAjd.size}/${list.size - 1}"
-                }
-                if (rapport != null) {
-                    Log.d("LISTE", rapport.text.toString())
                 }
                 // Mettre à jour l'image du cercle en fonction du nombre de prises validées
                 val face =
@@ -308,21 +295,6 @@ class HomeAdapterR(
         }
     }
 
-    /**
-     * Met à jour visuellement l'élément à la position donnée après avoir sauté la prise
-     * @param position : position de l'élément
-     */
-    fun updateItemAfterSkip(position: Int) {
-        // Mettez à jour visuellement l'élément à la position donnée après avoir sauté la prise
-        if (position >= 0 && position < itemCount) {
-            val item = list[position]
-            val circleTick =
-                parentRecyclerView.findViewHolderForAdapterPosition(position)?.itemView?.findViewById<ImageView>(
-                    R.id.circleTick
-                )
-            circleTick?.setImageResource(R.drawable.avertissement)
-        }
-    }
 
     /**
      * Affiche la fenêtre de dialogue pour confirmer la prise
@@ -418,11 +390,6 @@ class HomeAdapterR(
                         priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
                     }
 
-                    Log.d("priseValideeTestSautee", priseToDelete.toString())
-                    Log.d(
-                        "priseValideeTestSautee2",
-                        priseValideeDatabaseInterface.getAllPriseValidee().toString()
-                    )
                     queue.add("True")
 
                 }.start()
@@ -449,11 +416,6 @@ class HomeAdapterR(
                         priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
                     }
 
-                    Log.d("priseValideeTest", priseToUpdate.toString())
-                    Log.d(
-                        "priseValideeTest2",
-                        priseValideeDatabaseInterface.getAllPriseValidee().toString()
-                    )
                     queue.add("True")
 
                 }.start()
@@ -489,11 +451,6 @@ class HomeAdapterR(
                         priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
                     }
 
-                    Log.d("priseValideeTest", priseToDelete.toString())
-                    Log.d(
-                        "priseValideeTest2",
-                        priseValideeDatabaseInterface.getAllPriseValidee().toString()
-                    )
                     queue.add("True")
 
                 }.start()
@@ -547,7 +504,6 @@ class HomeAdapterR(
                     val medocDatabaseInterface = MedocRepository(db.medocDao())
                     val dateFinTraitement: String?
                     if (traitement.UUID == null) {
-                        Log.d("UUID", "UUID null")
                         return@Thread
                     } else {
                         val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
@@ -570,7 +526,6 @@ class HomeAdapterR(
                             //On met à jour le médicament dans la base de données
                             medocDatabaseInterface.updateMedoc(medicament)
                         } else {
-                            Log.d("MEDOC", "Le médicament n'a pas été trouvé")
                             return@Thread
                         }
                     }
@@ -579,7 +534,6 @@ class HomeAdapterR(
                     if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
                             .toString()
                     ) {
-                        Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
                         return@Thread
                     } else {
                         val date = dateCourante.toString()
