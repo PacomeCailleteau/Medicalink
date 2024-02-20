@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
     private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -217,7 +217,7 @@ class HomeFragment : Fragment() {
      * @param context le contexte de l'application
      */
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
         if (dateClique != LocalDate.now()) {
             revenirDateCourante.visibility = View.VISIBLE
@@ -256,7 +256,7 @@ class HomeFragment : Fragment() {
      * @param dateActuelle la date actuelle
      * @param context le contexte de l'application
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     fun updateListePrise(dateActuelle: LocalDate, context: Context) {
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())

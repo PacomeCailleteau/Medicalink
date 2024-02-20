@@ -58,7 +58,7 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var retour: ImageView
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -142,7 +142,7 @@ class AjoutManuelSearchFragment : Fragment() {
             // Nothing to do before the text changes
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
+        
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             filterItems(s.toString())
         }
@@ -167,7 +167,7 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onResume() {
         super.onResume()
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
@@ -184,7 +184,7 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun filterItems(query: String) {
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val filteredItemList = originalItemList.filter { item ->

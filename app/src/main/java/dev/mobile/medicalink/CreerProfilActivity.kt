@@ -72,71 +72,7 @@ class CreerProfilActivity : AppCompatActivity() {
 
         val spannableString = SpannableString(checkBoxText)
 
-        // Création du lien vers le site de la CNIL
-        val clickableSpanRGPD = object : ClickableSpan() {
-            override fun onClick(view: View) {
-                val url = "https://www.cnil.fr/fr/reglement-europeen-protection-donnees"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(intent)
-            }
-        }
-
-        // Ajout du lien vers le site de la CNIL
-        spannableString.setSpan(
-            clickableSpanRGPD,
-            startIndex,
-            startIndex + 4,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        checkboxRgpd.text = spannableString
-        checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
-
-        // Création du regex
-        val regex = Regex(
-            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$",
-            options = setOf(RegexOption.IGNORE_CASE)
-        )
-
-        // Création du filtre
-        val filter = InputFilter { source, start, end, dest, dstart, dend ->
-            val input = source.subSequence(start, end).toString()
-            val currentText =
-                dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
-            val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
-
-            if (regex.matches(newText)) {
-                null // Caractères autorisés
-            } else {
-                dest.subSequence(dstart, dend)
-            }
-        }
-
-        //On ajoute le filtre aux champs de texte nom et prénom
-        inputNom.filters = arrayOf(
-            filter,
-            InputFilter.AllCaps(), // Mettre en majuscule
-            InputFilter { source, _, _, _, _, _ -> //was start, end, dest, dstart, dend
-                source?.let {
-                    if (it.contains("\n")) {
-                        // Bloquer le collage de texte
-                        return@InputFilter ""
-                    }
-                }
-                null
-            })
-
-        inputPrenom.filters = arrayOf(
-            filter,
-            InputFilter { source, _, _, _, _, _ -> //was start, end, dest, dstart, dend
-                source?.let {
-                    if (it.contains("\n")) {
-                        // Bloquer le collage de texte
-                        return@InputFilter ""
-                    }
-                }
-                null
-            })
+        ajoutLienCliquable(startIndex, spannableString)
 
         // Permet de cacher le clavier et de supprimer le focus lorsqu'on clique en dehors des champs de texte
         val rootLayout = findViewById<View>(R.id.constraint_layout_creer_profil)
@@ -164,35 +100,7 @@ class CreerProfilActivity : AppCompatActivity() {
             updateButtonState()
         }
 
-        inputDateDeNaissance.filters =
-            arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
-                source?.let {
-                    if (it.contains("\n")) {
-                        // Bloquer le collage de texte
-                        return@InputFilter ""
-                    }
-                }
-                null
-            })
-        inputEmail.filters = arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
-                }
-            }
-            null
-        })
-
-        inputMotDePasse.filters = arrayOf(InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
-            source?.let {
-                if (it.contains("\n")) {
-                    // Bloquer le collage de texte
-                    return@InputFilter ""
-                }
-            }
-            null
-        })
+        ajoutFiltre(inputNom, inputPrenom, inputDateDeNaissance, inputEmail, inputMotDePasse)
 
         // Ajout des textWatcher aux champs de texte
         inputNom.addTextChangedListener(textWatcher)
@@ -221,51 +129,130 @@ class CreerProfilActivity : AppCompatActivity() {
 
         // Ajout du listener sur le bouton créer profil
         buttonCreerProfil.setOnClickListener {
-            // Création de la connexion à la base de données
-            val db = AppDatabase.getInstance(this)
-            val userDatabaseInterface = UserRepository(db.userDao())
-            // Création de la variable de sortie de la fonction d'insertion
-            var res: Pair<Boolean, String>?
-            // Récupération des données du formulaire et de l'uuid aléatoire
-            val uuid = UUID.randomUUID().toString()
-            val statut =
-                if (radioButtonUtilisateur.isChecked) resources.getString(R.string.Utilisateur) else resources.getString(
-                    R.string.professionnel
-                )
-            val nom = inputNom.text.toString()
-            val prenom = inputPrenom.text.toString()
-            val dateNaissance = inputDateDeNaissance.text.toString()
-            val email = inputEmail.text.toString()
-            val password = inputMotDePasse.text.toString()
-            val isConnected = true
-            // Création de l'utilisateur
-            val user = User(
-                uuid,
-                statut,
-                nom,
-                prenom,
-                dateNaissance,
-                email,
-                password,
-                isConnected
-            )
-            // Insertion de l'utilisateur dans la base de données dans un Thread parce que un appel à la base de données est asynchrone
-            Thread {
-                res = userDatabaseInterface.insertUser(user)
-                userDatabaseInterface.setConnected(user)
-                if (res!!.first) {
-                    Log.d("CREER_PROFIL", res!!.second)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Log.d("CREER_PROFIL", res!!.second)
-                }
-            }.start()
+            handleCreation()
         }
 
     }
 
     /**
+     * Permet de gérer la création du profil
+     */
+    private fun handleCreation() {
+        // Création de la connexion à la base de données
+        val db = AppDatabase.getInstance(this)
+        val userDatabaseInterface = UserRepository(db.userDao())
+        // Création de la variable de sortie de la fonction d'insertion
+        var res: Pair<Boolean, String>?
+        // Récupération des données du formulaire et de l'uuid aléatoire
+        val uuid = UUID.randomUUID().toString()
+        val statut =
+            if (radioButtonUtilisateur.isChecked) resources.getString(R.string.Utilisateur) else resources.getString(
+                R.string.professionnel
+            )
+        val nom = inputNom.text.toString()
+        val prenom = inputPrenom.text.toString()
+        val dateNaissance = inputDateDeNaissance.text.toString()
+        val email = inputEmail.text.toString()
+        val password = inputMotDePasse.text.toString()
+        val isConnected = true
+        // Création de l'utilisateur
+        val user = User(
+            uuid,
+            statut,
+            nom,
+            prenom,
+            dateNaissance,
+            email,
+            password,
+            isConnected
+        )
+        // Insertion de l'utilisateur dans la base de données dans un Thread parce que un appel à la base de données est asynchrone
+        Thread {
+            res = userDatabaseInterface.insertUser(user)
+            userDatabaseInterface.setConnected(user)
+            if (res!!.first) {
+                Log.d("CREER_PROFIL", res!!.second)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                Log.d("CREER_PROFIL", res!!.second)
+            }
+        }.start()
+    }
+
+    /**
+     * Permet d'ajouter un filtre pour empêcher la saisie de certains caractères
+     */
+    private fun ajoutFiltre(vararg textInputEditText: TextInputEditText) {
+        // Création du regex
+        val regex = Regex(
+            pattern = "^[a-zéèàêîôûäëïöüç]*$",
+            options = setOf(RegexOption.IGNORE_CASE)
+        )
+
+        // Création du filtre
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            val input = source.subSequence(start, end).toString()
+            val currentText =
+                dest.subSequence(0, dstart).toString() + dest.subSequence(dend, dest.length)
+            val newText = currentText.substring(0, dstart) + input + currentText.substring(dstart)
+
+            if (regex.matches(newText)) {
+                null // Caractères autorisés
+            } else {
+                dest.subSequence(dstart, dend)
+            }
+        }
+
+        // On ajoute les filtres aux champs de texte selon leur besoin
+        textInputEditText[0].filters = arrayOf(
+            filter,
+            InputFilter.AllCaps(), // Mettre en majuscule
+        )
+
+        textInputEditText[1].filters = arrayOf(
+            filter,
+        )
+        for (e in textInputEditText) {
+            e.filters = e.filters.plus(
+                InputFilter { source, _, _, _, _, _ -> // was start, end, dest, dstart, dend
+                    source?.let {
+                        if (it.contains("\n")) {
+                            // Bloquer le collage de texte
+                            return@InputFilter ""
+                        }
+                    }
+                    null
+                }
+            )
+        }
+    }
+
+
+    /**
+     * Permet d'ajouter un lien cliquable
+     */
+    private fun ajoutLienCliquable(startIndex: Int, spannableString: SpannableString) {
+        // Création du lien vers le site de la CNIL
+        val clickableSpanRGPD = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                val url = "https://www.cnil.fr/fr/reglement-europeen-protection-donnees"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }
+        }
+        // Ajout du lien vers le site de la CNIL
+        spannableString.setSpan(
+            clickableSpanRGPD,
+            startIndex,
+            startIndex + 4,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        checkboxRgpd.text = spannableString
+        checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+        /**
      * Permet de vérifier si les champs sont remplis
      */
     private val textWatcher = object : TextWatcher {
@@ -335,7 +322,7 @@ class CreerProfilActivity : AppCompatActivity() {
     /**
      * Permet de supprimer le focus et de cacher le clavier
      */
-    fun clearFocusAndHideKeyboard(view: View) {
+    private fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
         val editTextList = listOf(
             inputNom,
@@ -364,16 +351,10 @@ class CreerProfilActivity : AppCompatActivity() {
 
         val datePickerDialog =
             DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                if (selectedYear > currentYear ||
+                if (!(selectedYear > currentYear ||
                     (selectedYear == currentYear && selectedMonth > currentMonth) ||
                     (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)
-                ) {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.date_invalide),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
+                )) {
                     val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
                     inputDateDeNaissance.setText(formattedDate)
                 }

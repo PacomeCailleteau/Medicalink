@@ -40,7 +40,7 @@ class AjoutManuelStock : Fragment() {
     private lateinit var switchStock: Switch
 
     @SuppressLint("ClickableViewAccessibility")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

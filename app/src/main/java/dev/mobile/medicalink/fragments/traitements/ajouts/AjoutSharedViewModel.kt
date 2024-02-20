@@ -10,7 +10,7 @@ import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
 
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 class AjoutSharedViewModel : ViewModel() {
 
     private val _nomTraitement = MutableLiveData<String>("")

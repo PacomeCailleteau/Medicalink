@@ -56,7 +56,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         return TraitementViewHolder(layout)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val textAucunEffetSecondaire = holder.view.findViewById<TextView>(R.id.textAucunEffetsSec)
         if (list.isEmpty()) {

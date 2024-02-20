@@ -47,7 +47,7 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
         return MessagesFragmentViewHolder(layout)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int) {
         val item = list[position]
         holder.prenom.text = item.firstname

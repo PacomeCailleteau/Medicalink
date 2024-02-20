@@ -49,7 +49,7 @@ class ChangerUtilisateurAdapterR(
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
         holder.nomUtilisateur.text = "${item.prenom} ${item.nom}"

@@ -49,7 +49,7 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
         return AjoutContactMedecinViewHolder(layout)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: AjoutContactMedecinViewHolder, position: Int) {
         val item = list[position]
         val contextGetString = holder.view.context

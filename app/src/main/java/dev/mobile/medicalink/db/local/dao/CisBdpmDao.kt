@@ -9,17 +9,17 @@ interface CisBdpmDao {
     @Query("SELECT * FROM CisBdpm")
     fun getAll(): List<CisBdpm>
 
-    @Query("SELECT * FROM CisBdpm WHERE codeCIS IN (:CodeCIS)")
-    fun getById(CodeCIS: String): List<CisBdpm>
+    @Query("SELECT * FROM CisBdpm WHERE codeCIS IN (:codeCIS)")
+    fun getById(codeCIS: String): List<CisBdpm>
 
     @Insert
-    fun insertAll(vararg CisBdpmDaos: CisBdpm)
+    fun insertAll(vararg cisBdpmDaos: CisBdpm)
 
     @Delete
-    fun delete(CisBdpmDao: CisBdpm)
+    fun delete(cisBdpmDao: CisBdpm)
 
     @Update
-    fun update(CisBdpmDao: CisBdpm)
+    fun update(cisBdpmDao: CisBdpm)
 
     @Query("DELETE FROM CisBdpm")
     fun deleteAll()

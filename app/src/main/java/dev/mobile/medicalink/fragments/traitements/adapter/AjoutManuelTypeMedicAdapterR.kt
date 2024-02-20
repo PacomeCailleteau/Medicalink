@@ -38,7 +38,7 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var se
         return AjoutManuelTypeMedicViewHolder(layout)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int) {
         val item = list[position]
 

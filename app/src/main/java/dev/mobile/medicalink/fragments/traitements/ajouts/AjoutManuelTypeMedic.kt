@@ -26,7 +26,7 @@ class AjoutManuelTypeMedic : Fragment() {
     private lateinit var retour: ImageView
     private lateinit var suivant: Button
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,7 +86,7 @@ class AjoutManuelTypeMedic : Fragment() {
 
         // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
-            @RequiresApi(Build.VERSION_CODES.O)
+            
             override fun handleOnBackPressed() {
                 GoTo.fragment(AjoutManuelSearchFragment(), parentFragmentManager)
             }

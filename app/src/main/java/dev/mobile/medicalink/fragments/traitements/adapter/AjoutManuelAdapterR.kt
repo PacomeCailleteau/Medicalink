@@ -58,7 +58,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
         //Création de l'item prise dans la vue d'ajout du traitement, lorsque l'on ajoute des prises

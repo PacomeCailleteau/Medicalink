@@ -32,7 +32,7 @@ import java.util.concurrent.LinkedBlockingQueue
 
 class ListeTraitementsFragment : Fragment() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -283,7 +283,7 @@ class ListeTraitementsFragment : Fragment() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
-            @RequiresApi(Build.VERSION_CODES.O)
+            
             override fun handleOnBackPressed() {
                 GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
             }

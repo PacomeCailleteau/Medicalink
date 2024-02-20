@@ -38,7 +38,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -152,7 +152,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     /**
      * Fonction gérant le date Picker pour sélectionner les dates de début et de fin du traitement
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun showDatePicker(element: TextInputEditText, viewModel: AjoutSharedViewModel) {
         val calendar = Calendar.getInstance()
         val currentYear = calendar[Calendar.YEAR]

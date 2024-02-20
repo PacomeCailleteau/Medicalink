@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.util.*
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 class Prise(
     var numeroPrise: String,
     var heurePrise: String,

@@ -32,7 +32,7 @@ class LoaderFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_loader, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,7 +74,7 @@ class LoaderFragment : Fragment() {
     }
 
     // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun createTraitement(text: String): List<String?> {
         val myModel = ModelOCR(requireContext())
         val texteAnalyze = myModel.analyze(text)

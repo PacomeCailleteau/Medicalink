@@ -32,7 +32,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     private lateinit var suivant: Button
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -165,7 +165,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
-            @RequiresApi(Build.VERSION_CODES.O)
+            
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
