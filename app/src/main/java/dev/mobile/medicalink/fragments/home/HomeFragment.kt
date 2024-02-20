@@ -71,7 +71,6 @@ class HomeFragment : Fragment() {
     private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
     @SuppressLint("SetTextI18n")
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,7 +78,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Création des listes de mois et de jours
-        listeMois = mapOf<String, String>(
+        listeMois = mapOf(
             Pair("JANUARY", resources.getString(R.string.janvier)),
             Pair("FEBRUARY", resources.getString(R.string.fevrier)),
             Pair("MARCH", resources.getString(R.string.mars)),
@@ -94,7 +93,7 @@ class HomeFragment : Fragment() {
             Pair("DECEMBER", resources.getString(R.string.decembre)),
         )
 
-        listeJour = mapOf<String, String>(
+        listeJour = mapOf(
             Pair("MONDAY", resources.getString(R.string.lundi)),
             Pair("TUESDAY", resources.getString(R.string.mardi)),
             Pair("WEDNESDAY", resources.getString(R.string.mercredi)),
@@ -215,7 +214,6 @@ class HomeFragment : Fragment() {
      * @param context le contexte de l'application
      */
     @SuppressLint("SetTextI18n")
-
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
         if (dateClique != LocalDate.now()) {
             revenirDateCourante.visibility = View.VISIBLE
@@ -255,46 +253,15 @@ class HomeFragment : Fragment() {
      * @param context le contexte de l'application
      */
 
-    fun updateListePrise(dateActuelle: LocalDate, context: Context) {
+    private fun updateListePrise(dateActuelle: LocalDate, context: Context) {
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
 
+        val listeTraitementPrise : MutableList<Pair<Prise, Traitement>> =
+            findListeTraitementPrise(userDatabaseInterface, medocDatabaseInterface)
 
-        val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
-
-        Thread {
-            val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-
-            //Récupération des traitements de l'utilisateur connecté
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
-                userDatabaseInterface.getUsersConnected().first().uuid
-            )
-
-            for (medoc in listeMedoc) {
-                val traitement = medoc.toTraitement()
-
-                //Vérification de la date de fin de traitement
-                if ((!medoc.expire) && (traitement.dateFinTraitement != null) && LocalDate.now() > traitement.dateFinTraitement!!) {
-                    //Si la date de fin de traitement est dépassée, on met le traitement en expiré
-                    medoc.expire = true
-                    traitement.expire = true
-                    medocDatabaseInterface.updateMedoc(medoc)
-                }
-
-                if (traitement.prises?.size != 0 && traitement.prises != null) {
-                    //Si le traitement a des prises, on les ajoute à la liste des prises à afficher
-                    for (prise in traitement.prises!!) {
-                        listeTraitement.add(Pair(prise, traitement))
-                    }
-                }
-            }
-            queue.add(listeTraitement)
-
-        }.start()
-
-        val listeTraitementPrise = queue.take()
         val listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
 
         for (element in listeTraitementPrise) {
@@ -348,7 +315,6 @@ class HomeFragment : Fragment() {
                 var dateReformate = LocalDate.now()
 
                 if (priseValidee.date != "null") {
-                    Log.d("testPriseValidee", priseValidee.date)
                     val formatter = DateTimeFormatter.ofPattern(datePattern)
                     val date = priseValidee.date
 
@@ -435,6 +401,43 @@ class HomeFragment : Fragment() {
         }
         return toAdd
     }
+
+    private fun findListeTraitementPrise(
+        userDatabaseInterface: UserRepository,
+        medocDatabaseInterface: MedocRepository
+    ): MutableList<Pair<Prise, Traitement>> {
+        val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
+        Thread {
+            val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
+
+            //Récupération des traitements de l'utilisateur connecté
+            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
+                userDatabaseInterface.getUsersConnected().first().uuid
+            )
+
+            for (medoc in listeMedoc) {
+                val traitement = medoc.toTraitement()
+
+                //Vérification de la date de fin de traitement
+                if ((!medoc.expire) && (traitement.dateFinTraitement != null) && LocalDate.now() > traitement.dateFinTraitement!!) {
+                    //Si la date de fin de traitement est dépassée, on met le traitement en expiré
+                    medoc.expire = true
+                    traitement.expire = true
+                    medocDatabaseInterface.updateMedoc(medoc)
+                }
+
+                if (traitement.prises?.size != 0 && traitement.prises != null) {
+                    //Si le traitement a des prises, on les ajoute à la liste des prises à afficher
+                    for (prise in traitement.prises!!) {
+                        listeTraitement.add(Pair(prise, traitement))
+                    }
+                }
+            }
+            queue.add(listeTraitement)
+        }.start()
+        return queue.take()
+    }
+
 
     companion object {
         private const val datePattern = "yyyy-MM-dd"
