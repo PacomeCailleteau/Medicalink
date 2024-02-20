@@ -63,7 +63,6 @@ class InfoMedicamentFragment : Fragment() {
             //TODO effet secondaire et contre-indications quand on aura
 
             nomMedocView.text = buildString {
-                append("Dénomination : \n")
                 append(cisBdpm.denomination.trim())
             }
             codeCisView.text = buildString {

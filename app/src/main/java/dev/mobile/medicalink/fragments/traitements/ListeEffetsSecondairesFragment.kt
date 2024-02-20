@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var annuler: ImageView
 
+    private lateinit var ajoutEffetSecondaire: AppCompatButton
     private lateinit var textAucunEffetSec: TextView
 
 
@@ -40,6 +43,12 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
         annuler = view.findViewById(R.id.annulerListeEffetsSecondaires)
         textAucunEffetSec = view.findViewById(R.id.textAucunEffetsSec)
+        ajoutEffetSecondaire = view.findViewById(R.id.ajouterEffetSecondaire)
+
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.VISIBLE
+        }
 
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
 
@@ -52,6 +61,13 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
 
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(uuidUser)
+
+            val aucunEffetSecondaire = view.findViewById<View>(R.id.textAucunEffetsSec)
+            if (listeMedoc.isEmpty()) {
+                aucunEffetSecondaire.visibility = View.VISIBLE
+            } else {
+                aucunEffetSecondaire.visibility = View.GONE
+            }
 
             for (medoc in listeMedoc) {
 
@@ -153,6 +169,13 @@ class ListeEffetsSecondairesFragment : Fragment() {
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
 
+        ajoutEffetSecondaire.setOnClickListener {
+            val destinationFragment = AjoutEffetSecondaireFragment()
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
 
         annuler.setOnClickListener {
             val fragTransaction = parentFragmentManager.beginTransaction()

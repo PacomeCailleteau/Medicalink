@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +16,9 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
     RecyclerView.Adapter<ListeEffetsSecondairesAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomEffet: TextView = view.findViewById(R.id.numeroPrise)
-        val provoquePar: TextView = view.findViewById(R.id.provoquePar)
+        val nomEffetSecondaire: TextView = view.findViewById(R.id.nomEffetSecondaire)
+        val messageEffetSecondaire: TextView = view.findViewById(R.id.messageEffetSecondaire)
+        val imageEffetSecondaire: ImageView = view.findViewById(R.id.imageEffetSecondaire)
 
     }
 
@@ -49,7 +51,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_liste_effets_secondaires, parent, false)
+            .inflate(R.layout.item_journal_effet_secondaire, parent, false)
         return TraitementViewHolder(layout)
     }
 
@@ -77,7 +79,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
             return
         }
         val item = tousLesEffetsSecondaires.get(position)
-        holder.nomEffet.text = item.substring(0, 1).uppercase() + item.substring(1)
+        holder.nomEffetSecondaire.text = item.substring(0, 1).uppercase() + item.substring(1)
 
         val maList = getListProvenance()[item]
         var monAffichage = holder.view.resources.getString(R.string.provoque_par)
@@ -93,7 +95,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         }
 
 
-        holder.provoquePar.text = "$monAffichage"
+        holder.messageEffetSecondaire.text = "$monAffichage"
 
 
         /*

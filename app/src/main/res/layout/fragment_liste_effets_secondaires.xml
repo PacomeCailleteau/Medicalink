@@ -6,42 +6,53 @@
     android:layout_height="match_parent">
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/ajouterEffetSecondaire"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="59dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="Ajouter un effet secondaire"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titreJournalDesEffetsSecondaires" />
+
     <TextView
-        android:id="@+id/text_medicalink"
+        android:id="@+id/titreJournalDesEffetsSecondaires"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="center"
-        android:text="@string/medicalink_title"
+        android:text="Journal des effets secondaires"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="59dp"
-        android:fontFamily="@font/quicksand_bold"
-        android:gravity="start"
-        android:text="@string/effets_secondaires"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="normal"
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/logo_medicalink"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_medicalink" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textAucunEffetsSec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/quicksand_bold"
         android:gravity="start"
         android:text="@string/aucun_effet_secondaire"
@@ -51,14 +62,13 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/ajouterEffetSecondaire" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addTraitementButton2"
         android:layout_width="325dp"
         android:layout_height="44dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="19dp"
         android:background="@drawable/rounded_orange_button_background"
         android:text="@string/incompatibilite_detecte"
         android:textAllCaps="false"
@@ -68,27 +78,29 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTypeMedic"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="144dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ajouterEffetSecondaire"
+        app:layout_constraintTop_toBottomOf="@+id/ajouterEffetSecondaire"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/annulerListeEffetsSecondaires"
         android:layout_width="27dp"
         android:layout_height="27dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/ajouterEffetSecondaire"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/titreJournalDesEffetsSecondaires"
         app:srcCompat="@drawable/annuler"
         app:tint="@color/black" />
 

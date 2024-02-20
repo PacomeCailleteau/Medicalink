@@ -64,8 +64,9 @@ class HomeAdapterR(
         listePriseValidee = listePriseValideeUpdated
         dateCourante = date
         Log.d("LISTE", listePriseValidee.size.toString())
-        updatePriseValideeList(listePriseValideeUpdated) // Mettez à jour la listePriseValidee
         updateRapportText() // Mettez à jour le texte du rapport
+        updatePriseValideeList(listePriseValideeUpdated) // Mettez à jour la listePriseValidee
+        notifyDataSetChanged() // Mettez à jour l'adaptateur
     }
 
     /**
@@ -608,10 +609,11 @@ class HomeAdapterR(
                     }
                 }.start()
 
-
                 circleTick.setImageResource(R.drawable.correct)
             }
+            updateData(list, listePriseValidee, dateCourante)
             notifyDataSetChanged()
+            updatePriseValideeList(listePriseValidee)
             updateRapportText()
             dosageDialog.dismiss()
         }

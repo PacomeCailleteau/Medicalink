@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boutonAjouterEffetSecondaire"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Ajouter l'effet secondaire"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/boutonAjouterEffetSecondaire"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.228">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/previewPhotoEffetSecondaire"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
+                app:layout_constraintStart_toStartOf="@+id/textAjoutEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/imageGalerie" />
+
+            <TextView
+                android:id="@+id/textMessageEffetSecondaire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="start"
+                android:text="Message de la note"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textNomEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/inputNomEffetSecondaire" />
+
+            <TextView
+                android:id="@+id/textAjoutPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="start"
+                android:text="Ajouter des photos"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textNomEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/inputMessageEffetSecondaire" />
+
+            <ImageView
+                android:id="@+id/imageGalerie"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/textAjoutEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/textAjoutPhoto"
+                app:srcCompat="@drawable/galerie" />
+
+            <ImageView
+                android:id="@+id/retour_schema_prise"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textAjoutEffetSecondaire"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textAjoutEffetSecondaire"
+                app:srcCompat="@drawable/annuler"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="center"
+                android:text="@string/medicalink_title"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputMessageEffetSecondaire"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+
+                android:background="@drawable/rounded_white_black_stroke_button_background"
+                android:fontFamily="@font/quicksand_semibold"
+                android:gravity="top|start"
+                android:hint="Message"
+                android:inputType="textCapSentences|textMultiLine"
+                android:padding="15dp"
+                android:scrollHorizontally="false"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textMessageEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/textMessageEffetSecondaire" />
+
+            <TextView
+                android:id="@+id/textAjoutEffetSecondaire"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="start"
+                android:text="Ajout d'un Effet Secondaire"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <TextView
+                android:id="@+id/textNomEffetSecondaire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="start"
+                android:text="Nom de la note"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textAjoutEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/textAjoutEffetSecondaire" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputNomEffetSecondaire"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/rounded_white_black_stroke_button_background"
+                android:fontFamily="@font/quicksand_semibold"
+                android:hint="Titre"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:scrollHorizontally="false"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
+                app:layout_constraintStart_toStartOf="@+id/textNomEffetSecondaire"
+                app:layout_constraintTop_toBottomOf="@+id/textNomEffetSecondaire" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

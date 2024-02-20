@@ -129,16 +129,18 @@
 
             <TextView
                 android:id="@+id/textView18"
-                android:layout_width="273dp"
-                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="59dp"
+                android:layout_marginEnd="5dp"
                 android:fontFamily="@font/quicksand_bold"
                 android:gravity="start"
                 android:text="Informations du médicament"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/retour_descriptif_medoc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
