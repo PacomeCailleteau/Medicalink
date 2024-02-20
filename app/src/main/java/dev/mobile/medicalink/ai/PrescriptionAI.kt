@@ -372,7 +372,7 @@ class PrescriptionAI(
 
             // Convertit la liste de prédictions en liste de labels.
             val predictionsLabelList: List<String> = startPredictionsList.map { index ->
-                labels[index]!!
+                labels[index] ?: ""
             }
 
             // Parcourt la liste des labels prédits.

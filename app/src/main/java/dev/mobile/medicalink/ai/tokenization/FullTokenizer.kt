@@ -68,7 +68,7 @@ class FullTokenizer(
         // Parcourt chaque token dans la liste des tokens.
         for (token in tokens) {
             // Ajoute l'identifiant correspondant au token dans le dictionnaire à la liste des identifiants de sortie.
-            outputIds.add(dic[token]!!)
+            outputIds.add(dic[token] ?: -1)
         }
 
         // Retourne la liste des identifiants de sortie.
