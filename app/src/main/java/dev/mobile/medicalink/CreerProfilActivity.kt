@@ -345,9 +345,9 @@ class CreerProfilActivity : AppCompatActivity() {
      */
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentYear = calendar[Calendar.YEAR]
+        val currentMonth = calendar[Calendar.MONTH]
+        val currentDay = calendar[Calendar.DAY_OF_MONTH]
 
         val datePickerDialog =
             DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
@@ -370,9 +370,9 @@ class CreerProfilActivity : AppCompatActivity() {
      */
     private fun formatDate(day: Int, month: Int, year: Int): String {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, day)
+        calendar[Calendar.YEAR] = year
+        calendar[Calendar.MONTH] = month
+        calendar[Calendar.DAY_OF_MONTH] = day
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH)
         return dateFormat.format(calendar.time)
     }
