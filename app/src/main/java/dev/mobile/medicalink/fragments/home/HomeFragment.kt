@@ -295,73 +295,14 @@ class HomeFragment : Fragment() {
         }.start()
 
         val listeTraitementPrise = queue.take()
-        var doIaddIt: Boolean
         val listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
 
         for (element in listeTraitementPrise) {
-            doIaddIt = false
-            if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
-                //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement
-                if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
-                    //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
-                    break
-                }
-                Log.d("unite", element.second.frequencePrise)
-                when (element.second.frequencePrise) {
-                    "auBesoin" -> {
-                        doIaddIt = false
-                    }
-
-                    "quotidiennement" -> {
-                        doIaddIt = true
-                    }
-
-                    else -> {
-                        val jourEntreDeuxDates =
-                            ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
-                        var tousLesXJours: Long
-                        when (element.second.frequencePrise) {
-                            "Jours" -> {
-                                tousLesXJours = element.second.dosageNb.toLong()
-                                doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-                            }
-
-                            "Semaines" -> {
-                                tousLesXJours = element.second.dosageNb.toLong() * 7L
-                                Log.d("s", tousLesXJours.toString())
-                                Log.d("s1", jourEntreDeuxDates.toString())
-                                Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
-                                doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-                                Log.d("doIaddIt", doIaddIt.toString())
-                            }
-
-                            "Mois" -> {
-                                val moisEntreDeuxDates = Period.between(
-                                    element.second.dateDbtTraitement,
-                                    dateActuelle
-                                ).months
-                                Log.d("m", element.second.dosageNb.toString())
-                                Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d(
-                                    "m2",
-                                    (moisEntreDeuxDates % element.second.dosageNb).toString()
-                                )
-                                doIaddIt = if (moisEntreDeuxDates == 0) {
-                                    element.second.dateDbtTraitement == dateActuelle
-                                } else {
-                                    moisEntreDeuxDates % element.second.dosageNb == 0
-                                }
-                            }
-
-                            else -> doIaddIt = false
-                        }
-                    }
-                }
-            }
-            if (doIaddIt) {
+            if (toAdd(element, dateActuelle)) {
                 listePriseAffiche.add(element)
             }
         }
+
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
         if (traitementsTries.isNotEmpty()) {
@@ -424,6 +365,75 @@ class HomeFragment : Fragment() {
 
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
+    }
+
+    /**
+     * Fonction permettant de savoir si une prise doit être ajoutée à la liste des prises à afficher
+     * @param element la prise à vérifier
+     * @param dateActuelle la date actuelle
+     * @return true si la prise doit être ajoutée, false sinon
+     */
+    private fun toAdd(element: Pair<Prise, Traitement>, dateActuelle: LocalDate) : Boolean {
+        var toAdd = false
+        if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
+            //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement
+            if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
+                //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
+                return false
+            }
+
+            when (element.second.frequencePrise) {
+                "auBesoin" -> {
+                    toAdd = false
+                }
+
+                "quotidiennement" -> {
+                    toAdd = true
+                }
+
+                else -> {
+                    val jourEntreDeuxDates =
+                        ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
+                    val tousLesXJours: Long
+                    when (element.second.frequencePrise) {
+                        "Jours" -> {
+                            tousLesXJours = element.second.dosageNb.toLong()
+                            toAdd = jourEntreDeuxDates % tousLesXJours == 0L
+                        }
+
+                        "Semaines" -> {
+                            tousLesXJours = element.second.dosageNb.toLong() * 7L
+                            Log.d("s", tousLesXJours.toString())
+                            Log.d("s1", jourEntreDeuxDates.toString())
+                            Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
+                            toAdd = jourEntreDeuxDates % tousLesXJours == 0L
+                            Log.d("doIaddIt", toAdd.toString())
+                        }
+
+                        "Mois" -> {
+                            val moisEntreDeuxDates = Period.between(
+                                element.second.dateDbtTraitement,
+                                dateActuelle
+                            ).months
+                            Log.d("m", element.second.dosageNb.toString())
+                            Log.d("m1", moisEntreDeuxDates.toString())
+                            Log.d(
+                                "m2",
+                                (moisEntreDeuxDates % element.second.dosageNb).toString()
+                            )
+                            toAdd = if (moisEntreDeuxDates == 0) {
+                                element.second.dateDbtTraitement == dateActuelle
+                            } else {
+                                moisEntreDeuxDates % element.second.dosageNb == 0
+                            }
+                        }
+
+                        else -> toAdd = false
+                    }
+                }
+            }
+        }
+        return toAdd
     }
 
     companion object {
