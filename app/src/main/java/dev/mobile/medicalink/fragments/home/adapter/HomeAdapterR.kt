@@ -35,8 +35,8 @@ import java.util.concurrent.LinkedBlockingQueue
  * Adapter pour la liste des traitements de l'accueil
  */
 class HomeAdapterR(
-    private var list: MutableList<Pair<Prise, Traitement>>,
-    private var listePriseValidee: MutableList<Pair<LocalDate, String>>,
+    private var list: List<Pair<Prise, Traitement>>,
+    private var listePriseValidee: List<Pair<LocalDate, String>>,
     private var dateCourante: LocalDate,
     private val parentRecyclerView: RecyclerView,
     private val VIEW_TYPE_EMPTY: Int = 0,
@@ -56,8 +56,8 @@ class HomeAdapterR(
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateData(
-        listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
-        listePriseValideeUpdated: MutableList<Pair<LocalDate, String>>,
+        listeTraitementUpdated: List<Pair<Prise, Traitement>>,
+        listePriseValideeUpdated: List<Pair<LocalDate, String>>,
         date: LocalDate
     ) {
         list = listeTraitementUpdated
@@ -240,7 +240,7 @@ class HomeAdapterR(
      * Met à jour la liste des prises validées
      * @param newListePriseValidee : nouvelle liste des prises validées
      */
-    fun updatePriseValideeList(newListePriseValidee: MutableList<Pair<LocalDate, String>>) {
+    fun updatePriseValideeList(newListePriseValidee: List<Pair<LocalDate, String>>) {
         this.listePriseValidee = newListePriseValidee
         notifyItemChanged(0) // Mettre à jour seulement l'élément à la position 0 (le rapport)
     }
@@ -258,7 +258,7 @@ class HomeAdapterR(
                     R.id.rapport
                 )
 
-            if (!list.isEmpty()) {
+            if (list.isNotEmpty()) {
                 if (rapport != null) {
                     Log.d("LISTE", rapport.text.toString())
                 }
@@ -275,41 +275,29 @@ class HomeAdapterR(
                     Log.d("LISTE", rapport.text.toString())
                 }
                 // Mettre à jour l'image du cercle en fonction du nombre de prises validées
+                val face =
+                    parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
+                        R.id.circleTick
+                    )
                 when {
-                    listePriseAjd.size == 0 -> {
+                    listePriseAjd.isEmpty() -> {
                         // Aucune prise validée, afficher le visage triste
-                        val sadFace =
-                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
-                                R.id.circleTick
-                            )
-                        sadFace?.setImageResource(R.drawable.sad_face)
+                        face?.setImageResource(R.drawable.sad_face)
                     }
 
-                    listePriseAjd.size > 0 && listePriseAjd.size < list.size - 1 -> {
+                    listePriseAjd.size < list.size - 1 -> {
                         // Plus de la moitié de la liste validée, afficher le visage content
-                        val goodFace =
-                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
-                                R.id.circleTick
-                            )
-                        goodFace?.setImageResource(R.drawable.good_face)
+                        face?.setImageResource(R.drawable.good_face)
                     }
 
                     listePriseAjd.size == list.size - 1 -> {
                         // Toute la liste est validée, afficher le visage avec un grand sourire
-                        val perfectFace =
-                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
-                                R.id.circleTick
-                            )
-                        perfectFace?.setImageResource(R.drawable.perfect_face)
+                        face?.setImageResource(R.drawable.perfect_face)
                     }
 
                     else -> {
                         // Aucune des conditions ci-dessus n'est remplie, afficher le cercle par défaut
-                        val circleTick =
-                            parentRecyclerView.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<ImageView>(
-                                R.id.circleTick
-                            )
-                        circleTick?.setImageResource(R.drawable.circle)
+                        face?.setImageResource(R.drawable.circle)
                     }
                 }
 
@@ -557,7 +545,7 @@ class HomeAdapterR(
                 //On fait une requête à la base de données pour récupéré le Medoc correspondant au traitement
                 Thread {
                     val medocDatabaseInterface = MedocRepository(db.medocDao())
-                    var dateFinTraitement: String? = null
+                    val dateFinTraitement: String?
                     if (traitement.UUID == null) {
                         Log.d("UUID", "UUID null")
                         return@Thread

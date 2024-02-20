@@ -69,7 +69,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         val dateDbt = viewModel.dateDbtTraitement.value
         inputDateDeDebut.setText("${dateDbt?.dayOfMonth}/${dateDbt?.monthValue}/${dateDbt?.year}")
 
-        inputDateDeDebut.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+        inputDateDeDebut.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
             source?.let {
                 if (it.contains("\n")) {
                     // Bloquer le collage de texte
@@ -88,7 +88,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         }
 
         inputDateDeFin.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_CLASS_TEXT
-        inputDateDeFin.filters = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+        inputDateDeFin.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
             source?.let {
                 if (it.contains("\n")) {
                     // Bloquer le collage de texte
@@ -155,9 +155,9 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePicker(element: TextInputEditText, viewModel: AjoutSharedViewModel) {
         val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentYear = calendar[Calendar.YEAR]
+        val currentMonth = calendar[Calendar.MONTH]
+        val currentDay = calendar[Calendar.DAY_OF_MONTH]
 
         val minDate = calendar.timeInMillis
 
@@ -184,9 +184,9 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
     private fun formatDate(day: Int, month: Int, year: Int): String {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, day)
+        calendar[Calendar.YEAR] = year
+        calendar[Calendar.MONTH] = month
+        calendar[Calendar.DAY_OF_MONTH] = day
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(calendar.time)
     }

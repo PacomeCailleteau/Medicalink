@@ -177,4 +177,5 @@
     <string name="voulez_vous_vraiment_retirer_ce_contact">Do you really want to remove this contact?</string>
     <string name="j_ai_compris">I understand</string>
     <string name="ajouter_vrm_medoc_conflit">You are already taking %s medicine(s) that use(s) the same active substance: %s.</string>
+    <string name="date_invalide">Invalid date</string>
 </resources>

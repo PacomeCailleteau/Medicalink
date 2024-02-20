@@ -93,9 +93,9 @@ class MainActivity : AppCompatActivity() {
             buttonConnexion.setOnClickListener {
                 val intent = Intent(this, MainFragment::class.java)
                 startActivity(intent)
-                /*
+                // Commenter les 2 lignes ci-dessous pour désactiver l'authentification
                 showPasswordDialog()
-                authenticateWithBiometric()*/
+                authenticateWithBiometric()
             }
             buttonChangerUtilisateur.setOnClickListener {
                 showIntervalleRegulierDialog(this)

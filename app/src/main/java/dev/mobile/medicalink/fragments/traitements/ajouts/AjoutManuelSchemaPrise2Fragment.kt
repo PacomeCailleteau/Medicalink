@@ -104,7 +104,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 return@setOnClickListener
             }
             //S'il n'y a plus de prise, on ne peut pas passer à l'étape suivante et on affiche un message d'erreur sous forme de Toast
-            if (listePrise.size == 0) {
+            if (listePrise.isEmpty()) {
                 Toast.makeText(
                     requireContext(),
                     "Veuillez ajouter au moins une prise",
@@ -146,8 +146,8 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
      * @param listePrise la liste des prises
      * @return true s'il y a des conflits d'heures de prises, false sinon
      */
-    private fun conflitsHeuresPrises(listePrise: MutableList<Prise>): Boolean {
-        for (prisePrincipale in 0 until listePrise.size) {
+    private fun conflitsHeuresPrises(listePrise: List<Prise>): Boolean {
+        for (prisePrincipale in listePrise.indices) {
             for (priseCompare in prisePrincipale + 1 until listePrise.size) {
                 if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
                     return true
@@ -213,9 +213,9 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
      * @param listePrise la liste des prises
      * @param recyclerView le recyclerView contenant les prises
      */
-    private fun mettreAJourCouleurs(listePrise: MutableList<Prise>, recyclerView: RecyclerView) {
+    private fun mettreAJourCouleurs(listePrise: List<Prise>, recyclerView: RecyclerView) {
         val indexAMettreEnRouge = mutableSetOf<Int>()
-        for (prisePrincipale in 0 until listePrise.size) {
+        for (prisePrincipale in listePrise.indices) {
             for (priseCompare in prisePrincipale + 1 until listePrise.size) {
                 if (listePrise[prisePrincipale].heurePrise == listePrise[priseCompare].heurePrise) {
                     indexAMettreEnRouge.add(prisePrincipale)
@@ -231,7 +231,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
      * @param indexAMettreEnRouge la liste des index des prises qui ont des conflits d'heures de prises
      * @param recyclerView le recyclerView contenant les prises
      */
-    private fun changerCouleur(indexAMettreEnRouge: MutableSet<Int>, recyclerView: RecyclerView) {
+    private fun changerCouleur(indexAMettreEnRouge: Set<Int>, recyclerView: RecyclerView) {
         for (index in 0 until recyclerView.childCount) {
             val child = recyclerView.getChildAt(index)
             val heurePriseInput = child.findViewById<TextInputEditText>(R.id.heurePriseInput)

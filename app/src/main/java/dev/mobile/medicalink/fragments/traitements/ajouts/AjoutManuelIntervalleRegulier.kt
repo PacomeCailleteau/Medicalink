@@ -164,11 +164,6 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                 firstNumberPicker.minValue = 1
                 firstNumberPicker.maxValue = 12
             }
-
-            else -> {
-                firstNumberPicker.minValue = 2
-                firstNumberPicker.maxValue = 99
-            }
         }
 
         firstNumberPicker.value =

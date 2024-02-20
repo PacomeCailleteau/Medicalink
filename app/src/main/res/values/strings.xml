@@ -208,5 +208,6 @@
     <string name="j_ai_compris">J\'ai compris</string>
     <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
     <string name="specialite_s">Spécialité : %s</string>
+    <string name="date_invalide">Date invalide</string>
 
 </resources>
