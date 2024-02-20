@@ -71,12 +71,13 @@ class HomeAdapterR(
      */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val nomMedic : TextView = view.findViewById(R.id.nomMedic)
-        val nbComprime : TextView = view.findViewById(R.id.nbComprime)
-        val heurePrise : TextView = view.findViewById(R.id.heurePriseAccueil)
-        val circleTick : ImageView = view.findViewById(R.id.circleTick)
-        val mainHeure : TextView = view.findViewById(R.id.mainHeureMedic)
-        val mainHeureLayout : ConstraintLayout = view.findViewById(R.id.layoutMainHeure)
+        val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
+        val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
+        val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
+        val circleTick = view.findViewById<ImageView>(R.id.circleTick)
+        val imageMedoc = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
+        val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
+        val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
 
 
     }
@@ -150,9 +151,6 @@ class HomeAdapterR(
     @SuppressLint("SetTextI18n")
 
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
-        val db = AppDatabase.getInstance(holder.itemView.context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
-
         if (list.isEmpty()) {
             return
         }
@@ -174,6 +172,7 @@ class HomeAdapterR(
         if (item == list[1]) {
             list[1].first.heurePrise.split(":").first()
         }
+
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.typeComprime}"
         holder.heurePrise.text = item.first.heurePrise
@@ -184,7 +183,24 @@ class HomeAdapterR(
         } else {
             holder.mainHeureLayout.visibility = View.GONE
         }
-        // Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+
+        updateImageCercle(holder, item)
+
+        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
+        holder.circleTick.setOnClickListener {
+            showConfirmPriseDialog(holder, holder.itemView.context)
+        }
+    }
+
+    /**
+     * Met à jour l'image du cercle en fonction de la date
+     * @param holder : AjoutManuelViewHolder
+     * @param item : Pair<Prise, Traitement>
+     */
+    private fun updateImageCercle(holder: AjoutManuelViewHolder, item: Pair<Prise, Traitement>) {
+        val db = AppDatabase.getInstance(holder.itemView.context)
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+
         if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
@@ -208,6 +224,7 @@ class HomeAdapterR(
                     queue.add("sauter")
                 }
             }.start()
+
             when (queue.take()) {
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
@@ -221,11 +238,6 @@ class HomeAdapterR(
                     holder.circleTick.setImageResource(R.drawable.avertissement)
                 }
             }
-        }
-
-        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
-        holder.circleTick.setOnClickListener {
-            showConfirmPriseDialog(holder, holder.itemView.context)
         }
     }
 
