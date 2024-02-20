@@ -164,7 +164,7 @@ class ListeTraitementAdapterR(
     }
 
     private fun showMedicationInfos(context: Context,item: Traitement) {
-
+        //TODO: Afficher les informations du traitement
     }
 
 }

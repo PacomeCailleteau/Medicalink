@@ -305,7 +305,7 @@ class HomeFragment : Fragment() {
 
                 if (medoc.dateFinTraitement != "null") {
                     Log.d("test", medoc.dateFinTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val formatter = DateTimeFormatter.ofPattern(datePattern)
                     val date = medoc.dateFinTraitement
 
                     //convert String to LocalDate
@@ -316,7 +316,7 @@ class HomeFragment : Fragment() {
 
                 if (medoc.dateDbtTraitement != "null") {
                     Log.d("test", medoc.dateDbtTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val formatter = DateTimeFormatter.ofPattern(datePattern)
                     val date = medoc.dateDbtTraitement
 
                     //convert String to LocalDate
@@ -481,7 +481,7 @@ class HomeFragment : Fragment() {
 
                 if (priseValidee.date != "null") {
                     Log.d("testPriseValidee", priseValidee.date)
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val formatter = DateTimeFormatter.ofPattern(datePattern)
                     val date = priseValidee.date
 
                     //convert String to LocalDate
@@ -497,5 +497,9 @@ class HomeFragment : Fragment() {
         Log.d("XXX", listePriseValidee.toString())
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
+    }
+
+    companion object {
+        private const val datePattern = "yyyy-MM-dd"
     }
 }

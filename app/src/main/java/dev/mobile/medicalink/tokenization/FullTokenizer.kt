@@ -26,7 +26,7 @@ final class FullTokenizer(
     fun convertTokensToIds(tokens: MutableList<String>): MutableList<Int> {
         val outputIds: MutableList<Int> = ArrayList()
         for (token in tokens) {
-            outputIds.add(dic[token]!!)
+            outputIds.add(dic[token] ?: dic["[UNK]"]!!.toInt())
         }
         return outputIds
     }

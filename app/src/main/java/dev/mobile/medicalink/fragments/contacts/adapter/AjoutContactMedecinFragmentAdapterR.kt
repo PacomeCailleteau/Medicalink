@@ -16,6 +16,7 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.ContactMedecinRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.contacts.ContactsFragment
+import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.medecin.Medecin
 import dev.mobile.medicalink.utils.medecin.MedecinApi
 import java.util.concurrent.LinkedBlockingQueue
@@ -90,12 +91,10 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
                 // Faire un toast
                 Toast.makeText(holder.view.context, "Erreur lors de l'ajout du contact", Toast.LENGTH_SHORT).show()
             } else {
-                val fragment = ContactsFragment()
-                val fragmentManager = holder.view.context as FragmentActivity
-                val fragmentTransaction = fragmentManager.supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.FL, fragment)
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()
+                GoTo.fragment(
+                    ContactsFragment(),
+                    (holder.view.context as FragmentActivity).supportFragmentManager
+                )
             }
 
         }
