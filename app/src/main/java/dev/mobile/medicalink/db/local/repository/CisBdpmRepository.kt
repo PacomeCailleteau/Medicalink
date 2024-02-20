@@ -17,9 +17,9 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
     }
 
-    fun getOneCisBdpmById(CodeCIS: String): List<CisBdpm> {
+    fun getOneCisBdpmById(codeCIS: String): List<CisBdpm> {
         return try {
-            CISbdpmDao.getById(CodeCIS)
+            CISbdpmDao.getById(codeCIS)
         } catch (e: Exception) {
             emptyList()
         }
