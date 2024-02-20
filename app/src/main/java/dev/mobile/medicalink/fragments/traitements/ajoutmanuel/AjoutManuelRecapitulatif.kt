@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
+import dev.mobile.medicalink.db.local.repository.InteractionRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
@@ -77,6 +78,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         val substanceDatabaseInterface = CisCompoBdpmRepository(db.cisCompoBdpmDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val userDatabaseInterface = UserRepository(db.userDao())
+        val interactionDatabaseInterface = InteractionRepository(db.interactionDao())
 
 
 
@@ -147,12 +149,13 @@ class AjoutManuelRecapitulatif : Fragment() {
 
         suivant.setOnClickListener {
             if (isAddingTraitement == "true" && traitement.CodeCIS != null) {
-                checkIfSubstance(
+                checkIfSubstanceDuplicateOrInteraction(
                     traitement.CodeCIS!!,
                     substanceDatabaseInterface,
                     medocDatabaseInterface,
-                    userDatabaseInterface
-                ) { listDuplicate, substanceAdd ->
+                    userDatabaseInterface,
+                    interactionDatabaseInterface
+                ) { listDuplicate, listIncompatible, substanceAdd ->
 
                     if (listDuplicate.isNotEmpty()) {
                         activity?.runOnUiThread {
@@ -622,26 +625,28 @@ class AjoutManuelRecapitulatif : Fragment() {
      * @return List<String> liste des nom de traitements contenant la meme substance
      * @return String nom de la substance
      */
-    private fun checkIfSubstance(
+    private fun checkIfSubstanceDuplicateOrInteraction(
         codeCIS: Int,
         substanceDatabaseInterface: CisCompoBdpmRepository,
         medocDatabaseInterface: MedocRepository,
         userDatabaseInterface: UserRepository,
-        callback: (List<String>, String) -> Unit
+        interactionDatabaseInterface: InteractionRepository,
+        callback: (List<String>, List<String>, String) -> Unit
     ) {
-
-        val listDuplicate: MutableList<String> = mutableListOf()
-        var substanceAdd: String
-
         Thread {
+            val listDuplicate: MutableList<String> = mutableListOf()
+            val listIncompatible: MutableList<String> = mutableListOf()
+
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected()[0].uuid
             )
-            substanceAdd = try {
+            val substanceAdd: String = try {
                 substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
             } catch (e: Exception) {
                 return@Thread
             }
+
+            val interactions = interactionDatabaseInterface.getAllInteraction()
 
 
             for (medoc in listeMedoc) {
@@ -660,7 +665,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             }
 
             Handler(Looper.getMainLooper()).post {
-                callback(listDuplicate, substanceAdd)
+                callback(listDuplicate, listIncompatible, substanceAdd)
             }
         }.start()
 

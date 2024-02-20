@@ -7,20 +7,23 @@ import androidx.room.RoomDatabase
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.dao.CisCompoBdpmDao
 import dev.mobile.medicalink.db.local.dao.ContactDao
+import dev.mobile.medicalink.db.local.dao.InteractionDao
 import dev.mobile.medicalink.db.local.dao.MedocDao
 import dev.mobile.medicalink.db.local.dao.PriseValideeDao
 import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
 import dev.mobile.medicalink.db.local.entity.Contact
+import dev.mobile.medicalink.db.local.entity.Interaction
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
+import dev.mobile.medicalink.db.local.repository.InteractionRepository
 
 @Database(
-    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisCompoBdpm::class, Contact::class],
+    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisCompoBdpm::class, Contact::class, Interaction::class],
     version = 1,
     exportSchema = false
 )
@@ -33,6 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun priseValideeDao(): PriseValideeDao
     abstract fun cisCompoBdpmDao(): CisCompoBdpmDao
     abstract fun contactDao(): ContactDao
+    abstract fun interactionDao(): InteractionDao
 
 
     companion object {
@@ -70,6 +74,13 @@ abstract class AppDatabase : RoomDatabase() {
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                     val cisCompoBdpmRepository = CisCompoBdpmRepository(instance.cisCompoBdpmDao())
                     cisCompoBdpmRepository.insertFromCsv(context)
+                }).start()
+                Thread(Runnable {
+                    // On supprime les données de la base de données médicamenteuse
+                    //instance.cisCompoBdpmDao().deleteAll()
+                    // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
+                    val interactionRepository = InteractionRepository(instance.interactionDao())
+                    interactionRepository.insertFromCsv(context)
                 }).start()
                 instance
             }

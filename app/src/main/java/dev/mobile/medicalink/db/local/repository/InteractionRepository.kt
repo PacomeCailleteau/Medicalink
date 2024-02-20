@@ -12,7 +12,7 @@ import dev.mobile.medicalink.db.local.entity.Interaction
 class InteractionRepository(private val InteractionDao: InteractionDao) {
     val commonFonctionnality = CsvCommonFonctionnality()
 
-    fun getAllCisBdpm(): List<Interaction> {
+    fun getAllInteraction(): List<Interaction> {
         return try {
             InteractionDao.getAll()
         } catch (e: Exception) {
@@ -20,9 +20,9 @@ class InteractionRepository(private val InteractionDao: InteractionDao) {
         }
     }
 
-    fun getOneCisBdpmById(CodeCIS: Int): List<Interaction> {
+    fun getOneInteractionBySubstance(Substance: Int): List<Interaction> {
         return try {
-            InteractionDao.getById(CodeCIS)
+            InteractionDao.getBySubstance(Substance)
         } catch (e: Exception) {
             emptyList()
         }
@@ -38,11 +38,11 @@ class InteractionRepository(private val InteractionDao: InteractionDao) {
         try {
             InteractionDao.insertAll(*cisBdpmList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
-            Log.e("CisBdpmRepository", "CIS_bdpm already exists")
+            Log.e("InteractionRepository", "InteractionRepository already exists")
         } catch (e: SQLiteException) {
-            Log.e("CisBdpmRepository", "Database Error while inserting CIS_bdpm : ${e.message}")
+            Log.e("InteractionRepository", "Database Error while inserting CIS_bdpm : ${e.message}")
         } catch (e: Exception) {
-            Log.e("CisBdpmRepository", "Unknown Error while inserting CIS_bdpm : ${e.message}")
+            Log.e("InteractionRepository", "Unknown Error while inserting CIS_bdpm : ${e.message}")
         }
     }
 
