@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/*package fr.medicapp.medicapp.tokenization
 
 import java.util.Collections
 
@@ -108,3 +108,4 @@ class FeatureConverter(
         }
     }
 }
+ */

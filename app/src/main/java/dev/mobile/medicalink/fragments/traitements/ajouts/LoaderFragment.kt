@@ -1,6 +1,9 @@
-package dev.mobile.medicalink.fragments.traitements.ajouts
+package dev.mobile.medicalink.fragments.traitements
 
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -8,15 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
-import dev.mobile.medicalink.utils.GoTo
-import dev.mobile.medicalink.utils.ModelOCR
+import fr.medicapp.medicapp.ai.PrescriptionAI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
 
 class LoaderFragment : Fragment() {
@@ -24,35 +28,50 @@ class LoaderFragment : Fragment() {
     private val handler = Handler()
 
     override fun onCreateView(
+        // Méthode appelée pour créer la vue du fragment
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_loader, container, false)
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Méthode appelée lorsque la vue est créée
         super.onViewCreated(view, savedInstanceState)
 
         startLoadingAnimation()
 
         CoroutineScope(Dispatchers.Main).launch {
+            val uri = (arguments?.getString("urimage"))?.toUri()
             val result = withContext(Dispatchers.IO) {
-                createTraitement("Votre texte à traiter")
+                createTraitement(uri!!, view.context)
             }
 
             handleResult(result)
         }
     }
 
-    private fun handleResult(result: List<String?>) {
-        for (i in result.indices) {
-            Log.d("RESULT TXT TRAITE", "handleResult: " + result[i])
+    private fun handleResult(result: List<Traitement>) {
+        // Création d'un bundle pour transmettre les résultats au nouveau fragment
+        val bundle = Bundle().apply {
+            putSerializable("result", ArrayList(result))
         }
-        GoTo.fragment(ListeTraitementsFragment(), parentFragmentManager)
+
+        // Création d'une instance du nouveau fragment
+        val listeTraitementsFragment = ListeTraitementsFragment().apply {
+            arguments = bundle
+        }
+
+        // Remplacement du fragment actuel par le nouveau fragment
+        val fragTransaction = parentFragmentManager.beginTransaction()
+        fragTransaction.replace(R.id.FL, listeTraitementsFragment)
+        fragTransaction.addToBackStack(null)
+        fragTransaction.commit()
     }
 
     private fun startLoadingAnimation() {
+        // Méthode appelée pour démarrer l'animation de chargement
         val loaderProgressBar = requireView().findViewById<View>(R.id.loaderProgressBar)
         val fadeInOut = ObjectAnimator.ofFloat(loaderProgressBar, "alpha", 0f, 1f).apply {
             duration = 500
@@ -67,16 +86,16 @@ class LoaderFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        // Méthode appelée lors de la destruction du fragment
         handler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
 
     // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
-
-    private fun createTraitement(text: String): List<String?> {
-        val myModel = ModelOCR(requireContext())
-        val texteAnalyze = myModel.analyze(text)
-        return texteAnalyze
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createTraitement(text: Uri, context: Context): List<Traitement> {
+        val myModel = PrescriptionAI(requireContext())
+        return  myModel.analyse(text)
     }
 }
 

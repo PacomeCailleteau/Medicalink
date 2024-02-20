@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.utils
+/*package dev.mobile.medicalink.utils
 
 import android.content.Context
 import android.content.res.AssetManager
@@ -264,3 +264,4 @@ class ModelOCR(private val context: Context) {
         }
     }
 }
+*/

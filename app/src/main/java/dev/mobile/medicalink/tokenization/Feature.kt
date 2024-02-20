@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/* package fr.medicapp.medicapp.tokenization
 
 class Feature(
     inputIds: List<Int>,
@@ -20,4 +20,4 @@ class Feature(
         this.origTokens = origTokens
         this.tokenToOrigMap = tokenToOrigMap
     }
-}
+} */

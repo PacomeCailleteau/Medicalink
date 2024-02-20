@@ -1,6 +1,12 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.content.Context
+import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import java.io.Serializable
+import java.lang.NumberFormatException
 import java.time.LocalDate
 
 
@@ -21,6 +27,8 @@ class Traitement(
     var dateDbtTraitement: LocalDate?
 
 ) : Serializable {
+
+    var suggDuree: String? = null
 
     fun getProchainePrise(prise: Prise?): Prise {
         return if (prises == null || prises!!.isEmpty()) {
@@ -52,4 +60,115 @@ class Traitement(
         }
     }
 
+
+    /**
+     * Lance un algorithme pour trouver ce qui se rapproche le plus du nom du médicament
+     * @param context contexte nécessaire à l'accès à la BD
+     */
+    private fun trouveNom(context: Context) {
+        val algo = JaroWinkler()
+        algo.getNomMedic(context)
+        algo.aChercher = this.nomTraitement
+
+        this.nomTraitement = algo.lancerDistance()
+    }
+
+
+    /**
+     * Conformise l'unité du médicament
+     */
+    private fun trouveUnite() {
+        if (this.frequencePrise.isNotEmpty()) {
+            val algo = JaroWinkler()
+            algo.base = listOf(
+                "auBesoin",
+                "quotidiennement",
+                "intervalle"
+            )
+            algo.aChercher = this.frequencePrise
+
+            this.frequencePrise = algo.lancerDistance()
+
+            if (this.frequencePrise.isEmpty())
+                this.frequencePrise = "intervalle régulier"
+        }
+    }
+
+
+    /**
+     * Remplie les variables dateDbtTraitement et dateFinTraitement
+     */
+    private fun trouveDuree() {
+        if (this.suggDuree != null) {
+            val test = this.suggDuree!!.split(" ")
+            var entier = 1
+            var mot: String? = null
+            var resultAlgo: String
+
+            val algo = JaroWinkler()
+            algo.base = listOf(
+                "jour",
+                "semaine",
+                "mois"
+            )
+            for (s: String in test) {
+                algo.aChercher = s
+                resultAlgo = algo.lancerDistance()
+
+                if (resultAlgo.isNotEmpty()) {
+                    mot = resultAlgo
+                } else {
+                    try {
+                        entier = s.toInt()
+                    } catch (e: NumberFormatException) {
+                        entier = 1
+                    }
+                }
+            }
+            if (mot != null) {
+                this.dateDbtTraitement = LocalDate.now()
+                when (mot) {
+                    "jour" -> this.dateFinTraitement =
+                        this.dateDbtTraitement!!.plusDays(entier.toLong())
+
+                    "semaine" -> this.dateFinTraitement =
+                        this.dateDbtTraitement!!.plusWeeks(entier.toLong())
+
+                    "mois" -> this.dateFinTraitement =
+                        this.dateDbtTraitement!!.plusMonths(entier.toLong())
+                }
+            } else {
+                this.dateDbtTraitement = null
+                this.dateFinTraitement = null
+            }
+        }
+    }
+
+    /**
+     * Créer un traitement à partir des données qu'il possède va notament appeler les méthodes privées
+     * @param context context nécessaire pour accéder à la BD
+     */
+    fun paufine(context: Context) {
+        trouveNom(context)
+        trouveDuree()
+        trouveUnite()
+    }
+
+    override fun toString(): String {
+        return "Traitement(nomTraitement: '$nomTraitement', " +
+                "codeCIS: '$codeCIS', " +
+                "dosageNb: $dosageNb, " +
+                "dosageUnite: '$frequencePrise', " +
+                "dateFinTraitement: $dateFinTraitement, " +
+                "typeComprime: '$typeComprime', " +
+                "comprimesRestants: $comprimesRestants, " +
+                "expire: $expire, " +
+                "effetsSecondaires: $effetsSecondaires, " +
+                "prises: $prises, " +
+                "totalQuantite: $totalQuantite, " +
+                "UUID: '$UUID', " +
+                "UUIDUSER: '$UUIDUSER', " +
+                "dateDbtTraitement: $dateDbtTraitement)"
+    }
 }
+

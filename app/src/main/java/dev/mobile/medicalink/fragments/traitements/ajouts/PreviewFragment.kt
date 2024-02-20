@@ -189,7 +189,7 @@ class PreviewFragment : Fragment() {
                     val destination = LoaderFragment()
                     //On ajoute le texte à l'argument
                     val bundle = Bundle()
-                    bundle.putString("texte", text)
+                    bundle.putString("urimage", text)
                     destination.arguments = bundle
                     //On appelle le parent pour changer de fragment
                     GoTo.fragment(destination, parentFragmentManager)

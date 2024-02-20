@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/*package fr.medicapp.medicapp.tokenization
 
 
 class BasicTokenizer(
@@ -87,4 +87,4 @@ class BasicTokenizer(
             return tokens
         }
     }
-}
+} */

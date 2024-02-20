@@ -1,4 +1,4 @@
-package fr.medicapp.medicapp.tokenization
+/*package fr.medicapp.medicapp.tokenization
 
 object CamemBERT {
     val BOS_TOKEN: String = "<s>"
@@ -8,4 +8,4 @@ object CamemBERT {
     val UNK_TOKEN: String = "<unk>"
     val PAD_TOKEN: String = "<pad>"
     val MASK_TOKEN: String = "<mask>"
-}
+} */
