@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.db.local.entity
 
+import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -8,6 +9,7 @@ import androidx.room.PrimaryKey
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Entity(
     foreignKeys = [
@@ -53,32 +55,61 @@ data class Medoc(
             dosageNb = try {
                 this.dosageNB.toInt()
             } catch (e: NumberFormatException) {
-                0
+                -1
             },
             frequencePrise = this.frequencePrise,
-            dateFinTraitement = this.dateFinTraitement?.let { LocalDate.parse(it) },
+            dateFinTraitement = toDate(this.dateFinTraitement),
             typeComprime = this.typeComprime,
             comprimesRestants = this.comprimesRestants,
             expire = this.expire,
             effetsSecondaires = this.effetsSecondaires?.split(",")?.toMutableList(),
-            prises = this.prises?.split(",")?.mapNotNull { priseString ->
-                val priseParts = priseString.split(":")
-                if (priseParts.size == 4) {
-                    Prise(
-                        numeroPrise = priseParts[0],
-                        heurePrise = priseParts[1],
-                        quantite = priseParts[2].toInt(),
-                        typeComprime = priseParts[3]
-                    )
-                } else {
-                    null // Gérer le cas où les données ne sont pas complètes
-                }
-            }?.toMutableList(),
+            prises = toPrises(this),
             totalQuantite = this.totalQuantite,
             UUID = this.uuid,
             UUIDUSER = this.uuidUser,
-            dateDbtTraitement = this.dateDbtTraitement?.let { LocalDate.parse(it) }
+            dateDbtTraitement = toDate(this.dateDbtTraitement)
         )
+    }
+
+    /**
+     * Convertit une date en string en LocalDate
+     * @param date la date à convertir
+     * @return la date convertie
+     */
+    private fun toDate (date: String?): LocalDate? {
+        return if (date != "null") {
+            val formatter = DateTimeFormatter.ofPattern(datePattern)
+            LocalDate.parse(date, formatter)
+        } else {
+            null
+        }
+    }
+
+    /**
+     * Convertit une liste de prises en string en une liste de Prise
+     * @param medoc le médicament associé aux prises
+     * @return la liste de prises convertie
+     */
+    private fun toPrises(medoc: Medoc): MutableList<Prise> {
+        val listePrise: MutableList<Prise> = mutableListOf()
+        if (!medoc.prises.isNullOrEmpty()) {
+            for (prise in medoc.prises.split("/")) {
+                val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
+                Log.d("test", traitementPrise.toString())
+                val maPrise = Prise(
+                    traitementPrise[0],
+                    traitementPrise[1],
+                    traitementPrise[2].toInt(),
+                    medoc.typeComprime
+                )
+                listePrise.add(maPrise)
+            }
+        }
+        return listePrise
+    }
+
+    companion object {
+        private const val datePattern = "yyyy-MM-dd"
     }
 
 }

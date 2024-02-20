@@ -265,85 +265,24 @@ class HomeFragment : Fragment() {
         val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
 
         Thread {
-
             val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
 
             //Récupération des traitements de l'utilisateur connecté
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
-                userDatabaseInterface.getUsersConnected(true).first().uuid
+                userDatabaseInterface.getUsersConnected().first().uuid
             )
 
-
             for (medoc in listeMedoc) {
+                val traitement = medoc.toTraitement()
 
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-                val listePrise = mutableListOf<Prise>()
-
-                Log.d("test", medoc.toString())
-
-                if (!medoc.prises.isNullOrEmpty()) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        Log.d("test", traitementPrise.toString())
-                        val maPrise = Prise(
-                            traitementPrise[0],
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            medoc.typeComprime
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    Log.d("test", medoc.dateFinTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern(datePattern)
-                    val date = medoc.dateFinTraitement
-
-                    //convert String to LocalDate
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    Log.d("test", medoc.dateDbtTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern(datePattern)
-                    val date = medoc.dateDbtTraitement
-
-                    //convert String to LocalDate
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
                 //Vérification de la date de fin de traitement
-                if ((!medoc.expire) && (newTraitementFinDeTraitement != null) && LocalDate.now() > newTraitementFinDeTraitement) {
+                if ((!medoc.expire) && (traitement.dateFinTraitement != null) && LocalDate.now() > traitement.dateFinTraitement!!) {
                     //Si la date de fin de traitement est dépassée, on met le traitement en expiré
                     medoc.expire = true
+                    traitement.expire = true
                     medocDatabaseInterface.updateMedoc(medoc)
                 }
 
-                //Création du traitement
-                val traitement = Traitement(
-                    medoc.nom,
-                    medoc.codeCIS,
-                    medoc.dosageNB.toInt(),
-                    medoc.frequencePrise,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
-                )
                 if (traitement.prises?.size != 0 && traitement.prises != null) {
                     //Si le traitement a des prises, on les ajoute à la liste des prises à afficher
                     for (prise in traitement.prises!!) {
@@ -351,21 +290,13 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-
-            Log.d("test", listeTraitement.toString())
-
             queue.add(listeTraitement)
 
         }.start()
+
         val listeTraitementPrise = queue.take()
-        Log.d("test", listeTraitementPrise.toString())
         var doIaddIt: Boolean
         val listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-        Log.d(
-            "Date Actuelle Système",
-            "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
-        )
-
 
         for (element in listeTraitementPrise) {
             doIaddIt = false
@@ -490,7 +421,7 @@ class HomeFragment : Fragment() {
 
         }.start()
         listePriseValidee = queue2.take()
-        Log.d("XXX", listePriseValidee.toString())
+
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
     }
