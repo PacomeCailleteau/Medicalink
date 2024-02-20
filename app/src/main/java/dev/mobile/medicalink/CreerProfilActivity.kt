@@ -186,7 +186,7 @@ class CreerProfilActivity : AppCompatActivity() {
     private fun ajoutFiltre(vararg textInputEditText: TextInputEditText) {
         // Création du regex
         val regex = Regex(
-            pattern = "^[a-zA-ZéèàêîôûäëïöüçÉÈÀÊÎÔÛÄËÏÖÜÇ-]*$",
+            pattern = "^[a-zéèàêîôûäëïöüç]*$",
             options = setOf(RegexOption.IGNORE_CASE)
         )
 
