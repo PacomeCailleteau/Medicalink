@@ -27,7 +27,7 @@ class JaroWinkler {
         if (!estPret()) {
             throw Exception("Les variables ne sont pas remplies.")
         }
-        val result = withinDistance(this.base, 0.15, this.aChercher)
+        val result = withinDistance(this.base, 0.2, this.aChercher)
         return result.word
     }
 

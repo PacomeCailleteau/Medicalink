@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,16 +62,20 @@ class ListeTraitementAdapterR(
         if (textAucunTraitement != null) {
             textAucunTraitement.visibility = View.GONE
         }
-        val item = list.get(position)
+        val item = list[position]
         holder.nomTraitement.text = item.nomTraitement
-        if (item.dosageUnite == "auBesoin") {
-            holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
-        } else if (item.dosageUnite == "quotidiennement") {
-            holder.dosage.text =
-                "${item.dosageNb} ${holder.view.resources.getString(R.string.par_jour)}"
-        } else {
-            holder.dosage.text =
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
+        when (item.dosageUnite) {
+            "auBesoin" -> {
+                holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
+            }
+            "quotidiennement" -> {
+                holder.dosage.text =
+                    "${item.dosageNb} ${holder.view.resources.getString(R.string.par_jour)}"
+            }
+            else -> {
+                holder.dosage.text =
+                    "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
+            }
         }
         //Si le traitement est expiré, un format spécial lui est appliqué
         if (item.expire) {

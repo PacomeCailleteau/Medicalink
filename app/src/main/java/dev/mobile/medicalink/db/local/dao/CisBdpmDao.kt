@@ -12,6 +12,9 @@ interface CisBdpmDao {
     @Query("SELECT * FROM CisBdpm WHERE codeCIS IN (:CodeCIS)")
     fun getById(CodeCIS: Int): List<CisBdpm>
 
+    @Query("SELECT * FROM CisBdpm WHERE denomination in (:nomMedoc)")
+    fun getByName(nomMedoc: String): List<CisBdpm>
+
     @Insert
     fun insertAll(vararg CisBdpmDaos: CisBdpm)
 

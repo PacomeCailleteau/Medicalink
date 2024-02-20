@@ -23,6 +23,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.time.LocalDate
 import java.util.concurrent.CountDownLatch
 
 /**
@@ -192,7 +193,7 @@ class PrescriptionAI(
             totalQuantite = null,
             UUID = null,
             UUIDUSER = null,
-            dateDbtTraitement = null
+            dateDbtTraitement = LocalDate.now()
         ))
         var last = 0
         prediction.forEach { (word, label) ->
@@ -217,7 +218,7 @@ class PrescriptionAI(
                                 totalQuantite = null,
                                 UUID = null,
                                 UUIDUSER = null,
-                                dateDbtTraitement = null
+                                dateDbtTraitement = LocalDate.now()
                             )
                         )
                         last = treatment.size-1
@@ -258,31 +259,8 @@ class PrescriptionAI(
         // Variable pour stocker le texte reconnu.
         var visionText: String? = null
 
-        // Compteur pour attendre que la tâche de reconnaissance de texte soit terminée.
-        // val latch = CountDownLatch(1)
-
         // Crée une image à partir de l'URI spécifiée.
         visionText = imageUri.toString()
-        /*
-        val image = InputImage.fromFilePath(context, imageUri)
-
-        // Commence le processus de reconnaissance de texte sur l'image.
-        recognizer.process(image)
-            .addOnSuccessListener {
-                // Stocke le texte reconnu dans la variable visionText.
-                visionText = it.text
-
-                // Décrémente le compteur pour indiquer que la tâche de reconnaissance de texte est terminée.
-                latch.countDown()
-            }
-            .addOnFailureListener {
-                // Décrémente le compteur pour indiquer que la tâche de reconnaissance de texte est terminée, même si une erreur s'est produite.
-                latch.countDown()
-            }
-            */
-
-        // Attend que la tâche de reconnaissance de texte soit terminée.
-        //latch.await()
 
         // Retourne le texte reconnu.
         return visionText

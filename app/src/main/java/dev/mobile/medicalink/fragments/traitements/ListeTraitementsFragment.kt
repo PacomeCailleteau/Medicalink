@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.CisSubstance
 import dev.mobile.medicalink.db.local.entity.Medoc
+import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
@@ -56,7 +58,6 @@ class ListeTraitementsFragment : Fragment() {
         // ajout des nouveaux traitements si on vient de l'OCR
         val resultList = arguments?.getSerializable("result") as? ArrayList<Traitement>
         if (resultList != null) {
-            Log.d("zeubie", "test")
             ajoutPlusieursTraitements(inflater, container, resultList)
         }
 
@@ -343,32 +344,37 @@ class ListeTraitementsFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
-        var newMedoc: Medoc
+        val cisBdpmInterface = CisBdpmRepository(db.cisBdpmDao())
+        var newMedoc : Medoc
+        var codeCIS : String
+        val queue2 = LinkedBlockingQueue<Boolean>()
+        // faire une popup si tout n'a pas été trouvé
 
         traitements.forEach {
-            newMedoc = Medoc(
-                UUID.randomUUID().toString(),
-                "",
-                it.nomTraitement,
-                it.codeCIS,
-                it.dosageNb.toString(),
-                it.dosageUnite,
-                it.dateFinTraitement.toString(),
-                it.typeComprime,
-                it.comprimesRestants,
-                it.expire,
-                null,
-                null,
-                it.totalQuantite,
-                it.dateDbtTraitement.toString()
-            )
-            val queue2 = LinkedBlockingQueue<Boolean>()
             Thread {
-                val uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
-                newMedoc.uuidUser = uuidUserCourant
-                val res = medocDatabaseInterface.insertMedoc(newMedoc)
-                Log.d("zeubie", res.second)
-                queue2.add(true)
+                codeCIS = cisBdpmInterface.getCodeCISByName(it.nomTraitement)
+                if (codeCIS.isNotEmpty()) {
+                    newMedoc = Medoc(
+                        UUID.randomUUID().toString(),
+                        "",
+                        it.nomTraitement,
+                        codeCIS,
+                        it.dosageNb.toString(),
+                        it.dosageUnite,
+                        it.dateFinTraitement.toString(),
+                        it.typeComprime,
+                        it.comprimesRestants,
+                        it.expire,
+                        null,
+                        null,
+                        it.totalQuantite,
+                        it.dateDbtTraitement.toString()
+                    )
+                    val uuidUserCourant = userDatabaseInterface.getUsersConnected().first().uuid
+                    newMedoc.uuidUser = uuidUserCourant
+                    medocDatabaseInterface.insertMedoc(newMedoc)
+                    queue2.add(true)
+                }
             }.start()
             queue2.take()
         }

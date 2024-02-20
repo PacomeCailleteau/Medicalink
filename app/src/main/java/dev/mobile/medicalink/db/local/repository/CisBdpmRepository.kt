@@ -25,6 +25,15 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
     }
 
+    fun getCodeCISByName(nom: String): String {
+        return try {
+            val result = CISbdpmDao.getByName(nom)
+            result[0].codeCIS.toString()
+        } catch (e: java.lang.Exception) {
+            ""
+        }
+    }
+
     fun insertCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
             CISbdpmDao.insertAll(cisBdpm)
