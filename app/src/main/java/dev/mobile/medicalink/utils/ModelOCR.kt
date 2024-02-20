@@ -88,10 +88,6 @@ class ModelOCR(private val context: Context) {
             Log.v(TAG, "origTokens[$index] = $s")
         }
 
-        /*inputIds.forEachIndexed { index, i ->
-            Log.v(TAG, "inputIds[$index] = $i")
-        }*/
-
         val output: MutableMap<Int, Any> = HashMap()
         output[0] = startLogits
         output[1] = endLogits
@@ -151,7 +147,7 @@ class ModelOCR(private val context: Context) {
         Log.v(TAG, "labelIds: ${labelIds.size}")
 
         val startLogitsTensor =
-            outputTensor[0].toTensor() // Tensor([1, 20, 3], dtype=torch.float32)
+            outputTensor[0].toTensor()
         Log.v(TAG, "startLogitsTensor: $startLogitsTensor")
         Log.v(TAG, "startLogitsTensor.size: ${startLogitsTensor.shape()}")
         val startLogitsArray = startLogitsTensor.dataAsFloatArray

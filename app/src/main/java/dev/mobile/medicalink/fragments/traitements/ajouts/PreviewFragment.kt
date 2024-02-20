@@ -159,8 +159,8 @@ class PreviewFragment : Fragment() {
                 val extractedText = processTextRecognitionResult(texts)
                 onTextExtracted(extractedText)
             }
-            .addOnFailureListener { e ->
-                // Gérer les erreurs ici
+            .addOnFailureListener { _ ->
+                onTextExtracted("Erreur")
             }
     }
 

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,14 +14,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.GoTo
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -91,7 +88,7 @@ class AjoutManuelStock : Fragment() {
             layoutStock.visibility = View.GONE
         }
 
-        switchStock.setOnCheckedChangeListener { buttonView, isChecked ->
+        switchStock.setOnCheckedChangeListener { _, isChecked ->
             updateSwitchAppearance(isChecked, layoutStock)
             updateButtonState()
         }
@@ -99,7 +96,7 @@ class AjoutManuelStock : Fragment() {
         updateSwitchAppearance(switchStock.isChecked, layoutStock)
 
         inputRappelJour.setOnClickListener {
-            showJourStockDialog(viewModel, view.context)
+            showJourStockDialog(view.context)
         }
 
         inputRappelHeure.setOnClickListener {
@@ -109,7 +106,6 @@ class AjoutManuelStock : Fragment() {
         inputStockActuel.addTextChangedListener(textWatcher)
 
         updateButtonState()
-        //TODO("Faire la vérif sur tous les boutons suivant du processus de création de traitement")
         suivant.setOnClickListener {
             viewModel.setComprimesRestants(inputStockActuel.text.toString().toInt())
             GoTo.fragment(AjoutManuelRecapitulatif(), parentFragmentManager)
@@ -149,7 +145,7 @@ class AjoutManuelStock : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showJourStockDialog(viewModel: AjoutSharedViewModel, context: Context) {
+    private fun showJourStockDialog(context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)
         val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
@@ -168,7 +164,7 @@ class AjoutManuelStock : Fragment() {
         firstNumberPicker.minValue = 1
         firstNumberPicker.maxValue = 30
         firstNumberPicker.value = inputRappelJour.text.split(" ")[0].toInt()
-        firstNumberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+        firstNumberPicker.setOnValueChangedListener { _, _, newVal ->
             if (newVal == 1) {
                 textJour.text = resources.getString(R.string.jour_min)
                 uniteJour = resources.getString(R.string.jour_min)
@@ -194,8 +190,8 @@ class AjoutManuelStock : Fragment() {
         heurePriseInput: EditText,
     ) {
         val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = calendar.get(Calendar.MINUTE)
+        val currentHour = calendar[Calendar.HOUR_OF_DAY]
+        val currentMinute = calendar[Calendar.MINUTE]
 
         val timePickerDialog = TimePickerDialog(
             context,
@@ -213,8 +209,8 @@ class AjoutManuelStock : Fragment() {
 
     private fun formatTime(hour: Int, minute: Int): String {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
+        calendar[Calendar.HOUR_OF_DAY] = hour
+        calendar[Calendar.MINUTE] = minute
         val timeFormat =
             SimpleDateFormat("HH:mm", Locale.FRENCH) // Modifiez le format selon vos besoins
         return timeFormat.format(calendar.time)

@@ -7,8 +7,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.mobile.medicalink.R
@@ -37,13 +35,12 @@ class NotificationService : BroadcastReceiver() {
         val title = intent?.getStringExtra("title") ?: "Titre par défaut"
         val content = intent?.getStringExtra("content") ?: "Contenu par défaut"
         val notificationId = intent?.getIntExtra("notificationId", -1)!!
-        val sauter = intent.getBooleanExtra("sauter", false)
-        val prendre = intent.getBooleanExtra("prendre", false)
+        val boutons = intent.getBooleanExtra("boutons", false)
         val date = intent.getStringExtra("date") ?: ""
         val numero = intent.getStringExtra("numero") ?: ""
 
         // Appel de la fonction showNotification qui affiche la notification
-        showNotification(context, title, content, notificationId, date, numero, sauter, prendre)
+        showNotification(context, title, content, notificationId, date, numero, boutons)
     }
 
     /**
@@ -52,8 +49,7 @@ class NotificationService : BroadcastReceiver() {
      * @param titre : le titre de la notification
      * @param contenu : le contenu de la notification
      * @param notificationId : l'id de la notification
-     * @param sauter : si c'est à vrai alors il y aura un bouton "Sauter"
-     * @param prendre : si c'est à vrai alors il y aura un bouton "Prendre"
+     * @param boutons : si c'est à vrai alors il y aura un bouton "Sauter"
      */
     private fun showNotification(
         context: Context?,
@@ -62,8 +58,7 @@ class NotificationService : BroadcastReceiver() {
         notificationId: Int,
         date: String,
         numero: String,
-        sauter: Boolean = false,
-        prendre: Boolean = false
+        boutons: Boolean = false,
     ) {
         // Code pour afficher la notification
         val notificationManager = ContextCompat.getSystemService(
@@ -107,10 +102,8 @@ class NotificationService : BroadcastReceiver() {
 
         // On ajoute les actions si besoin
         // Ce sont les boutons qui apparaissent en déroulant la notification
-        if (sauter) {
+        if (boutons) {
             notificationBuilder.addAction(0, "Sauter", sauterPendingIntent)
-        }
-        if (prendre) {
             notificationBuilder.addAction(0, "Prendre", prendrePendingIntent)
         }
 
@@ -238,8 +231,7 @@ class NotificationService : BroadcastReceiver() {
                 duree.toMillis(),
                 notificationId,
                 dateNumeroUuidMedoc,
-                sauter = true,
-                prendre = true
+                boutons = true
             )
         }
 
@@ -273,8 +265,7 @@ class NotificationService : BroadcastReceiver() {
          * @param contenu : le contenu de la notification
          * @param delayMillis : le délai avant l'affichage de la notification
          * @param notificationId : l'id de la notification
-         * @param sauterPendingIntent : le pending intent pour l'action "Sauter"
-         * @param prendrePendingIntent : le pending intent pour l'action "Prendre"
+         * @param boutons : le pending intent pour les boutons de la notification
          * @return l'id de la notification
          */
         private fun sendNotification(
@@ -284,8 +275,7 @@ class NotificationService : BroadcastReceiver() {
             delayMillis: Long,
             notificationId: Int,
             dateNumeroUuidMedoc: Triple<String, String, String> = Triple("", "", ""),
-            sauter: Boolean = false,
-            prendre: Boolean = false
+            boutons: Boolean = false,
         ): Int {
             //dateEtNumero sera utilisé seulement si sauter ou prendre est à vrai
             val notificationIntent = Intent(context, NotificationService::class.java)
@@ -295,8 +285,7 @@ class NotificationService : BroadcastReceiver() {
                 .putExtra("date", dateNumeroUuidMedoc.first)
                 .putExtra("numero", dateNumeroUuidMedoc.second)
                 .putExtra("uuidMedoc", dateNumeroUuidMedoc.third)
-                .putExtra("sauter", sauter)
-                .putExtra("prendre", prendre)
+                .putExtra("boutons", boutons)
 
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -388,15 +377,15 @@ class NotificationService : BroadcastReceiver() {
          * @return un ID unique
          */
         private fun uniqueId(context: Context): Int {
-            val PREFS_NAME = "notification_prefs"
-            val KEY_NOTIFICATION_ID = "notification_id"
-            val sharedPref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val prefsName = "notification_prefs"
+            val keyNotificationId = "notification_id"
+            val sharedPref = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
             // Récupère l'ID de la dernière notification
-            val notificationId = sharedPref.getInt(KEY_NOTIFICATION_ID, 0)
+            val notificationId = sharedPref.getInt(keyNotificationId, 0)
 
             // Incrémente l'ID de 2 pour avoir un ID unique
             with(sharedPref.edit()) {
-                putInt(KEY_NOTIFICATION_ID, notificationId + 2)
+                putInt(keyNotificationId, notificationId + 2)
                 apply()
             }
 
