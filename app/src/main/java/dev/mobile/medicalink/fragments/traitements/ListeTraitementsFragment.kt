@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -254,8 +253,8 @@ class ListeTraitementsFragment : Fragment() {
                         )
                         viewModel.setPrises(clickedTraitement.prises ?: mutableListOf())
                         viewModel.setTotalQuantite(clickedTraitement.totalQuantite ?: 0)
-                        viewModel.setUUID(clickedTraitement.UUID ?: "")
-                        viewModel.setUUIDUSER(clickedTraitement.UUIDUSER ?: "")
+                        viewModel.setUUID(clickedTraitement.uuid ?: "")
+                        viewModel.setUUIDUSER(clickedTraitement.uuidUser ?: "")
                         viewModel.setDateDbtTraitement(
                             clickedTraitement.dateDbtTraitement ?: LocalDate.now()
                         )
@@ -277,7 +276,7 @@ class ListeTraitementsFragment : Fragment() {
                         Thread {
                             medocDatabaseInterface.deleteMedoc(
                                 medocDatabaseInterface.getOneMedocById(
-                                    clickedTraitement.UUID!!
+                                    clickedTraitement.uuid!!
                                 ).first()
                             )
                         }.start()

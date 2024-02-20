@@ -65,8 +65,8 @@ data class Medoc(
             effetsSecondaires = this.effetsSecondaires?.split(",")?.toMutableList(),
             prises = toPrises(this),
             totalQuantite = this.totalQuantite,
-            UUID = this.uuid,
-            UUIDUSER = this.uuidUser,
+            uuid = this.uuid,
+            uuidUser = this.uuidUser,
             dateDbtTraitement = toDate(this.dateDbtTraitement)
         )
     }

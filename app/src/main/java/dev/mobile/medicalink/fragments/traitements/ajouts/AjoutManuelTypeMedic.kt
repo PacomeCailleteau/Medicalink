@@ -61,9 +61,9 @@ class AjoutManuelTypeMedic : Fragment() {
         val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
 
-        val AjoutManuelTypeMedicAdapter =
+        val ajoutManuelTypeMedicAdapter =
             AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
-        recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
+        recyclerViewTypeMedic.adapter = ajoutManuelTypeMedicAdapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
         val espacement = 20

@@ -219,7 +219,7 @@ class NotificationService : BroadcastReceiver() {
             }
 
             // On récupère l'uuid du traitement pour pouvoir envoyer la prochaine notification
-            val medocUuid = traitement.UUID ?: ""
+            val medocUuid = traitement.uuid ?: ""
 
             val dateNumeroUuidMedoc = Triple(dateEtNumero.first, dateEtNumero.second, medocUuid)
 

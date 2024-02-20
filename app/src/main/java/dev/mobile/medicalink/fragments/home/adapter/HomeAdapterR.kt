@@ -37,9 +37,9 @@ class HomeAdapterR(
     private var listePriseValidee: List<Pair<LocalDate, String>>,
     private var dateCourante: LocalDate,
     private val parentRecyclerView: RecyclerView,
-    private val VIEW_TYPE_EMPTY: Int = 0,
-    private val VIEW_TYPE_NORMAL: Int = 1,
-    private val VIEW_TYPE_RAPPORT: Int = 2
+    private val viewTypeEmpty: Int = 0,
+    private val viewTypeNormal: Int = 1,
+    private val viewTypeRapport: Int = 2
 
 ) :
     RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>() {
@@ -101,11 +101,11 @@ class HomeAdapterR(
      */
     override fun getItemViewType(position: Int): Int {
         return if (list.isEmpty()) {
-            VIEW_TYPE_EMPTY
+            viewTypeEmpty
         } else if (position == 0) {
-            VIEW_TYPE_RAPPORT
+            viewTypeRapport
         } else {
-            VIEW_TYPE_NORMAL
+            viewTypeNormal
         }
     }
 
@@ -118,21 +118,21 @@ class HomeAdapterR(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
         return when (viewType) {
             // Il n'y a pas de traitement, affiche la vue vide
-            VIEW_TYPE_EMPTY -> {
+            viewTypeEmpty -> {
                 val layoutEmpty = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_accueil_vide, parent, false)
                 AjoutManuelViewHolder(layoutEmpty)
             }
             // Il y a des traitements, affiche la vue rapport puis les vues normales
-            VIEW_TYPE_RAPPORT -> {
+            viewTypeRapport -> {
                 val layoutRapport = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_accueil_rapport, parent, false)
                 AjoutManuelViewHolder(layoutRapport)
             }
             // Il y a des traitements, affiche la vue rapport puis les vues normales
-            VIEW_TYPE_NORMAL -> {
+            viewTypeNormal -> {
                 val layoutNormal = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.item_accueil, parent, false)
@@ -504,10 +504,10 @@ class HomeAdapterR(
         Thread {
             val medocDatabaseInterface = MedocRepository(db.medocDao())
             val dateFinTraitement: String?
-            if (traitement.UUID == null) {
+            if (traitement.uuid == null) {
                 return@Thread
             } else {
-                val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
+                val medoc = medocDatabaseInterface.getOneMedocById(traitement.uuid!!)
                 if (medoc.size == 1) {
                     //On récupère la date de fin du traitement
                     val medicament = medoc[0]

@@ -123,8 +123,8 @@ class AjoutSharedViewModel : ViewModel() {
         effetsSecondaires = effetsSecondaires.value ?: mutableListOf(),
         prises = prises.value ?: mutableListOf(),
         totalQuantite = totalQuantite.value ?: 0,
-        UUID = UUID.value ?: "",
-        UUIDUSER = UUIDUSER.value ?: "",
+        uuid = UUID.value ?: "",
+        uuidUser = UUIDUSER.value ?: "",
         dateDbtTraitement = dateDbtTraitement.value ?: LocalDate.now()
     )
 

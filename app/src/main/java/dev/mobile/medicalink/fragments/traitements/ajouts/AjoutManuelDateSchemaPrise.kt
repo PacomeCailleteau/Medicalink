@@ -141,10 +141,6 @@ class AjoutManuelDateSchemaPrise : Fragment() {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     /**
      * Fonction gérant le date Picker pour sélectionner les dates de début et de fin du traitement
      */

@@ -1,10 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.content.Context
-import android.os.Build
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.lang.NumberFormatException
 import java.time.LocalDate
@@ -22,8 +18,8 @@ class Traitement(
     var effetsSecondaires: MutableList<String>?,
     var prises: MutableList<Prise>? = null,
     var totalQuantite: Int?,
-    var UUID: String?,
-    var UUIDUSER: String?,
+    var uuid: String?,
+    var uuidUser: String?,
     var dateDbtTraitement: LocalDate?
 
 ) : Serializable {
@@ -166,8 +162,8 @@ class Traitement(
                 "effetsSecondaires: $effetsSecondaires, " +
                 "prises: $prises, " +
                 "totalQuantite: $totalQuantite, " +
-                "UUID: '$UUID', " +
-                "UUIDUSER: '$UUIDUSER', " +
+                "uuid: '$uuid', " +
+                "uuidUser: '$uuidUser', " +
                 "dateDbtTraitement: $dateDbtTraitement)"
     }
 }

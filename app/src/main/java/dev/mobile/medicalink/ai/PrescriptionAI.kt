@@ -167,8 +167,8 @@ class PrescriptionAI(
             comprimesRestants = null,
             effetsSecondaires = null,
             totalQuantite = null,
-            UUID = null,
-            UUIDUSER = null,
+            uuid = null,
+            uuidUser = null,
             dateDbtTraitement = LocalDate.now()
         ))
         var last = 0
@@ -192,8 +192,8 @@ class PrescriptionAI(
                                 comprimesRestants = null,
                                 effetsSecondaires = null,
                                 totalQuantite = null,
-                                UUID = null,
-                                UUIDUSER = null,
+                                uuid = null,
+                                uuidUser = null,
                                 dateDbtTraitement = LocalDate.now()
                             )
                         )
@@ -339,7 +339,7 @@ class PrescriptionAI(
             )
 
             // Aligne les IDs de mots avec les labels.
-            val labelIds = FeatureConverter.align_word_ids(feature)
+            val labelIds = FeatureConverter.alignWordIds(feature)
 
             // Exécute le modèle PyTorch avec les prédictions d'entrée et de masque.
             val outputTensor = mModule!!.forward(
