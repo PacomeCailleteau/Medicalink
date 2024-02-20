@@ -36,7 +36,9 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         list.forEach { traitement ->
             traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
                 if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
-                    effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()].let {
+                        it?.add(traitement)
+                    }
                 } else {
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()] =
                         mutableListOf(traitement)
@@ -110,8 +112,6 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
 
         holder.view.setOnLongClickListener {
             notifyDataSetChanged()
-
-            val context = holder.itemView.context
             true
         }
     }

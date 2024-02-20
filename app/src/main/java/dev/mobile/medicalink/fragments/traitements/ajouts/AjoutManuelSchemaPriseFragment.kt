@@ -51,13 +51,14 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
         retour = view.findViewById(R.id.retour_schema_prise2)
 
+        val couleurSousTexte = resources.getColor(R.color.scheduleBlue)
 
         val textePrincipal = resources.getString(R.string.quotidiennement)
         val sousTexte = resources.getString(R.string.meme_heure_meme_quanti)
         val spannableTextePrincipal = SpannableString(textePrincipal)
         val spannableSousTexte = SpannableString(sousTexte)
         spannableSousTexte.setSpan(
-            ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")),
+            ForegroundColorSpan(couleurSousTexte),
             0,
             sousTexte.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -79,7 +80,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val spannableTextePrincipal2 = SpannableString(textePrincipal2)
         val spannableSousTexte2 = SpannableString(sousTexte2)
         spannableSousTexte2.setSpan(
-            ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")),
+            ForegroundColorSpan(couleurSousTexte),
             0,
             sousTexte2.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -101,7 +102,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         val spannableTextePrincipal3 = SpannableString(textePrincipal3)
         val spannableSousTexte3 = SpannableString(sousTexte3)
         spannableSousTexte3.setSpan(
-            ForegroundColorSpan(android.graphics.Color.parseColor("#6B70A0")),
+            ForegroundColorSpan(couleurSousTexte),
             0,
             sousTexte3.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

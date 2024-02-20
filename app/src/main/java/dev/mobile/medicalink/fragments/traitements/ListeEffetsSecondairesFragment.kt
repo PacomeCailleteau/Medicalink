@@ -131,7 +131,9 @@ class ListeEffetsSecondairesFragment : Fragment() {
                 // Vérifie si l'effet secondaire est déjà dans la carte
                 if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
                     // S'il est présent, ajoutez le traitement à la liste existante
-                    effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
+                    effetsSecondairesMedicaments[effetSecondaire.lowercase()].let {
+                        it?.add(traitement)
+                    }
                 } else {
                     // S'il n'est pas présent, créé une nouvelle liste et ajoute le traitement
                     effetsSecondairesMedicaments[effetSecondaire.lowercase()] =

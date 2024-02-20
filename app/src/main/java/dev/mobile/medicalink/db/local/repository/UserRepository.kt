@@ -11,6 +11,11 @@ import java.util.Base64
 
 class UserRepository(private val userDao: UserDao) {
 
+    companion object {
+        private const val success = "Success"
+        private const val userDoesntExists = "User doesn't exists"
+    }
+
     fun getAllUsers(): List<User> {
         return try {
             userDao.getAll()
@@ -40,7 +45,7 @@ class UserRepository(private val userDao: UserDao) {
         user.password = hashedPassword
         return try {
             userDao.insertAll(user)
-            Pair(true, "Success")
+            Pair(true, success)
         } catch (e: SQLiteConstraintException) {
             Pair(false, "User already exists")
         } catch (e: SQLiteException) {
@@ -53,9 +58,9 @@ class UserRepository(private val userDao: UserDao) {
     fun deleteUser(user: User): Pair<Boolean, String> {
         return try {
             userDao.delete(user)
-            Pair(true, "Success")
+            Pair(true, success)
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "User doesn't exist")
+            Pair(false, userDoesntExists)
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
@@ -71,9 +76,9 @@ class UserRepository(private val userDao: UserDao) {
         }
         return try {
             userDao.update(user)
-            Pair(true, "Success")
+            Pair(true, success)
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "User doesn't exist")
+            Pair(false, userDoesntExists)
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
@@ -102,10 +107,10 @@ class UserRepository(private val userDao: UserDao) {
             user.isConnected = true
             userDao.update(user)
             userDao.update(user)
-            Pair(true, "Success")
+            Pair(true, success)
 
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "User doesn't exist")
+            Pair(false, userDoesntExists)
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
@@ -116,9 +121,9 @@ class UserRepository(private val userDao: UserDao) {
     fun isValidPassword(pass: String): Pair<Boolean, String> {
         return try {
             val res = getUsersConnected().first().password == hashPassword(pass)
-            Pair(res, "Success")
+            Pair(res, success)
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "User doesn't exist")
+            Pair(false, userDoesntExists)
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {
