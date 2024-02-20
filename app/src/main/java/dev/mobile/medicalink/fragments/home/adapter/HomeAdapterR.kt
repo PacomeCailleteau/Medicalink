@@ -71,12 +71,13 @@ class HomeAdapterR(
      */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val nomMedic : TextView = view.findViewById(R.id.nomMedic)
-        val nbComprime : TextView = view.findViewById(R.id.nbComprime)
-        val heurePrise : TextView = view.findViewById(R.id.heurePriseAccueil)
-        val circleTick : ImageView = view.findViewById(R.id.circleTick)
-        val mainHeure : TextView = view.findViewById(R.id.mainHeureMedic)
-        val mainHeureLayout : ConstraintLayout = view.findViewById(R.id.layoutMainHeure)
+        val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
+        val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
+        val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
+        val circleTick = view.findViewById<ImageView>(R.id.circleTick)
+        val imageMedoc = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
+        val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
+        val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
 
 
     }
@@ -191,6 +192,11 @@ class HomeAdapterR(
         }
     }
 
+    /**
+     * Met à jour l'image du cercle en fonction de la date
+     * @param holder : AjoutManuelViewHolder
+     * @param item : Pair<Prise, Traitement>
+     */
     private fun updateImageCercle(holder: AjoutManuelViewHolder, item: Pair<Prise, Traitement>) {
         val db = AppDatabase.getInstance(holder.itemView.context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
