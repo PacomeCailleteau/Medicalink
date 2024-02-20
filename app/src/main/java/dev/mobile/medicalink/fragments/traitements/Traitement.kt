@@ -6,7 +6,7 @@ import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 class Traitement(
     var nomTraitement: String,
     var codeCIS: String,

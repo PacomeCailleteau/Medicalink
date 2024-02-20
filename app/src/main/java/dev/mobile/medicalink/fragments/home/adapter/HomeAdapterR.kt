@@ -54,7 +54,7 @@ class HomeAdapterR(
      * @param listePriseValideeUpdated : liste des prises validées
      * @param date : date courante
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     fun updateData(
         listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
         listePriseValideeUpdated: MutableList<Pair<LocalDate, String>>,
@@ -153,7 +153,7 @@ class HomeAdapterR(
      * @param position : position de l'élément
      */
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val db = AppDatabase.getInstance(holder.itemView.context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
@@ -249,7 +249,7 @@ class HomeAdapterR(
     /**
      * Met à jour le texte du rapport
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun updateRapportText() {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
@@ -341,7 +341,7 @@ class HomeAdapterR(
      * @param holder : AjoutManuelViewHolder
      * @param context : contexte
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun showConfirmPriseDialog(
         holder: AjoutManuelViewHolder,
         context: Context,

@@ -12,11 +12,16 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.PriseValidee
+import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.lang.System.currentTimeMillis
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.UUID
 
 /**
  * Classe qui gère les notifications
@@ -124,7 +129,7 @@ class NotificationService : BroadcastReceiver() {
          * @param jourPremierePrise : le jour de la première prise
          * @param traitement : le traitement concerné
          */
-        @RequiresApi(Build.VERSION_CODES.O)
+        
         fun createFirstNotif(
             context: Context,
             heurePremierePriseStr: String,
@@ -170,7 +175,7 @@ class NotificationService : BroadcastReceiver() {
          * @param heureProchainePriseStr : l'heure de la prochaine prise
          * @param traitement : le traitement concerné
          */
-        @RequiresApi(Build.VERSION_CODES.O)
+
         fun createNextNotif(
             context: Context,
             heureProchainePriseStr: String,
@@ -193,7 +198,6 @@ class NotificationService : BroadcastReceiver() {
          * @param traitement : le traitement concerné
          * @param nbJour : le nombre de jour entre aujourd'hui et le jour de la prise
          */
-        @RequiresApi(Build.VERSION_CODES.O)
         private fun createNotif(
             context: Context,
             heurePriseStr: String,
@@ -221,6 +225,11 @@ class NotificationService : BroadcastReceiver() {
                 Duration.ofMillis(heureProchainePriseMillis - heureActuelle)
             }
 
+            // On récupère l'uuid du traitement pour pouvoir envoyer la prochaine notification
+            val medocUuid = traitement.UUID ?: ""
+
+            val dateNumeroUuidMedoc = Triple(dateEtNumero.first, dateEtNumero.second, medocUuid)
+
             // On crée la notification en utilisant l'ID généré
             return sendNotification(
                 context,
@@ -228,7 +237,7 @@ class NotificationService : BroadcastReceiver() {
                 "Il est l'heure de prendre votre médicament ${traitement.nomTraitement}",
                 duree.toMillis(),
                 notificationId,
-                dateEtNumero,
+                dateNumeroUuidMedoc,
                 sauter = true,
                 prendre = true
             )
@@ -274,7 +283,7 @@ class NotificationService : BroadcastReceiver() {
             contenu: String,
             delayMillis: Long,
             notificationId: Int,
-            dateEtNumero: Pair<String, String> = Pair("", ""),
+            dateNumeroUuidMedoc: Triple<String, String, String> = Triple("", "", ""),
             sauter: Boolean = false,
             prendre: Boolean = false
         ): Int {
@@ -283,8 +292,9 @@ class NotificationService : BroadcastReceiver() {
                 .putExtra("title", titre)
                 .putExtra("content", contenu)
                 .putExtra("notificationId", notificationId)
-                .putExtra("date", dateEtNumero.first)
-                .putExtra("numero", dateEtNumero.second)
+                .putExtra("date", dateNumeroUuidMedoc.first)
+                .putExtra("numero", dateNumeroUuidMedoc.second)
+                .putExtra("uuidMedoc", dateNumeroUuidMedoc.third)
                 .putExtra("sauter", sauter)
                 .putExtra("prendre", prendre)
 
@@ -305,6 +315,70 @@ class NotificationService : BroadcastReceiver() {
             )
 
             return notificationId
+        }
+
+        /**
+         * Fonction qui gère les actions a faire lors de la réception d'une notification
+         * @param context : le contexte de l'application
+         * @param intent : l'intent de la notification
+         * @param statut : le statut de la prise
+         */
+        fun gererNotif(
+            context: Context,
+            intent: Intent,
+            statut: String
+        ) {
+            // On ferme la notification
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationId = intent.getIntExtra("notificationId", -1)
+            notificationManager.cancel(notificationId)
+
+            //On récupère les infos dont on a besoin pour créer une prise validée
+            val date = intent.getStringExtra("date") ?: ""
+            val numero = intent.getStringExtra("numero") ?: ""
+            val uuidMedoc = intent.getStringExtra("uuidMedoc") ?: ""
+            val db = AppDatabase.getInstance(context)
+            val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+            val medocInterface = MedocRepository(db.medocDao())
+            Thread {
+                val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                    date,
+                    numero
+                )
+                if (priseToUpdate.isNotEmpty()) {
+                    val maPrise = priseToUpdate.first()
+                    maPrise.statut = statut
+                    priseValideeDatabaseInterface.updatePriseValidee(maPrise)
+                } else {
+                    val priseValidee = PriseValidee(
+                        uuid = UUID.randomUUID().toString(),
+                        date = date,
+                        uuidPrise = numero,
+                        statut = statut,
+                    )
+                    priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
+                }
+            }.start()
+
+            // On programme la prochaine notification
+            Thread {
+                try {
+                    val medoc = medocInterface.getOneMedocById(uuidMedoc)[0]
+                    val traitement = medoc.toTraitement()
+                    val priseActuelle = traitement.prises?.get(numero.toInt())
+                    val prochainePrise = traitement.getProchainePrise(priseActuelle)
+                    val dateEtNumero = Pair(LocalDate.now().toString(), prochainePrise.numeroPrise)
+                    createNextNotif(
+                        context,
+                        prochainePrise.heurePrise,
+                        traitement,
+                        dateEtNumero
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }.start()
         }
 
 

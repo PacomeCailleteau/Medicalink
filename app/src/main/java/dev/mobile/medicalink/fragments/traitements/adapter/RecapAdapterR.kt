@@ -35,7 +35,7 @@ class RecapAdapterR(private val list: MutableList<Prise>) :
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 

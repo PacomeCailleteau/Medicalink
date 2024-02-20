@@ -15,11 +15,11 @@ class MongoManager {
     private val mongoClient: MongoClient
     private val database: MongoDatabase
 
-    private val mongoHost = "127.26.82.44"
-    private val mongoPort = 27666
-    private val databaseName = "test"
-    private val username = "root"
-    private val password = "s5a04a"
+    private val mongoHost = System.getenv("MONGO_HOST")?.toString() ?: "localhost"
+    private val mongoPort = System.getenv("MONGO_PORT")?.toInt() ?: 27017
+    private val databaseName = System.getenv("MONGO_DATABASE")?.toString() ?: "medicazelda"
+    private val username = System.getenv("MONGO_USERNAME")?.toString() ?: "medicazelda"
+    private val password = System.getenv("MONGO_PASSWORD")?.toString() ?: ""
 
     init {
         val clientSettings = MongoClientSettings.builder()

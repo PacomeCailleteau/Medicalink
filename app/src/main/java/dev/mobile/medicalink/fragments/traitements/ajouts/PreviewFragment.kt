@@ -43,7 +43,7 @@ class PreviewFragment : Fragment() {
 
     private lateinit var retour: ImageView
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -177,7 +177,7 @@ class PreviewFragment : Fragment() {
         return result.toString()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun processImageAndExtractText(uri: Uri): Boolean {
         // Convertir l'URI de l'image en Bitmap
         val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)

@@ -30,7 +30,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     private lateinit var suivant: Button
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,7 +82,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
      * Fonction gérant la création et l'affichage de la dialog view s'affichant lors de la sélection
      * de l'intervalle
      */
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     private fun showIntervalleRegulierDialog(viewModel: AjoutSharedViewModel, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
@@ -196,7 +196,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
-            @RequiresApi(Build.VERSION_CODES.O)
+            
             override fun handleOnBackPressed() {
                 GoTo.fragment(AjoutManuelSchemaPriseFragment(), parentFragmentManager)
             }

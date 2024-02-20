@@ -31,7 +31,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     private lateinit var suivant: Button
     private lateinit var retour: ImageView
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -220,7 +220,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
-            @RequiresApi(Build.VERSION_CODES.O)
+            
             override fun handleOnBackPressed() {
                 GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
             }

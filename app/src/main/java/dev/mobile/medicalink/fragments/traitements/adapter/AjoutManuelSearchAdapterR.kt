@@ -40,7 +40,7 @@ class AjoutManuelSearchAdapterR(
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+    
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)
