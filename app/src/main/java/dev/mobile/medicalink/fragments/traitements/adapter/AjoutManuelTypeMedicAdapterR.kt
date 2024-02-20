@@ -1,20 +1,21 @@
 package dev.mobile.medicalink.fragments.traitements.adapter
 
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
 
 
-class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var selected: String, private val viewModel: AjoutSharedViewModel) :
+class AjoutManuelTypeMedicAdapterR(
+    private val list: MutableList<String>,
+    var selected: String,
+    private val viewModel: AjoutSharedViewModel
+) :
     RecyclerView.Adapter<AjoutManuelTypeMedicAdapterR.AjoutManuelTypeMedicViewHolder>() {
 
     class AjoutManuelTypeMedicViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -38,7 +39,7 @@ class AjoutManuelTypeMedicAdapterR(private val list: MutableList<String>, var se
         return AjoutManuelTypeMedicViewHolder(layout)
     }
 
-    
+
     override fun onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int) {
         val item = list[position]
 

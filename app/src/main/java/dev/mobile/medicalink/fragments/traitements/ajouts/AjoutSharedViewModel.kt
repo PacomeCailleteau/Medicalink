@@ -1,14 +1,11 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
-
 
 
 class AjoutSharedViewModel : ViewModel() {
@@ -116,19 +113,19 @@ class AjoutSharedViewModel : ViewModel() {
     }
 
     fun makeTraitement() = Traitement(
-        nomTraitement.value?:"",
-        codeCIS.value?:"",
-        dosageNb.value?:0,
-        frequencePrise.value?:"",
+        nomTraitement.value ?: "",
+        codeCIS.value ?: "",
+        dosageNb.value ?: 0,
+        frequencePrise.value ?: "",
         dateFinTraitement.value,
-        typeComprime.value?:"",
-        comprimesRestants.value?:0,
-        effetsSecondaires = effetsSecondaires.value?:mutableListOf(),
-        prises = prises.value?:mutableListOf(),
-        totalQuantite = totalQuantite.value?:0,
-        UUID = UUID.value?:"",
-        UUIDUSER = UUIDUSER.value?:"",
-        dateDbtTraitement = dateDbtTraitement.value?:LocalDate.now()
+        typeComprime.value ?: "",
+        comprimesRestants.value ?: 0,
+        effetsSecondaires = effetsSecondaires.value ?: mutableListOf(),
+        prises = prises.value ?: mutableListOf(),
+        totalQuantite = totalQuantite.value ?: 0,
+        UUID = UUID.value ?: "",
+        UUIDUSER = UUIDUSER.value ?: "",
+        dateDbtTraitement = dateDbtTraitement.value ?: LocalDate.now()
     )
 
     fun addTraitement(traitement: Traitement = makeTraitement()) {

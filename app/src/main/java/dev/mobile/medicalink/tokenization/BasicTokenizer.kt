@@ -32,6 +32,7 @@ class BasicTokenizer(
     companion object {
 
         private const val inputStringIsNull = "The input String is null."
+
         /* Performs invalid character removal and whitespace cleanup on text. */
         fun cleanText(text: String?): String {
             if (text == null) {

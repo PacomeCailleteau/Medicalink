@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -14,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +29,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
     private lateinit var suivant: Button
     private lateinit var retour: ImageView
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -221,7 +219,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
-            
+
             override fun handleOnBackPressed() {
                 GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
             }

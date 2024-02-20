@@ -1,12 +1,10 @@
 package dev.mobile.medicalink.fragments.traitements.adapter
 
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Traitement
@@ -56,7 +54,7 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
         return TraitementViewHolder(layout)
     }
 
-    
+
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val textAucunEffetSecondaire = holder.view.findViewById<TextView>(R.id.textAucunEffetsSec)
         if (list.isEmpty()) {

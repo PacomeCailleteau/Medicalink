@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             //On créer un user factice pour aller plus vite
             userDatabaseInterface.insertUser(
-                User("0","","nom","prenom", "", "", "666666", isConnected = true)
+                User("0", "", "nom", "prenom", "", "", "666666", isConnected = true)
             )
             val res = userDatabaseInterface.getUsersConnected()
             if (res.isNotEmpty()) {

@@ -2,23 +2,19 @@ package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.GoTo
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -38,7 +34,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -152,7 +148,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
     /**
      * Fonction gérant le date Picker pour sélectionner les dates de début et de fin du traitement
      */
-    
+
     private fun showDatePicker(element: TextInputEditText, viewModel: AjoutSharedViewModel) {
         val calendar = Calendar.getInstance()
         val currentYear = calendar[Calendar.YEAR]

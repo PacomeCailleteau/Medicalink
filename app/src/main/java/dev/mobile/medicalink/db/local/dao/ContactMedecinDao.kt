@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.db.local.dao
 
-import androidx.room.Dao
 import androidx.room.*
 import dev.mobile.medicalink.db.local.entity.ContactMedecin
 

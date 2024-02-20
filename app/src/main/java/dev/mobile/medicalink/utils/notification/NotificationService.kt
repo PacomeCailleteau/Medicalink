@@ -7,8 +7,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dev.mobile.medicalink.R
@@ -129,7 +127,7 @@ class NotificationService : BroadcastReceiver() {
          * @param jourPremierePrise : le jour de la première prise
          * @param traitement : le traitement concerné
          */
-        
+
         fun createFirstNotif(
             context: Context,
             heurePremierePriseStr: String,

@@ -7,11 +7,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisSubstance
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import org.junit.Assert.*
 
 
 @RunWith(AndroidJUnit4::class)
@@ -124,11 +124,6 @@ class CisSubstanceRepositoryTest {
         val cisSubstance = cisSubstanceRepository.getAllCisSubstances()
         assertFalse(cisSubstance.isEmpty())
     }
-
-
-
-
-
 
 
 }

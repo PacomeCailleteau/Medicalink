@@ -1,12 +1,10 @@
 package dev.mobile.medicalink.fragments.traitements.adapter
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.CisBdpm
@@ -40,7 +38,7 @@ class AjoutManuelSearchAdapterR(
     }
 
     @SuppressLint("SetTextI18n")
-    
+
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val item = list[position]
         holder.bind(item)

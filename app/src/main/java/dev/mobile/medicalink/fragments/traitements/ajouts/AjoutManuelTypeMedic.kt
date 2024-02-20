@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +24,7 @@ class AjoutManuelTypeMedic : Fragment() {
     private lateinit var retour: ImageView
     private lateinit var suivant: Button
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +61,8 @@ class AjoutManuelTypeMedic : Fragment() {
         val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)
 
-        val AjoutManuelTypeMedicAdapter = AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
+        val AjoutManuelTypeMedicAdapter =
+            AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected, viewModel)
         recyclerViewTypeMedic.adapter = AjoutManuelTypeMedicAdapter
 
         // Gestion de l'espacement entre les éléments du RecyclerView
@@ -86,7 +85,7 @@ class AjoutManuelTypeMedic : Fragment() {
 
         // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
-            
+
             override fun handleOnBackPressed() {
                 GoTo.fragment(AjoutManuelSearchFragment(), parentFragmentManager)
             }

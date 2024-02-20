@@ -15,17 +15,19 @@ import java.time.LocalDate
             entity = User::class,
             parentColumns = ["uuid"],
             childColumns = ["uuidUser"],
-            onDelete = ForeignKey.CASCADE),
+            onDelete = ForeignKey.CASCADE
+        ),
         ForeignKey(
             entity = CisBdpm::class,
             parentColumns = ["codeCIS"],
             childColumns = ["codeCIS"],
-            onDelete = ForeignKey.CASCADE)
+            onDelete = ForeignKey.CASCADE
+        )
     ],
     indices = [
         Index(value = ["uuidUser"]),
         Index(value = ["codeCIS"])
-            ]
+    ]
 )
 
 data class Medoc(
@@ -48,7 +50,11 @@ data class Medoc(
         return Traitement(
             nomTraitement = this.nom,
             codeCIS = this.codeCIS,
-            dosageNb = try { this.dosageNB.toInt() } catch (e: NumberFormatException) { 0 },
+            dosageNb = try {
+                this.dosageNB.toInt()
+            } catch (e: NumberFormatException) {
+                0
+            },
             frequencePrise = this.frequencePrise,
             dateFinTraitement = this.dateFinTraitement?.let { LocalDate.parse(it) },
             typeComprime = this.typeComprime,

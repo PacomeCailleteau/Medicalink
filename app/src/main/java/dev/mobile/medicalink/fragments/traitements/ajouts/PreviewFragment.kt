@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.traitements.ajouts
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -43,7 +41,7 @@ class PreviewFragment : Fragment() {
 
     private lateinit var retour: ImageView
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -177,7 +175,7 @@ class PreviewFragment : Fragment() {
         return result.toString()
     }
 
-    
+
     private fun processImageAndExtractText(uri: Uri): Boolean {
         // Convertir l'URI de l'image en Bitmap
         val inputStream: InputStream? = context?.contentResolver?.openInputStream(uri)

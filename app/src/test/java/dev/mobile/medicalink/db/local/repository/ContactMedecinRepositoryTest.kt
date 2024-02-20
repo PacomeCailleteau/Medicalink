@@ -18,9 +18,33 @@ class ContactMedecinRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var contactMedecinRepository: ContactMedecinRepository
     private val defaultContactMedecin =
-        ContactMedecin("1", "1", "prenom", "nom", "specialite", "email", "0123456789", "ici", "44444", "ville", "M")
+        ContactMedecin(
+            "1",
+            "1",
+            "prenom",
+            "nom",
+            "specialite",
+            "email",
+            "0123456789",
+            "ici",
+            "44444",
+            "ville",
+            "M"
+        )
     private val defaultContactMedecin2 =
-        ContactMedecin("2", "2", "prenom2", "nom2", "specialite2", "email2", "9876543210", "la", "55555", "ville2", "F")
+        ContactMedecin(
+            "2",
+            "2",
+            "prenom2",
+            "nom2",
+            "specialite2",
+            "email2",
+            "9876543210",
+            "la",
+            "55555",
+            "ville2",
+            "F"
+        )
     private val userOfDefaultMedoc =
         User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
     private val userOfDefaultMedoc2 =
@@ -62,7 +86,8 @@ class ContactMedecinRepositoryTest {
         // I prefer to create a new val contactMedecin than using defaultContactMedecin
         val contactMedecin = defaultContactMedecin
         contactMedecinRepository.insertContactMedecin(contactMedecin)
-        val contactMedecinFromDatabase = contactMedecinRepository.getOneContactMedecinById(contactMedecin.rpps)
+        val contactMedecinFromDatabase =
+            contactMedecinRepository.getOneContactMedecinById(contactMedecin.rpps)
         assertNotNull(contactMedecinFromDatabase)
         assertEquals(contactMedecinFromDatabase?.rpps, contactMedecin.rpps)
     }
@@ -73,7 +98,8 @@ class ContactMedecinRepositoryTest {
         val contactMedecin2 = defaultContactMedecin2
         contactMedecinRepository.insertContactMedecin(contactMedecin)
         contactMedecinRepository.insertContactMedecin(contactMedecin2)
-        val contactMedecins = contactMedecinRepository.getContactMedecinByUserUuid(contactMedecin.userUuid)
+        val contactMedecins =
+            contactMedecinRepository.getContactMedecinByUserUuid(contactMedecin.userUuid)
         assertEquals(1, contactMedecins.size)
         assertEquals(contactMedecins[0].rpps, contactMedecin.rpps)
     }
@@ -118,7 +144,6 @@ class ContactMedecinRepositoryTest {
         val deletedDromDb = contactMedecinRepository.getOneContactMedecinById(toAdd.rpps)
         assertNull(deletedDromDb)
     }
-
 
 
 }

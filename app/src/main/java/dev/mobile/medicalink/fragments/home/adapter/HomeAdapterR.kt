@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.home.adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -14,7 +13,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -54,7 +52,7 @@ class HomeAdapterR(
      * @param listePriseValideeUpdated : liste des prises validées
      * @param date : date courante
      */
-    
+
     fun updateData(
         listeTraitementUpdated: List<Pair<Prise, Traitement>>,
         listePriseValideeUpdated: List<Pair<LocalDate, String>>,
@@ -153,7 +151,7 @@ class HomeAdapterR(
      * @param position : position de l'élément
      */
     @SuppressLint("SetTextI18n")
-    
+
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val db = AppDatabase.getInstance(holder.itemView.context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
@@ -221,9 +219,11 @@ class HomeAdapterR(
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
                 }
+
                 "prendre" -> {
                     holder.circleTick.setImageResource(R.drawable.correct)
                 }
+
                 else -> {
                     holder.circleTick.setImageResource(R.drawable.avertissement)
                 }
@@ -249,7 +249,7 @@ class HomeAdapterR(
     /**
      * Met à jour le texte du rapport
      */
-    
+
     private fun updateRapportText() {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
@@ -329,7 +329,7 @@ class HomeAdapterR(
      * @param holder : AjoutManuelViewHolder
      * @param context : contexte
      */
-    
+
     private fun showConfirmPriseDialog(
         holder: AjoutManuelViewHolder,
         context: Context,

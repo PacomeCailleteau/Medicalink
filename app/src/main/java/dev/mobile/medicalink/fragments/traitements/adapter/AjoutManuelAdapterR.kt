@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -58,7 +56,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     }
 
     @SuppressLint("SetTextI18n")
-    
+
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
         //Création de l'item prise dans la vue d'ajout du traitement, lorsque l'on ajoute des prises

@@ -1,12 +1,10 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -16,17 +14,16 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
-import java.lang.Exception
 import java.util.concurrent.LinkedBlockingQueue
 
 class InfoMedocFragment : Fragment() {
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_infos_medoc,container,false)
+        val view = inflater.inflate(R.layout.fragment_infos_medoc, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val substancecDatabaseInterface = CisSubstanceRepository(db.cisSubstanceDao())
@@ -53,9 +50,9 @@ class InfoMedocFragment : Fragment() {
 
         var codeCIS = data.codeCIS
 
-        lateinit var monMedoc : Medoc
-        lateinit var maSubstance : CisSubstance
-        lateinit var monBdpm : CisBdpm
+        lateinit var monMedoc: Medoc
+        lateinit var maSubstance: CisSubstance
+        lateinit var monBdpm: CisBdpm
 
         val queue = LinkedBlockingQueue<Boolean>()
         Thread {
@@ -63,7 +60,7 @@ class InfoMedocFragment : Fragment() {
                 monMedoc = medocDatabaseInterface.getOneMedocByCIS(codeCIS) as Medoc
                 maSubstance = substancecDatabaseInterface.getOneCisSubstanceById(codeCIS)!!
                 monBdpm = bdpmDatabaseInterface.getOneCisBdpmById(codeCIS)[0]
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 throw e
             }
             queue.add(true)

@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.contacts.adapter
 
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -42,14 +40,17 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutContactMedecinViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AjoutContactMedecinViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_contact_message, parent, false)
         return AjoutContactMedecinViewHolder(layout)
     }
 
-    
+
     override fun onBindViewHolder(holder: AjoutContactMedecinViewHolder, position: Int) {
         val item = list[position]
         val contextGetString = holder.view.context
@@ -81,7 +82,11 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
             // Si c'est faux on fait un Toast, sinon on renvoie sur la pages de messages
             if (!res) {
                 // Faire un toast
-                Toast.makeText(holder.view.context, "Erreur lors de l'ajout du contact", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    holder.view.context,
+                    "Erreur lors de l'ajout du contact",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 GoTo.fragment(
                     ContactsFragment(),
