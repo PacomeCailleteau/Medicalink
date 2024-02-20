@@ -150,9 +150,6 @@ class HomeAdapterR(
     @SuppressLint("SetTextI18n")
 
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
-        val db = AppDatabase.getInstance(holder.itemView.context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
-
         if (list.isEmpty()) {
             return
         }
@@ -174,6 +171,7 @@ class HomeAdapterR(
         if (item == list[1]) {
             list[1].first.heurePrise.split(":").first()
         }
+
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.typeComprime}"
         holder.heurePrise.text = item.first.heurePrise
@@ -184,7 +182,19 @@ class HomeAdapterR(
         } else {
             holder.mainHeureLayout.visibility = View.GONE
         }
-        // Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+
+        updateImageCercle(holder, item)
+
+        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
+        holder.circleTick.setOnClickListener {
+            showConfirmPriseDialog(holder, holder.itemView.context)
+        }
+    }
+
+    private fun updateImageCercle(holder: AjoutManuelViewHolder, item: Pair<Prise, Traitement>) {
+        val db = AppDatabase.getInstance(holder.itemView.context)
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+
         if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
@@ -208,6 +218,7 @@ class HomeAdapterR(
                     queue.add("sauter")
                 }
             }.start()
+
             when (queue.take()) {
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
@@ -221,11 +232,6 @@ class HomeAdapterR(
                     holder.circleTick.setImageResource(R.drawable.avertissement)
                 }
             }
-        }
-
-        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
-        holder.circleTick.setOnClickListener {
-            showConfirmPriseDialog(holder, holder.itemView.context)
         }
     }
 
