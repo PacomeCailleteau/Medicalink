@@ -57,11 +57,6 @@ abstract class AppDatabase : RoomDatabase() {
 
                 //On créer un thread pour remplir la base de données (oui c'est pas la meilleure manière de faire)
                 Thread {
-                    /*
-                    // On supprime les données de la base de données médicamenteuse
-                    instance.cisBdpmDao().deleteAll()
-                    instance.cisSubstanceDao().deleteAll()
-                    */
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                     CisBdpmRepository(instance.cisBdpmDao()).insertFromCsv(context)
                     CisSubstanceRepository(instance.cisSubstanceDao()).insertFromCsv(context)
