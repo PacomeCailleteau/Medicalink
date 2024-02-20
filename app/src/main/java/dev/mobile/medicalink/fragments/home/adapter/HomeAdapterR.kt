@@ -75,7 +75,6 @@ class HomeAdapterR(
         val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
         val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
         val circleTick = view.findViewById<ImageView>(R.id.circleTick)
-        val imageMedoc = view.findViewById<ImageView>(R.id.itemListeTraitementsImage)
         val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
         val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
 
