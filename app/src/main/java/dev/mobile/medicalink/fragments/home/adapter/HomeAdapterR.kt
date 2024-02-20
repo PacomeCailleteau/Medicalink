@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,12 +72,12 @@ class HomeAdapterR(
      */
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        val nomMedic : TextView = view.findViewById(R.id.nomMedic)
-        val nbComprime : TextView = view.findViewById(R.id.nbComprime)
-        val heurePrise : TextView = view.findViewById(R.id.heurePriseAccueil)
-        val circleTick : ImageView = view.findViewById(R.id.circleTick)
-        val mainHeure : TextView = view.findViewById(R.id.mainHeureMedic)
-        val mainHeureLayout : ConstraintLayout = view.findViewById(R.id.layoutMainHeure)
+        val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
+        val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
+        val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
+        val circleTick = view.findViewById<ImageView>(R.id.circleTick)
+        val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
+        val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
 
 
     }
@@ -150,9 +151,6 @@ class HomeAdapterR(
     @SuppressLint("SetTextI18n")
 
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
-        val db = AppDatabase.getInstance(holder.itemView.context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
-
         if (list.isEmpty()) {
             return
         }
@@ -174,6 +172,7 @@ class HomeAdapterR(
         if (item == list[1]) {
             list[1].first.heurePrise.split(":").first()
         }
+
         holder.nomMedic.text = item.second.nomTraitement
         holder.nbComprime.text = "${item.first.quantite} ${item.first.typeComprime}"
         holder.heurePrise.text = item.first.heurePrise
@@ -184,7 +183,24 @@ class HomeAdapterR(
         } else {
             holder.mainHeureLayout.visibility = View.GONE
         }
-        // Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+
+        updateImageCercle(holder, item)
+
+        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
+        holder.circleTick.setOnClickListener {
+            showConfirmPriseDialog(holder, holder.itemView.context)
+        }
+    }
+
+    /**
+     * Met à jour l'image du cercle en fonction de la date
+     * @param holder : AjoutManuelViewHolder
+     * @param item : Pair<Prise, Traitement>
+     */
+    private fun updateImageCercle(holder: AjoutManuelViewHolder, item: Pair<Prise, Traitement>) {
+        val db = AppDatabase.getInstance(holder.itemView.context)
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+
         if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
@@ -208,6 +224,7 @@ class HomeAdapterR(
                     queue.add("sauter")
                 }
             }.start()
+
             when (queue.take()) {
                 "null" -> {
                     holder.circleTick.setImageResource(R.drawable.circle)
@@ -221,11 +238,6 @@ class HomeAdapterR(
                     holder.circleTick.setImageResource(R.drawable.avertissement)
                 }
             }
-        }
-
-        // Si le bouton est cliqué, on affiche la fenêtre de dialogue
-        holder.circleTick.setOnClickListener {
-            showConfirmPriseDialog(holder, holder.itemView.context)
         }
     }
 
@@ -313,10 +325,6 @@ class HomeAdapterR(
 
         val dosageDialog = builder.create()
 
-        // Création de la connexion à la base de données
-        val db = AppDatabase.getInstance(context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
-
         // Récupération des éléments de la vue
         val nomMedic = holder.nomMedic
         val nbComprime = holder.nbComprime
@@ -371,192 +379,176 @@ class HomeAdapterR(
         // Listener pour le bouton prendre
         // Si le bouton prendre est cliqué, on affiche la fenêtre de dialogue
         sauterLayout.setOnClickListener {
-            // Si l'image est déjà un avertissment, on la remet en cercle, sinon on la met en avertissment
-            if (circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.avertissement
-                    )?.constantState
-                ) == true
-            ) {
-                val queue = LinkedBlockingQueue<String>()
-                Thread {
-
-                    val priseToDelete = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
-                        dateCourante.toString(),
-                        list[holder.adapterPosition].first.numeroPrise
-                    )
-                    if (priseToDelete.isNotEmpty()) {
-                        priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
-                    }
-
-                    queue.add("True")
-
-                }.start()
-                queue.take()
-                circleTick.setImageResource(R.drawable.circle)
-            } else {
-                val queue = LinkedBlockingQueue<String>()
-                Thread {
-                    val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
-                        dateCourante.toString(),
-                        list[holder.adapterPosition].first.numeroPrise
-                    )
-                    if (priseToUpdate.isNotEmpty()) {
-                        val maPrise = priseToUpdate.first()
-                        maPrise.statut = "sauter"
-                        priseValideeDatabaseInterface.updatePriseValidee(maPrise)
-                    } else {
-                        val priseValidee = PriseValidee(
-                            uuid = UUID.randomUUID().toString(),
-                            date = dateCourante.toString(),
-                            uuidPrise = list[holder.adapterPosition].first.numeroPrise,
-                            statut = "sauter",
-                        )
-                        priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
-                    }
-
-                    queue.add("True")
-
-                }.start()
-                queue.take()
-                circleTick.setImageResource(R.drawable.avertissement)
-
-            }
-            notifyDataSetChanged()
-            updateRapportText()
-            dosageDialog.dismiss()
+            onClick("sauter", circleTick, holder, dosageDialog)
         }
 
         // Listener pour le bouton prendre
         // Si le bouton sauter est cliqué, on affiche la fenêtre de dialogue
         prendreLayout.setOnClickListener {
-            // Si l'image est déjà un tick correct alors on la remet en cercle, sinon on la met en tick correct
-            if (circleTick.drawable.constantState?.equals(
-                    ContextCompat.getDrawable(
-                        holder.itemView.context,
-                        R.drawable.correct
-                    )?.constantState
-                ) == true
-            ) {
+            onClick("prendre", circleTick, holder, dosageDialog)
+        }
 
-                val queue = LinkedBlockingQueue<String>()
-                Thread {
+        notifyDataSetChanged()
+        updateRapportText()
+        dosageDialog.show()
+    }
 
-                    val priseToDelete = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
-                        dateCourante.toString(),
-                        list[holder.adapterPosition].first.numeroPrise
+    /**
+     * Gère le clic sur les boutons prendre et sauter
+     * @param typeBouton : type de bouton
+     * @param circleTick : image du cercle
+     * @param holder : AjoutManuelViewHolder
+     * @param dosageDialog : fenêtre de dialogue
+     */
+    private fun onClick(
+        typeBouton: String,
+        circleTick: ImageView,
+        holder: AjoutManuelViewHolder,
+        dosageDialog: AlertDialog
+    ) {
+        Log.d("HomeAdapterR", "onClick: $typeBouton")
+        val context = holder.itemView.context
+        val db = AppDatabase.getInstance(context)
+        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+        val drawable = if (typeBouton == "prendre") {
+            R.drawable.correct
+        } else {
+            R.drawable.avertissement
+        }
+
+        if (circleTick.drawable.constantState?.equals(
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    drawable
+                )?.constantState
+            ) == true
+        ) {
+            val queue = LinkedBlockingQueue<String>()
+            Thread {
+                val priseToDelete = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                    dateCourante.toString(),
+                    list[holder.adapterPosition].first.numeroPrise
+                )
+                if (priseToDelete.isNotEmpty()) {
+                    priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
+                }
+
+                queue.add("True")
+
+            }.start()
+            queue.take()
+            circleTick.setImageResource(R.drawable.circle)
+        } else {
+            val queue = LinkedBlockingQueue<String>()
+            Thread {
+                val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                    dateCourante.toString(),
+                    list[holder.adapterPosition].first.numeroPrise
+                )
+                if (priseToUpdate.isNotEmpty()) {
+                    val maPrise = priseToUpdate.first()
+                    maPrise.statut = typeBouton
+                    priseValideeDatabaseInterface.updatePriseValidee(maPrise)
+                } else {
+                    val priseValidee = PriseValidee(
+                        uuid = UUID.randomUUID().toString(),
+                        date = dateCourante.toString(),
+                        uuidPrise = list[holder.adapterPosition].first.numeroPrise,
+                        statut = typeBouton,
                     )
-                    if (priseToDelete.isNotEmpty()) {
-                        priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
-                    }
+                    priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
+                }
+                queue.add("True")
+            }.start()
+            queue.take()
 
-                    queue.add("True")
-
-                }.start()
-                queue.take()
-                circleTick.setImageResource(R.drawable.circle)
-            } else {
-                //On veut créer une notification pour la prochaine prise du traitement, cette prise peut être plus tard dans la journée ou un jour prochain
-                //On récupère le traitement et la prise
-                val traitement = list[holder.adapterPosition].second
-                val prise = list[holder.adapterPosition].first
-
-                /* ##############################################################
-                #  Partie prise en compte dans la bd que la prise a été validée #
-                ################################################################# */
-
-                Toast.makeText(
-                    context,
-                    "Vous avez pris votre médicament ${nomMedic.text} de ${heurePrise.text}",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                val queue = LinkedBlockingQueue<String>()
-                Thread {
-                    val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
-                        dateCourante.toString(),
-                        list[holder.adapterPosition].first.numeroPrise
-                    )
-                    if (priseToUpdate.isNotEmpty()) {
-                        val maPrise = priseToUpdate.first()
-                        maPrise.statut = "prendre"
-                        priseValideeDatabaseInterface.updatePriseValidee(maPrise)
-                    } else {
-                        val priseValidee = PriseValidee(
-                            uuid = UUID.randomUUID().toString(),
-                            date = dateCourante.toString(),
-                            uuidPrise = list[holder.adapterPosition].first.numeroPrise,
-                            statut = "prendre",
-                        )
-                        priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
-                    }
-                    queue.add("True")
-                }.start()
-
-                queue.take()
-
-                //On récupère l'heure de la prochaine prise en fonction des prises du traitement
-                val heureProchainePrise = traitement.getProchainePrise(prise).heurePrise
-
-                //On fait une requête à la base de données pour récupéré le Medoc correspondant au traitement
-                Thread {
-                    val medocDatabaseInterface = MedocRepository(db.medocDao())
-                    val dateFinTraitement: String?
-                    if (traitement.UUID == null) {
-                        return@Thread
-                    } else {
-                        val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
-                        if (medoc.size == 1) {
-                            //On récupère la date de fin du traitement
-                            val medicament = medoc[0]
-                            dateFinTraitement = medicament.dateFinTraitement
-                            medicament.comprimesRestants =
-                                medicament.comprimesRestants?.minus(prise.quantite)
-
-                            if (medicament.comprimesRestants!! <= 0) {
-                                medicament.comprimesRestants = 0
-                                NotificationService.createStockNotif(
-                                    context,
-                                    "Stock épuisé",
-                                    "La quantité du médicament ${medicament.nom} est épuisée"
-                                )
-                            }
-
-                            //On met à jour le médicament dans la base de données
-                            medocDatabaseInterface.updateMedoc(medicament)
-                        } else {
-                            return@Thread
-                        }
-                    }
-
-                    //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
-                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
-                            .toString()
-                    ) {
-                        return@Thread
-                    } else {
-                        val date = dateCourante.toString()
-                        val numero = list[holder.adapterPosition].first.numeroPrise
-                        //On créer la notification de la prochaine prise
-                        NotificationService.createNextNotif(
-                            context,
-                            heureProchainePrise,
-                            traitement,
-                            Pair(date, numero)
-                        )
-                    }
-                }.start()
-
-
+            if (typeBouton == "prendre") {
+                gererNotif(holder)
                 circleTick.setImageResource(R.drawable.correct)
             }
             notifyDataSetChanged()
             updateRapportText()
             dosageDialog.dismiss()
         }
-        notifyDataSetChanged()
-        updateRapportText()
-        dosageDialog.show()
     }
+
+    /**
+     * Fonction qui gère l'envoie ou non d'une notification une fois le clic sur prendre effectué
+     * @param holder : AjoutManuelViewHolder
+     */
+    private fun gererNotif(holder: AjoutManuelViewHolder) {
+        //On veut créer une notification pour la prochaine prise du traitement, cette prise peut être plus tard dans la journée ou un jour prochain
+        //On récupère le traitement et la prise
+        val traitement = list[holder.adapterPosition].second
+        val prise = list[holder.adapterPosition].first
+
+        // On récupère toutes les infos dont on aura besoin
+        val context = holder.itemView.context
+        val db = AppDatabase.getInstance(context)
+        val nomMedic = holder.nomMedic
+        val heurePrise = holder.heurePrise
+
+        /* ##############################################################
+        #  Partie prise en compte dans la bd que la prise a été validée #
+        ################################################################# */
+        Toast.makeText(
+            context,
+            "Vous avez pris votre médicament ${nomMedic.text} de ${heurePrise.text}",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        //On récupère l'heure de la prochaine prise en fonction des prises du traitement
+        val heureProchainePrise = traitement.getProchainePrise(prise).heurePrise
+
+        //On fait une requête à la base de données pour récupéré le Medoc correspondant au traitement
+        Thread {
+            val medocDatabaseInterface = MedocRepository(db.medocDao())
+            val dateFinTraitement: String?
+            if (traitement.UUID == null) {
+                return@Thread
+            } else {
+                val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
+                if (medoc.size == 1) {
+                    //On récupère la date de fin du traitement
+                    val medicament = medoc[0]
+                    dateFinTraitement = medicament.dateFinTraitement
+                    medicament.comprimesRestants =
+                        medicament.comprimesRestants?.minus(prise.quantite)
+
+                    if (medicament.comprimesRestants!! <= 0) {
+                        medicament.comprimesRestants = 0
+                        NotificationService.createStockNotif(
+                            context,
+                            "Stock épuisé",
+                            "La quantité du médicament ${medicament.nom} est épuisée"
+                        )
+                    }
+
+                    //On met à jour le médicament dans la base de données
+                    medocDatabaseInterface.updateMedoc(medicament)
+                } else {
+                    return@Thread
+                }
+            }
+
+            //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
+            if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
+                    .toString()
+            ) {
+                return@Thread
+            } else {
+                val date = dateCourante.toString()
+                val numero = list[holder.adapterPosition].first.numeroPrise
+                //On créer la notification de la prochaine prise
+                NotificationService.createNextNotif(
+                    context,
+                    heureProchainePrise,
+                    traitement,
+                    Pair(date, numero)
+                )
+            }
+        }.start()
+    }
+
+
 }
