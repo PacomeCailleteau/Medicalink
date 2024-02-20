@@ -34,7 +34,10 @@ On linux:
 
 In assets repository:
 
-```git submodule update --init```
+```
+git submodule update --init  
+git submodule foreach git lfs pull
+```
 
 
 Pull model :
