@@ -18,7 +18,6 @@ import dev.mobile.medicalink.fragments.contacts.adapter.AjoutContactMedecinFragm
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.utils.medecin.Medecin
 import dev.mobile.medicalink.utils.medecin.MedecinApi
-import java.util.concurrent.LinkedBlockingQueue
 
 
 class AjoutContactMedecinFragment : Fragment() {
