@@ -1,12 +1,10 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
 
 
 class LoaderFragment : Fragment() {
@@ -45,7 +42,7 @@ class LoaderFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val uri = (arguments?.getString("urimage"))?.toUri()
             val result = withContext(Dispatchers.IO) {
-                createTraitement(uri!!, view.context)
+                createTraitement(uri!!)
             }
 
             handleResult(result)
@@ -93,9 +90,9 @@ class LoaderFragment : Fragment() {
 
     // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createTraitement(text: Uri, context: Context): List<Traitement> {
+    private fun createTraitement(text: Uri): List<Traitement> {
         val myModel = PrescriptionAI(requireContext())
-        return  myModel.analyse(text)
+        return myModel.analyse(text)
     }
 }
 

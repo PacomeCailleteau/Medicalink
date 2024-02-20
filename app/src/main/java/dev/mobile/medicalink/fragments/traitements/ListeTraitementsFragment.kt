@@ -100,7 +100,7 @@ class ListeTraitementsFragment : Fragment() {
                 viewModel.dateFinTraitement.value?.toString() ?: "null",
                 viewModel.typeComprime.value ?: "",
                 viewModel.comprimesRestants.value ?: 0,
-                viewModel.dateFinTraitement.value != null && viewModel.dateFinTraitement.value!! > LocalDate.now(),
+                viewModel.dateFinTraitement.value != null && viewModel.dateFinTraitement.value!! < LocalDate.now(),
                 newTraitementEffetsSec ?: "null",
                 newTraitementPrises ?: "null",
                 viewModel.totalQuantite.value ?: 0,

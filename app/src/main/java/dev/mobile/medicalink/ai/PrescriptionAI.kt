@@ -157,7 +157,7 @@ class PrescriptionAI(
      * @return liste de 'Traitement'
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun postAnalyse(prediction: MutableList<Pair<String, String>>): List<Traitement> {
+    private fun postAnalyse(prediction: List<Pair<String, String>>): List<Traitement> {
         val treatment = mutableListOf(Traitement(
             "",
             "",

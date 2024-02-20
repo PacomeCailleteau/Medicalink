@@ -61,7 +61,7 @@ class FullTokenizer(
      * @param tokens La liste de tokens à convertir.
      * @return Une liste d'identifiants.
      */
-    fun convertTokensToIds(tokens: MutableList<String>): MutableList<Int> {
+    fun convertTokensToIds(tokens: List<String>): MutableList<Int> {
         // Crée une liste mutable pour stocker les identifiants de sortie.
         val outputIds: MutableList<Int> = ArrayList()
 
