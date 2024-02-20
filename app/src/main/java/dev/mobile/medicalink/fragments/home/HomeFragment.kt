@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.home
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -73,7 +71,6 @@ class HomeFragment : Fragment() {
     private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
     @SuppressLint("SetTextI18n")
-    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,7 +78,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Création des listes de mois et de jours
-        listeMois = mapOf<String, String>(
+        listeMois = mapOf(
             Pair("JANUARY", resources.getString(R.string.janvier)),
             Pair("FEBRUARY", resources.getString(R.string.fevrier)),
             Pair("MARCH", resources.getString(R.string.mars)),
@@ -96,7 +93,7 @@ class HomeFragment : Fragment() {
             Pair("DECEMBER", resources.getString(R.string.decembre)),
         )
 
-        listeJour = mapOf<String, String>(
+        listeJour = mapOf(
             Pair("MONDAY", resources.getString(R.string.lundi)),
             Pair("TUESDAY", resources.getString(R.string.mardi)),
             Pair("WEDNESDAY", resources.getString(R.string.mercredi)),
@@ -217,7 +214,6 @@ class HomeFragment : Fragment() {
      * @param context le contexte de l'application
      */
     @SuppressLint("SetTextI18n")
-    
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
         if (dateClique != LocalDate.now()) {
             revenirDateCourante.visibility = View.VISIBLE
@@ -256,183 +252,24 @@ class HomeFragment : Fragment() {
      * @param dateActuelle la date actuelle
      * @param context le contexte de l'application
      */
-    
-    fun updateListePrise(dateActuelle: LocalDate, context: Context) {
+
+    private fun updateListePrise(dateActuelle: LocalDate, context: Context) {
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
 
+        val listeTraitementPrise : MutableList<Pair<Prise, Traitement>> =
+            findListeTraitementPrise(userDatabaseInterface, medocDatabaseInterface)
 
-        val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
-
-        Thread {
-
-            val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-
-            //Récupération des traitements de l'utilisateur connecté
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
-                userDatabaseInterface.getUsersConnected(true).first().uuid
-            )
-
-
-            for (medoc in listeMedoc) {
-
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-                val listePrise = mutableListOf<Prise>()
-
-                Log.d("test", medoc.toString())
-
-                if (!medoc.prises.isNullOrEmpty()) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        Log.d("test", traitementPrise.toString())
-                        val maPrise = Prise(
-                            traitementPrise[0],
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            medoc.typeComprime
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    Log.d("test", medoc.dateFinTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern(datePattern)
-                    val date = medoc.dateFinTraitement
-
-                    //convert String to LocalDate
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    Log.d("test", medoc.dateDbtTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern(datePattern)
-                    val date = medoc.dateDbtTraitement
-
-                    //convert String to LocalDate
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
-                //Vérification de la date de fin de traitement
-                if ((!medoc.expire) && (newTraitementFinDeTraitement != null) && LocalDate.now() > newTraitementFinDeTraitement) {
-                    //Si la date de fin de traitement est dépassée, on met le traitement en expiré
-                    medoc.expire = true
-                    medocDatabaseInterface.updateMedoc(medoc)
-                }
-
-                //Création du traitement
-                val traitement = Traitement(
-                    medoc.nom,
-                    medoc.codeCIS,
-                    medoc.dosageNB.toInt(),
-                    medoc.frequencePrise,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
-                )
-                if (traitement.prises?.size != 0 && traitement.prises != null) {
-                    //Si le traitement a des prises, on les ajoute à la liste des prises à afficher
-                    for (prise in traitement.prises!!) {
-                        listeTraitement.add(Pair(prise, traitement))
-                    }
-                }
-            }
-
-            Log.d("test", listeTraitement.toString())
-
-            queue.add(listeTraitement)
-
-        }.start()
-        val listeTraitementPrise = queue.take()
-        Log.d("test", listeTraitementPrise.toString())
-        var doIaddIt: Boolean
         val listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
-        Log.d(
-            "Date Actuelle Système",
-            "${dateActuelle.dayOfMonth} ${dateActuelle.month} ${dateActuelle.year}"
-        )
-
 
         for (element in listeTraitementPrise) {
-            doIaddIt = false
-            if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
-                //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement
-                if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
-                    //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
-                    break
-                }
-                Log.d("unite", element.second.frequencePrise)
-                when (element.second.frequencePrise) {
-                    "auBesoin" -> {
-                        doIaddIt = false
-                    }
-
-                    "quotidiennement" -> {
-                        doIaddIt = true
-                    }
-
-                    else -> {
-                        val jourEntreDeuxDates =
-                            ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
-                        var tousLesXJours: Long
-                        when (element.second.frequencePrise) {
-                            "Jours" -> {
-                                tousLesXJours = element.second.dosageNb.toLong()
-                                doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-                            }
-
-                            "Semaines" -> {
-                                tousLesXJours = element.second.dosageNb.toLong() * 7L
-                                Log.d("s", tousLesXJours.toString())
-                                Log.d("s1", jourEntreDeuxDates.toString())
-                                Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
-                                doIaddIt = jourEntreDeuxDates % tousLesXJours == 0L
-                                Log.d("doIaddIt", doIaddIt.toString())
-                            }
-
-                            "Mois" -> {
-                                val moisEntreDeuxDates = Period.between(
-                                    element.second.dateDbtTraitement,
-                                    dateActuelle
-                                ).months
-                                Log.d("m", element.second.dosageNb.toString())
-                                Log.d("m1", moisEntreDeuxDates.toString())
-                                Log.d(
-                                    "m2",
-                                    (moisEntreDeuxDates % element.second.dosageNb).toString()
-                                )
-                                doIaddIt = if (moisEntreDeuxDates == 0) {
-                                    element.second.dateDbtTraitement == dateActuelle
-                                } else {
-                                    moisEntreDeuxDates % element.second.dosageNb == 0
-                                }
-                            }
-
-                            else -> doIaddIt = false
-                        }
-                    }
-                }
-            }
-            if (doIaddIt) {
+            if (toAdd(element, dateActuelle)) {
                 listePriseAffiche.add(element)
             }
         }
+
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
         if (traitementsTries.isNotEmpty()) {
@@ -478,7 +315,6 @@ class HomeFragment : Fragment() {
                 var dateReformate = LocalDate.now()
 
                 if (priseValidee.date != "null") {
-                    Log.d("testPriseValidee", priseValidee.date)
                     val formatter = DateTimeFormatter.ofPattern(datePattern)
                     val date = priseValidee.date
 
@@ -492,10 +328,116 @@ class HomeFragment : Fragment() {
 
         }.start()
         listePriseValidee = queue2.take()
-        Log.d("XXX", listePriseValidee.toString())
+
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
         homeAdapter.notifyDataSetChanged()
     }
+
+    /**
+     * Fonction permettant de savoir si une prise doit être ajoutée à la liste des prises à afficher
+     * @param element la prise à vérifier
+     * @param dateActuelle la date actuelle
+     * @return true si la prise doit être ajoutée, false sinon
+     */
+    private fun toAdd(element: Pair<Prise, Traitement>, dateActuelle: LocalDate) : Boolean {
+        var toAdd = false
+        if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
+            //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement
+            if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
+                //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
+                return false
+            }
+
+            when (element.second.frequencePrise) {
+                "auBesoin" -> {
+                    toAdd = false
+                }
+
+                "quotidiennement" -> {
+                    toAdd = true
+                }
+
+                else -> {
+                    val jourEntreDeuxDates =
+                        ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
+                    val tousLesXJours: Long
+                    when (element.second.frequencePrise) {
+                        "Jours" -> {
+                            tousLesXJours = element.second.dosageNb.toLong()
+                            toAdd = jourEntreDeuxDates % tousLesXJours == 0L
+                        }
+
+                        "Semaines" -> {
+                            tousLesXJours = element.second.dosageNb.toLong() * 7L
+                            Log.d("s", tousLesXJours.toString())
+                            Log.d("s1", jourEntreDeuxDates.toString())
+                            Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
+                            toAdd = jourEntreDeuxDates % tousLesXJours == 0L
+                            Log.d("doIaddIt", toAdd.toString())
+                        }
+
+                        "Mois" -> {
+                            val moisEntreDeuxDates = Period.between(
+                                element.second.dateDbtTraitement,
+                                dateActuelle
+                            ).months
+                            Log.d("m", element.second.dosageNb.toString())
+                            Log.d("m1", moisEntreDeuxDates.toString())
+                            Log.d(
+                                "m2",
+                                (moisEntreDeuxDates % element.second.dosageNb).toString()
+                            )
+                            toAdd = if (moisEntreDeuxDates == 0) {
+                                element.second.dateDbtTraitement == dateActuelle
+                            } else {
+                                moisEntreDeuxDates % element.second.dosageNb == 0
+                            }
+                        }
+
+                        else -> toAdd = false
+                    }
+                }
+            }
+        }
+        return toAdd
+    }
+
+    private fun findListeTraitementPrise(
+        userDatabaseInterface: UserRepository,
+        medocDatabaseInterface: MedocRepository
+    ): MutableList<Pair<Prise, Traitement>> {
+        val queue = LinkedBlockingQueue<MutableList<Pair<Prise, Traitement>>>()
+        Thread {
+            val listeTraitement: MutableList<Pair<Prise, Traitement>> = mutableListOf()
+
+            //Récupération des traitements de l'utilisateur connecté
+            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
+                userDatabaseInterface.getUsersConnected().first().uuid
+            )
+
+            for (medoc in listeMedoc) {
+                val traitement = medoc.toTraitement()
+
+                //Vérification de la date de fin de traitement
+                if ((!medoc.expire) && (traitement.dateFinTraitement != null) && LocalDate.now() > traitement.dateFinTraitement!!) {
+                    //Si la date de fin de traitement est dépassée, on met le traitement en expiré
+                    medoc.expire = true
+                    traitement.expire = true
+                    medocDatabaseInterface.updateMedoc(medoc)
+                }
+
+                if (traitement.prises?.size != 0 && traitement.prises != null) {
+                    //Si le traitement a des prises, on les ajoute à la liste des prises à afficher
+                    for (prise in traitement.prises!!) {
+                        listeTraitement.add(Pair(prise, traitement))
+                    }
+                }
+            }
+            queue.add(listeTraitement)
+        }.start()
+        return queue.take()
+    }
+
 
     companion object {
         private const val datePattern = "yyyy-MM-dd"

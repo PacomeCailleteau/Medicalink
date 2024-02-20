@@ -7,11 +7,11 @@ import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 
-class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
+class CisBdpmRepository(private val cISbdpmDao: CisBdpmDao) {
 
     fun getAllCisBdpm(): List<CisBdpm> {
         return try {
-            CISbdpmDao.getAll()
+            cISbdpmDao.getAll()
         } catch (e: Exception) {
             emptyList()
         }
@@ -19,7 +19,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
 
     fun getOneCisBdpmById(codeCIS: String): List<CisBdpm> {
         return try {
-            CISbdpmDao.getById(codeCIS)
+            cISbdpmDao.getById(codeCIS)
         } catch (e: Exception) {
             emptyList()
         }
@@ -27,7 +27,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
 
     fun insertCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.insertAll(cisBdpm)
+            cISbdpmDao.insertAll(cisBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm already exists")
@@ -47,7 +47,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         val csvContent = csv.readCsvFromAssets(context, "CIS_bdpm.csv")
         val cisBdpmList = parseCsv(csvContent)
         try {
-            CISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
+            cISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
             Log.e("CisBdpmRepository", "CIS_bdpm already exists")
         } catch (e: SQLiteException) {
@@ -95,7 +95,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
 
     fun deleteCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.delete(cisBdpm)
+            cISbdpmDao.delete(cisBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm doesn't exist")
@@ -108,7 +108,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
 
     fun updateCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.update(cisBdpm)
+            cISbdpmDao.update(cisBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm doesn't exist")

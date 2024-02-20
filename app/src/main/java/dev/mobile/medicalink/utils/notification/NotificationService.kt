@@ -122,7 +122,7 @@ class NotificationService : BroadcastReceiver() {
          * @param jourPremierePrise : le jour de la première prise
          * @param traitement : le traitement concerné
          */
-        
+
         fun createFirstNotif(
             context: Context,
             heurePremierePriseStr: String,

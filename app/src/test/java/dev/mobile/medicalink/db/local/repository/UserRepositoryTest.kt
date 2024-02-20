@@ -101,7 +101,10 @@ class UserRepositoryTest {
         // Check if the password is valid
         val isValid = userRepository.isValidPassword("wrongPassword")
         assertFalse(isValid.first)
-        assertEquals(isValid.second, "Success") //The second one is about the error message of the database but here it's a success
+        assertEquals(
+            isValid.second,
+            "Success"
+        ) //The second one is about the error message of the database but here it's a success
     }
 
     @Test
@@ -194,7 +197,7 @@ class UserRepositoryTest {
         userFromDatabase[0].isConnected?.let { assert(it) }
         //Verify that user2 is not connected
         val user2FromDatabase = userRepository.getOneUserById(user2.uuid)
-        assertEquals(user2FromDatabase.size ,1)
+        assertEquals(user2FromDatabase.size, 1)
         assertEquals(user2FromDatabase[0].uuid, user2.uuid)
         user2FromDatabase[0].isConnected?.let { assertFalse(it) }
     }

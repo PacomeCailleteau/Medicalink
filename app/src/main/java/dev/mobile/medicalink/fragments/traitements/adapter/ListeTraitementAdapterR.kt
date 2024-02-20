@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.traitements.adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -49,7 +47,7 @@ class ListeTraitementAdapterR(
     }
 
     @SuppressLint("SetTextI18n")
-    
+
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val textAucunTraitement = holder.view.findViewById<TextView>(R.id.textAucunTraitement)
         if (list.isEmpty()) {

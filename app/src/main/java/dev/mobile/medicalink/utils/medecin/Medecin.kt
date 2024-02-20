@@ -14,8 +14,8 @@ data class Medecin(
     val zipCode: String,
     val city: String,
     val gender: String,
-){
-    fun asContactMedecin(userUuid : String): ContactMedecin {
+) {
+    fun asContactMedecin(userUuid: String): ContactMedecin {
         return ContactMedecin(
             rpps = this.rpps,
             userUuid = userUuid,

@@ -1,13 +1,11 @@
 package dev.mobile.medicalink.fragments.traitements.adapter
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Prise
@@ -35,7 +33,7 @@ class RecapAdapterR(private val list: MutableList<Prise>) :
     }
 
     @SuppressLint("SetTextI18n")
-    
+
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
 

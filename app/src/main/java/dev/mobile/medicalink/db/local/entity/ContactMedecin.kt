@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import dev.mobile.medicalink.utils.medecin.Medecin
 
-@Entity (
+@Entity(
     foreignKeys = [
         ForeignKey(
             entity = User::class,
@@ -18,9 +18,9 @@ import dev.mobile.medicalink.utils.medecin.Medecin
 )
 
 
-data class ContactMedecin (
+data class ContactMedecin(
     @PrimaryKey val rpps: String,
-    val userUuid : String,
+    val userUuid: String,
     val firstname: String,
     val lastname: String,
     val specialty: String,

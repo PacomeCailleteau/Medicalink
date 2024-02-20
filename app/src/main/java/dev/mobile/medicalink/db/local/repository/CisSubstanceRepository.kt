@@ -7,7 +7,7 @@ import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisSubstanceDao
 import dev.mobile.medicalink.db.local.entity.CisSubstance
 
-class CisSubstanceRepository (private val cisSubstanceDao: CisSubstanceDao) {
+class CisSubstanceRepository(private val cisSubstanceDao: CisSubstanceDao) {
 
     fun getAllCisSubstances(): List<CisSubstance> {
         return try {
@@ -81,9 +81,15 @@ class CisSubstanceRepository (private val cisSubstanceDao: CisSubstanceDao) {
         } catch (e: SQLiteConstraintException) {
             Log.e("CisSubstanceRepository", "CIS_substance already exists")
         } catch (e: SQLiteException) {
-            Log.e("CisSubstanceRepository", "Database Error while inserting CIS_substance : ${e.message}")
+            Log.e(
+                "CisSubstanceRepository",
+                "Database Error while inserting CIS_substance : ${e.message}"
+            )
         } catch (e: Exception) {
-            Log.e("CisSubstanceRepository", "Unknown Error while inserting CIS_substance : ${e.message}")
+            Log.e(
+                "CisSubstanceRepository",
+                "Unknown Error while inserting CIS_substance : ${e.message}"
+            )
         }
     }
 

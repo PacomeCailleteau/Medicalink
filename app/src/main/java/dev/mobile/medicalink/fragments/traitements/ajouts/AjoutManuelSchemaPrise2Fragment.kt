@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -32,7 +30,6 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
     private lateinit var suivant: Button
 
 
-    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +47,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
 
         var listePrise: MutableList<Prise>? = viewModel.prises.value
-        if (listePrise == null){
+        if (listePrise == null) {
             listePrise = mutableListOf()
         }
         if (listePrise.isEmpty()) {
@@ -129,9 +126,11 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 "quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
                 }
+
                 "intervalleRegulier" -> {
                     destinationFragment = AjoutManuelIntervalleRegulier()
                 }
+
                 null -> {
                     destinationFragment = AjoutManuelSchemaPriseFragment()
                 }
@@ -165,10 +164,11 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
 
         // Attacher le gestionnaire du bouton de retour arrière de l'appareil
         val callback = object : OnBackPressedCallback(true) {
-            
+
             override fun handleOnBackPressed() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
-                val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
+                val viewModel =
+                    ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
                 var listePrise: MutableList<Prise>? = viewModel.prises.value
 
                 if (listePrise == null) {

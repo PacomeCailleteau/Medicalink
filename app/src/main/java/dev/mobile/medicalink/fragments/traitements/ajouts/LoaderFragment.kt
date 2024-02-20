@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.animation.ObjectAnimator
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
@@ -32,7 +30,7 @@ class LoaderFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_loader, container, false)
     }
 
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,7 +72,7 @@ class LoaderFragment : Fragment() {
     }
 
     // Fonction qui va lire le texte récupéré depuis l'image et qui fait un traitement après avoir trié les données
-    
+
     private fun createTraitement(text: String): List<String?> {
         val myModel = ModelOCR(requireContext())
         val texteAnalyze = myModel.analyze(text)

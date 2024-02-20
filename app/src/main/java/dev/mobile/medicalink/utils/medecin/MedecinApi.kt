@@ -33,7 +33,7 @@ class MedecinApi {
         }
     }
 
-    fun getMedecins(prenom: String?, nom: String?) : List<Medecin>? {
+    fun getMedecins(prenom: String?, nom: String?): List<Medecin>? {
         try {
             // On ne cherche qu'avec instamed parce que c'est plus rapide
             val url = "${baseURL}medecin_instamed/$prenom/$nom?perPage=10"

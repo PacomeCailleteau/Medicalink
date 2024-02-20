@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -26,13 +24,13 @@ import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
 
 class ListeTraitementsFragment : Fragment() {
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +61,8 @@ class ListeTraitementsFragment : Fragment() {
                 for (effet in viewModel.effetsSecondaires.value!!) {
                     chaineDeChar += "$effet;"
                 }
-                if (chaineDeChar != "") chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
+                if (chaineDeChar != "") chaineDeChar =
+                    chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
                 newTraitementEffetsSec = chaineDeChar
             }
 
@@ -73,25 +72,27 @@ class ListeTraitementsFragment : Fragment() {
                 for (prise in viewModel.prises.value!!) {
                     chaineDeChar += "${prise}/"
                 }
-                if (chaineDeChar != "") chaineDeChar = chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
+                if (chaineDeChar != "") chaineDeChar =
+                    chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
                 newTraitementPrises = chaineDeChar
             }
 
 
             newMedoc = Medoc(
-                if (viewModel.isAddingTraitement.value!!) UUID.randomUUID().toString() else viewModel.UUID.value!!,
+                if (viewModel.isAddingTraitement.value!!) UUID.randomUUID()
+                    .toString() else viewModel.UUID.value!!,
                 "",
-                viewModel.nomTraitement.value?: "",
-                viewModel.codeCIS.value?: "",
+                viewModel.nomTraitement.value ?: "",
+                viewModel.codeCIS.value ?: "",
                 viewModel.dosageNb.value.toString(),
-                viewModel.frequencePrise.value?: "",
+                viewModel.frequencePrise.value ?: "",
                 viewModel.dateFinTraitement.value?.toString() ?: "null",
-                viewModel.typeComprime.value?: "",
-                viewModel.comprimesRestants.value?: 0,
+                viewModel.typeComprime.value ?: "",
+                viewModel.comprimesRestants.value ?: 0,
                 viewModel.dateFinTraitement.value != null && viewModel.dateFinTraitement.value!! > LocalDate.now(),
                 newTraitementEffetsSec ?: "null",
                 newTraitementPrises ?: "null",
-                viewModel.totalQuantite.value?: 0,
+                viewModel.totalQuantite.value ?: 0,
                 viewModel.dateDbtTraitement.value?.toString() ?: "null"
             )
 
@@ -227,6 +228,7 @@ class ListeTraitementsFragment : Fragment() {
                         destinationFragment.arguments = bundle
                         GoTo.fragment(destinationFragment, parentFragmentManager)
                     }
+
                     false -> {
                         viewModel.setIsAddingTraitement(false)
                         viewModel.setNomTraitement(clickedTraitement.nomTraitement)
@@ -235,13 +237,17 @@ class ListeTraitementsFragment : Fragment() {
                         viewModel.setFrequencePrise(clickedTraitement.frequencePrise)
                         viewModel.setDateFinTraitement(clickedTraitement.dateFinTraitement)
                         viewModel.setTypeComprime(clickedTraitement.typeComprime)
-                        viewModel.setComprimesRestants(clickedTraitement.comprimesRestants?:0)
-                        viewModel.setEffetsSecondaires(clickedTraitement.effetsSecondaires?:mutableListOf())
-                        viewModel.setPrises(clickedTraitement.prises?:mutableListOf())
-                        viewModel.setTotalQuantite(clickedTraitement.totalQuantite?:0)
-                        viewModel.setUUID(clickedTraitement.UUID?:"")
-                        viewModel.setUUIDUSER(clickedTraitement.UUIDUSER?:"")
-                        viewModel.setDateDbtTraitement(clickedTraitement.dateDbtTraitement?:LocalDate.now())
+                        viewModel.setComprimesRestants(clickedTraitement.comprimesRestants ?: 0)
+                        viewModel.setEffetsSecondaires(
+                            clickedTraitement.effetsSecondaires ?: mutableListOf()
+                        )
+                        viewModel.setPrises(clickedTraitement.prises ?: mutableListOf())
+                        viewModel.setTotalQuantite(clickedTraitement.totalQuantite ?: 0)
+                        viewModel.setUUID(clickedTraitement.UUID ?: "")
+                        viewModel.setUUIDUSER(clickedTraitement.UUIDUSER ?: "")
+                        viewModel.setDateDbtTraitement(
+                            clickedTraitement.dateDbtTraitement ?: LocalDate.now()
+                        )
 
                         if (clickedTraitement.frequencePrise == "auBesoin") {
                             viewModel.setSchemaPrise1("auBesoin")
@@ -255,6 +261,7 @@ class ListeTraitementsFragment : Fragment() {
                         }
                         GoTo.fragment(AjoutManuelRecapitulatif(), parentFragmentManager)
                     }
+
                     true -> {
                         Thread {
                             medocDatabaseInterface.deleteMedoc(
@@ -283,7 +290,7 @@ class ListeTraitementsFragment : Fragment() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
-            
+
             override fun handleOnBackPressed() {
                 GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
             }

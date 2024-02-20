@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -42,7 +40,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,13 +76,14 @@ class AjoutManuelRecapitulatif : Fragment() {
             }
 
             "Intervalle" -> {
-                schemaPriseFormatee = if (viewModel.frequencePrise.value == getString(R.string.semaines)) {
-                    getString(R.string.toutes_les) +
-                    " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
-                } else {
-                    getString(R.string.tous_les) +
-                    " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
-                }
+                schemaPriseFormatee =
+                    if (viewModel.frequencePrise.value == getString(R.string.semaines)) {
+                        getString(R.string.toutes_les) +
+                                " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
+                    } else {
+                        getString(R.string.tous_les) +
+                                " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
+                    }
             }
 
             "auBesoin" -> {
@@ -95,7 +94,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         nomMedoc.text = viewModel.nomTraitement.value
         textUnite.text = viewModel.typeComprime.value
         textStock.text = "${viewModel.comprimesRestants.value} ${viewModel.typeComprime.value}"
-        if (viewModel.comprimesRestants.value !! > 1) {
+        if (viewModel.comprimesRestants.value!! > 1) {
             textStock.text = "${textStock.text}s"
         }
         val dft = viewModel.dateFinTraitement.value

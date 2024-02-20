@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.contacts
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -18,19 +18,18 @@ import dev.mobile.medicalink.fragments.contacts.adapter.AjoutContactMedecinFragm
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.utils.medecin.Medecin
 import dev.mobile.medicalink.utils.medecin.MedecinApi
-import java.util.concurrent.LinkedBlockingQueue
 
 
 class AjoutContactMedecinFragment : Fragment() {
 
     private lateinit var retour: ImageView
     private lateinit var supprimerSearch: ImageView
-    private lateinit var searchByRpps : TextInputEditText
-    private lateinit var searchByName : TextInputEditText
+    private lateinit var searchByRpps: TextInputEditText
+    private lateinit var searchByName: TextInputEditText
     private lateinit var recyclerView: RecyclerView
-    private lateinit var search : Button
-    private lateinit var itemAdapter : AjoutContactMedecinFragmentAdapterR
-    private lateinit var progressBarMedecin : ProgressBar
+    private lateinit var search: Button
+    private lateinit var itemAdapter: AjoutContactMedecinFragmentAdapterR
+    private lateinit var progressBarMedecin: ProgressBar
     private val medecinApi = MedecinApi()
 
 
@@ -59,7 +58,8 @@ class AjoutContactMedecinFragment : Fragment() {
         // Appel l'api lors du clic sur le bouton de recherche et ferme le clavier
         search.setOnClickListener {
             // On ferme le clavier
-            val imm = requireActivity().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            val imm =
+                requireActivity().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
             val rpps = searchByRpps.text.toString()
             val name = searchByName.text.toString()
@@ -98,7 +98,7 @@ class AjoutContactMedecinFragment : Fragment() {
      * @param name : nom du médecin
      * @return la liste des médecins trouvés
      */
-    private fun rechercheMedecin(rpps: String, name: String) : List<Medecin> {
+    private fun rechercheMedecin(rpps: String, name: String): List<Medecin> {
         var lstMed = mutableListOf<Medecin>()
         try {
             if (rpps.isNotEmpty()) {
@@ -120,7 +120,11 @@ class AjoutContactMedecinFragment : Fragment() {
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(this.context, "Erreur lors de la recherche, veuillez être plus précis", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this.context,
+                "Erreur lors de la recherche, veuillez être plus précis",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         return lstMed
     }

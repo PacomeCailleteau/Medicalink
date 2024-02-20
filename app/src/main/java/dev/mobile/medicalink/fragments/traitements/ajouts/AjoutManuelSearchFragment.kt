@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,7 +19,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,7 +34,6 @@ import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
-import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelSearchAdapterR
 import dev.mobile.medicalink.utils.GoTo
 import java.util.concurrent.LinkedBlockingQueue
@@ -58,7 +55,7 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var retour: ImageView
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -142,7 +139,7 @@ class AjoutManuelSearchFragment : Fragment() {
             // Nothing to do before the text changes
         }
 
-        
+
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             filterItems(s.toString())
         }
@@ -167,7 +164,7 @@ class AjoutManuelSearchFragment : Fragment() {
         }
     }
 
-    
+
     override fun onResume() {
         super.onResume()
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
@@ -184,7 +181,7 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
-    
+
     private fun filterItems(query: String) {
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val filteredItemList = originalItemList.filter { item ->
@@ -192,7 +189,7 @@ class AjoutManuelSearchFragment : Fragment() {
         }
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-               searchForDuplcateSubstance(requireContext(), clickedItem.codeCIS)
+                searchForDuplcateSubstance(requireContext(), clickedItem.codeCIS)
                 updateSearchBar(clickedItem.denomination)
                 viewModel.setNomTraitement(clickedItem.denomination)
                 viewModel.setCodeCIS(clickedItem.codeCIS)
@@ -228,18 +225,21 @@ class AjoutManuelSearchFragment : Fragment() {
             try {
                 //Récupération de tout les codes de substances déjà pris par l'utilisateur
                 val userUuid = userInterface.getUsersConnected()[0].uuid
-                val codeCisMedicamentDejaPris : List<String> = medocInterface.getAllMedocByUserId(userUuid).map {
-                    it.codeCIS
-                }
-                val medicamentCisDejaPris : MutableList<CisSubstance> = mutableListOf()
+                val codeCisMedicamentDejaPris: List<String> =
+                    medocInterface.getAllMedocByUserId(userUuid).map {
+                        it.codeCIS
+                    }
+                val medicamentCisDejaPris: MutableList<CisSubstance> = mutableListOf()
                 for (code in codeCisMedicamentDejaPris) {
                     medicamentCisDejaPris.add(cisSubstanceInterface.getOneCisSubstanceById(code)!!)
                 }
 
                 //Réupération du code de substance du médicament que l'on veut ajouter
-                val codeSubstanceMedicamentAjoute = cisSubstanceInterface.getOneCisSubstanceById(codeCis)!!.codeSubstance
+                val codeSubstanceMedicamentAjoute =
+                    cisSubstanceInterface.getOneCisSubstanceById(codeCis)!!.codeSubstance
                 //Vérification de la présence de ce code de substance dans la liste des médicaments déjà pris
-                val medicamentEnConflit = medicamentCisDejaPris.filter { it.codeSubstance == codeSubstanceMedicamentAjoute }
+                val medicamentEnConflit =
+                    medicamentCisDejaPris.filter { it.codeSubstance == codeSubstanceMedicamentAjoute }
 
                 queue.add(medicamentEnConflit)
             } catch (e: Exception) {
@@ -260,7 +260,10 @@ class AjoutManuelSearchFragment : Fragment() {
      * @param context le contexte de l'application
      * @param lstDuplicate la liste des médicaments en conflit
      */
-    private fun afficheDialogMedicamentEnConflit(context: Context, lstDuplicate: List<CisSubstance>) {
+    private fun afficheDialogMedicamentEnConflit(
+        context: Context,
+        lstDuplicate: List<CisSubstance>
+    ) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_duplicate_substance, null)
         val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
@@ -269,7 +272,11 @@ class AjoutManuelSearchFragment : Fragment() {
         val dosageDialog = builder.create()
 
         val dial = dialogView.findViewById<TextView>(R.id.ajouterVrm)
-        dial.text = context.resources.getString(R.string.ajouter_vrm_medoc_conflit, lstDuplicate.size.toString(), lstDuplicate[0].denominationSubstance)
+        dial.text = context.resources.getString(
+            R.string.ajouter_vrm_medoc_conflit,
+            lstDuplicate.size.toString(),
+            lstDuplicate[0].denominationSubstance
+        )
         val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
 
         jaiCompris.setOnClickListener {

@@ -1,10 +1,7 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.time.LocalDate
-import java.util.*
 
 
 class Traitement(

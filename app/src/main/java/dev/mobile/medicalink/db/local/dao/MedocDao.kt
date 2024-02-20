@@ -15,15 +15,15 @@ interface MedocDao {
     fun getByUser(uuidUser: String): List<Medoc>
 
     @Query("SELECT * FROM Medoc WHERE CodeCIS IN (:codeCIS)")
-    fun getByCIS(codeCIS : String): Medoc?
+    fun getByCIS(codeCIS: String): Medoc?
 
     @Insert
-    fun insertAll(vararg Medocs: Medoc)
+    fun insertAll(vararg medocs: Medoc)
 
     @Delete
-    fun delete(Medoc: Medoc)
+    fun delete(medoc: Medoc)
 
     @Update
-    fun update(Medoc: Medoc)
+    fun update(medoc: Medoc)
 
 }

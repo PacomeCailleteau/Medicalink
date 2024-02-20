@@ -252,7 +252,7 @@ class CreerProfilActivity : AppCompatActivity() {
         checkboxRgpd.movementMethod = LinkMovementMethod.getInstance()
     }
 
-        /**
+    /**
      * Permet de vérifier si les champs sont remplis
      */
     private val textWatcher = object : TextWatcher {
@@ -352,9 +352,10 @@ class CreerProfilActivity : AppCompatActivity() {
         val datePickerDialog =
             DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
                 if (!(selectedYear > currentYear ||
-                    (selectedYear == currentYear && selectedMonth > currentMonth) ||
-                    (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)
-                )) {
+                            (selectedYear == currentYear && selectedMonth > currentMonth) ||
+                            (selectedYear == currentYear && selectedMonth == currentMonth && selectedDay > currentDay)
+                            )
+                ) {
                     val formattedDate = formatDate(selectedDay, selectedMonth, selectedYear)
                     inputDateDeNaissance.setText(formattedDate)
                 }

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class CisSubstance (
+data class CisSubstance(
     @PrimaryKey val codeCIS: String,
     var elementPharmaceutique: String,
     var codeSubstance: Int,

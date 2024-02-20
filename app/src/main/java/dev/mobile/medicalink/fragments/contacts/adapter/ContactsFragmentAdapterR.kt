@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.contacts.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
@@ -47,7 +45,7 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
         return MessagesFragmentViewHolder(layout)
     }
 
-    
+
     override fun onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int) {
         val item = list[position]
         holder.prenom.text = item.firstname
@@ -76,7 +74,11 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
         holder.phone.setOnClickListener {
             val phone = item.phoneNumber
             if (phone == "unknown") {
-                Toast.makeText(holder.view.context, "Numéro de téléphone inconnu", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    holder.view.context,
+                    "Numéro de téléphone inconnu",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             } else {
                 // On ouvre l'application téléphone

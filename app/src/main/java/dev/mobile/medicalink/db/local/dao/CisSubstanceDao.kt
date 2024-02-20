@@ -12,20 +12,20 @@ interface CisSubstanceDao {
     @Query("SELECT * FROM CisSubstance")
     fun getAll(): List<CisSubstance>
 
-    @Query("SELECT * FROM CisSubstance WHERE CodeCIS IN (:CodeCIS)")
-    fun getById(CodeCIS: String): CisSubstance
+    @Query("SELECT * FROM CisSubstance WHERE CodeCIS IN (:codeCIS)")
+    fun getById(codeCIS: String): CisSubstance
 
     @Query("SELECT * FROM CisSubstance WHERE codeSubstance IN (:codeSubstance)")
     fun getAllByCodeSubstance(codeSubstance: Int): List<CisSubstance>
 
     @Insert
-    fun insertAll(vararg CisSubstances: CisSubstance)
+    fun insertAll(vararg cisSubstances: CisSubstance)
 
     @Delete
-    fun delete(CisSubstance: CisSubstance)
+    fun delete(cisSubstance: CisSubstance)
 
     @Update
-    fun update(CisSubstance: CisSubstance)
+    fun update(cisSubstance: CisSubstance)
 
     @Query("DELETE FROM CisSubstance")
     fun deleteAll()

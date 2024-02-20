@@ -1,29 +1,29 @@
 package dev.mobile.medicalink.fragments.contacts
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.ContactMedecinRepository
 
 
 class AfficheDetailsMedecinFragment : Fragment() {
-    private lateinit var rpps : TextView
-    private lateinit var prenom : TextView
-    private lateinit var nom : TextView
-    private lateinit var specialty : TextView
-    private lateinit var email : TextView
-    private lateinit var phone : TextView
-    private lateinit var address : TextView
-    private lateinit var zipCode : TextView
-    private lateinit var city : TextView
-    private lateinit var gender : TextView
-    private lateinit var retour : ImageView
+    private lateinit var rpps: TextView
+    private lateinit var prenom: TextView
+    private lateinit var nom: TextView
+    private lateinit var specialty: TextView
+    private lateinit var email: TextView
+    private lateinit var phone: TextView
+    private lateinit var address: TextView
+    private lateinit var zipCode: TextView
+    private lateinit var city: TextView
+    private lateinit var gender: TextView
+    private lateinit var retour: ImageView
 
 
     override fun onCreateView(

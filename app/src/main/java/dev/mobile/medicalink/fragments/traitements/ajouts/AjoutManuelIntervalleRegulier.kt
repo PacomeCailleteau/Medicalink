@@ -2,10 +2,7 @@ package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +11,9 @@ import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.utils.GoTo
 
@@ -30,7 +25,6 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     private lateinit var suivant: Button
 
 
-    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,7 +76,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
      * Fonction gérant la création et l'affichage de la dialog view s'affichant lors de la sélection
      * de l'intervalle
      */
-    
+
     private fun showIntervalleRegulierDialog(viewModel: AjoutSharedViewModel, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
@@ -191,7 +185,7 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         super.onResume()
 
         val callback = object : OnBackPressedCallback(true) {
-            
+
             override fun handleOnBackPressed() {
                 GoTo.fragment(AjoutManuelSchemaPriseFragment(), parentFragmentManager)
             }

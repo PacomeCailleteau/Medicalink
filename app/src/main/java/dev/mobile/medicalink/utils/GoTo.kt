@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.utils
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import dev.mobile.medicalink.R
