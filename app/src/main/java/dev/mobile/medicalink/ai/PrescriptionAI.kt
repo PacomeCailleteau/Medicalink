@@ -204,7 +204,7 @@ class PrescriptionAI(
                         "Drug" -> treatment[last].nomTraitement = word
                         "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
                         "DrugForm" -> treatment[last].typeComprime = word
-                        "DrugFrequency" -> treatment[last].dosageUnite = word
+                        "DrugFrequency" -> treatment[last].frequencePrise = word
                         "DrugDuration" -> treatment[last].suggDuree = word
                     }
                 }
@@ -214,7 +214,7 @@ class PrescriptionAI(
                         "Drug" -> treatment[last].nomTraitement += " $word"
                         "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
                         "DrugForm" -> treatment[last].typeComprime = " $word"
-                        "DrugFrequency" -> treatment[last].dosageUnite = " $word"
+                        "DrugFrequency" -> treatment[last].frequencePrise = " $word"
                         "DrugDuration" -> treatment[last].suggDuree += " $word"
                     }
                 }

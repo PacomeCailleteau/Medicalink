@@ -21,6 +21,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.LoaderFragment
 import dev.mobile.medicalink.utils.GoTo
 import java.io.File
 import java.io.InputStream

@@ -27,7 +27,7 @@ class CisBdpmRepository(private val cISbdpmDao: CisBdpmDao) {
 
     fun getCodeCISByName(nom: String): String {
         return try {
-            val result = CISbdpmDao.getByName(nom)
+            val result = cISbdpmDao.getByName(nom)
             result[0].codeCIS.toString()
         } catch (e: java.lang.Exception) {
             ""
