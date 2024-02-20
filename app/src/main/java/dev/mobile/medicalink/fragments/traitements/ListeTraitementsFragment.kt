@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.entity.CisSubstance
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
@@ -23,7 +23,6 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutManuelRecapitulatif
 import dev.mobile.medicalink.utils.notification.NotificationService
-import java.io.Console
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -57,6 +56,7 @@ class ListeTraitementsFragment : Fragment() {
 
         // ajout des nouveaux traitements si on vient de l'OCR
         val resultList = arguments?.getSerializable("result") as? ArrayList<Traitement>
+
         if (resultList != null) {
             ajoutPlusieursTraitements(inflater, container, resultList)
         }
@@ -348,6 +348,7 @@ class ListeTraitementsFragment : Fragment() {
         var newMedoc : Medoc
         var codeCIS : String
         val queue2 = LinkedBlockingQueue<Boolean>()
+        var compteur = 0
         // faire une popup si tout n'a pas été trouvé
 
         traitements.forEach {
@@ -374,9 +375,19 @@ class ListeTraitementsFragment : Fragment() {
                     newMedoc.uuidUser = uuidUserCourant
                     medocDatabaseInterface.insertMedoc(newMedoc)
                     queue2.add(true)
+                } else {
+                    compteur++
                 }
             }.start()
             queue2.take()
+        }
+        Log.d("Zeubi!", "${traitements.isEmpty()} || $compteur")
+        if (traitements.isEmpty() || compteur>0) {
+            Log.d("Zeubi!", "peut être que la popup se faire toutes seuls")
+            val alertDialogBuilder = AlertDialog.Builder(context)
+            alertDialogBuilder.setTitle("Invalide Picture")
+            alertDialogBuilder.setMessage("No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.")
+            alertDialogBuilder.show()
         }
     }
 

@@ -1,5 +1,6 @@
 package fr.medicapp.medicapp.ai
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
@@ -9,9 +10,6 @@ import android.os.HandlerThread
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import fr.medicapp.medicapp.tokenization.Feature
 import fr.medicapp.medicapp.tokenization.FeatureConverter
@@ -23,8 +21,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.lang.Exception
 import java.time.LocalDate
-import java.util.concurrent.CountDownLatch
 
 /**
  * Classe PrescriptionAI pour l'analyse des prescriptions médicales.
@@ -44,12 +42,12 @@ class PrescriptionAI(
     /**
      * Thread en arrière-plan pour les tâches lourdes.
      */
-    private lateinit var mBackgroundThread: HandlerThread
+    private var mBackgroundThread: HandlerThread
 
     /**
      * Gestionnaire pour poster des tâches à exécuter sur le thread en arrière-plan.
      */
-    private lateinit var mHandle: Handler
+    private var mHandle: Handler
 
     /**
      * Tag utilisé pour les logs.
@@ -92,11 +90,6 @@ class PrescriptionAI(
     private lateinit var featureConverter: FeatureConverter
 
     /**
-     * Longueur maximale de la réponse.
-     */
-    private val MAX_ANS_LEN = 512
-
-    /**
      * Longueur maximale de la requête.
      */
     private val MAX_QUERY_LEN = 512
@@ -110,21 +103,6 @@ class PrescriptionAI(
      * Indique si les tokens doivent être convertis en minuscules.
      */
     private val DO_LOWER_CASE = false
-
-    /**
-     * Nombre de réponses à prédire.
-     */
-    private val PREDICT_ANS_NUM = 5
-
-    /**
-     * Nombre de threads légers à utiliser.
-     */
-    private val NUM_LITE_THREADS = 4
-
-    /**
-     * Client de reconnaissance de texte de ML Kit.
-     */
-    private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     /**
      * Initialise le thread en arrière-plan et charge le modèle PyTorch.
@@ -162,14 +140,12 @@ class PrescriptionAI(
 
         // Reconnaît le texte dans l'image spécifiée par l'URI.
         val visionText = recognizeText(imageUri)
-        var result = listOf<Traitement>()
+        val result: List<Traitement>
 
 
-        if (visionText != null) {
-            // Exécute le modèle PyTorch sur le texte reconnu et génère des prédictions.
-            val sentenceTokenized = runModel(visionText)
-            result = postAnalyse(sentenceTokenized)
-        }
+        // Exécute le modèle PyTorch sur le texte reconnu et génère des prédictions.
+        val sentenceTokenized = runModel(visionText)
+        result = postAnalyse(sentenceTokenized)
         // Appelle le callback avec les prédictions générées.
         return result
     }
@@ -245,7 +221,17 @@ class PrescriptionAI(
             }
         }
         //lancer pour chaque élément le traitement du traitement
-        treatment.forEach { it.paufine(context) }
+        val aSupprimer = mutableListOf<Int>()
+        treatment.forEach {
+            try {
+                it.paufine(context)
+            } catch (e: Exception) {
+                aSupprimer.add(treatment.indexOf(it))
+            }
+        }
+        aSupprimer.forEach {
+            treatment.removeAt(it)
+        }
         return treatment
     }
 
@@ -255,15 +241,10 @@ class PrescriptionAI(
      * @param imageUri L'URI de l'image à analyser.
      */
     @WorkerThread
-    private fun recognizeText(imageUri: Uri): String? {
-        // Variable pour stocker le texte reconnu.
-        var visionText: String? = null
-
+    private fun recognizeText(imageUri: Uri): String {
         // Crée une image à partir de l'URI spécifiée.
-        visionText = imageUri.toString()
-
         // Retourne le texte reconnu.
-        return visionText
+        return imageUri.toString()
     }
 
     /**
@@ -331,7 +312,6 @@ class PrescriptionAI(
             val feature: Feature = featureConverter.convert(visionText)
             val inputIds = feature.inputIds
             val inputMask = feature.inputMask
-            val segmentIds = feature.segmentIds
             val startLogits = FloatArray(MAX_SEQ_LEN)
             val endLogits = FloatArray(MAX_SEQ_LEN)
 
@@ -391,7 +371,7 @@ class PrescriptionAI(
             }
 
             // Convertit la liste de prédictions en liste de labels.
-            var predictionsLabelList: List<String> = startPredictionsList.map { index ->
+            val predictionsLabelList: List<String> = startPredictionsList.map { index ->
                 labels[index]!!
             }
 
@@ -500,6 +480,7 @@ class PrescriptionAI(
         /**
          * Instance singleton de PrescriptionAI.
          */
+        @SuppressLint("StaticFieldLeak")
         private var INSTANCE: PrescriptionAI? = null
 
         /**
