@@ -46,7 +46,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        var listePrise: MutableList<Prise>? = viewModel.prises.value
+        var listePrise: MutableList<Prise>? = viewModel.prises.value?.toMutableList()
         if (listePrise == null) {
             listePrise = mutableListOf()
         }
@@ -169,10 +169,10 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 // Code à exécuter lorsque le bouton de retour arrière est pressé
                 val viewModel =
                     ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
-                var listePrise: MutableList<Prise>? = viewModel.prises.value
+                var listePrise: MutableList<Prise>? = viewModel.prises.value?.toMutableList()
 
                 if (listePrise == null) {
-                    listePrise = mutableListOf<Prise>(
+                    listePrise = mutableListOf(
                         Prise(
                             UUID.randomUUID().toString(),
                             resources.getString(R.string._17_00),

@@ -146,7 +146,7 @@
     <string name="prises">Takes</string>
     <string name="reapprovisionnement">Restocking</string>
     <string name="quotidiennement">Daily</string>
-    <string name="quoti">Daily</string>
+    <string name="quoti">daily</string>
     <string name="au_besoin">When needed</string>
     <string name="sch_ma_de_prise_du_ntraitement">Treatment schedule</string>
     <string name="ajouter_une_nouvelle_prise">Add a new take</string>

@@ -54,15 +54,15 @@ class AjoutSharedViewModel : ViewModel() {
         _comprimesRestants.value = comprimes
     }
 
-    private val _effetsSecondaires = MutableLiveData<MutableList<String>>(mutableListOf())
-    val effetsSecondaires: LiveData<MutableList<String>> get() = _effetsSecondaires
-    fun setEffetsSecondaires(effets: MutableList<String>) {
+    private val _effetsSecondaires = MutableLiveData<List<String>>(listOf())
+    val effetsSecondaires: LiveData<List<String>> get() = _effetsSecondaires
+    fun setEffetsSecondaires(effets: List<String>) {
         _effetsSecondaires.value = effets
     }
 
-    private val _prises = MutableLiveData<MutableList<Prise>>(mutableListOf())
-    val prises: LiveData<MutableList<Prise>> get() = _prises
-    fun setPrises(prises: MutableList<Prise>) {
+    private val _prises = MutableLiveData<List<Prise>>(listOf())
+    val prises: LiveData<List<Prise>> get() = _prises
+    fun setPrises(prises: List<Prise>) {
         _prises.value = prises
     }
 
@@ -90,9 +90,9 @@ class AjoutSharedViewModel : ViewModel() {
         _dateDbtTraitement.value = date
     }
 
-    private val _traitements = MutableLiveData<MutableList<Traitement>>(mutableListOf())
-    val traitements: LiveData<MutableList<Traitement>> get() = _traitements
-    private fun setTraitements(traitements: MutableList<Traitement>) {
+    private val _traitements = MutableLiveData<List<Traitement>>(listOf())
+    val traitements: LiveData<List<Traitement>> get() = _traitements
+    private fun setTraitements(traitements: List<Traitement>) {
         _traitements.value = traitements
     }
 
@@ -122,8 +122,8 @@ class AjoutSharedViewModel : ViewModel() {
         dateFinTraitement.value,
         typeComprime.value ?: "",
         comprimesRestants.value ?: 0,
-        effetsSecondaires = effetsSecondaires.value ?: mutableListOf(),
-        prises = prises.value ?: mutableListOf(),
+        effetsSecondaires = effetsSecondaires.value?.toMutableList() ?: mutableListOf(),
+        prises = prises.value?.toMutableList() ?: mutableListOf(),
         totalQuantite = totalQuantite.value ?: 0,
         uuid = uuid.value ?: "",
         uuidUser = uuidUser.value ?: "",
@@ -156,7 +156,7 @@ class AjoutSharedViewModel : ViewModel() {
      * Convertit la liste d'effets secondaires en une chaine de caractères
      * @return String? : la chaine de caractères
      */
-    private fun effectsSec() : String? {
+    private fun effectsSec(): String? {
         var newTraitementEffetsSec: String? = null
         if (effetsSecondaires.value != null) {
             var chaineDeChar = ""
@@ -174,7 +174,7 @@ class AjoutSharedViewModel : ViewModel() {
      * Convertit la liste de prises en une chaine de caractères
      * @return String? : la chaine de caractères
      */
-    private fun prises() : String? {
+    private fun prises(): String? {
         var newTraitementPrises: String? = null
         if (prises.value != null) {
             var chaineDeChar = ""
@@ -189,7 +189,7 @@ class AjoutSharedViewModel : ViewModel() {
     }
 
     fun addTraitement(traitement: Traitement = makeTraitement()) {
-        val list = _traitements.value
+        val list: MutableList<Traitement>? = _traitements.value?.toMutableList()
         if (list != null) {
             list.add(traitement)
             setTraitements(list)
@@ -199,7 +199,7 @@ class AjoutSharedViewModel : ViewModel() {
     }
 
     fun removeTraitement(traitement: Traitement) {
-        val list = _traitements.value
+        val list: MutableList<Traitement>? = _traitements.value?.toMutableList()
         if (list != null) {
             list.remove(traitement)
             setTraitements(list)
