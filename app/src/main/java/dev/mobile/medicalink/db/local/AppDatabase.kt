@@ -47,27 +47,27 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
 
         fun fillDatabase(instance: AppDatabase, context: Context){
-            Thread(Runnable {
+            Thread {
                 // On supprime les données de la base de données médicamenteuse
                 //instance.cisBdpmDao().deleteAll()
                 // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                 val cisBdpmRepository = CisBdpmRepository(instance.cisBdpmDao())
                 cisBdpmRepository.insertFromCsv(context)
-            }).start()
-            Thread(Runnable {
+            }.start()
+            Thread {
                 // On supprime les données de la base de données médicamenteuse
                 //instance.cisCompoBdpmDao().deleteAll()
                 // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                 val cisCompoBdpmRepository = CisCompoBdpmRepository(instance.cisCompoBdpmDao())
                 cisCompoBdpmRepository.insertFromCsv(context)
-            }).start()
-            Thread(Runnable {
+            }.start()
+            Thread {
                 // On supprime les données de la base de données médicamenteuse
                 //instance.cisCompoBdpmDao().deleteAll()
                 // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                 val interactionRepository = InteractionRepository(instance.interactionDao())
                 interactionRepository.insertFromCsv(context)
-            }).start()
+            }.start()
         }
 
         /**
