@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="param_buttun">Кнопка параметров</string>
     <string name="bienvenue_sur_medicalink">Добро пожаловать в Medicazelda!</string>
     <string name="bienvenue">Добро пожаловать</string>
     <string name="me_connecter">Соедините меня</string>
@@ -51,6 +52,9 @@
     <string name="date_de_fin_de_traitement">Дата окончания лечения</string>
     <string name="prises">Принимает</string>
     <string name="reapprovisionnement">Пополнение запасов</string>
+    <string name="quotidiennement">Ежедневно</string>
+    <string name="quoti">ежедневно</string>
+    <string name="au_besoin">По мере необходимости</string>
     <string name="sch_ma_de_prise_du_ntraitement">График лечения</string>
     <string name="ajouter_une_nouvelle_prise">Добавить новый дубль</string>
     <string name="rechercher">Поиск</string>
@@ -73,6 +77,10 @@
     <string name="choisir_depuis_la_galerie">Выберите из галереи</string>
     <string name="valider_le_nouveau_traitement">Проверьте эффективность нового метода лечения</string>
     <string name="quantit">Количество</string>
+    <string name="substance_active">Вещество активное</string>
+    <string name="laboratoire">Лаборатория</string>
+    <string name="professionnel_de_sant">Медицинские работники</string>
+    <string name="dosage">Дозировка</string>
     <string name="accueil">Главная</string>
     <string name="traitements">Лечение</string>
     <string name="messages">Сообщения</string>
@@ -133,17 +141,45 @@
     <string name="vendredi">п</string>
     <string name="samedi">c</string>
     <string name="dimanche">в</string>
+    <string name="aucun_effet_traitement">Отсутствие эффекта от лечения</string>
     <string name="aucun_effet_secondaire">Никаких побочных эффектов</string>
     <string name="prendre">Возьмите</string>
     <string name="pris">Взято</string>
+    <string name="Stock">Сток</string>
+    <string name="textStock">текстСток</string>
     <string name="Messagerie">Передача сообщений</string>
     <string name="aucun_traitement">Нет лечения</string>
     <string name="Utilisateur">Пользователь</string>
     <string name="aucun_medicament_prevu">Лекарства не предоставляются!</string>
+    <string name="textMessage">текстСообщения</string>
+    <string name="titreMessage">титрСообщение</string>
     <string name="parametre">Параметр</string>
     <string name="professionnel">Профессия</string>
     <string name="effets_secondaires">Побочные эффекты</string>
     <string name="rapport_journalier">Ежедневный отчет</string>
+    <string name="chargement">Загрузка</string>
+    <string name="ajouter">Добавить</string>
     <string name="supprimer_compte">Удалить аккаунт</string>
+    <string name="vos_contacts">Ваши контакты</string>
+    <string name="prenom_message_item">Первое имя</string>
+    <string name="nom_message_item">Имя</string>
+    <string name="rechercher_par_prenom_et_nom">Поиск по имени и фамилии</string>
+    <string name="rechercher_par_rpps">Поиск по RPPS</string>
+    <string name="rechercher_un_medecin">Найти врача</string>
+    <string name="prenom_s">Первое имя: %s</string>
+    <string name="nom_s">Имя: %s</string>
+    <string name="email_s">Электронная почта: %s</string>
+    <string name="phone_s">Телефон: %s</string>
+    <string name="adresse_s">Адрес: %s</string>
+    <string name="code_postal_s">Почтовый индекс: %s</string>
+    <string name="ville_s">Город: %s</string>
+    <string name="sexe_s">Пол: %s</string>
+    <string name="contact">Связаться с</string>
     <string name="voulez_vous_vraiment_retirer_ce_contact">Вы действительно хотите удалить этот контакт?</string>
+    <string name="j_ai_compris">Я понимаю</string>
+    <string name="ajouter_vrm_medoc_conflit">Вы уже принимаете %s лекарств, в которых используется то же самое действующее вещество: %s.</string>
+    <string name="date_invalide">Неверная дата</string>
+    <string name="pas_medoc_dans_photo">На изображении не обнаружено ни одного рецепта. Пожалуйста, попробуйте использовать другое изображение рецепта или добавьте лекарства вручную.</string>
+    <string name="specialite_s">Специальность: %s</string>
+    <string name="dark_mode">Темный режим</string>
 </resources>
