@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.traitements.adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,6 @@ class ListeTraitementAdapterR(
         return TraitementViewHolder(layout)
     }
 
-    @SuppressLint("SetTextI18n")
 
     override fun onBindViewHolder(holder: TraitementViewHolder, position: Int) {
         val textAucunTraitement = holder.view.findViewById<TextView>(R.id.textAucunTraitement)
@@ -62,17 +60,33 @@ class ListeTraitementAdapterR(
         }
         val item = list[position]
         holder.nomTraitement.text = item.nomTraitement
-        Log.d("cacapipi", item.frequencePrise)
-        if (item.frequencePrise == "auBesoin") {
-            holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
-        } else if (item.frequencePrise == "quotidiennement") {
-            holder.dosage.text =
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.par_jour)}"
-        } else {
-            holder.dosage.text =
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.frequencePrise}"
-        }
+        holder.dosage.text = getAfficheDosage(item, holder)
+
         //Si le traitement est expiré, un format spécial lui est appliqué
+        setCorrectInfos(holder, item)
+
+        holder.constraintLayout.setOnClickListener {
+            onItemClick.invoke(item, null)
+        }
+
+        holder.modifierTraitement.setOnClickListener {
+            onItemClick.invoke(item, false)
+        }
+        holder.supprTraitement.setOnClickListener {
+            showConfirmSuppressDialog(holder.itemView.context, item)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    /**
+     * Fonction pour obtenir l'affichage correct des informations d'un traitement
+     * @param holder le viewholder
+     * @param item le traitement
+     */
+    private fun setCorrectInfos(
+        holder: TraitementViewHolder,
+        item: Traitement
+    ) {
         if (item.expire) {
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_gray_button_background)
             holder.imageView.setImageResource(R.drawable.medicexpire)
@@ -116,21 +130,32 @@ class ListeTraitementAdapterR(
                     "${holder.view.resources.getString(R.string.jusquau)} ${item.dateFinTraitement!!.dayOfMonth}/${item.dateFinTraitement!!.monthValue}/${item.dateFinTraitement!!.year}"
             }
         }
+    }
 
-        holder.constraintLayout.setOnClickListener {
-            onItemClick.invoke(item, null)
-        }
-
-        holder.modifierTraitement.setOnClickListener {
-            onItemClick.invoke(item, false)
-        }
-        holder.supprTraitement.setOnClickListener {
-            showConfirmSuppressDialog(holder.itemView.context, item)
+    /**
+     * Fonction pour obtenir l'affichage du dosage d'un traitement
+     * @param item le traitement
+     * @param holder le viewholder
+     * @return le dosage du traitement
+     */
+    private fun getAfficheDosage(item: Traitement, holder: TraitementViewHolder): String {
+        return when (item.frequencePrise) {
+            "auBesoin" -> {
+                holder.view.resources.getString(R.string.au_besoin)
+            }
+            "quotidiennement" -> {
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.par_jour)}"
+            }
+            else -> {
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.frequencePrise}"
+            }
         }
     }
 
     /**
      * Fonction pour la fenetre de confirmation lors de la suppression d'un traitement
+     * @param context le contexte de l'application
+     * @param item le traitement à supprimer
      */
     private fun showConfirmSuppressDialog(
         context: Context,
