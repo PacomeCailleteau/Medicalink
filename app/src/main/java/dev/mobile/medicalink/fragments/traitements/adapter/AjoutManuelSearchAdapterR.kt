@@ -17,7 +17,7 @@ class AjoutManuelSearchAdapterR(
     RecyclerView.Adapter<AjoutManuelSearchAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val nomMedic: TextView = view.findViewById(R.id.nomSearch)
+        private val nomMedic: TextView = view.findViewById(R.id.nomSearch)
 
 
         fun bind(item: CisBdpm) {

@@ -135,10 +135,12 @@ class AjoutManuelIntervalleRegulier : Fragment() {
                 else -> EnumFrequence.JOUR
             }
             viewModel.setFrequencePrise(freq)
-            updateTextViewIntervalleRegulier(firstNumberPicker.value, getStringFromEnum(
-                freq,
-                requireContext()
-            ))
+            updateTextViewIntervalleRegulier(
+                firstNumberPicker.value, getStringFromEnum(
+                    freq,
+                    requireContext()
+                )
+            )
             intervalleRegulierDialog.dismiss()
         }
         intervalleRegulierDialog.show()

@@ -19,7 +19,7 @@ class Traitement(
     var totalQuantite: Int?,
     var uuid: String?,
     var uuidUser: String?,
-    var dateDbtTraitement: LocalDate?
+    var dateDbtTraitement: LocalDate
 
 ) : Serializable {
 
@@ -151,20 +151,19 @@ class Traitement(
      * @param entier le nombre de jours/semaines/mois
      */
     private fun calculDuree(mot: String?, entier: Int) {
+        this.dateDbtTraitement = LocalDate.now()
         if (mot != null) {
-            this.dateDbtTraitement = LocalDate.now()
             when (mot) {
                 "jour" -> this.dateFinTraitement =
-                    this.dateDbtTraitement!!.plusDays(entier.toLong())
+                    this.dateDbtTraitement.plusDays(entier.toLong())
 
                 "semaine" -> this.dateFinTraitement =
-                    this.dateDbtTraitement!!.plusWeeks(entier.toLong())
+                    this.dateDbtTraitement.plusWeeks(entier.toLong())
 
                 "mois" -> this.dateFinTraitement =
-                    this.dateDbtTraitement!!.plusMonths(entier.toLong())
+                    this.dateDbtTraitement.plusMonths(entier.toLong())
             }
         } else {
-            this.dateDbtTraitement = null
             this.dateFinTraitement = null
         }
     }

@@ -3,6 +3,7 @@ package dev.mobile.medicalink.fragments.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -264,7 +265,7 @@ class HomeFragment : Fragment() {
                         null,
                         null,
                         null,
-                        null
+                        LocalDate.now()
                     )
                 )
             )
@@ -309,7 +310,7 @@ class HomeFragment : Fragment() {
      */
     private fun toAdd(element: Pair<Prise, Traitement>, dateActuelle: LocalDate): Boolean {
         var toAdd = false
-        if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
+        if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement)) {
             //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement
             if ((element.second.dateFinTraitement != null) && (dateActuelle > element.second.dateFinTraitement!!)) {
                 //Si la date actuelle est supérieure à la date de fin de traitement, on passe au traitement suivant
@@ -345,11 +346,8 @@ class HomeFragment : Fragment() {
                                 element.second.dateDbtTraitement,
                                 dateActuelle
                             ).months
-                            toAdd = if (moisEntreDeuxDates == 0) {
-                                element.second.dateDbtTraitement == dateActuelle
-                            } else {
-                                moisEntreDeuxDates % element.second.dosageNb == 0
-                            }
+                            toAdd = (moisEntreDeuxDates % element.second.dosageNb == 0) &&
+                                    (dateActuelle.dayOfMonth == element.second.dateDbtTraitement.dayOfMonth)
                         }
 
                         else -> toAdd = false

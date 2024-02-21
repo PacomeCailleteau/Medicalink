@@ -19,6 +19,4 @@ interface StatutDouleurDao {
 
     @Update
     fun update(statutDouleur: StatutDouleur)
-
-
 }

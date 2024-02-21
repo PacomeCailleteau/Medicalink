@@ -22,28 +22,28 @@ data class User(
 ) {
     fun dateComforme() {
         var test = this.intervalle.split(":")
-        assert(test.size == 2) {"Le format de l'intervale doit être X:Y où X et Y sont des int qui représente les heures et les minutes."}
+        assert(test.size == 2) { "Le format de l'intervale doit être X:Y où X et Y sont des int qui représente les heures et les minutes." }
         try {
-            assert(test[0].toInt() >= 0) {"Les heures ne peuvent pas être négatives"}
-            assert(test[1].toInt() in 0..59) {"Les minutes doivent être comprises entre 0 et 59"}
+            assert(test[0].toInt() >= 0) { "Les heures ne peuvent pas être négatives" }
+            assert(test[1].toInt() in 0..59) { "Les minutes doivent être comprises entre 0 et 59" }
         } catch (_: Exception) {
             throw InvalidKeyException("Le format de l'intervale doit être X:Y où X et Y sont des int qui représente les heures et les minutes.")
         }
 
         test = this.debutJournee.split(":")
-        assert(test.size == 2) {"Le format de 'debutJournee' doit être X:Y où X et Y sont des int qui représente les heures et les minutes."}
+        assert(test.size == 2) { "Le format de 'debutJournee' doit être X:Y où X et Y sont des int qui représente les heures et les minutes." }
         try {
-            assert(test[0].toInt() >= 0) {"Les heures ne peuvent pas être négatives"}
-            assert(test[1].toInt() in 0..59) {"Les minutes doivent être comprises entre 0 et 59"}
+            assert(test[0].toInt() >= 0) { "Les heures ne peuvent pas être négatives" }
+            assert(test[1].toInt() in 0..59) { "Les minutes doivent être comprises entre 0 et 59" }
         } catch (_: Exception) {
             throw InvalidKeyException("Le format de 'debutJournee' doit être X:Y où X et Y sont des int qui représente les heures et les minutes.")
         }
 
         test = this.finJournee.split(":")
-        assert(test.size == 2) {"Le format de 'finJournee' doit être X:Y où X et Y sont des int qui représente les heures et les minutes."}
+        assert(test.size == 2) { "Le format de 'finJournee' doit être X:Y où X et Y sont des int qui représente les heures et les minutes." }
         try {
-            assert(test[0].toInt() >= 0) {"Les heures ne peuvent pas être négatives"}
-            assert(test[1].toInt() in 0..59) {"Les minutes doivent être comprises entre 0 et 59"}
+            assert(test[0].toInt() >= 0) { "Les heures ne peuvent pas être négatives" }
+            assert(test[1].toInt() in 0..59) { "Les minutes doivent être comprises entre 0 et 59" }
         } catch (_: Exception) {
             throw InvalidKeyException("Le format de 'finJournee' doit être X:Y où X et Y sont des int qui représente les heures et les minutes.")
         }

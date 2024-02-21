@@ -50,7 +50,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         suivant = view.findViewById(R.id.suivant1)
         retour = view.findViewById(R.id.retour_schema_prise2)
 
-        val couleurSousTexte = resources.getColor(R.color.scheduleBlue)
+        val couleurSousTexte = resources.getColor(R.color.scheduleBlue, null)
 
         val textePrincipal = resources.getString(R.string.quotidiennement)
         val sousTexte = resources.getString(R.string.meme_heure_meme_quanti)

@@ -7,11 +7,10 @@ import java.util.Arrays
 
 class JaroWinkler {
 
-    var aChercher: String
+    var aChercher: String = ""
     var base: List<String>
 
     init {
-        this.aChercher = ""
         this.base = listOf()
     }
 
