@@ -1,0 +1,189 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+
+package ajoutmanuel {
+    class AjoutManuelIntervalleRegulier extends Fragment {
+        - inputIntervalle: TextInputEditText
+        - retour: ImageView
+        - suivant: Button
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - showIntervalleRegulierDialog(traitement: Traitement, context: Context)
+        - updateFirstNumberPickerValues(
+                  firstNumberPicker: NumberPicker,
+                  selectedValue: Int,
+                  currentDosage: Int
+              )
+        + onResume()
+    }
+
+    class AjoutManuelRecapitulatif extends Fragment {
+        - retour: ImageView
+        - suivant: Button
+        - nomMedoc: TextView
+        - textUnite: TextView
+        - textStock: TextView
+        - dateFinDeTraitement: TextView
+        - sousNomPeriodicite: TextView
+        - nomLayout: ConstraintLayout
+        - caracteristiqueLayout: ConstraintLayout
+        - periodiciteLayout: ConstraintLayout
+        - priseLayout: ConstraintLayout
+        - reapprovisionnementLayout: ConstraintLayout
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - showDuplicateDialog(
+                  context: Context,
+                  traitement: Traitement,
+                  listDuplicate: List<String>,
+                  substanceAdd: String,
+                  isAddingTraitement: String?,
+                  schemaPrise1: String?,
+                  provenance: String?,
+                  dureePriseDbt: String?,
+                  dureePriseFin: String?
+              )
+        + onResume()
+        - checkIfSubstance(
+                  codeCIS: Int,
+                  substanceDatabaseInterface: CisCompoBdpmRepository,
+                  medocDatabaseInterface: MedocRepository,
+                  userDatabaseInterface: UserRepository,
+                  callback: (List<String>, String) -> Unit
+              )
+
+    }
+
+    class AjoutManuelSchemaPrise2Fragment extends Fragment {
+        - addNouvellePrise: Button
+        - retour: ImageView
+        - suivant: Button
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - conflitsHeuresPrises(listePrise: MutableList<Prise>): Boolean
+        + onResume()
+        + mettreAJourCouleurs(listePrise: MutableList<Prise>, recyclerView: RecyclerView)
+        + changerCouleur(indexAMettreEnRouge: MutableSet<Int>, recyclerView: RecyclerView)
+    }
+
+    class AjoutManuelSchemaPriseFragment extends Fragment {
+        - quotidiennementButton: Button
+        - intervalleRegulierButton: Button
+        - auBesoinButton: Button
+        - suivant: Button
+        - retour: ImageView
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + onResume()
+        + handleOnBackPressed()
+
+    }
+
+    class AjoutManuelSearchAdapterR extends Adapter {
+        - list: List<CisBdpm>
+        - onItemClick: (CisBdpm) -> Unit
+        + init (list: List<CisBdpm>,onItemClick: (CisBdpm) -> Unit) )
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder
+        + onBindViewHolder(holder: TraitementViewHolder, position: Int)
+    }
+
+    class TraitementViewHolder extends ViewHolder {
+        - nomMedic: TextView
+        + init (val view: View)
+        + bind(item: CisBdpm)
+    }
+
+TraitementViewHolder --+ AjoutManuelSearchAdapterR
+
+
+    class AjoutManuelSearchFragment extends Fragment {
+        - addManuallySearchBar: TextInputEditText
+        - addManuallyButton: Button
+        - recyclerView: RecyclerView
+        - addManuallyButtonLauncher: ActivityResultLauncher<Intent>
+        - supprimerSearch: ImageView
+        - originalItemList: List<CisBdpm>
+        - filteredItemList: List<CisBdpm>
+        - itemAdapter: AjoutManuelSearchAdapterR
+        - retour: ImageView
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + textWatcher(traitement: Traitement): TextWatcher
+        - updateButtonState()
+        + clearFocusAndHideKeyboard(view: View)
+        + onResume()
+        - filterItems(query: String, traitement: Traitement)
+        - updateSearchBar(query: CisBdpm, traitement: Traitement)
+    }
+
+    class AjoutManuelStock extends Fragment {
+        - retour: ImageView
+        - suivant: Button
+        - layoutStock: ConstraintLayout
+        - inputStockActuel: EditText
+        - inputRappelJour: EditText
+        - inputRappelHeure: EditText
+        - switchStock: Switch
+        - textWatcher : TextWatcher
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - updateSwitchAppearance(isChecked: Boolean, layoutStock: View)
+        - showJourStockDialog(traitement: Traitement, context: Context)
+        - showTimePickerDialog(context: Context,heurePriseInput: EditText)
+        - formatTime(hour: Int, minute: Int): String
+        - updateButtonState()
+        + clearFocusAndHideKeyboard(view: View)
+        + onResume()
+    }
+
+    class AjoutManuelTypeMedic extends Fragment {
+        - retour: ImageView
+        - suivant: Button
+        +  onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + onResume()
+    }
+
+    class AjoutManuelTypeMedicAdapterR extends Adapter {
+        - list : MutableList<String>
+        - selected: String
+        + init (list: MutableList<String>, selected: String)
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup,viewType: Int): AjoutManuelTypeMedicViewHolder
+        + onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int)
+    }
+
+    class AjoutManuelTypeMedicViewHolder extends ViewHolder {
+    + init(val view: View)
+
+    + textTypeMedic : TextView
+    + layoutTypeMedic : TextView
+
+    }
+
+    AjoutManuelTypeMedicViewHolder --+ AjoutManuelTypeMedicAdapterR
+
+}
+
+@enduml

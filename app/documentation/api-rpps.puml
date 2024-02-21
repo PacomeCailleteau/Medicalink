@@ -1,0 +1,44 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+'skinparam groupInheritance 2
+
+package api{
+	package rpps{
+		interface ApiRppsService { 
+			+ suspend fun getPracticians(@Path("search") search: String): Response<List<Practician>>
+			+ suspend fun getEmail(@Path("rpps") rpps: Long): Response<Array<String>>
+		}
+		
+		class ApiRppsClient {
+            - BASE_URL : String
+            + gson: Gson
+            - httpClient: OkHttpClient
+            - retrofit: Retrofit
+            +  apiService: ApiRppsService
+		}
+
+		class Practician {
+		    + rpps: Long
+		    + firstName: String
+		    + lastName: String
+		    + fullName: String
+		    + specialty: String?
+		    + address: String?
+		    + zipcode: String?
+		    + city: String?
+		    + phoneNumber: String?
+
+		}
+	}
+
+}
+
+ApiRppsClient --|>  ApiRppsService : "Implements"
+ApiRppsService --> Practician : "Uses"
+
+
+@enduml

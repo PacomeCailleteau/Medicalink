@@ -1,0 +1,1065 @@
+@startuml medicalink
+/' Diagramme de classe de l'application medicalink 
+'/
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+
+/'
+Dépendences relatives aux package android et ses composants etc... 
+'/
+
+package android {
+	package app{
+		class Activity
+        class InputFilter
+        class Spanned
+	}
+
+	package text {
+		class Editable
+		class TextWatcher
+        class InputType
+        class InputFilter
+        class Spanned
+	}
+
+	package content {
+		package res {
+			class AssetManager
+		}
+		class BroadcastReceiver
+		class Context
+		class Intent
+	}
+
+	package view {
+		class LayoutInflater
+		class View
+		class ViewGroup
+		class MotionEvent
+	}
+
+	package widget {
+	    class TextView
+	    class ImageView
+	    class Button
+	    class RadioButton
+	    class CheckBox
+	    class TextInputEditText
+	    class ViewGroup
+	    class Bundle
+	    class Toast
+        class LinearLayout
+	}
+}
+
+package androidx{
+    package recyclerview {
+        package widget {
+            class ItemDecoration
+            class Adapter
+            class ViewHolder
+            class LinearLayoutManager
+            class RecyclerView
+            
+    }
+        package constraintlayout {
+            package widget {
+            class ConstraintLayout
+            }
+        }
+    }    
+}
+
+CreerProfilActivity --> "*" TextInputEditText : has
+CreerProfilActivity --> "*" CheckBox : has
+CreerProfilActivity --> "*" Button : has
+CreerProfilActivity --> "*" RadioButton : has
+CreerProfilActivity --> "*" TextView : has
+CreerProfilActivity --> "*" ImageView : has
+CreerProfilActivity --> "*" ViewGroup : has
+CreerProfilActivity --> "*" Bundle : has
+
+package api{
+	package rpps{
+		interface ApiRppsService {
+			+ suspend fun getPracticians(@Path("search") search: String): Response<List<Practician>>
+			+ suspend fun getEmail(@Path("rpps") rpps: Long): Response<Array<String>>
+		}
+
+		class ApiRppsClient {
+            - BASE_URL : String
+            + gson: Gson
+            - httpClient: OkHttpClient
+            - retrofit: Retrofit
+            +  apiService: ApiRppsService
+		}
+
+		class Practician {
+		    + rpps: Long
+		    + firstName: String
+		    + lastName: String
+		    + fullName: String
+		    + specialty: String?
+		    + address: String?
+		    + zipcode: String?
+		    + city: String?
+		    + phoneNumber: String?
+
+		}
+	}
+
+}
+
+ApiRppsClient --|>  ApiRppsService : "Implements"
+ApiRppsService --> Practician : "Uses"
+
+package db {
+    package local {
+        package DAOs {
+            interface CisBdpmDao {
+                + getAll(): List<CisBdpm>
+                + getById(CodeCIS: Int): List<CisBdpm>
+                + insertAll(CisBdpmDaos: List<CisBdpm>)
+                + delete(CisBdpmDao: CisBdpm)
+                + update(CisBdpmDao: CisBdpm)
+                + deleteAll()
+            }
+            interface CisCompoBdpmDao {
+                + getAll(): List<CisCompoBdpm>
+                + getById(CodeCIS: Int): List<CisCompoBdpm>
+                + insertAll(CisCompoBdpmDaos: List<CisCompoBdpm>)
+                + delete(CisCompoBdpmDao: CisCompoBdpm)
+                + update(CisCompoBdpmDao: CisCompoBdpm)
+                + deleteAll()
+            }
+            interface MedocDao {
+                + getAll(): List<Medoc>
+                + getById(uuid: String): List<Medoc>
+                + getByUser(uuidUser: String): List<Medoc>
+                + insertAll(Medoc: List<Medoc>)
+                + delete(Medoc: Medoc)
+                + update(Medoc: Medoc)
+            }
+            interface PriseValideeDao {
+                + getAll(): List<PriseValidee>
+                + getById(CodeCIS: Int): List<PriseValidee>
+                + getByUUIDTraitementAndDate(date: String, uuidPrise: String): List<PriseValidee>
+                + insertAll(priseValidee: PriseValidee)
+                + delete(priseValidee: PriseValidee)
+                + update(priseValidee: PriseValidee)
+            }
+            interface UserDao {
+                + getAll(): List<User>
+                + getById(CodeCIS: Int): List<User>
+                + getByConnected(isConnected: Boolean = true): List<User>
+                + insertAll(users: List<User>)
+                + delete(User: User)
+                + update(User: User)
+            }
+        }
+
+        package Repositories {
+            class CisBdpmRepository {
+                - cisBdpmDao: CisBdpmDao
+                + insert(cis: CisBdpm)
+                + selectAll(): List<CisBdpm>
+            }
+            class CisCompoBdpmRepository {
+                - cisCompoBdpmDao: CisCompoBdpmDao
+                + insert(cisCompo: CisCompoBdpm)
+                + selectAll(): List<CisCompoBdpm>
+            }
+            class MedocRepository {
+                - medocDao: MedocDao
+                + insert(medoc: Medoc)
+                + selectAll(): List<Medoc>
+            }
+            class PriseValideeRepository {
+                - priseValideeDao: PriseValideeDao
+                + insert(prise: PriseValidee)
+                + selectAll(): List<PriseValidee>
+            }
+            class UserRepository {
+                - userDao: UserDao
+                + insert(user: User)
+                + selectAll(): List<User>
+            }
+        }
+
+        package Entities {
+                class CisBdpm {
+                - CodeCIS: Int
+                - denomination: String
+                - formePharmaceutique: String
+                - voiesAdministration: String
+                - statutAdministratifAMM: String
+                - typeProcedureAMM: String
+                - etatCommercialisation: String
+                - dateAMM: String
+                - statutBdm: String
+                - numeroAutorisationEuropeenne: String
+                - titulaire: String
+                - surveillanceRenforcee: String
+            }
+
+            class CisCompoBdpm{
+                - CodeCIS: Int
+                - designationForme: String
+                - codeSubstance: String
+                - denomination: String
+                - dosage: String
+                - referenceDosage: String
+                - natureComposant: String
+                - numeroLiaisonSAFT: String
+            }
+
+            class Medoc{
+                - uuid: String
+                - uuidUser: String
+                - CodeCIS: Int?
+                - nom: String
+                - dosageNB: String,
+                - dosageUnite: Strin
+                - dateFinTraitement: String?
+                - typeComprime: String
+                - comprimesRestants: Int?
+                - expire: Boolean
+                - effetsSecondaires: String?
+                - prises: String?
+                - TotalQuantite: Int?
+                - dateDbtTraitement: String?
+            }
+
+            class PriseValidee {
+                - uuid: String
+                - date: String
+                - uuidPrise: String
+                - statut: String
+            }
+
+            class User {
+                - username: String
+                - password: String
+                + setUsername(username: String) : void
+                + setPassword(password: String) : void
+                + getUsername() : String
+                + getPassword() : String
+            }
+            class Prise {
+                - numeroPrise: String
+                - heurePrise: String
+                - quantite: Int
+                - dosageUnite: String
+                + getNumeroPrise() : String
+                + getHeurePrise() : String
+                + getQuantite() : Int
+                + getDosageUnite() : String
+            }
+
+        }
+
+        abstract class AppDatabase {
+            - userDao: UserDao
+            - medocDao: MedocDao
+            - cisBdpmDao: CisBdpmDao
+            - priseValideeDao: PriseValideeDao
+            - cisCompoBdpmDao: CisCompoBdpmDao
+            + getUserDao() : UserDao
+            + getMedocDao() : MedocDao
+            + getCisBdpmDao() : CisBdpmDao
+            + getPriseValideeDao() : PriseValideeDao
+            + getCisCompoBdpmDao() : CisCompoBdpmDao
+        }
+    }
+}
+
+CisBdpmRepository --> CisBdpmDao : Uses
+CisCompoBdpmRepository --> CisCompoBdpmDao : Uses
+MedocRepository --> MedocDao : Uses
+PriseValideeRepository --> PriseValideeDao : Uses
+UserRepository --> UserDao : Uses
+
+CisBdpmDao --> CisBdpm : Aggregates
+CisCompoBdpmDao --> CisCompoBdpm : Aggregates
+MedocDao --> Medoc : Aggregates
+PriseValideeDao --> PriseValidee : Aggregates
+UserDao --> User : Aggregates
+
+AppDatabase --> UserDao : Uses
+AppDatabase --> MedocDao : Uses
+AppDatabase --> CisBdpmDao : Uses
+AppDatabase --> PriseValideeDao : Uses
+AppDatabase --> CisCompoBdpmDao : Uses
+
+
+
+
+class ContactsAdapterR extends RecyclerView.Adapter {
+    +init (list: List<Contact>, onItemClick: (Contact) -> Unit)
+    + getItemCount(): Int
+    + onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesFragmentViewHolder
+    + onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int)
+
+}
+
+class MessagesFragmentViewHolder extends ViewHolder {
+    + view: View
+}
+
+class ContactsFragment extends Fragment {
+    - recyclerView: RecyclerView
+    + onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View?
+    + afficherContact(itemClicked: Contact)
+
+}
+
+class ContactsSearchAdapterR extends Adapter {
+    + Init (list: List<Contact>,onItemClick: (Contact) -> Unit)
+    + bind(item: Contact)
+    + getItemCount(): Int
+    + onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder
+    + onBindViewHolder(holder: TraitementViewHolder, position: Int)
+    }
+
+class TraitementViewHolder extends ViewHolder {
+    + view : View
+}
+
+class ContactsSearchFragment extends Fragment {
+    - contactSearchBar: TextInputEditText
+    - recyclerView: RecyclerView
+    - contactButtonLauncher: ActivityResultLauncher<Intent>
+    - supprimerSearch: ImageView
+    - ItemList: List<Contact>
+    - itemAdapter: ContactsSearchAdapterR
+    - erreurRecherche: TextView
+    - retour: ImageView
+    - apiRpps: ApiRppsService
+    - uuid: String
+    - searchJob: Job? = null
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    - suspend fun updateSearchResults(query: String)
+    - suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact>
+    + clearFocusAndHideKeyboard(view: View)
+    + afficherContact(itemClicked: Contact)
+    + override onResume()
+    + isOnline(context: Context): Boolean
+}
+
+class InfosContactFragment extends Fragment {
+    - textNomComplet: TextView
+    - textRpps: TextView
+    - textSpecialite: TextView
+    - textTelephone: TextView
+    - btnTelephone: ImageView
+    - textEmail: TextView
+    - btnEmail: ImageView
+    - textAdresse: TextView
+    - textZipCodeVille: TextView
+    - retour: ImageView
+    - scroll: ScrollView
+    - btnAjoutSupp: AppCompatButton
+    - openMapButton: ImageView
+    - db: AppDatabase
+    - contactDatabaseInterface: ContactRepository
+    - userDataBaseInterface: UserRepository
+    - apiRpps: ApiRppsService
+    - isInBase = false
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    - openMapWithAddress(address: String)
+    - setButtonSupprimer(c: Contact)
+    - setButtonAjouter(c: Contact)
+}
+
+ContactsAdapterR +-- MessagesFragmentViewHolder
+ContactsSearchAdapterR +-- TraitementViewHolder
+
+
+
+
+
+
+
+package fragment{
+
+    class MainActivity {
+        - imageConnexion: ImageView
+        - textBienvenue: TextView
+        - buttonConnexion: Button
+        - buttonChangerUtilisateur: Button
+        - boutonAjouterProfil: Button
+        + onCreate(savedInstanceState: Bundle) : void
+        + authenticateWithBiometric() : void
+        + showBiometricPrompt() : void
+        + showPasswordDialog() : void
+        + isValidPassword(password: String) : Boolean
+        + creerCanalNotification() : void
+        + showIntervalleRegulierDialog(context: Context) : void
+    }
+
+    class CreerProfilActivity {
+        - textMedicalink: TextView
+        - imageProfil: ImageView
+        - textVotreProfil: TextView
+        - textStatut: TextView
+        - radioButtonUtilisateur: RadioButton
+        - radioButtonProfessionnel: RadioButton
+        - textInformationsPersonnelles: TextView
+        - inputNom: TextInputEditText
+        - inputPrenom: TextInputEditText
+        - inputDateDeNaissance: TextInputEditText
+        - inputEmail: TextInputEditText
+        - inputMotDePasse: TextInputEditText
+        - checkboxRgpd: CheckBox
+        - buttonCreerProfil: Button
+        + onCreate(savedInstanceState: Bundle) : void
+        + clearFocusAndHideKeyboard(view: View) : void
+        + showDatePickerDialog() : void
+        + formatDate(day: Int, month: Int, year: Int) : String
+        + validateEmail(email: String) : Boolean
+        + updateButtonState() : void
+        + isValidPassword(password: String) : Boolean
+    }
+
+    class ChangerUtilisateurAdapterR {
+        - list: List<User>
+        - onItemClick: (User) -> Unit
+        + getItemCount() : Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int) : AjoutManuelViewHolder
+        + onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) : void
+    }
+
+    class MongoManager {
+        - mongoClient: MongoClient
+        - database: MongoDatabase
+        - mongoHost: String
+        - mongoPort: Int
+        - databaseName: String
+        - username: String
+        - password: String
+        + MongoManager()
+        + insertDocument(collectionName: String, document: Document) : void
+        + selectAllDocuments(collectionName: String) : List<Document>
+    }
+}
+
+
+
+
+
+
+
+
+
+    package home {
+        class HomeAdapterR {
+            - list: MutableList<Pair<Prise, Traitement>>
+            - listePriseValidee: MutableList<Pair<LocalDate, String>>
+            - dateCourante: LocalDate
+            - VIEW_TYPE_EMPTY: Int
+            - VIEW_TYPE_NORMAL: Int
+            - VIEW_TYPE_RAPPORT: Int
+            - heureCourante: String?
+            + updateData(listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>, listePriseValideeUpdated: MutableList<Pair<LocalDate, String>>, date: LocalDate) : void
+            + getItemCount(): Int
+            + getItemViewType(position: Int): Int
+            + onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder
+            + onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) : void
+            + updatePriseValideeList(newListePriseValidee: MutableList<Pair<LocalDate, String>>) : void
+            + updateRapportText() : void
+            + updateItemAfterSkip(position: Int) : void
+            - showConfirmPriseDialog(holder: AjoutManuelViewHolder, context: Context) : void
+        }
+
+
+        class HomeFragment {
+            - homeAdapter: HomeAdapterR
+            - calendrierMoisTextView: TextView
+            - jourAvantButton: Button
+            - jourJButton: Button
+            - jPlus1Button: Button
+            - jPlus2Button: Button
+            - jPlus3Button: Button
+            - jPlus4Button: Button
+            - jPlus5Button: Button
+            - jourAvantLettre: TextView
+            - jourJLettre: TextView
+            - jPlus1Lettre: TextView
+            - jPlus2Lettre: TextView
+            - jPlus3Lettre: TextView
+            - jPlus4Lettre: TextView
+            - jPlus5Lettre: TextView
+            - revenirDateCourante: ImageView
+            - nextMonth: ImageView
+            - previousMonth: ImageView
+            - jourAvant: LocalDate
+            - jourJ: LocalDate
+            - jPlus1: LocalDate
+            - jPlus2: LocalDate
+            - jPlus3: LocalDate
+            - jPlus4: LocalDate
+            - jPlus5: LocalDate
+            - listeMois: Map<String, String>
+            - listeJour: Map<String, String>
+            - listePriseValidee: MutableList<Pair<LocalDate, String>>
+            + onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View?
+            + updateCalendrier(dateClique: LocalDate, context: Context) : void
+            + updateListePrise(dateActuelle: LocalDate, context: Context) : void
+        }
+
+        class ParametreFragment{
+            - btnDeconnexion: LinearLayout
+            - btnDarkMode: LinearLayout
+            - switchDarkMode: Switch
+            - supprimerCompte: LinearLayout
+            - isDarkMode: Boolean = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+            + onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View?
+            + updateSwitchAppearance(isChecked: Boolean)
+            + refreshFragment()
+         }
+    }
+
+
+
+
+
+package traitements {
+
+
+
+
+    class AddTraitementsFragment extends Fragment {
+    - photoButton: LinearLayout
+    - loadButton: LinearLayout
+    - manualImportButton: LinearLayout
+    - annuler: ImageView
+    - currentPhotoPath: Uri? = null
+    - photoLauncher: ActivityResultLauncher<Uri>
+    - loadLauncher: ActivityResultLauncher<String>
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    + createImageFile(): Uri
+    + testRealImage(uri: Uri): Boolean
+    }
+
+    class InfoMedicamentFragment extends Fragment {
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    }
+
+    class ListeEffetsSecondairesAdapterR {
+        - list: MutableList<Traitement>
+        + init (list: MutableList<Traitement>)
+    }
+
+    class TraitementViewHolder extends ViewHolder {
+        - view : View
+        + init(val view: View)
+        + nomEffet: TextView
+        + provoquePar : TextView
+    }
+TraitementViewHolder --+ ListeEffetsSecondairesAdapterR
+
+    class ListeEffetsSecondairesFragment extends Fragment {
+        - recyclerView: RecyclerView
+        - annuler: ImageView
+        - textAucunEffetSec: TextView
+        + init (recyclerView: RecyclerView, annuler: ImageView, textAucunEffetSec: TextView)
+        + CreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View?
+    }
+
+    class ListeTraitementAdapterR extends Adapter{
+        - list: MutableList<Traitement>
+        - onItemClick: (Traitement, Boolean) -> Units
+        + init (list: MutableList<Traitement>, onItemClick: (Traitement, Boolean) -> Units )
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder
+        + onBindViewHolder(holder: TraitementViewHolder, position: Int)
+        - showConfirmSuppressDialog(
+                  context: Context,
+                  item: Traitement)
+    }
+TraitementViewHolder --+ ListeTraitementAdapterR
+
+
+    class LoaderFragment extends Fragment {
+        -  handler = Handler()
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + onViewCreated(view: View, savedInstanceState: Bundle?)
+        - handleResult(result: List<String?>)
+        - startLoadingAnimation()
+        + onDestroy()
+        + createTraitement(text: String): List<String?>
+    }
+
+    class MainTraitementsFragment extends Fragment {
+            - addTraitementButton: LinearLayout
+            - traitementsButton: LinearLayout
+            - journalButton: LinearLayout
+
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+    }
+
+    class PreviewFragment extends Fragment {
+        - buttonTakePicture: Button
+        - buttonChooseFromGallery: Button
+        - imagePreview: ImageView
+        - validateButton: Button
+        - currentPhotoPath: Uri? = null
+        - takePictureLauncher: ActivityResultLauncher<Uri>
+        - chooseFromGalleryLauncher: ActivityResultLauncher<String>
+        - retour: ImageView
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - displayImage(uri: Uri)
+        - createImageFile(): Uri
+        - extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit)
+        - processTextRecognitionResult(texts: Text): String
+    }
+
+
+    class Prise {
+        + numeroPrise: String
+        + heurePrise: String
+        + quantite: Int
+        + dosageUnite: String
+
+        + init (numeroPrise: String,
+        heurePrise: String,
+        quantite: Int,
+        dosageUnite: String)
+
+        + enMajuscule()
+        + getName(): String
+        + override fun toString(): String
+    }
+
+    class RecapAdapterR extends Adapter {
+        - list: MutableList<Prise>
+        + init(list: MutableList<Prise>)
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder
+        + onBindViewHolder(holder: AjoutManuelViewHolder, position: Int)
+    }
+
+    class AjoutManuelViewHolder extends ViewHolder{
+        + view : View
+        + heurePrise : TextView
+        + dosageRecap : TextView
+        + init (view : View)
+    }
+
+AjoutManuelViewHolder --+ RecapAdapterR
+
+
+    class SpacingRecyclerView extends ItemDecoration {
+        - espacementDp: Int
+        + init
+        + dpToPx(dp: Int): Int
+        + getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State)
+    }
+
+    class Traitement {
+        + CodeCIS: Int?,
+        + nomTraitement: String,
+        + dosageNb: Int,
+        + dosageUnite: String,
+        + dateFinTraitement: LocalDate?,
+        + typeComprime: String = "Comprimé",
+        + comprimesRestants: Int?,
+        + expire: Boolean = false,
+        + effetsSecondaires: MutableList<String>?,
+        + prises: MutableList<Prise>? = null,
+        + totalQuantite: Int?,
+        + UUID: String?,
+        + UUIDUSER: String?,
+        + dateDbtTraitement: LocalDate?
+
+        + init (CodeCIS: Int?,
+                nomTraitement: String,
+                dosageNb: Int,
+                dosageUnite: String,
+                dateFinTraitement: LocalDate?,
+                typeComprime: String = "Comprimé",
+                comprimesRestants: Int?,
+                expire: Boolean = false,
+                effetsSecondaires: MutableList<String>?,
+                prises: MutableList<Prise>? = null,
+                totalQuantite: Int?,
+                UUID: String?,
+                UUIDUSER: String?,
+                dateDbtTraitement: LocalDate?)
+
+        + enMajuscule()
+        + getName(): String
+        + getProchainePrise(prise: Prise?): Prise
+
+    }
+
+
+
+
+
+package ajoutmanuel {
+    class AjoutManuelIntervalleRegulier extends Fragment {
+        - inputIntervalle: TextInputEditText
+        - retour: ImageView
+        - suivant: Button
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - showIntervalleRegulierDialog(traitement: Traitement, context: Context)
+        - updateFirstNumberPickerValues(
+                  firstNumberPicker: NumberPicker,
+                  selectedValue: Int,
+                  currentDosage: Int
+              )
+        + onResume()
+    }
+
+    class AjoutManuelRecapitulatif extends Fragment {
+        - retour: ImageView
+        - suivant: Button
+        - nomMedoc: TextView
+        - textUnite: TextView
+        - textStock: TextView
+        - dateFinDeTraitement: TextView
+        - sousNomPeriodicite: TextView
+        - nomLayout: ConstraintLayout
+        - caracteristiqueLayout: ConstraintLayout
+        - periodiciteLayout: ConstraintLayout
+        - priseLayout: ConstraintLayout
+        - reapprovisionnementLayout: ConstraintLayout
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - showDuplicateDialog(
+                  context: Context,
+                  traitement: Traitement,
+                  listDuplicate: List<String>,
+                  substanceAdd: String,
+                  isAddingTraitement: String?,
+                  schemaPrise1: String?,
+                  provenance: String?,
+                  dureePriseDbt: String?,
+                  dureePriseFin: String?
+              )
+        + onResume()
+        - checkIfSubstance(
+                  codeCIS: Int,
+                  substanceDatabaseInterface: CisCompoBdpmRepository,
+                  medocDatabaseInterface: MedocRepository,
+                  userDatabaseInterface: UserRepository,
+                  callback: (List<String>, String) -> Unit
+              )
+
+    }
+
+    class AjoutManuelSchemaPrise2Fragment extends Fragment {
+        - addNouvellePrise: Button
+        - retour: ImageView
+        - suivant: Button
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - conflitsHeuresPrises(listePrise: MutableList<Prise>): Boolean
+        + onResume()
+        + mettreAJourCouleurs(listePrise: MutableList<Prise>, recyclerView: RecyclerView)
+        + changerCouleur(indexAMettreEnRouge: MutableSet<Int>, recyclerView: RecyclerView)
+    }
+
+    class AjoutManuelSchemaPriseFragment extends Fragment {
+        - quotidiennementButton: Button
+        - intervalleRegulierButton: Button
+        - auBesoinButton: Button
+        - suivant: Button
+        - retour: ImageView
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + onResume()
+        + handleOnBackPressed()
+
+    }
+
+    class AjoutManuelSearchAdapterR extends Adapter {
+        - list: List<CisBdpm>
+        - onItemClick: (CisBdpm) -> Unit
+        + init (list: List<CisBdpm>,onItemClick: (CisBdpm) -> Unit) )
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder
+        + onBindViewHolder(holder: TraitementViewHolder, position: Int)
+    }
+
+    class TraitementViewHolder extends ViewHolder {
+        - nomMedic: TextView
+        + init (val view: View)
+        + bind(item: CisBdpm)
+    }
+
+TraitementViewHolder --+ AjoutManuelSearchAdapterR
+
+
+    class AjoutManuelSearchFragment extends Fragment {
+        - addManuallySearchBar: TextInputEditText
+        - addManuallyButton: Button
+        - recyclerView: RecyclerView
+        - addManuallyButtonLauncher: ActivityResultLauncher<Intent>
+        - supprimerSearch: ImageView
+        - originalItemList: List<CisBdpm>
+        - filteredItemList: List<CisBdpm>
+        - itemAdapter: AjoutManuelSearchAdapterR
+        - retour: ImageView
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + textWatcher(traitement: Traitement): TextWatcher
+        - updateButtonState()
+        + clearFocusAndHideKeyboard(view: View)
+        + onResume()
+        - filterItems(query: String, traitement: Traitement)
+        - updateSearchBar(query: CisBdpm, traitement: Traitement)
+    }
+
+    class AjoutManuelStock extends Fragment {
+        - retour: ImageView
+        - suivant: Button
+        - layoutStock: ConstraintLayout
+        - inputStockActuel: EditText
+        - inputRappelJour: EditText
+        - inputRappelHeure: EditText
+        - switchStock: Switch
+        - textWatcher : TextWatcher
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - updateSwitchAppearance(isChecked: Boolean, layoutStock: View)
+        - showJourStockDialog(traitement: Traitement, context: Context)
+        - showTimePickerDialog(context: Context,heurePriseInput: EditText)
+        - formatTime(hour: Int, minute: Int): String
+        - updateButtonState()
+        + clearFocusAndHideKeyboard(view: View)
+        + onResume()
+    }
+
+    class AjoutManuelTypeMedic extends Fragment {
+        - retour: ImageView
+        - suivant: Button
+        +  onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + onResume()
+    }
+
+    class AjoutManuelTypeMedicAdapterR extends Adapter {
+        - list : MutableList<String>
+        - selected: String
+        + init (list: MutableList<String>, selected: String)
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup,viewType: Int): AjoutManuelTypeMedicViewHolder
+        + onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int)
+    }
+
+    class AjoutManuelTypeMedicViewHolder extends ViewHolder {
+    + init(val view: View)
+
+    + textTypeMedic : TextView
+    + layoutTypeMedic : TextView
+
+    }
+
+    AjoutManuelTypeMedicViewHolder --+ AjoutManuelTypeMedicAdapterR
+
+}
+
+
+
+
+package tokenization {
+
+    class BasicTokenizer{
+        +void Init(doLowerCase: Boolean = false)
+        - doLowerCase: Boolean
+        - tokenize(text: String): MutableList<String>
+        + cleanText(text: String?): String
+        + whitespaceTokenize(text: String?): MutableList<String>
+        + runSplitOnPunc(text: String?): MutableList<String>
+    }
+
+    class CamemBERT {
+        + BOS_TOKEN: String = "<s>"
+        + EOS_TOKEN: String = "</s>"
+        + SEP_TOKEN: String = "</s>"
+        + CLS_TOKEN: String = "<s>"
+        + UNK_TOKEN: String = "<unk>"
+        + PAD_TOKEN: String = "<pad>"
+        + MASK_TOKEN: String = "<mask>"
+    }
+
+    class CharChecker {
+        + isInvalid(ch: Char): Boolean
+        + isControl(ch: Char): Boolean
+        + isWhitespace(ch: Char): Boolean
+        + isPunctuation(ch: Char): Boolean
+    }
+
+    class Feature {
+        + inputIds: IntArray
+        + inputMask: IntArray
+        + segmentIds: IntArray
+        + origTokens: List<String>
+        + tokenToOrigMap: Map<Int, Int>
+
+        + Init(    inputIds: List<Int>,
+        inputMask: List<Int>,
+        segmentIds: List<Int>,
+        origTokens: List<String>,
+        tokenToOrigMap: Map<Int, Int> )
+    }
+    class FeatureConverter {
+        - tokenizer: FullTokenizer
+        - maxQueryLen: Int
+        - maxSeqLen: Int
+        + Init( inputDic: HashMap<String, Int>, doLowerCase: Boolean, maxQueryLen: Int, maxSeqLen: Int )
+        + convert(context: String): Feature
+        + align_word_ids(feature: Feature, labelAllTokens: Boolean = false): MutableList<Int>
+    }
+
+    class FullTokenizer{
+        - basicTokenizer: BasicTokenizer
+        - wordpieceTokenizer: WordpieceTokenizer
+        - dic: HashMap<String, Int>
+        + Init(inputDic: HashMap<String, Int>,doLowerCase: Boolean)
+        + tokenize(text: String): MutableList<String>
+        + convertTokensToIds(tokens: MutableList<String>): MutableList<Int>
+
+    }
+
+    class WordpieceTokenizer {
+        - dic: HashMap<String, Int>
+        - MAX_INPUTCHARS_PER_WORD = 200
+        + Init(vocab: HashMap<String, Int>)
+        + tokenize(text: String?): MutableList<String>
+    }
+}
+BasicTokenizer --> CharChecker : Uses
+
+FullTokenizer  "1" *--  "1" BasicTokenizer : contains
+FullTokenizer  "1" *-- "1" WordpieceTokenizer : contains
+
+FeatureConverter "1" *-- "1" FullTokenizer : contains
+FeatureConverter "1" *-- "1" Feature : contains
+FeatureConverter  -->  CamemBERT : Uses
+
+
+
+
+
+
+
+ package utils {
+        class NotificationService {
+
+            + onReceive(context: Context?, intent: Intent?)
+
+            + showNotification(
+                context: Context?
+                titre: String
+                contenu: String
+                notificationId: Int
+                date: String
+                numero: String
+                sauter: Boolean = false
+                prendre: Boolean = false)
+
+            + createFirstNotif(
+                context: Context
+                heurePremierePriseStr: String
+                jourPremierePrise: LocalDate
+                traitement: Traitement
+                dateEtNumero: Pair<String, String>
+            )
+
+            + createNextNotif(
+                context: Context
+                heureProchainePriseStr: String
+                traitement: Traitement
+                dateEtNumero: Pair<String, String>
+            )
+
+
+            + createNotif(
+                context: Context
+                heurePriseStr: String
+                traitement: Traitement
+                nbJour: Int
+                dateEtNumero: Pair<String, String>
+            )
+        }
+
+        class ModelOCR {
+            + Init (private val context: Context)
+            - mModule: Module? = null
+            - mBackgroundThread: HandlerThread
+            - mHandle: Handler
+            - TAG = "CamemBERT"
+            - DIC_PATH = "vocab.txt"
+            - LABEL_PATH = "id_to_label.txt"
+            - dic: HashMap<String, Int> = HashMap()
+            - labels: HashMap<Int, String> = HashMap()
+            - featureConverter: FeatureConverter
+            - MAX_ANS_LEN = 32
+            - MAX_QUERY_LEN = 64
+            - MAX_SEQ_LEN = 512
+            - DO_LOWER_CASE = false
+            - PREDICT_ANS_NUM = 5
+            - NUM_LITE_THREADS = 4
+            + analyze(texteAAnalyse: String): List<String?>
+            + loadModel()
+            + assetFilePath(context: Context, assetName: String): String?
+            + loadDictionaryFile(assetManager: AssetManager)
+            + loadIdToLabelFile(assetManager: AssetManager)
+        }
+
+        class PrendreReceiver {
+            + onReceive(context: Context?, intent: Intent?)
+        }
+
+        class SauterReceiver{
+            + onReceive(context: Context?, intent: Intent?)
+        }
+
+    }
+}
+@enduml

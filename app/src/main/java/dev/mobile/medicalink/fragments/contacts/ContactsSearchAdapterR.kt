@@ -25,7 +25,7 @@ class ContactsSearchAdapterR(
         val image: View = view.findViewById(R.id.imageMedecin)
 
         fun bind(item: Contact) {
-            nomContact.text = item.fullname
+            nomContact.text = item.fullName
             if (item.city != null) {
                 ville.text = item.city
             } else {

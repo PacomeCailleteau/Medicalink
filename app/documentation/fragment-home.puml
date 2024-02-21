@@ -1,0 +1,80 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+
+
+    package home {
+        class HomeAdapterR {
+            - list: MutableList<Pair<Prise, Traitement>>
+            - listePriseValidee: MutableList<Pair<LocalDate, String>>
+            - dateCourante: LocalDate
+            - VIEW_TYPE_EMPTY: Int
+            - VIEW_TYPE_NORMAL: Int
+            - VIEW_TYPE_RAPPORT: Int
+            - heureCourante: String?
+            + updateData(listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>, listePriseValideeUpdated: MutableList<Pair<LocalDate, String>>, date: LocalDate) : void
+            + getItemCount(): Int
+            + getItemViewType(position: Int): Int
+            + onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder
+            + onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) : void
+            + updatePriseValideeList(newListePriseValidee: MutableList<Pair<LocalDate, String>>) : void
+            + updateRapportText() : void
+            + updateItemAfterSkip(position: Int) : void
+            - showConfirmPriseDialog(holder: AjoutManuelViewHolder, context: Context) : void
+        }
+
+
+        class HomeFragment {
+            - homeAdapter: HomeAdapterR
+            - calendrierMoisTextView: TextView
+            - jourAvantButton: Button
+            - jourJButton: Button
+            - jPlus1Button: Button
+            - jPlus2Button: Button
+            - jPlus3Button: Button
+            - jPlus4Button: Button
+            - jPlus5Button: Button
+            - jourAvantLettre: TextView
+            - jourJLettre: TextView
+            - jPlus1Lettre: TextView
+            - jPlus2Lettre: TextView
+            - jPlus3Lettre: TextView
+            - jPlus4Lettre: TextView
+            - jPlus5Lettre: TextView
+            - revenirDateCourante: ImageView
+            - nextMonth: ImageView
+            - previousMonth: ImageView
+            - jourAvant: LocalDate
+            - jourJ: LocalDate
+            - jPlus1: LocalDate
+            - jPlus2: LocalDate
+            - jPlus3: LocalDate
+            - jPlus4: LocalDate
+            - jPlus5: LocalDate
+            - listeMois: Map<String, String>
+            - listeJour: Map<String, String>
+            - listePriseValidee: MutableList<Pair<LocalDate, String>>
+            + onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View?
+            + updateCalendrier(dateClique: LocalDate, context: Context) : void
+            + updateListePrise(dateActuelle: LocalDate, context: Context) : void
+        }
+
+        class ParametreFragment{
+            - btnDeconnexion: LinearLayout
+            - btnDarkMode: LinearLayout
+            - switchDarkMode: Switch
+            - supprimerCompte: LinearLayout
+            - isDarkMode: Boolean = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+            + onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View?
+            + updateSwitchAppearance(isChecked: Boolean)
+            + refreshFragment()
+         }
+    }
+
+
+@enduml

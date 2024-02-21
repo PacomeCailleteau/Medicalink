@@ -40,7 +40,7 @@ class ContactsAdapterR(
     override fun onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int) {
         val item = list.get(position)
 
-        holder.titreMessage.text = item.fullname
+        holder.titreMessage.text = item.fullName
         if (item.city != null) {
             holder.ville.text = item.city
         } else {

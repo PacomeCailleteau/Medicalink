@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -72,6 +73,12 @@ class ContactsFragment : Fragment() {
         Thread {
             val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
             val listMedecin = contactDatabaseInterface.getContactsByUuid(uuid)
+            val aucunContact = view.findViewById<View>(R.id.textAucunContact)
+            if (listMedecin.isEmpty()) {
+                aucunContact.visibility = View.VISIBLE
+            } else {
+                aucunContact.visibility = View.GONE
+            }
             recyclerView.adapter =
                 ContactsAdapterR(listMedecin) { clickedItem -> afficherContact(clickedItem) }
         }.start()

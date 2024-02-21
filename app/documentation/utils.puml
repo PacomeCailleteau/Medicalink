@@ -1,0 +1,83 @@
+ @startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+'skinparam groupInheritance 2
+ 
+ package utils {
+        class NotificationService {
+
+            + onReceive(context: Context?, intent: Intent?)
+
+            + showNotification(
+                context: Context?
+                titre: String
+                contenu: String
+                notificationId: Int
+                date: String
+                numero: String
+                sauter: Boolean = false
+                prendre: Boolean = false)
+
+            + createFirstNotif(
+                context: Context
+                heurePremierePriseStr: String
+                jourPremierePrise: LocalDate
+                traitement: Traitement
+                dateEtNumero: Pair<String, String>
+            )
+
+            + createNextNotif(
+                context: Context
+                heureProchainePriseStr: String
+                traitement: Traitement
+                dateEtNumero: Pair<String, String>
+            )
+
+
+            + createNotif(
+                context: Context
+                heurePriseStr: String
+                traitement: Traitement
+                nbJour: Int
+                dateEtNumero: Pair<String, String>
+            )
+        }
+
+        class ModelOCR {
+            + Init (private val context: Context)
+            - mModule: Module? = null
+            - mBackgroundThread: HandlerThread
+            - mHandle: Handler
+            - TAG = "CamemBERT"
+            - DIC_PATH = "vocab.txt"
+            - LABEL_PATH = "id_to_label.txt"
+            - dic: HashMap<String, Int> = HashMap()
+            - labels: HashMap<Int, String> = HashMap()
+            - featureConverter: FeatureConverter
+            - MAX_ANS_LEN = 32
+            - MAX_QUERY_LEN = 64
+            - MAX_SEQ_LEN = 512
+            - DO_LOWER_CASE = false
+            - PREDICT_ANS_NUM = 5
+            - NUM_LITE_THREADS = 4
+            + analyze(texteAAnalyse: String): List<String?>
+            + loadModel()
+            + assetFilePath(context: Context, assetName: String): String?
+            + loadDictionaryFile(assetManager: AssetManager)
+            + loadIdToLabelFile(assetManager: AssetManager)
+        }
+        
+        class PrendreReceiver {
+            + onReceive(context: Context?, intent: Intent?)
+        }
+
+        class SauterReceiver{
+            + onReceive(context: Context?, intent: Intent?)
+        }
+
+    }
+    
+   @enduml

@@ -82,7 +82,7 @@ class InfosContactFragment : Fragment() {
         val contact = requireArguments().getSerializable("contact") as Contact
 
         Thread {
-            val res = contactDatabaseInterface.getOneContactById(contact.uuid, contact.Rpps)
+            val res = contactDatabaseInterface.getOneContactById(contact.uuid, contact.rpps)
             isInBase = res != null
             if (isInBase) {
                 setButtonSupprimer(contact)
@@ -116,10 +116,10 @@ class InfosContactFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        textNomComplet.text = contact.fullname
+        textNomComplet.text = contact.fullName
         textRpps.text = buildString {
             append("RPPS : ")
-            append(contact.Rpps.toString())
+            append(contact.rpps.toString())
         }
         textSpecialite.text = contact.specialty ?: "Spécialité non renseigné"
         if (contact.phoneNumber == null) {
@@ -131,7 +131,7 @@ class InfosContactFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            val res = apiRpps.getEmail(contact.Rpps)
+            val res = apiRpps.getEmail(contact.rpps)
             if (res.isSuccessful) {
                 contact.email = res.body()?.getOrNull(0)
                 if (contact.email == null) {

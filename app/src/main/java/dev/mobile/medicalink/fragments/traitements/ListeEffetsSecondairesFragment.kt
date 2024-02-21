@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.EffetSecondaire
+import dev.mobile.medicalink.db.local.repository.EffetSecondaireRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.time.LocalDate
@@ -24,6 +28,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var annuler: ImageView
 
+    private lateinit var ajoutEffetSecondaire: AppCompatButton
     private lateinit var textAucunEffetSec: TextView
 
 
@@ -36,123 +41,39 @@ class ListeEffetsSecondairesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_liste_effets_secondaires, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
-        val medocDatabaseInterface = MedocRepository(db.medocDao())
+        val effetsSecondaireInterface = EffetSecondaireRepository(db.effetSecondaireDao())
 
         annuler = view.findViewById(R.id.annulerListeEffetsSecondaires)
         textAucunEffetSec = view.findViewById(R.id.textAucunEffetsSec)
+        ajoutEffetSecondaire = view.findViewById(R.id.ajouterEffetSecondaire)
+
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.VISIBLE
+        }
 
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
 
-        //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
+        //Récupération des effets secondaires en les transformant en une liste d'effets secondaires pour les afficher
         Thread {
-            val listeTraitement: MutableList<Traitement> = mutableListOf()
-
-            //On récuềre l'uuid de l'utilisateur courant
             val uuidUser = userDatabaseInterface.getUsersConnected()[0].uuid
 
+            val listeEffetSecondaire = effetsSecondaireInterface.getEffetSecondairesByUuid(uuidUser)
 
-            val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(uuidUser)
-
-            for (medoc in listeMedoc) {
-
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-
-                val listePrise = mutableListOf<Prise>()
-
-                if (medoc.prises != null) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        val maPrise = Prise(
-                            traitementPrise[0],
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            traitementPrise[3]
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    Log.d("test", medoc.dateFinTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateFinTraitement
-
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    Log.d("test", medoc.dateDbtTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateDbtTraitement
-
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                val traitement = Traitement(
-                    medoc.CodeCIS,
-                    medoc.nom,
-                    medoc.dosageNB.toInt(),
-                    medoc.dosageUnite,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
-                )
-
-                listeTraitement.add(traitement)
-
+            val aucunEffetSecondaire = view.findViewById<View>(R.id.textAucunEffetsSec)
+            if (listeEffetSecondaire.isEmpty()) {
+                aucunEffetSecondaire.visibility = View.VISIBLE
+            } else {
+                aucunEffetSecondaire.visibility = View.GONE
             }
-            queue.add(listeTraitement)
         }.start()
 
-        val mesTraitements = queue.take()
-
-        val traitementsTries = mesTraitements.sortedBy { it.expire }.toMutableList()
-
-        val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
-
-        // Parcoure la liste de traitements (lp).
-        traitementsTries.forEach { traitement ->
-            traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
-                // Vérifie si l'effet secondaire est déjà dans la carte
-                if (effetSecondaire.lowercase() in effetsSecondairesMedicaments) {
-                    // S'il est présent, ajoutez le traitement à la liste existante
-                    effetsSecondairesMedicaments[effetSecondaire.lowercase()]!!.add(traitement)
-                } else {
-                    // S'il n'est pas présent, créé une nouvelle liste et ajoute le traitement
-                    effetsSecondairesMedicaments[effetSecondaire.lowercase()] =
-                        mutableListOf(traitement)
-                }
-            }
+        ajoutEffetSecondaire.setOnClickListener {
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, AjoutEffetSecondaireFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
         }
-
-        if (effetsSecondairesMedicaments.isEmpty()) {
-            textAucunEffetSec.visibility = View.VISIBLE
-        } else {
-            textAucunEffetSec.visibility = View.GONE
-        }
-
-        recyclerView = view.findViewById(R.id.recyclerViewTypeMedic)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)
-
-        val espacementEnDp = 22
-        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
 
         annuler.setOnClickListener {
             val fragTransaction = parentFragmentManager.beginTransaction()
@@ -160,6 +81,42 @@ class ListeEffetsSecondairesFragment : Fragment() {
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
+
+        fun afficherEffetSecondaire(itemClicked: EffetSecondaire) {
+            val bundle = Bundle()
+            bundle.putSerializable(
+                "effetSecondaire",
+                itemClicked
+            )
+            val destinationFragment = InfoEffetSecondaireFragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        recyclerView = view.findViewById(R.id.recyclerViewEffetSecondaire)
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        recyclerView.adapter =
+            ListeEffetsSecondairesAdapterR(emptyList()) { clickedItem -> afficherEffetSecondaire(clickedItem) }
+
+        Thread {
+            val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
+            val listEffetSecondaire = effetsSecondaireInterface.getEffetSecondairesByUuid(uuid)
+            val aucunEffetSecondaire = view.findViewById<View>(R.id.textAucunEffetsSec)
+            if (listEffetSecondaire.isEmpty()) {
+                aucunEffetSecondaire.visibility = View.VISIBLE
+            } else {
+                aucunEffetSecondaire.visibility = View.GONE
+            }
+            recyclerView.adapter =
+                ListeEffetsSecondairesAdapterR(listEffetSecondaire) { clickedItem -> afficherEffetSecondaire(clickedItem) }
+        }.start()
+
+        val espacementEnDp = 10
+        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+
 
         return view
     }

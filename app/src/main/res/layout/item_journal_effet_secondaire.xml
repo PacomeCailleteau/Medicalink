@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_journal_effet_secondaire"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_white_black_stroke_button_background"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/nomEffetSecondaire"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="nomEffetSecondaire"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageEffetSecondaire"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="spread" />
+
+    <TextView
+        android:id="@+id/messageEffetSecondaire"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/quicksand_semibold"
+        android:text="messageEffetSecondaire"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/nomEffetSecondaire"
+        app:layout_constraintStart_toStartOf="@+id/nomEffetSecondaire"
+        app:layout_constraintTop_toBottomOf="@+id/nomEffetSecondaire"
+        app:layout_constraintWidth_default="spread"/>
+
+
+    <TextView
+        android:id="@+id/dateEffetSecondaire"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="dateEffetSecondaire"
+        app:layout_constraintEnd_toEndOf="@+id/nomEffetSecondaire"
+        app:layout_constraintStart_toStartOf="@+id/nomEffetSecondaire"
+        app:layout_constraintTop_toBottomOf="@+id/messageEffetSecondaire" />
+
+    <ImageView
+        android:id="@+id/imageEffetSecondaire"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

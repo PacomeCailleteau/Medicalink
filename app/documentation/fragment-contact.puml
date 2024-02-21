@@ -1,0 +1,96 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+class ContactsAdapterR extends RecyclerView.Adapter {
+    +init (list: List<Contact>, onItemClick: (Contact) -> Unit)
+    + getItemCount(): Int
+    + onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesFragmentViewHolder
+    + onBindViewHolder(holder: MessagesFragmentViewHolder, position: Int)
+
+}
+
+class MessagesFragmentViewHolder extends ViewHolder {
+    + view: View
+}
+
+class ContactsFragment extends Fragment {
+    - recyclerView: RecyclerView
+    + onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View?
+    + afficherContact(itemClicked: Contact)
+
+}
+
+class ContactsSearchAdapterR extends Adapter {
+    + Init (list: List<Contact>,onItemClick: (Contact) -> Unit)
+    + bind(item: Contact)
+    + getItemCount(): Int
+    + onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder
+    + onBindViewHolder(holder: TraitementViewHolder, position: Int)
+    }
+
+class TraitementViewHolder extends ViewHolder {
+    + view : View
+}
+
+class ContactsSearchFragment extends Fragment {
+    - contactSearchBar: TextInputEditText
+    - recyclerView: RecyclerView
+    - contactButtonLauncher: ActivityResultLauncher<Intent>
+    - supprimerSearch: ImageView
+    - ItemList: List<Contact>
+    - itemAdapter: ContactsSearchAdapterR
+    - erreurRecherche: TextView
+    - retour: ImageView
+    - apiRpps: ApiRppsService
+    - uuid: String
+    - searchJob: Job? = null
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    - suspend fun updateSearchResults(query: String)
+    - suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact>
+    + clearFocusAndHideKeyboard(view: View)
+    + afficherContact(itemClicked: Contact)
+    + override onResume()
+    + isOnline(context: Context): Boolean
+}
+
+class InfosContactFragment extends Fragment {
+    - textNomComplet: TextView
+    - textRpps: TextView
+    - textSpecialite: TextView
+    - textTelephone: TextView
+    - btnTelephone: ImageView
+    - textEmail: TextView
+    - btnEmail: ImageView
+    - textAdresse: TextView
+    - textZipCodeVille: TextView
+    - retour: ImageView
+    - scroll: ScrollView
+    - btnAjoutSupp: AppCompatButton
+    - openMapButton: ImageView
+    - db: AppDatabase
+    - contactDatabaseInterface: ContactRepository
+    - userDataBaseInterface: UserRepository
+    - apiRpps: ApiRppsService
+    - isInBase = false
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    - openMapWithAddress(address: String)
+    - setButtonSupprimer(c: Contact)
+    - setButtonAjouter(c: Contact)
+}
+
+ContactsAdapterR +-- MessagesFragmentViewHolder
+ContactsSearchAdapterR +-- TraitementViewHolder
+
+
+@enduml

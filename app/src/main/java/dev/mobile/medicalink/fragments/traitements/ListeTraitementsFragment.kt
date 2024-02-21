@@ -156,6 +156,12 @@ class ListeTraitementsFragment : Fragment() {
                 userDatabaseInterface.getUsersConnected(true).first().uuid
             )
 
+            val ancunTraintement = view.findViewById<View>(R.id.textAucunTraitement)
+            if (listeMedoc.isEmpty()) {
+                ancunTraintement.visibility = View.VISIBLE
+            } else {
+                ancunTraintement.visibility = View.GONE
+            }
             for (medoc in listeMedoc) {
 
                 var listeEffetsSec: MutableList<String>? = null

@@ -1,0 +1,186 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+'skinparam groupInheritance 2
+package db {
+    package local {
+        package DAOs {
+            interface CisBdpmDao {
+                + getAll(): List<CisBdpm>
+                + getById(CodeCIS: Int): List<CisBdpm>
+                + insertAll(CisBdpmDaos: List<CisBdpm>)
+                + delete(CisBdpmDao: CisBdpm)
+                + update(CisBdpmDao: CisBdpm)
+                + deleteAll() 
+            }
+            interface CisCompoBdpmDao {
+                + getAll(): List<CisCompoBdpm>
+                + getById(CodeCIS: Int): List<CisCompoBdpm>
+                + insertAll(CisCompoBdpmDaos: List<CisCompoBdpm>)
+                + delete(CisCompoBdpmDao: CisCompoBdpm)
+                + update(CisCompoBdpmDao: CisCompoBdpm)
+                + deleteAll() 
+            }
+            interface MedocDao {
+                + getAll(): List<Medoc>
+                + getById(uuid: String): List<Medoc>
+                + getByUser(uuidUser: String): List<Medoc>
+                + insertAll(Medoc: List<Medoc>)
+                + delete(Medoc: Medoc)
+                + update(Medoc: Medoc)
+            }
+            interface PriseValideeDao {
+                + getAll(): List<PriseValidee>
+                + getById(CodeCIS: Int): List<PriseValidee>
+                + getByUUIDTraitementAndDate(date: String, uuidPrise: String): List<PriseValidee>
+                + insertAll(priseValidee: PriseValidee)
+                + delete(priseValidee: PriseValidee)
+                + update(priseValidee: PriseValidee)
+            }
+            interface UserDao {
+                + getAll(): List<User>
+                + getById(CodeCIS: Int): List<User>
+                + getByConnected(isConnected: Boolean = true): List<User>
+                + insertAll(users: List<User>)
+                + delete(User: User)
+                + update(User: User)
+            }
+        }
+
+        package Repositories {
+            class CisBdpmRepository {
+                - cisBdpmDao: CisBdpmDao
+                + insert(cis: CisBdpm)
+                + selectAll(): List<CisBdpm>
+            }
+            class CisCompoBdpmRepository {
+                - cisCompoBdpmDao: CisCompoBdpmDao
+                + insert(cisCompo: CisCompoBdpm)
+                + selectAll(): List<CisCompoBdpm>
+            }
+            class MedocRepository {
+                - medocDao: MedocDao
+                + insert(medoc: Medoc)
+                + selectAll(): List<Medoc>
+            }
+            class PriseValideeRepository {
+                - priseValideeDao: PriseValideeDao
+                + insert(prise: PriseValidee)
+                + selectAll(): List<PriseValidee>
+            }
+            class UserRepository {
+                - userDao: UserDao
+                + insert(user: User)
+                + selectAll(): List<User>
+            }
+        }
+
+        package Entities {
+                class CisBdpm {
+                - CodeCIS: Int
+                - denomination: String
+                - formePharmaceutique: String
+                - voiesAdministration: String
+                - statutAdministratifAMM: String
+                - typeProcedureAMM: String
+                - etatCommercialisation: String
+                - dateAMM: String
+                - statutBdm: String
+                - numeroAutorisationEuropeenne: String
+                - titulaire: String
+                - surveillanceRenforcee: String
+            }
+
+            class CisCompoBdpm{
+                - CodeCIS: Int
+                - designationForme: String
+                - codeSubstance: String
+                - denomination: String
+                - dosage: String
+                - referenceDosage: String
+                - natureComposant: String
+                - numeroLiaisonSAFT: String
+            }
+
+            class Medoc{
+                - uuid: String
+                - uuidUser: String
+                - CodeCIS: Int?
+                - nom: String
+                - dosageNB: String,
+                - dosageUnite: Strin
+                - dateFinTraitement: String?
+                - typeComprime: String
+                - comprimesRestants: Int?
+                - expire: Boolean
+                - effetsSecondaires: String?
+                - prises: String?
+                - TotalQuantite: Int?
+                - dateDbtTraitement: String?
+            }
+
+            class PriseValidee {
+                - uuid: String
+                - date: String
+                - uuidPrise: String
+                - statut: String
+            }
+
+            class User {
+                - username: String
+                - password: String
+                + setUsername(username: String) : void
+                + setPassword(password: String) : void
+                + getUsername() : String
+                + getPassword() : String
+            }
+            class Prise {
+                - numeroPrise: String
+                - heurePrise: String
+                - quantite: Int
+                - dosageUnite: String
+                + getNumeroPrise() : String
+                + getHeurePrise() : String
+                + getQuantite() : Int
+                + getDosageUnite() : String
+            }
+
+        }
+
+        abstract class AppDatabase {
+            - userDao: UserDao
+            - medocDao: MedocDao
+            - cisBdpmDao: CisBdpmDao
+            - priseValideeDao: PriseValideeDao
+            - cisCompoBdpmDao: CisCompoBdpmDao
+            + getUserDao() : UserDao
+            + getMedocDao() : MedocDao
+            + getCisBdpmDao() : CisBdpmDao
+            + getPriseValideeDao() : PriseValideeDao
+            + getCisCompoBdpmDao() : CisCompoBdpmDao
+        }
+    }
+}
+
+CisBdpmRepository --> CisBdpmDao : Uses
+CisCompoBdpmRepository --> CisCompoBdpmDao : Uses
+MedocRepository --> MedocDao : Uses
+PriseValideeRepository --> PriseValideeDao : Uses
+UserRepository --> UserDao : Uses
+
+CisBdpmDao --> CisBdpm : Aggregates
+CisCompoBdpmDao --> CisCompoBdpm : Aggregates
+MedocDao --> Medoc : Aggregates
+PriseValideeDao --> PriseValidee : Aggregates
+UserDao --> User : Aggregates
+
+AppDatabase --> UserDao : Uses
+AppDatabase --> MedocDao : Uses
+AppDatabase --> CisBdpmDao : Uses
+AppDatabase --> PriseValideeDao : Uses
+AppDatabase --> CisCompoBdpmDao : Uses
+
+@enduml
