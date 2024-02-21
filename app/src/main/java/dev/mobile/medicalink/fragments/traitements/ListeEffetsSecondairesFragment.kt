@@ -105,8 +105,8 @@ class ListeEffetsSecondairesFragment : Fragment() {
                     effetsSecondaires = listeEffetsSec,
                     prises = listePrise,
                     totalQuantite = medoc.totalQuantite,
-                    UUID = medoc.uuid,
-                    UUIDUSER = medoc.uuidUser,
+                    uuid = medoc.uuid,
+                    uuidUser = medoc.uuidUser,
                     dateDbtTraitement = newTraitementDbtDeTraitement
                 )
 

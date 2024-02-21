@@ -42,8 +42,6 @@ class RecapAdapterR(private val list: MutableList<Prise>) :
         holder.dosageRecap.text = "${item.quantite} ${item.typeComprime}"
 
         holder.view.setOnLongClickListener {
-
-            val context = holder.itemView.context
             true
         }
     }

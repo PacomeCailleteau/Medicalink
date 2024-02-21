@@ -73,7 +73,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         }
 
         // on fait un texte watcher sur l'heure qui change la couleur du texte
-        holder.heurePriseInput.doOnTextChanged() { _, _, _, _ ->
+        holder.heurePriseInput.doOnTextChanged { _, _, _, _ ->
             holder.heurePriseInput.setTextColor(Color.BLACK)
         }
 
@@ -89,8 +89,6 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         holder.view.setOnLongClickListener {
             item.enMajuscule()
             notifyDataSetChanged()
-
-            val context = holder.itemView.context
             true
         }
     }
@@ -193,7 +191,7 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
             try {
                 val input = (dest?.toString()?.substring(0, dstart)
                         + source?.subSequence(start, end)
-                        + dest?.toString()?.substring(dend))?.toInt()
+                        + dest?.toString()?.substring(dend)).toInt()
 
                 if (isInRange(minValue, maxValue, input)) {
                     return null

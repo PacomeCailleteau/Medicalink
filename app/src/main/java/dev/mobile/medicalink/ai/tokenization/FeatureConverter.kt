@@ -159,7 +159,7 @@ class FeatureConverter(
          * @param labelAllTokens Indique si tous les tokens doivent être étiquetés.
          * @return Une liste d'identifiants de mots alignés.
          */
-        fun align_word_ids(feature: Feature, labelAllTokens: Boolean = false): MutableList<Int> {
+        fun alignWordIds(feature: Feature, labelAllTokens: Boolean = false): MutableList<Int> {
             // Récupère les identifiants d'entrée de la caractéristique.
             val inputIds = feature.inputIds
 

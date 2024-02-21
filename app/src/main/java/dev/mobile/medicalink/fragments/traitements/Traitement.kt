@@ -1,12 +1,7 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.content.Context
-import android.os.Build
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.annotation.RequiresApi
 import java.io.Serializable
-import java.lang.NumberFormatException
 import java.time.LocalDate
 
 
@@ -22,42 +17,56 @@ class Traitement(
     var effetsSecondaires: MutableList<String>?,
     var prises: MutableList<Prise>? = null,
     var totalQuantite: Int?,
-    var UUID: String?,
-    var UUIDUSER: String?,
+    var uuid: String?,
+    var uuidUser: String?,
     var dateDbtTraitement: LocalDate?
 
 ) : Serializable {
 
     var suggDuree: String? = null
 
+    /**
+     * Renvoie la prochaine prise à effectuer
+     * @param prise la prise actuelle
+     * @return la prochaine prise à effectuer
+     */
     fun getProchainePrise(prise: Prise?): Prise {
         return if (prises == null || prises!!.isEmpty()) {
             return Prise("-1", "14:38", 0, "Comprimé")
         } else if (prise == null) {
             prises!![0]
         } else {
-            var prochainePrise = prise
-            //S'il n'y a qu'une seule prise, on retourne cette prise
-            if (prises?.size == 1) {
-                return prochainePrise
-            }
-            //Sinon :
-            //On tri les prises en fonction de leur heure de prise
-            prises?.sortBy { it.heurePrise }
-            //On boucle sur les prises pour trouver la prochaine prise, si la prise est la dernière de la liste, on retourne la première prise
-            for (i in 0 until prises!!.size) {
-                if (prises!![i] == prise) {
-                    prochainePrise = if (i == prises!!.size - 1) {
-                        prises!![0]
-                    } else {
-                        prises!![i + 1]
-                    }
+            return calculProchainPrise(prise)
+        }
+    }
+
+    /**
+     * Calcul la prochaine prise à effectuer
+     * @param prise la prise actuelle
+     * @return la prochaine prise à effectuer
+     */
+    private fun calculProchainPrise(prise: Prise): Prise {
+        var prochainePrise = prise
+        //S'il n'y a qu'une seule prise, on retourne cette prise
+        if (prises?.size == 1) {
+            return prochainePrise
+        }
+        //Sinon :
+        //On tri les prises en fonction de leur heure de prise
+        prises?.sortBy { it.heurePrise }
+        //On boucle sur les prises pour trouver la prochaine prise, si la prise est la dernière de la liste, on retourne la première prise
+        for (i in 0 until prises!!.size) {
+            if (prises!![i] == prise) {
+                prochainePrise = if (i == prises!!.size - 1) {
+                    prises!![0]
+                } else {
+                    prises!![i + 1]
                 }
             }
-
-            //On est de toute façon dans le else alors prochainePrise ne peut pas être null
-            prochainePrise!!
         }
+
+        //On est de toute façon dans le else alors prochainePrise ne peut pas être null
+        return prochainePrise
     }
 
 
@@ -166,8 +175,8 @@ class Traitement(
                 "effetsSecondaires: $effetsSecondaires, " +
                 "prises: $prises, " +
                 "totalQuantite: $totalQuantite, " +
-                "UUID: '$UUID', " +
-                "UUIDUSER: '$UUIDUSER', " +
+                "uuid: '$uuid', " +
+                "uuidUser: '$uuidUser', " +
                 "dateDbtTraitement: $dateDbtTraitement)"
     }
 }

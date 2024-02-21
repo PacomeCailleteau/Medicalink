@@ -9,9 +9,8 @@ import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.ajouts.AddTraitementsFragment
+import dev.mobile.medicalink.utils.GoTo
 
 class MainTraitementsFragment : Fragment() {
     private lateinit var addTraitementButton: LinearLayout
@@ -25,10 +24,6 @@ class MainTraitementsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_traitements, container, false)
 
-        //Create database connexion, use `userDatabaseInterface` to access to the database
-        val db = AppDatabase.getInstance(view.context.applicationContext)
-        val userDatabaseInterface = UserRepository(db.userDao())
-
         addTraitementButton = view.findViewById(R.id.cardaddtraitements)
         traitementsButton = view.findViewById(R.id.cardtraitements)
         journalButton = view.findViewById(R.id.cardjournal)
@@ -36,27 +31,16 @@ class MainTraitementsFragment : Fragment() {
 
         //Si on clique sur le bouton "Ajouter un traitement" alors on change le fragment actuel (MainTraitementsFragment) par le fragment AddTraitementsFragment
         addTraitementButton.setOnClickListener {
-
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, AddTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
         }
 
         //Si on clique sur le bouton "Traitements" alors on change le fragment actuel (MainTraitementsFragment) par le fragment ListeTraitementsFragment
         traitementsButton.setOnClickListener {
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, ListeTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
-
+            GoTo.fragment(ListeTraitementsFragment(), parentFragmentManager)
         }
 
         journalButton.setOnClickListener {
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, ListeEffetsSecondairesFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(ListeEffetsSecondairesFragment(), parentFragmentManager)
         }
 
         val callback: OnBackPressedCallback =

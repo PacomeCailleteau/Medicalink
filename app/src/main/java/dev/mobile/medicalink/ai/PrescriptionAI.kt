@@ -21,7 +21,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.time.LocalDate
 
 /**
@@ -157,20 +156,22 @@ class PrescriptionAI(
      * @return liste de 'Traitement'
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun postAnalyse(prediction: MutableList<Pair<String, String>>): List<Traitement> {
-        val treatment = mutableListOf(Traitement(
-            "",
-            "",
-            0,
-            "",
-            null,
-            comprimesRestants = null,
-            effetsSecondaires = null,
-            totalQuantite = null,
-            UUID = null,
-            UUIDUSER = null,
-            dateDbtTraitement = LocalDate.now()
-        ))
+    private fun postAnalyse(prediction: List<Pair<String, String>>): List<Traitement> {
+        val treatment = mutableListOf(
+            Traitement(
+                "",
+                "",
+                0,
+                "",
+                null,
+                comprimesRestants = null,
+                effetsSecondaires = null,
+                totalQuantite = null,
+                uuid = null,
+                uuidUser = null,
+                dateDbtTraitement = LocalDate.now()
+            )
+        )
         var last = 0
         prediction.forEach { (word, label) ->
             when {
@@ -192,12 +193,12 @@ class PrescriptionAI(
                                 comprimesRestants = null,
                                 effetsSecondaires = null,
                                 totalQuantite = null,
-                                UUID = null,
-                                UUIDUSER = null,
+                                uuid = null,
+                                uuidUser = null,
                                 dateDbtTraitement = LocalDate.now()
                             )
                         )
-                        last = treatment.size-1
+                        last = treatment.size - 1
 
                     }
                     when (label.removePrefix("B-")) {
@@ -339,7 +340,7 @@ class PrescriptionAI(
             )
 
             // Aligne les IDs de mots avec les labels.
-            val labelIds = FeatureConverter.align_word_ids(feature)
+            val labelIds = FeatureConverter.alignWordIds(feature)
 
             // Exécute le modèle PyTorch avec les prédictions d'entrée et de masque.
             val outputTensor = mModule!!.forward(
@@ -372,7 +373,7 @@ class PrescriptionAI(
 
             // Convertit la liste de prédictions en liste de labels.
             val predictionsLabelList: List<String> = startPredictionsList.map { index ->
-                labels[index]!!
+                labels[index] ?: ""
             }
 
             // Parcourt la liste des labels prédits.

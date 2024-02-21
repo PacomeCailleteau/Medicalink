@@ -115,7 +115,7 @@ class ModelOCR(private val context: Context) {
             inputMaskTensor
         )
 
-        val labelIds = FeatureConverter.align_word_ids(feature)
+        val labelIds = FeatureConverter.alignWordIds(feature)
 
         Log.v(TAG, "Model loading...")
         while (mModule == null) {
