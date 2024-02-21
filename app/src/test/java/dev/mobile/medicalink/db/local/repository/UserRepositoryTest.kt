@@ -32,9 +32,9 @@ class UserRepositoryTest {
             "a@b.c",
             "test",
             false,
-            LocalDateTime.of(0, 0, 0, 4, 0, ).toString(),
-            LocalDateTime.of(0, 0, 0, 8, 0, ).toString(),
-            LocalDateTime.of(0, 0, 0, 22, 0, ).toString()
+            LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
+            LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
+            LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
         )
     private val defaultUser2 =
         User(
@@ -46,9 +46,9 @@ class UserRepositoryTest {
             "a@b.c",
             "test2",
             true,
-            LocalDateTime.of(0, 0, 0, 4, 0, ).toString(),
-            LocalDateTime.of(0, 0, 0, 8, 0, ).toString(),
-            LocalDateTime.of(0, 0, 0, 22, 0, ).toString()
+            LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
+            LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
+            LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
         )
 
     @Before
