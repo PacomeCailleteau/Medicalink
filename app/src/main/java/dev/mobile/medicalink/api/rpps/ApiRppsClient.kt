@@ -2,12 +2,13 @@ package dev.mobile.medicalink.api.rpps
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dev.mobile.medicalink.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiRppsClient {
-    private val BASE_URL = "http://157.230.115.110/"
+    private val BASE_URL = BuildConfig.API_RPPS_URL
 
     private val gson: Gson by lazy {
         GsonBuilder().setLenient().create()
