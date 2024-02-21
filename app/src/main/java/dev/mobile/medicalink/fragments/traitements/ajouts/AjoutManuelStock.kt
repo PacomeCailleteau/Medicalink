@@ -240,7 +240,7 @@ class AjoutManuelStock : Fragment() {
         }
     }
 
-    fun clearFocusAndHideKeyboard(view: View) {
+    private fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
         val editTextList = listOf(
             inputStockActuel,

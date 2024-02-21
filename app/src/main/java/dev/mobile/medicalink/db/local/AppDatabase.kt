@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.dao.CisSubstanceDao
 import dev.mobile.medicalink.db.local.dao.ContactMedecinDao
@@ -24,6 +26,7 @@ import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     // On déclare les DAOs

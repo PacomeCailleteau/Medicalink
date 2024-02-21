@@ -38,28 +38,24 @@ data class Medoc(
     @ColumnInfo(name = "uuidUser") var uuidUser: String,
     @ColumnInfo(name = "nom") val nom: String,
     @ColumnInfo(name = "codeCIS") val codeCIS: String,
-    @ColumnInfo(name = "dosageNB") val dosageNB: String,
+    @ColumnInfo(name = "dosageNB") val dosageNB: Int,
     @ColumnInfo(name = "frequencePrise") val frequencePrise: EnumFrequence,
-    @ColumnInfo(name = "dateFinTraitement") var dateFinTraitement: String?,
+    @ColumnInfo(name = "dateFinTraitement") var dateFinTraitement: LocalDate?,
     @ColumnInfo(name = "typeComprime") val typeComprime: String,
     @ColumnInfo(name = "comprimesRestants") var comprimesRestants: Int?,
     @ColumnInfo(name = "expire") var expire: Boolean,
     @ColumnInfo(name = "effetsSecondaires") val effetsSecondaires: String?,
     @ColumnInfo(name = "prises") val prises: String?,
     @ColumnInfo(name = "totalQuantite") val totalQuantite: Int?,
-    @ColumnInfo(name = "dateDbtTraitement") val dateDbtTraitement: String?,
+    @ColumnInfo(name = "dateDbtTraitement") val dateDbtTraitement: LocalDate,
 ) {
     fun toTraitement(): Traitement {
         return Traitement(
             nomTraitement = this.nom,
             codeCIS = this.codeCIS,
-            dosageNb = try {
-                this.dosageNB.toInt()
-            } catch (e: NumberFormatException) {
-                -1
-            },
+            dosageNb = this.dosageNB,
             frequencePrise = this.frequencePrise,
-            dateFinTraitement = toDate(this.dateFinTraitement),
+            dateFinTraitement = this.dateFinTraitement,
             typeComprime = this.typeComprime,
             comprimesRestants = this.comprimesRestants,
             expire = this.expire,
@@ -68,22 +64,8 @@ data class Medoc(
             totalQuantite = this.totalQuantite,
             uuid = this.uuid,
             uuidUser = this.uuidUser,
-            dateDbtTraitement = toDate(this.dateDbtTraitement)
+            dateDbtTraitement = this.dateDbtTraitement
         )
-    }
-
-    /**
-     * Convertit une date en string en LocalDate
-     * @param date la date à convertir
-     * @return la date convertie
-     */
-    private fun toDate(date: String?): LocalDate? {
-        return if (date != "null") {
-            val formatter = DateTimeFormatter.ofPattern(datePattern)
-            LocalDate.parse(date, formatter)
-        } else {
-            null
-        }
     }
 
     /**

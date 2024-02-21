@@ -69,7 +69,8 @@ class InfoMedocFragment : Fragment() {
 
         titre.text = monMedoc.nom
         dosage.text = dosage.text.toString() + monMedoc.dosageNB
-        dosageUnite.text = dosageUnite.text.toString() + getStringFromEnum(monMedoc.frequencePrise, view.context)
+        dosageUnite.text =
+            dosageUnite.text.toString() + getStringFromEnum(monMedoc.frequencePrise, view.context)
         typeComprime.text = typeComprime.text.toString() + monMedoc.typeComprime
         restants.text = restants.text.toString() + monMedoc.comprimesRestants
         quantite.text = quantite.text.toString() + monMedoc.totalQuantite

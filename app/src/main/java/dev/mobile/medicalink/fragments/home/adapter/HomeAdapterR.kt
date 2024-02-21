@@ -248,7 +248,7 @@ class HomeAdapterR(
      */
     private fun updatePriseValideeList(newListePriseValidee: List<Pair<LocalDate, String>>) {
         this.listePriseValidee = newListePriseValidee
-        notifyItemChanged(0) // Mettre à jour seulement l'élément à la position 0 (le rapport)
+        notifyDataSetChanged() // Mettre à jour seulement l'élément à la position 0 (le rapport)
     }
 
 
@@ -504,7 +504,7 @@ class HomeAdapterR(
         //On fait une requête à la base de données pour récupéré le Medoc correspondant au traitement
         Thread {
             val medocDatabaseInterface = MedocRepository(db.medocDao())
-            val dateFinTraitement: String?
+            val dateFinTraitement: LocalDate?
             if (traitement.uuid == null) {
                 return@Thread
             } else {
@@ -533,9 +533,7 @@ class HomeAdapterR(
             }
 
             //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
-            if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
-                    .toString()
-            ) {
+            if ((dateFinTraitement != null) && (dateFinTraitement > LocalDate.now())) {
                 return@Thread
             } else {
                 val date = dateCourante.toString()

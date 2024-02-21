@@ -140,16 +140,16 @@ class AjoutSharedViewModel : ViewModel() {
         "",
         nomTraitement.value ?: "",
         codeCIS.value ?: "",
-        dosageNb.value.toString(),
+        dosageNb.value ?: 0,
         frequencePrise.value ?: EnumFrequence.AUBESOIN,
-        dateFinTraitement.value?.toString() ?: "null",
+        dateFinTraitement.value,
         typeComprime.value ?: "",
         comprimesRestants.value ?: 0,
         dateFinTraitement.value != null && dateFinTraitement.value!! < LocalDate.now(),
         effectsSec() ?: "null",
         prises() ?: "null",
         totalQuantite.value ?: 0,
-        dateDbtTraitement.value?.toString() ?: "null"
+        dateDbtTraitement.value ?: LocalDate.now(),
     )
 
     /**

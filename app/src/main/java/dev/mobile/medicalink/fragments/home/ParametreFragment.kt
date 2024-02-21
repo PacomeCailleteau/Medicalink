@@ -140,7 +140,7 @@ class ParametreFragment : Fragment() {
      * Rafraîchir le fragment
      */
     fun refreshFragment() {
-        val transaction = requireFragmentManager().beginTransaction()
+        val transaction = parentFragmentManager.beginTransaction()
         transaction.detach(this)
         transaction.attach(this)
         transaction.commit()

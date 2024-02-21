@@ -195,9 +195,7 @@ class ListeTraitementsFragment : Fragment() {
                     viewModel.setTotalQuantite(clickedTraitement.totalQuantite ?: 0)
                     viewModel.setUUID(clickedTraitement.uuid ?: "")
                     viewModel.setUUIDUSER(clickedTraitement.uuidUser ?: "")
-                    viewModel.setDateDbtTraitement(
-                        clickedTraitement.dateDbtTraitement ?: LocalDate.now()
-                    )
+                    viewModel.setDateDbtTraitement(clickedTraitement.dateDbtTraitement)
 
                     when (clickedTraitement.frequencePrise) {
                         EnumFrequence.AUBESOIN -> {
@@ -262,16 +260,16 @@ class ListeTraitementsFragment : Fragment() {
                         "",
                         it.nomTraitement,
                         codeCIS,
-                        it.dosageNb.toString(),
+                        it.dosageNb,
                         it.frequencePrise,
-                        it.dateFinTraitement.toString(),
+                        it.dateFinTraitement,
                         it.typeComprime,
                         it.comprimesRestants,
                         it.expire,
                         null,
                         null,
                         it.totalQuantite,
-                        it.dateDbtTraitement.toString()
+                        it.dateDbtTraitement
                     )
                     val uuidUserCourant = userDatabaseInterface.getUsersConnected().first().uuid
                     newMedoc.uuidUser = uuidUserCourant
@@ -313,16 +311,13 @@ class ListeTraitementsFragment : Fragment() {
         val jourPremierePrise = newTraitement.dateDbtTraitement
         val date = LocalDate.now().toString()
         val numero = newTraitement.getProchainePrise(null).numeroPrise
-        if (jourPremierePrise != null) {
-            NotificationService.createFirstNotif(
-                view.context,
-                heurePremierePrise,
-                jourPremierePrise,
-                newTraitement,
-                Pair(date, numero)
-            )
-        }
-
+        NotificationService.createFirstNotif(
+            view.context,
+            heurePremierePrise,
+            jourPremierePrise,
+            newTraitement,
+            Pair(date, numero)
+        )
     }
 
 

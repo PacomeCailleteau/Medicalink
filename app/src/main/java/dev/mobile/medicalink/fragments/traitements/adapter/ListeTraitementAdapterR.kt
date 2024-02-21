@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.EnumFrequence
@@ -113,7 +112,7 @@ class ListeTraitementAdapterR(
                     )
                 }"
             holder.dateExpirationTraitement.text =
-                "${holder.view.resources.getString(R.string.debute_le)} ${item.dateDbtTraitement!!.dayOfMonth}/${item.dateDbtTraitement!!.monthValue}/${item.dateDbtTraitement!!.year}"
+                "${holder.view.resources.getString(R.string.debute_le)} ${item.dateDbtTraitement.dayOfMonth}/${item.dateDbtTraitement.monthValue}/${item.dateDbtTraitement.year}"
 
         } else {
             //Sinon, le traitement prend le format "normal", le plus courant
@@ -146,14 +145,18 @@ class ListeTraitementAdapterR(
             EnumFrequence.AUBESOIN -> {
                 holder.view.resources.getString(R.string.au_besoin)
             }
+
             EnumFrequence.QUOTIDIEN -> {
                 "${item.totalQuantite} ${holder.view.resources.getString(R.string.par_jour)}"
             }
+
             else -> {
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${getStringFromEnum(
-                    item.frequencePrise, 
-                    holder.view.context
-                )}"
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${
+                    getStringFromEnum(
+                        item.frequencePrise,
+                        holder.view.context
+                    )
+                }"
             }
         }
     }

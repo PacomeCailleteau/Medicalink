@@ -29,13 +29,19 @@ data class StatutDouleur(
     @ColumnInfo(name = "uuidUser") val uuidUser: String
 ) {
     fun estComforme() {
-        assert(this.type in listOf("medicament", "intervalle", "spontane")) { "Type invalid dans StatutDouleur" }
+        assert(
+            this.type in listOf(
+                "medicament",
+                "intervalle",
+                "spontane"
+            )
+        ) { "Type invalid dans StatutDouleur" }
         assert(this.valeur in 0..10) { "Valeur invalid dans StatutDouleur" }
 
         if (this.type == "medicament") {
-            assert(this.avantPrise != null) {"Un StatutDouleur provenant d'un médicament ne peut pas avoir 'avantPrise' vide"}
+            assert(this.avantPrise != null) { "Un StatutDouleur provenant d'un médicament ne peut pas avoir 'avantPrise' vide" }
         } else {
-            assert(this.avantPrise == null) {"Seul les StatutDouleur provenant d'un médicament peuvent avoir une valeur dans 'avantPrise'"}
+            assert(this.avantPrise == null) { "Seul les StatutDouleur provenant d'un médicament peuvent avoir une valeur dans 'avantPrise'" }
         }
     }
 }
