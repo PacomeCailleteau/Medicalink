@@ -160,4 +160,7 @@
     <string name="date_de_fin_de_traitement">Date de fin de traitement</string>
     <string name="prises">Prises</string>
     <string name="reapprovisionnement">Réapprovisionnement</string>
+    <string name="dark_mode">Mode sombre</string>
+    <string name="specialite_s">Spécialité : %s</string>
+    <string name="pas_medoc_dans_photo">Aucune prescription n\'a été détectée dans l\'image. Veuillez essayer d\'utiliser une autre image de l\'ordonnance ou ajouter manuellement vos médicaments.</string>
 </resources>

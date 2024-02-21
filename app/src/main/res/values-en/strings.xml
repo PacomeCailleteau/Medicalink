@@ -179,4 +179,7 @@
     <string name="j_ai_compris">I understand</string>
     <string name="ajouter_vrm_medoc_conflit">You are already taking %s medicine(s) that use(s) the same active substance: %s.</string>
     <string name="date_invalide">Invalid date</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="specialite_s">Speciality : %s</string>
+    <string name="pas_medoc_dans_photo">No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.</string>
 </resources>

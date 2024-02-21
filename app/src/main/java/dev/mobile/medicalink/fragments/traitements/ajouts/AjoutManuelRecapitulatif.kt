@@ -70,7 +70,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         reapprovisionnementLayout = view.findViewById(R.id.reapprovionnementLayout)
 
         var schemaPriseFormatee = ""
-        when (viewModel.schema_prise1.value) {
+        when (viewModel.schemaPrise1.value) {
             "Quotidiennement" -> {
                 schemaPriseFormatee = getString(R.string.quotidiennement)
             }

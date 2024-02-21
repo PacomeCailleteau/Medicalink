@@ -1,8 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +26,6 @@ import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
 import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -109,48 +106,7 @@ class ListeTraitementsFragment : Fragment() {
         // Vrai veut dire qu'on ajoute un traitement
         // Faux veut dire qu'on modifie un traitement
         if (viewModel.isAddingTraitement.value == true || viewModel.isAddingTraitement.value == false) {
-            val newMedoc: Medoc
-
-            var newTraitementEffetsSec: String? = null
-            if (viewModel.effetsSecondaires.value != null) {
-                var chaineDeChar = ""
-                for (effet in viewModel.effetsSecondaires.value!!) {
-                    chaineDeChar += "$effet;"
-                }
-                if (chaineDeChar != "") chaineDeChar =
-                    chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
-                newTraitementEffetsSec = chaineDeChar
-            }
-
-            var newTraitementPrises: String? = null
-            if (viewModel.prises.value != null) {
-                var chaineDeChar = ""
-                for (prise in viewModel.prises.value!!) {
-                    chaineDeChar += "${prise}/"
-                }
-                if (chaineDeChar != "") chaineDeChar =
-                    chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
-                newTraitementPrises = chaineDeChar
-            }
-
-
-            newMedoc = Medoc(
-                if (viewModel.isAddingTraitement.value!!) UUID.randomUUID()
-                    .toString() else viewModel.UUID.value!!,
-                "",
-                viewModel.nomTraitement.value ?: "",
-                viewModel.codeCIS.value ?: "",
-                viewModel.dosageNb.value.toString(),
-                viewModel.frequencePrise.value ?: "",
-                viewModel.dateFinTraitement.value?.toString() ?: "null",
-                viewModel.typeComprime.value ?: "",
-                viewModel.comprimesRestants.value ?: 0,
-                viewModel.dateFinTraitement.value != null && viewModel.dateFinTraitement.value!! < LocalDate.now(),
-                newTraitementEffetsSec ?: "null",
-                newTraitementPrises ?: "null",
-                viewModel.totalQuantite.value ?: 0,
-                viewModel.dateDbtTraitement.value?.toString() ?: "null"
-            )
+            val newMedoc = viewModel.toMedoc()
 
             val queue2 = LinkedBlockingQueue<Boolean>()
             Thread {
@@ -165,20 +121,8 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
 
-            val newTraitement = viewModel.makeTraitement()
-            val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
-            val jourPremierePrise = newTraitement.dateDbtTraitement
-            val date = LocalDate.now().toString()
-            val numero = newTraitement.getProchainePrise(null).numeroPrise
-            if (jourPremierePrise != null) {
-                NotificationService.createFirstNotif(
-                    view.context,
-                    heurePremierePrise,
-                    jourPremierePrise,
-                    newTraitement,
-                    Pair(date, numero)
-                )
-            }
+            sendNotifIfNeeded(viewModel.makeTraitement(), view)
+
             viewModel.reset()
         }
     }
@@ -197,71 +141,12 @@ class ListeTraitementsFragment : Fragment() {
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread {
             val listeTraitement: MutableList<Traitement> = mutableListOf()
-
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected(true).first().uuid
             )
-
             for (medoc in listeMedoc) {
-
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-
-                val listePrise = mutableListOf<Prise>()
-
-                if (!medoc.prises.isNullOrEmpty()) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        val maPrise = Prise(
-                            traitementPrise[0],
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            traitementPrise[3]
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateFinTraitement
-
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateDbtTraitement
-
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                val traitement = Traitement(
-                    medoc.nom,
-                    medoc.codeCIS,
-                    medoc.dosageNB.toInt(),
-                    medoc.frequencePrise,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
-                )
-
+                val traitement = medoc.toTraitement()
                 listeTraitement.add(traitement)
-
             }
             queue.add(listeTraitement)
         }.start()
@@ -403,7 +288,7 @@ class ListeTraitementsFragment : Fragment() {
             val dosageDialog = builder.create()
 
             val dial = dialogView.findViewById<TextView>(R.id.ajouterVrm)
-            dial.text = "No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication."
+            dial.text = resources.getString(R.string.pas_medoc_dans_photo)
             val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
 
             jaiCompris.setOnClickListener {
@@ -413,6 +298,30 @@ class ListeTraitementsFragment : Fragment() {
             dosageDialog.show()
         }
     }
+
+    /**
+     * Fonction qui permet d'envoyer une notification si besoin
+     * @param newTraitement : le traitement à notifier
+     * @param view : la vue actuelle
+     */
+    private fun sendNotifIfNeeded(newTraitement: Traitement, view: View) {
+        val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
+        val jourPremierePrise = newTraitement.dateDbtTraitement
+        val date = LocalDate.now().toString()
+        val numero = newTraitement.getProchainePrise(null).numeroPrise
+        if (jourPremierePrise != null) {
+            NotificationService.createFirstNotif(
+                view.context,
+                heurePremierePrise,
+                jourPremierePrise,
+                newTraitement,
+                Pair(date, numero)
+            )
+        }
+
+    }
+
+
 
     override fun onResume() {
         super.onResume()
