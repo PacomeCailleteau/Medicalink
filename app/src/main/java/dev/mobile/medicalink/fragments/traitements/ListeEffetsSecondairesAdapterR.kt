@@ -49,8 +49,12 @@ class ListeEffetsSecondairesAdapterR(private val list: List<EffetSecondaire>, pr
 
         holder.messageEffetSecondaire.text = item.message
 
-        val path = loadImageFromStorage(item.uuidEffetSecondaire+".png")
+        val context = holder.view.context
+        val path = BitmapDrawable(context.resources, BitmapFactory.decodeFile(context.filesDir.path + "/" + item.uuidEffetSecondaire+".png"))
 
+        Log.d("path", holder.view.context.filesDir.path + "/" + item.uuidEffetSecondaire+".png")
+        // /data/user/0/dev.mobile.medicalink/files/527b36ca-eb5f-47de-8f9e-06d474ee47e3.png
+        // /data/user/0/dev.mobile.medicalink/files/527b36ca-eb5f-47de-8f9e-06d474ee47e3.png
         holder.imageEffetSecondaire.setImageDrawable(path)
 
         holder.dateEffetSecondaire.text = item.date

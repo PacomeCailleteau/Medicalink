@@ -12,26 +12,31 @@
         android:id="@+id/nomEffetSecondaire"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:fontFamily="@font/quicksand_bold"
         android:text="nomEffetSecondaire"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintEnd_toStartOf="@+id/imageEffetSecondaire"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="spread" />
 
     <TextView
         android:id="@+id/messageEffetSecondaire"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:ellipsize="end"
         android:fontFamily="@font/quicksand_semibold"
         android:text="messageEffetSecondaire"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/nomEffetSecondaire"
         app:layout_constraintStart_toStartOf="@+id/nomEffetSecondaire"
-        app:layout_constraintTop_toBottomOf="@+id/nomEffetSecondaire" />
+        app:layout_constraintTop_toBottomOf="@+id/nomEffetSecondaire"
+        app:layout_constraintWidth_default="spread"/>
+
 
     <TextView
         android:id="@+id/dateEffetSecondaire"
