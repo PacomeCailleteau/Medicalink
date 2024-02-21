@@ -25,7 +25,6 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
-import java.time.LocalTime
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 

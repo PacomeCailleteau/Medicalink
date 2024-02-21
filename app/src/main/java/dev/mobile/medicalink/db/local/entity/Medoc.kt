@@ -10,7 +10,6 @@ import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Entity(
     foreignKeys = [
@@ -89,10 +88,6 @@ data class Medoc(
             }
         }
         return listePrise
-    }
-
-    companion object {
-        private const val datePattern = "yyyy-MM-dd"
     }
 
 }
