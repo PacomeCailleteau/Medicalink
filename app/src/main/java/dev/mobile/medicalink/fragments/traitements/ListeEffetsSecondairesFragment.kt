@@ -93,7 +93,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
     }
 
     private fun getEffetsSecondairesMedicaments(
-        traitementsTries: MutableList<Traitement>,
+        traitementsTries: List<Traitement>,
     ): MutableMap<String, MutableList<Traitement>> {
         val effetsSecondairesMedicaments: MutableMap<String, MutableList<Traitement>> = mutableMapOf()
         traitementsTries.forEach { traitement ->

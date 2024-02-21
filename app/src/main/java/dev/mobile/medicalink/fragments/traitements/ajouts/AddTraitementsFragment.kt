@@ -123,7 +123,6 @@ class AddTraitementsFragment : Fragment() {
      */
     @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): Uri {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
         val context = view?.context
             ?: return Uri.EMPTY  // Si le contexte est nul, renvoie une valeur par défaut
@@ -131,7 +130,7 @@ class AddTraitementsFragment : Fragment() {
         val cacheDir = context.cacheDir
 
         val image = File.createTempFile(
-            "JPEG_" + timeStamp + "_", /* prefix */
+            "JPEG_" + SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + "_", /* prefix */
             ".jpg", /* suffix */
             cacheDir      /* directory */
         ).apply {
