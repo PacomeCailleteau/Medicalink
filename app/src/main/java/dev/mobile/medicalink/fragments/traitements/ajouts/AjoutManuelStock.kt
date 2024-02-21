@@ -51,7 +51,7 @@ class AjoutManuelStock : Fragment() {
         }
 
         val rootLayout = view.findViewById<View>(R.id.constraintStock)
-        rootLayout.setOnTouchListener { v, event ->
+        rootLayout.setOnTouchListener { v, _ ->
             clearFocusAndHideKeyboard(v)
             return@setOnTouchListener false
         }
