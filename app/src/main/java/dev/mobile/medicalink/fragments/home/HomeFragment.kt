@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import dev.mobile.medicalink.fragments.home.adapter.HomeAdapterR
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.utils.GoTo
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -147,22 +147,7 @@ class HomeFragment : Fragment() {
 
         //Gestion du calendrier
         revenirDateCourante.visibility = View.GONE
-        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
-        jourAvantButton.text = jourAvant.dayOfMonth.toString()
-        jourJButton.text = jourJ.dayOfMonth.toString()
-        jPlus1Button.text = jPlus1.dayOfMonth.toString()
-        jPlus2Button.text = jPlus2.dayOfMonth.toString()
-        jPlus3Button.text = jPlus3.dayOfMonth.toString()
-        jPlus4Button.text = jPlus4.dayOfMonth.toString()
-        jPlus5Button.text = jPlus5.dayOfMonth.toString()
-
-        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
-        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
-        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
-        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
-        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
-        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
-        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
+        updateCalendrier()
 
         // Les listeners sur les boutons du calendrier
         jourAvantButton.setOnClickListener {
@@ -199,10 +184,7 @@ class HomeFragment : Fragment() {
         // Le listener sur le bouton paramètre
         paramBtn.setOnClickListener {
             //Navigation vers le fragment parametre
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, ParametreFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(ParametreFragment(), parentFragmentManager)
         }
 
         return view
@@ -228,22 +210,7 @@ class HomeFragment : Fragment() {
         jPlus4 = dateClique.plusDays(4)
         jPlus5 = dateClique.plusDays(5)
 
-        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
-        jourAvantButton.text = jourAvant.dayOfMonth.toString()
-        jourJButton.text = jourJ.dayOfMonth.toString()
-        jPlus1Button.text = jPlus1.dayOfMonth.toString()
-        jPlus2Button.text = jPlus2.dayOfMonth.toString()
-        jPlus3Button.text = jPlus3.dayOfMonth.toString()
-        jPlus4Button.text = jPlus4.dayOfMonth.toString()
-        jPlus5Button.text = jPlus5.dayOfMonth.toString()
-
-        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
-        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
-        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
-        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
-        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
-        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
-        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
+        updateCalendrier()
         updateListePrise(dateClique, context)
     }
 
@@ -369,11 +336,7 @@ class HomeFragment : Fragment() {
 
                         "Semaines" -> {
                             tousLesXJours = element.second.dosageNb.toLong() * 7L
-                            Log.d("s", tousLesXJours.toString())
-                            Log.d("s1", jourEntreDeuxDates.toString())
-                            Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
                             toAdd = jourEntreDeuxDates % tousLesXJours == 0L
-                            Log.d("doIaddIt", toAdd.toString())
                         }
 
                         "Mois" -> {
@@ -381,12 +344,6 @@ class HomeFragment : Fragment() {
                                 element.second.dateDbtTraitement,
                                 dateActuelle
                             ).months
-                            Log.d("m", element.second.dosageNb.toString())
-                            Log.d("m1", moisEntreDeuxDates.toString())
-                            Log.d(
-                                "m2",
-                                (moisEntreDeuxDates % element.second.dosageNb).toString()
-                            )
                             toAdd = if (moisEntreDeuxDates == 0) {
                                 element.second.dateDbtTraitement == dateActuelle
                             } else {
@@ -436,6 +393,26 @@ class HomeFragment : Fragment() {
             queue.add(listeTraitement)
         }.start()
         return queue.take()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateCalendrier() {
+        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
+        jourAvantButton.text = jourAvant.dayOfMonth.toString()
+        jourJButton.text = jourJ.dayOfMonth.toString()
+        jPlus1Button.text = jPlus1.dayOfMonth.toString()
+        jPlus2Button.text = jPlus2.dayOfMonth.toString()
+        jPlus3Button.text = jPlus3.dayOfMonth.toString()
+        jPlus4Button.text = jPlus4.dayOfMonth.toString()
+        jPlus5Button.text = jPlus5.dayOfMonth.toString()
+
+        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
+        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
+        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
+        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
+        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
+        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
+        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
     }
 
 

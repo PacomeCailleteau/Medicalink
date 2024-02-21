@@ -118,7 +118,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
         auBesoinButton.text = texteComplet3
 
 
-        when (viewModel.schema_prise1.value) {
+        when (viewModel.schemaPrise1.value) {
             "Quotidiennement" -> {
                 quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
                 intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
@@ -151,7 +151,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            if (viewModel.schema_prise1.value != "Quotidiennement") {
+            if (viewModel.schemaPrise1.value != "Quotidiennement") {
                 viewModel.setPrises(mutableListOf())
             }
             viewModel.setSchemaPrise1("Quotidiennement")
@@ -161,7 +161,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
-            if (viewModel.schema_prise1.value != "Intervalle") {
+            if (viewModel.schemaPrise1.value != "Intervalle") {
                 viewModel.setPrises(mutableListOf())
             }
             viewModel.setSchemaPrise1("Intervalle")
@@ -172,7 +172,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             quotidiennementButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             intervalleRegulierButton.setBackgroundResource(R.drawable.rounded_white_button_blue_stroke_background)
             auBesoinButton.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)
-            if (viewModel.schema_prise1.value != "auBesoin") {
+            if (viewModel.schemaPrise1.value != "auBesoin") {
                 viewModel.setPrises(mutableListOf())
             }
             viewModel.setSchemaPrise1("auBesoin")
@@ -185,7 +185,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             //Gestion de la redirection en fonction du bouton sélectionné
 
             var destinationFragment = Fragment()
-            when (viewModel.schema_prise1.value) {
+            when (viewModel.schemaPrise1.value) {
                 "Quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
                     viewModel.setFrequencePrise("quotidiennement")
