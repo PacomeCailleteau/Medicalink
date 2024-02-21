@@ -46,30 +46,6 @@ abstract class AppDatabase : RoomDatabase() {
         private const val DATABASE_NAME = "medicalink.db"
         private var INSTANCE: AppDatabase? = null
 
-        fun fillDatabase(instance: AppDatabase, context: Context){
-            Thread {
-                // On supprime les données de la base de données médicamenteuse
-                //instance.cisBdpmDao().deleteAll()
-                // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
-                val cisBdpmRepository = CisBdpmRepository(instance.cisBdpmDao())
-                cisBdpmRepository.insertFromCsv(context)
-            }.start()
-            Thread {
-                // On supprime les données de la base de données médicamenteuse
-                //instance.cisCompoBdpmDao().deleteAll()
-                // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
-                val cisCompoBdpmRepository = CisCompoBdpmRepository(instance.cisCompoBdpmDao())
-                cisCompoBdpmRepository.insertFromCsv(context)
-            }.start()
-            Thread {
-                // On supprime les données de la base de données médicamenteuse
-                //instance.cisCompoBdpmDao().deleteAll()
-                // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
-                val interactionRepository = InteractionRepository(instance.interactionDao())
-                interactionRepository.insertFromCsv(context)
-            }.start()
-        }
-
         /**
          * Fonction qui permet de récupérer l'instance de la base de données.
          * Elle est dans le companion object pour que l'on puisse l'appeler sans avoir à instancier la classe AppDatabase car on veut un singleton.
@@ -87,7 +63,28 @@ abstract class AppDatabase : RoomDatabase() {
                 ).build()
                 INSTANCE = instance
 
-
+                //On créer un thread pour remplir la base de données (oui c'est pas la meilleure manière de faire)
+                Thread {
+                    // On supprime les données de la base de données médicamenteuse
+                    //instance.cisBdpmDao().deleteAll()
+                    // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
+                    val cisBdpmRepository = CisBdpmRepository(instance.cisBdpmDao())
+                    cisBdpmRepository.insertFromCsv(context)
+                }.start()
+                Thread {
+                    // On supprime les données de la base de données médicamenteuse
+                    //instance.cisCompoBdpmDao().deleteAll()
+                    // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
+                    val cisCompoBdpmRepository = CisCompoBdpmRepository(instance.cisCompoBdpmDao())
+                    cisCompoBdpmRepository.insertFromCsv(context)
+                }.start()
+                Thread {
+                    // On supprime les données de la base de données médicamenteuse
+                    //instance.cisCompoBdpmDao().deleteAll()
+                    // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
+                    val interactionRepository = InteractionRepository(instance.interactionDao())
+                    interactionRepository.insertFromCsv(context)
+                }.start()
                 instance
             }
         }
