@@ -18,6 +18,7 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.adapter.HomeAdapterR
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
@@ -253,7 +254,7 @@ class HomeFragment : Fragment() {
                         "x",
                         "0",
                         1,
-                        "Comp",
+                        EnumFrequence.AUBESOIN,
                         null,
                         "comp",
                         25,
@@ -316,11 +317,11 @@ class HomeFragment : Fragment() {
             }
 
             when (element.second.frequencePrise) {
-                "auBesoin" -> {
+                EnumFrequence.AUBESOIN -> {
                     toAdd = false
                 }
 
-                "quotidiennement" -> {
+                EnumFrequence.QUOTIDIEN -> {
                     toAdd = true
                 }
 
@@ -329,17 +330,17 @@ class HomeFragment : Fragment() {
                         ChronoUnit.DAYS.between(element.second.dateDbtTraitement, dateActuelle)
                     val tousLesXJours: Long
                     when (element.second.frequencePrise) {
-                        "Jours" -> {
+                        EnumFrequence.JOUR -> {
                             tousLesXJours = element.second.dosageNb.toLong()
                             toAdd = jourEntreDeuxDates % tousLesXJours == 0L
                         }
 
-                        "Semaines" -> {
+                        EnumFrequence.SEMAINE -> {
                             tousLesXJours = element.second.dosageNb.toLong() * 7L
                             toAdd = jourEntreDeuxDates % tousLesXJours == 0L
                         }
 
-                        "Mois" -> {
+                        EnumFrequence.MOIS -> {
                             val moisEntreDeuxDates = Period.between(
                                 element.second.dateDbtTraitement,
                                 dateActuelle

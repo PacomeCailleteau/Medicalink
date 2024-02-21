@@ -15,6 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
 import dev.mobile.medicalink.utils.GoTo
 
 
@@ -50,13 +52,13 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             viewModel.setDosageNb(2)
         }
 
-        var freq = viewModel.frequencePrise.value ?: resources.getString(R.string.jours)
-        if (freq == "" || freq == "quotidiennement" || freq == "auBesoin") {
-            freq = resources.getString(R.string.jours)
-            viewModel.setFrequencePrise(resources.getString(R.string.jours))
+        var freq = viewModel.frequencePrise.value ?: EnumFrequence.JOUR
+        if (freq == EnumFrequence.QUOTIDIEN || freq == EnumFrequence.AUBESOIN) {
+            freq = EnumFrequence.JOUR
+            viewModel.setFrequencePrise(EnumFrequence.JOUR)
         }
 
-        updateTextViewIntervalleRegulier(dosage, freq)
+        updateTextViewIntervalleRegulier(dosage, getStringFromEnum(freq, requireContext()))
 
         inputIntervalle.setOnClickListener {
             showIntervalleRegulierDialog(viewModel, view.context)
@@ -103,9 +105,9 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         secondNumberPicker.minValue = 0
         secondNumberPicker.maxValue = 2
         secondNumberPicker.value = when (viewModel.frequencePrise.value) {
-            resources.getString(R.string.jours) -> 0
-            resources.getString(R.string.semaines) -> 1
-            resources.getString(R.string.mois) -> 2
+            EnumFrequence.JOUR -> 0
+            EnumFrequence.SEMAINE -> 1
+            EnumFrequence.MOIS -> 2
             else -> 0
         }
 
@@ -127,13 +129,16 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         okButton.setOnClickListener {
             viewModel.setDosageNb(firstNumberPicker.value)
             val freq = when (secondNumberPicker.value) {
-                0 -> resources.getString(R.string.jours)
-                1 -> resources.getString(R.string.semaines)
-                2 -> resources.getString(R.string.mois)
-                else -> resources.getString(R.string.jours)
+                0 -> EnumFrequence.JOUR
+                1 -> EnumFrequence.SEMAINE
+                2 -> EnumFrequence.MOIS
+                else -> EnumFrequence.JOUR
             }
             viewModel.setFrequencePrise(freq)
-            updateTextViewIntervalleRegulier(firstNumberPicker.value, freq)
+            updateTextViewIntervalleRegulier(firstNumberPicker.value, getStringFromEnum(
+                freq,
+                requireContext()
+            ))
             intervalleRegulierDialog.dismiss()
         }
         intervalleRegulierDialog.show()
@@ -182,16 +187,13 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     ) {
         var s = ""
         s += when (frequence) {
-            resources.getString(R.string.jours) -> resources.getString(R.string.tous_les)
             resources.getString(R.string.semaines) -> resources.getString(R.string.toutes_les)
-            resources.getString(R.string.mois) -> resources.getString(R.string.tous_les)
             else -> resources.getString(R.string.tous_les)
         }
         s += " $dosage "
         s += frequence
         inputIntervalle.text = s
     }
-
 
     override fun onResume() {
         super.onResume()

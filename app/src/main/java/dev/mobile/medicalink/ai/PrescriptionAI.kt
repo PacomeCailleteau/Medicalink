@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import androidx.annotation.WorkerThread
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import fr.medicapp.medicapp.tokenization.Feature
 import fr.medicapp.medicapp.tokenization.FeatureConverter
@@ -158,7 +159,7 @@ class PrescriptionAI(
                 "",
                 "",
                 0,
-                "",
+                EnumFrequence.AUBESOIN,
                 null,
                 comprimesRestants = null,
                 effetsSecondaires = null,
@@ -184,7 +185,7 @@ class PrescriptionAI(
                                 "",
                                 "",
                                 0,
-                                "",
+                                EnumFrequence.AUBESOIN,
                                 null,
                                 comprimesRestants = null,
                                 effetsSecondaires = null,
@@ -201,7 +202,7 @@ class PrescriptionAI(
                         "Drug" -> treatment[last].nomTraitement = word
                         "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
                         "DrugForm" -> treatment[last].typeComprime = word
-                        "DrugFrequency" -> treatment[last].frequencePrise = word
+                        "DrugFrequency" -> treatment[last].suggFrequence = word
                         "DrugDuration" -> treatment[last].suggDuree = word
                     }
                 }
@@ -211,7 +212,7 @@ class PrescriptionAI(
                         "Drug" -> treatment[last].nomTraitement += " $word"
                         "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
                         "DrugForm" -> treatment[last].typeComprime = " $word"
-                        "DrugFrequency" -> treatment[last].frequencePrise = " $word"
+                        "DrugFrequency" -> treatment[last].suggFrequence = " $word"
                         "DrugDuration" -> treatment[last].suggDuree += " $word"
                     }
                 }
