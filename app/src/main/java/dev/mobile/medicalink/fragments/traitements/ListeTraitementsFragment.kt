@@ -2,6 +2,7 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -112,6 +113,8 @@ class ListeTraitementsFragment : Fragment() {
             Thread {
                 val uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
                 newMedoc.uuidUser = uuidUserCourant
+                Log.d("AjoutMedoc", newMedoc.toString())
+                Log.d("AjoutMedoc", viewModel.isAddingTraitement.value.toString())
                 if (viewModel.isAddingTraitement.value!!) {
                     medocDatabaseInterface.insertMedoc(newMedoc)
                 } else {
@@ -197,12 +200,12 @@ class ListeTraitementsFragment : Fragment() {
                     )
 
                     when (clickedTraitement.frequencePrise) {
-                        "auBesoin" -> {
+                        EnumFrequence.AUBESOIN -> {
                             viewModel.setSchemaPrise1("auBesoin")
                             viewModel.setProvenance("auBesoin")
                         }
 
-                        "quotidiennement" -> {
+                        EnumFrequence.QUOTIDIEN -> {
                             viewModel.setSchemaPrise1("Quotidiennement")
                             viewModel.setProvenance("quotidiennement")
                         }

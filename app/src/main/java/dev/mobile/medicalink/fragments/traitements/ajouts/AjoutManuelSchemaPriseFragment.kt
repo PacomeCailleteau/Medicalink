@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.utils.GoTo
 
 
@@ -188,7 +189,8 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
             when (viewModel.schemaPrise1.value) {
                 "Quotidiennement" -> {
                     destinationFragment = AjoutManuelSchemaPrise2Fragment()
-                    viewModel.setFrequencePrise("quotidiennement")
+                    viewModel.setFrequencePrise(EnumFrequence.QUOTIDIEN)
+                    viewModel.setDosageNb(1)
                     viewModel.setProvenance("quotidiennement")
                 }
 
@@ -199,7 +201,7 @@ class AjoutManuelSchemaPriseFragment : Fragment() {
 
                 "auBesoin" -> {
                     destinationFragment = AjoutManuelDateSchemaPrise()
-                    viewModel.setFrequencePrise("auBesoin")
+                    viewModel.setFrequencePrise(EnumFrequence.AUBESOIN)
                     viewModel.setProvenance("auBesoin")
                 }
             }

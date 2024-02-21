@@ -14,6 +14,7 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
 import java.util.concurrent.LinkedBlockingQueue
 
 class InfoMedocFragment : Fragment() {
@@ -69,7 +70,7 @@ class InfoMedocFragment : Fragment() {
 
         titre.text = monMedoc.nom
         dosage.text = dosage.text.toString() + monMedoc.dosageNB
-        dosageUnite.text = dosageUnite.text.toString() + monMedoc.frequencePrise
+        dosageUnite.text = dosageUnite.text.toString() + getStringFromEnum(monMedoc.frequencePrise, view.context)
         typeComprime.text = typeComprime.text.toString() + monMedoc.typeComprime
         restants.text = restants.text.toString() + monMedoc.comprimesRestants
         quantite.text = quantite.text.toString() + monMedoc.totalQuantite

@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
@@ -38,7 +39,7 @@ data class Medoc(
     @ColumnInfo(name = "nom") val nom: String,
     @ColumnInfo(name = "codeCIS") val codeCIS: String,
     @ColumnInfo(name = "dosageNB") val dosageNB: String,
-    @ColumnInfo(name = "frequencePrise") val frequencePrise: String,
+    @ColumnInfo(name = "frequencePrise") val frequencePrise: EnumFrequence,
     @ColumnInfo(name = "dateFinTraitement") var dateFinTraitement: String?,
     @ColumnInfo(name = "typeComprime") val typeComprime: String,
     @ColumnInfo(name = "comprimesRestants") var comprimesRestants: Int?,

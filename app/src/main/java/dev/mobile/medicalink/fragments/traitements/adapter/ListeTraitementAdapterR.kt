@@ -10,8 +10,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
 
@@ -140,14 +143,17 @@ class ListeTraitementAdapterR(
      */
     private fun getAfficheDosage(item: Traitement, holder: TraitementViewHolder): String {
         return when (item.frequencePrise) {
-            "auBesoin" -> {
+            EnumFrequence.AUBESOIN -> {
                 holder.view.resources.getString(R.string.au_besoin)
             }
-            "quotidiennement" -> {
+            EnumFrequence.QUOTIDIEN -> {
                 "${item.totalQuantite} ${holder.view.resources.getString(R.string.par_jour)}"
             }
             else -> {
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.frequencePrise}"
+                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${getStringFromEnum(
+                    item.frequencePrise, 
+                    holder.view.context
+                )}"
             }
         }
     }
