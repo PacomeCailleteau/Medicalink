@@ -9,7 +9,7 @@ class Traitement(
     var nomTraitement: String,
     var codeCIS: String,
     var dosageNb: Int,
-    var frequencePrise: String,
+    var frequencePrise: EnumFrequence,
     var dateFinTraitement: LocalDate?,
     var typeComprime: String = "Comprimé",
     var comprimesRestants: Int?,
@@ -24,6 +24,7 @@ class Traitement(
 ) : Serializable {
 
     var suggDuree: String? = null
+    var suggFrequence: String? = null
 
     /**
      * Renvoie la prochaine prise à effectuer
@@ -87,19 +88,24 @@ class Traitement(
      * Conformise l'unité du médicament
      */
     private fun trouveUnite() {
-        if (this.frequencePrise.isNotEmpty()) {
+        if (this.suggFrequence?.isNotEmpty() == true) {
             val algo = JaroWinkler()
             algo.base = listOf(
-                "auBesoin",
-                "quotidiennement",
-                "intervalle"
+                "besoin",
+                "jour",
+                "semaine",
+                "mois"
             )
-            algo.aChercher = this.frequencePrise
+            algo.aChercher = suggFrequence as String
 
-            this.frequencePrise = algo.lancerDistance()
-
-            if (this.frequencePrise.isEmpty())
-                this.frequencePrise = "intervalle régulier"
+            val freq = algo.lancerDistance()
+            this.frequencePrise = when (freq) {
+                "besoin" -> EnumFrequence.AUBESOIN
+                "jour" -> EnumFrequence.QUOTIDIEN
+                "semaine" -> EnumFrequence.SEMAINE
+                "mois" -> EnumFrequence.MOIS
+                else -> EnumFrequence.AUBESOIN
+            }
         }
     }
 
@@ -177,7 +183,7 @@ class Traitement(
         return "Traitement(nomTraitement: '$nomTraitement', " +
                 "codeCIS: '$codeCIS', " +
                 "dosageNb: $dosageNb, " +
-                "dosageUnite: '$frequencePrise', " +
+                "frequencePrise: '$frequencePrise', " +
                 "dateFinTraitement: $dateFinTraitement, " +
                 "typeComprime: '$typeComprime', " +
                 "comprimesRestants: $comprimesRestants, " +

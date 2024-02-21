@@ -14,6 +14,7 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
 import java.util.concurrent.LinkedBlockingQueue
 
 class InfoMedocFragment : Fragment() {
@@ -42,7 +43,6 @@ class InfoMedocFragment : Fragment() {
         var expire = view.findViewById<TextView>(R.id.expireInfoMedoc)
         var effetsSec = view.findViewById<TextView>(R.id.effetsSecondairesInfoMedoc)
         var prises = view.findViewById<TextView>(R.id.prisesInfoMedoc)
-        var principeActif = view.findViewById<TextView>(R.id.principeActifnfoMedoc)
         var denomPrincipe = view.findViewById<TextView>(R.id.denominationPrincipeInfoMedoc)
         var doseSubstance = view.findViewById<TextView>(R.id.dosageSubstanceInfoMedoc)
         var formePharma = view.findViewById<TextView>(R.id.formePharmaceutiqueInfoMedoc)
@@ -69,7 +69,7 @@ class InfoMedocFragment : Fragment() {
 
         titre.text = monMedoc.nom
         dosage.text = dosage.text.toString() + monMedoc.dosageNB
-        dosageUnite.text = dosageUnite.text.toString() + monMedoc.frequencePrise
+        dosageUnite.text = dosageUnite.text.toString() + getStringFromEnum(monMedoc.frequencePrise, view.context)
         typeComprime.text = typeComprime.text.toString() + monMedoc.typeComprime
         restants.text = restants.text.toString() + monMedoc.comprimesRestants
         quantite.text = quantite.text.toString() + monMedoc.totalQuantite
@@ -80,7 +80,6 @@ class InfoMedocFragment : Fragment() {
         prises.text = prises.text.toString() + monMedoc.prises
         restants.text = restants.text.toString() + monMedoc.comprimesRestants
 
-        principeActif.text = principeActif.text.toString() + maSubstance.elementPharmaceutique
         denomPrincipe.text = denomPrincipe.text.toString() + maSubstance.denominationSubstance
         doseSubstance.text = doseSubstance.text.toString() + maSubstance.dosageSubstance
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.mobile.medicalink.db.local.entity.Medoc
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
@@ -29,9 +30,9 @@ class AjoutSharedViewModel : ViewModel() {
         _dosageNb.value = dosage
     }
 
-    private val _frequencePrise = MutableLiveData("")
-    val frequencePrise: LiveData<String> get() = _frequencePrise
-    fun setFrequencePrise(unite: String) {
+    private val _frequencePrise = MutableLiveData(EnumFrequence.AUBESOIN)
+    val frequencePrise: LiveData<EnumFrequence> get() = _frequencePrise
+    fun setFrequencePrise(unite: EnumFrequence) {
         _frequencePrise.value = unite
     }
 
@@ -117,7 +118,7 @@ class AjoutSharedViewModel : ViewModel() {
         nomTraitement.value ?: "",
         codeCIS.value ?: "",
         dosageNb.value ?: 0,
-        frequencePrise.value ?: "",
+        frequencePrise.value ?: EnumFrequence.AUBESOIN,
         dateFinTraitement.value,
         typeComprime.value ?: "",
         comprimesRestants.value ?: 0,
@@ -140,7 +141,7 @@ class AjoutSharedViewModel : ViewModel() {
         nomTraitement.value ?: "",
         codeCIS.value ?: "",
         dosageNb.value.toString(),
-        frequencePrise.value ?: "",
+        frequencePrise.value ?: EnumFrequence.AUBESOIN,
         dateFinTraitement.value?.toString() ?: "null",
         typeComprime.value ?: "",
         comprimesRestants.value ?: 0,
@@ -209,7 +210,7 @@ class AjoutSharedViewModel : ViewModel() {
         setNomTraitement("")
         setCodeCIS("")
         setDosageNb(0)
-        setFrequencePrise("")
+        setFrequencePrise(EnumFrequence.AUBESOIN)
         setDateFinTraitement(null)
         setTypeComprime("")
         setComprimesRestants(0)

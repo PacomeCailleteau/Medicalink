@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.traitements.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
@@ -77,7 +78,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
             "Intervalle" -> {
                 schemaPriseFormatee =
-                    if (viewModel.frequencePrise.value == getString(R.string.semaines)) {
+                    if (viewModel.frequencePrise.value == EnumFrequence.SEMAINE) {
                         getString(R.string.toutes_les) +
                                 " ${viewModel.dosageNb.value} ${viewModel.frequencePrise.value}"
                     } else {
