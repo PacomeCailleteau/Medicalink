@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.contacts.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,7 +66,6 @@ class AjoutContactMedecinFragmentAdapterR(private var list: List<Medecin>) :
                 try {
                     val medecinApi = MedecinApi()
                     val medecin = medecinApi.getMedecin(item.rpps)
-                    Log.d("AjoutContactMedecinFragmentAdapterR", medecin.toString())
                     val db = AppDatabase.getInstance(holder.view.context.applicationContext)
                     val contactMedecinInterface = ContactMedecinRepository(db.contactMedecinDao())
                     val userInterface = UserRepository(db.userDao())
