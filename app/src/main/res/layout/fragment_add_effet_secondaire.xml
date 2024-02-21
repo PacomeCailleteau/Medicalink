@@ -26,6 +26,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollViewEffetSecondaire"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="30dp"
@@ -33,8 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.228">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,13 +43,13 @@
             <ImageView
                 android:id="@+id/previewPhotoEffetSecondaire"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="385dp"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/retour_schema_prise"
-                app:layout_constraintStart_toStartOf="@+id/textAjoutEffetSecondaire"
-                app:layout_constraintTop_toBottomOf="@+id/imageGalerie" />
+                app:layout_constraintEnd_toEndOf="@+id/inputMessageEffetSecondaire"
+                app:layout_constraintStart_toStartOf="@+id/imageGalerie"
+                app:layout_constraintTop_toBottomOf="@+id/imageGalerie"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/textMessageEffetSecondaire"

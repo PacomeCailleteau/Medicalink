@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.db.local.entity
 
 import androidx.room.Entity
+import java.io.Serializable
 
 @Entity(primaryKeys = ["uuidUser", "uuidEffetSecondaire"])
 data class EffetSecondaire(
@@ -8,6 +9,5 @@ data class EffetSecondaire(
     val uuidEffetSecondaire: String,
     val titre: String,
     val message: String,
-    val uriImage: String?,
     val date: String?
-)
+) : Serializable
