@@ -41,7 +41,7 @@ class UserRepository(private val userDao: UserDao) {
     }
 
     fun insertUser(user: User): Pair<Boolean, String> {
-        val hashedPassword = hashPassword(user.password!!)
+        val hashedPassword = hashPassword(user.password)
         user.password = hashedPassword
         return try {
             userDao.insertAll(user)
@@ -71,7 +71,7 @@ class UserRepository(private val userDao: UserDao) {
     fun updateUser(user: User, isPasswordChanged: Boolean = false): Pair<Boolean, String> {
         //Si le mot de passe n'est pas modifié, on ne le hash pas, sinon on le hash
         if (isPasswordChanged) {
-            val hashedPassword = hashPassword(user.password!!)
+            val hashedPassword = hashPassword(user.password)
             user.password = hashedPassword
         }
         return try {
