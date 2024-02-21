@@ -31,7 +31,7 @@ class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
             cisCompoBdpmDao.insertAll(cisCompoBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
-            Pair(false, "CisBdpm already exists")
+            Pair(false, "CisCompoBdpm already exists")
         } catch (e: SQLiteException) {
             Pair(false, "Database Error : ${e.message}")
         } catch (e: Exception) {

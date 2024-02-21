@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         //On ne le fait qu'une seule fois dans toute l'application
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         //Connection à la base de données
         val db = AppDatabase.getInstance(this)
+        AppDatabase.fillDatabase(db, this)
         val userDatabaseInterface = UserRepository(db.userDao())
 
         val queue = LinkedBlockingQueue<String>()

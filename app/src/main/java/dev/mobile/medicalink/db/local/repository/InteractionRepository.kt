@@ -9,20 +9,20 @@ import dev.mobile.medicalink.db.local.dao.InteractionDao
 import dev.mobile.medicalink.db.local.entity.Interaction
 
 
-class InteractionRepository(private val InteractionDao: InteractionDao) {
-    val commonFonctionnality = CsvCommonFonctionnality()
+class InteractionRepository(private val interactionDao: InteractionDao) {
+    private val commonFonctionnality = CsvCommonFonctionnality()
 
     fun getAllInteraction(): List<Interaction> {
         return try {
-            InteractionDao.getAll()
+            interactionDao.getAll()
         } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun getOneInteractionBySubstance(Substance: Int): List<Interaction> {
+    fun getOneInteractionBySubstance(substance: Int): List<Interaction> {
         return try {
-            InteractionDao.getBySubstance(Substance)
+            interactionDao.getBySubstance(substance)
         } catch (e: Exception) {
             emptyList()
         }
@@ -34,9 +34,10 @@ class InteractionRepository(private val InteractionDao: InteractionDao) {
      */
     fun insertFromCsv(context: Context) {
         val csvContent = commonFonctionnality.readCsvFromAssets(context, "interactions.csv")
-        val cisBdpmList = parseCsv(csvContent)
+        val interactionList = parseCsv(csvContent)
+
         try {
-            InteractionDao.insertAll(*cisBdpmList.toTypedArray())
+            interactionDao.insertAll(*interactionList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
             Log.e("InteractionRepository", "InteractionRepository already exists : ${e.message}")
         } catch (e: SQLiteException) {
@@ -53,23 +54,25 @@ class InteractionRepository(private val InteractionDao: InteractionDao) {
      * @return Pair<Boolean, String> : Boolean is true if success, String is error message if error
      */
     private fun parseCsv(csvContent: String): List<Interaction> {
-        val cisBdpmList = mutableListOf<Interaction>()
+        val interactionList = mutableListOf<Interaction>()
         val lines = csvContent.split("\n")
         //On ne prend ni la première ligne (header) ni la dernière ligne (vide)
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
             val values = commonFonctionnality.parseCsvLine(line)
-            if (values.size == 12) {
-                val Interaction = Interaction(
+            if (values.size == 2) {
+                val interaction = Interaction(
                     substance = values[0],
                     incompatibles = values[1],
                 )
-                cisBdpmList.add(Interaction)
+
+                interactionList.add(interaction)
+
             } else {
                 Log.e("InteractionRepository", "Error while parsing CSV line : $line")
             }
         }
-        return cisBdpmList
+        return interactionList
     }
 
 }
