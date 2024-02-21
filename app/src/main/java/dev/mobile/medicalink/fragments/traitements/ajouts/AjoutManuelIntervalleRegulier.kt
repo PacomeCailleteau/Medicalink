@@ -77,8 +77,9 @@ class AjoutManuelIntervalleRegulier : Fragment() {
     /**
      * Fonction gérant la création et l'affichage de la dialog view s'affichant lors de la sélection
      * de l'intervalle
+     * @param viewModel Le viewModel partagé entre les fragments
+     * @param context Le contexte de l'application
      */
-
     private fun showIntervalleRegulierDialog(viewModel: AjoutSharedViewModel, context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_intervalle_regulier, null)
@@ -145,6 +146,12 @@ class AjoutManuelIntervalleRegulier : Fragment() {
         intervalleRegulierDialog.show()
     }
 
+    /**
+     * Fonction permettant de mettre à jour le premier NumberPicker
+     * @param firstNumberPicker Le premier NumberPicker
+     * @param selectedValue La valeur sélectionnée dans le deuxième NumberPicker
+     * @param currentDosage La valeur actuelle du dosage
+     */
     private fun updateFirstNumberPickerValues(
         firstNumberPicker: NumberPicker,
         selectedValue: Int,
@@ -171,6 +178,11 @@ class AjoutManuelIntervalleRegulier : Fragment() {
             currentDosage.coerceIn(firstNumberPicker.minValue, firstNumberPicker.maxValue)
     }
 
+    /**
+     * Fonction permettant de mettre à jour le TextView de l'intervalle régulier
+     * @param dosage Le dosage
+     * @param frequence La fréquence
+     */
     private fun updateTextViewIntervalleRegulier(
         dosage: Int,
         frequence: String
