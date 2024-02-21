@@ -6,7 +6,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         val queue = LinkedBlockingQueue<String>()
 
         // Thread pour récupérer le prénom de l'utilisateur connecté pour son affichage
-        Thread {
+        Thread {/*
             //On créer un user factice pour aller plus vite
             userDatabaseInterface.insertUser(
                 User(
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     "8:0",
                     "22:0"
                 )
-            )
+            )*/
             val res = userDatabaseInterface.getUsersConnected()
             if (res.isNotEmpty()) {
                 queue.add(res.first().prenom)
@@ -105,9 +104,9 @@ class MainActivity : AppCompatActivity() {
             buttonChangerUtilisateur.visibility = View.VISIBLE
 
             //On met les bons listeners
-            buttonConnexion.setOnClickListener {
+            buttonConnexion.setOnClickListener {/*
                 val intent = Intent(this, MainFragment::class.java)
-                startActivity(intent)
+                startActivity(intent)*/
                 // Commenter les 2 lignes ci-dessous pour désactiver l'authentification
                 showPasswordDialog()
                 authenticateWithBiometric()
@@ -276,18 +275,16 @@ class MainActivity : AppCompatActivity() {
      * Fonction qui crée le canal de notification.
      */
     private fun creerCanalNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "medicalinkNotificationChannel"
-            val channelName = "canal de notification"
-            val channelDescription = "canal de notification pour les notifications de l'application"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance).apply {
-                description = channelDescription
-            }
-            // Enregistrement du canal auprès du gestionnaire de notifications
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+        val channelId = "medicalinkNotificationChannel"
+        val channelName = "canal de notification"
+        val channelDescription = "canal de notification pour les notifications de l'application"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, channelName, importance).apply {
+            description = channelDescription
         }
+        // Enregistrement du canal auprès du gestionnaire de notifications
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
     }
 
     /**

@@ -15,6 +15,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
@@ -40,7 +41,9 @@ class MainActivityTest {
 
     private fun testTexteBienvue() {
         // Vérification que le texte de bienvenue est bien présent
-        onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome on Medicazelda !")))
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val textBienvenue = appContext.getString(R.string.bienvenue_sur_medicalink)
+        onView(withId(R.id.text_bienvenue)).check(matches(withText(textBienvenue)))
     }
 
     private fun testPresenceImage() {
@@ -91,7 +94,9 @@ class MainActivityTest {
         onView(withId(R.id.button_creer_profil)).perform(click())
 
         // On a un compte alors le texte devait avoir changé
-        onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome prenom !")))
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val txtBienvenue = appContext.getString(R.string.bienvenue) + " prenom !"
+        onView(withId(R.id.text_bienvenue)).check(matches(withText(txtBienvenue)))
     }
 
     private fun toDelition() {
