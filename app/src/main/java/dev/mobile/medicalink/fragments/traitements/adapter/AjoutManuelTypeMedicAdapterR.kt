@@ -1,6 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements.adapter
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +40,7 @@ class AjoutManuelTypeMedicAdapterR(
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int) {
         val item = list[position]
 
@@ -53,7 +54,6 @@ class AjoutManuelTypeMedicAdapterR(
 
         holder.layoutTypeMedic.setOnClickListener {
             selected = item
-            Log.d("LLLL", selected)
             viewModel.setTypeComprime(selected)
             notifyDataSetChanged()
         }

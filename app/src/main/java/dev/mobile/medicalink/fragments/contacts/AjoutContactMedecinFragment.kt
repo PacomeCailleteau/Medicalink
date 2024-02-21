@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.contacts
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +32,6 @@ class AjoutContactMedecinFragment : Fragment() {
     private val medecinApi = MedecinApi()
 
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,7 +69,7 @@ class AjoutContactMedecinFragment : Fragment() {
                     progressBarMedecin.visibility = View.GONE
                     recyclerView.alpha = 1F
                     itemAdapter.setList(medecins)
-                    itemAdapter.notifyDataSetChanged()
+                    itemAdapter.notifyItemRangeInserted(0, medecins.size)
                 }
             }.start()
         }

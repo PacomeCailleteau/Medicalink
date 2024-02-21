@@ -389,7 +389,7 @@ class HomeAdapterR(
             onClick("prendre", circleTick, holder, dosageDialog)
         }
 
-        notifyItemRangeChanged(0, itemCount)
+        notifyDataSetChanged()
         updateRapportText()
         dosageDialog.show()
     }
@@ -467,7 +467,7 @@ class HomeAdapterR(
                 gererNotif(holder)
                 circleTick.setImageResource(R.drawable.correct)
             }
-            notifyItemChanged(holder.bindingAdapterPosition)
+            notifyDataSetChanged()
             updateRapportText()
             dosageDialog.dismiss()
         }

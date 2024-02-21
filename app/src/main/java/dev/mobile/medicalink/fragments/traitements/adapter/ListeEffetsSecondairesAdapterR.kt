@@ -109,7 +109,6 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
          */
 
         holder.view.setOnLongClickListener {
-            notifyDataSetChanged()
             true
         }
     }

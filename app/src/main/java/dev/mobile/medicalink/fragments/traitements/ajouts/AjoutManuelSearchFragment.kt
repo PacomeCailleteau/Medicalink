@@ -107,8 +107,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewSearch)
 
-        Log.d("ICI", filteredItemList.toString())
-
         itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
             searchForDuplcateSubstance(view.context, clickedItem.codeCIS)
             updateSearchBar(clickedItem.denomination)
@@ -127,7 +125,7 @@ class AjoutManuelSearchFragment : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
 
         retour.setOnClickListener {
-            viewModel.setIsAddingTraitement(null)
+            viewModel.reset()
             GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
         }
 
@@ -170,7 +168,7 @@ class AjoutManuelSearchFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                viewModel.setIsAddingTraitement(null)
+                viewModel.reset()
                 GoTo.fragment(AddTraitementsFragment(), parentFragmentManager)
             }
         }
@@ -195,7 +193,7 @@ class AjoutManuelSearchFragment : Fragment() {
                 viewModel.setCodeCIS(clickedItem.codeCIS)
             }
             recyclerView.adapter = itemAdapter
-            itemAdapter.notifyDataSetChanged()
+            itemAdapter.notifyItemRangeChanged(0, filteredItemList.size)
         }
     }
 
