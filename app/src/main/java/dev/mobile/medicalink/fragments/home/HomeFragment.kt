@@ -147,22 +147,7 @@ class HomeFragment : Fragment() {
 
         //Gestion du calendrier
         revenirDateCourante.visibility = View.GONE
-        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
-        jourAvantButton.text = jourAvant.dayOfMonth.toString()
-        jourJButton.text = jourJ.dayOfMonth.toString()
-        jPlus1Button.text = jPlus1.dayOfMonth.toString()
-        jPlus2Button.text = jPlus2.dayOfMonth.toString()
-        jPlus3Button.text = jPlus3.dayOfMonth.toString()
-        jPlus4Button.text = jPlus4.dayOfMonth.toString()
-        jPlus5Button.text = jPlus5.dayOfMonth.toString()
-
-        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
-        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
-        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
-        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
-        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
-        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
-        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
+        updateCalendrier()
 
         // Les listeners sur les boutons du calendrier
         jourAvantButton.setOnClickListener {
@@ -225,22 +210,7 @@ class HomeFragment : Fragment() {
         jPlus4 = dateClique.plusDays(4)
         jPlus5 = dateClique.plusDays(5)
 
-        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
-        jourAvantButton.text = jourAvant.dayOfMonth.toString()
-        jourJButton.text = jourJ.dayOfMonth.toString()
-        jPlus1Button.text = jPlus1.dayOfMonth.toString()
-        jPlus2Button.text = jPlus2.dayOfMonth.toString()
-        jPlus3Button.text = jPlus3.dayOfMonth.toString()
-        jPlus4Button.text = jPlus4.dayOfMonth.toString()
-        jPlus5Button.text = jPlus5.dayOfMonth.toString()
-
-        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
-        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
-        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
-        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
-        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
-        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
-        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
+        updateCalendrier()
         updateListePrise(dateClique, context)
     }
 
@@ -327,7 +297,7 @@ class HomeFragment : Fragment() {
         listePriseValidee = queue2.take()
 
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
-        homeAdapter.notifyDataSetChanged()
+        homeAdapter.notifyItemRangeChanged(0, traitementsTries.size)
     }
 
     /**
@@ -423,6 +393,26 @@ class HomeFragment : Fragment() {
             queue.add(listeTraitement)
         }.start()
         return queue.take()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateCalendrier() {
+        calendrierMoisTextView.text = "${listeMois[jourJ.month.toString()]} ${jourJ.year}"
+        jourAvantButton.text = jourAvant.dayOfMonth.toString()
+        jourJButton.text = jourJ.dayOfMonth.toString()
+        jPlus1Button.text = jPlus1.dayOfMonth.toString()
+        jPlus2Button.text = jPlus2.dayOfMonth.toString()
+        jPlus3Button.text = jPlus3.dayOfMonth.toString()
+        jPlus4Button.text = jPlus4.dayOfMonth.toString()
+        jPlus5Button.text = jPlus5.dayOfMonth.toString()
+
+        jourAvantLettre.text = "${listeJour[jourAvant.dayOfWeek.toString()]}"
+        jourJLettre.text = "${listeJour[jourJ.dayOfWeek.toString()]}"
+        jPlus1Lettre.text = "${listeJour[jPlus1.dayOfWeek.toString()]}"
+        jPlus2Lettre.text = "${listeJour[jPlus2.dayOfWeek.toString()]}"
+        jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
+        jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
+        jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
     }
 
 

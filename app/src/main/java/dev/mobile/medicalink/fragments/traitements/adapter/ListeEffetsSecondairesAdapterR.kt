@@ -97,12 +97,11 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
          */
 
         holder.view.setOnLongClickListener {
-            notifyDataSetChanged()
             true
         }
     }
 
-    private fun getAffichage(holder: TraitementViewHolder, maList: MutableList<Traitement>?): String {
+    private fun getAffichage(holder: TraitementViewHolder, maList: List<Traitement>?): String {
         var monAffichage = holder.view.resources.getString(R.string.provoque_par)
         if (maList != null) {
             for (medicament in maList) {

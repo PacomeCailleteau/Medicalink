@@ -80,9 +80,9 @@ class MainActivity : AppCompatActivity() {
                     "",
                     "666666",
                     isConnected = true,
-                    LocalDateTime.of(0, 0, 0, 4, 0, ).toString(),
-                    LocalDateTime.of(0, 0, 0, 8, 0, ).toString(),
-                    LocalDateTime.of(0, 0, 0, 22, 0, ).toString()
+                    LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
+                    LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
+                    LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
                 )
             )
             val res = userDatabaseInterface.getUsersConnected()

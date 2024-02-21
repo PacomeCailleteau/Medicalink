@@ -150,8 +150,8 @@ class ContactsFragmentAdapterR(private var list: List<ContactMedecin>) :
                 queue.put(true)
             }.start()
             queue.take()
+            notifyItemRemoved(list.indexOf(item))
             list = list.filter { it.rpps != item.rpps }
-            notifyDataSetChanged()
             dosageDialog.dismiss()
         }
 

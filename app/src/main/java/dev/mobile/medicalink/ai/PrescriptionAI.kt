@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import fr.medicapp.medicapp.tokenization.Feature
@@ -128,7 +126,6 @@ class PrescriptionAI(
      * @param imageUri L'URI de l'image à analyser.
      * @return Liste de 'Traitement'
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun analyse(
         imageUri: Uri
     ): List<Traitement> {
@@ -155,7 +152,6 @@ class PrescriptionAI(
      * @param prediction resultat de l'OCR avec les tokens
      * @return liste de 'Traitement'
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun postAnalyse(prediction: List<Pair<String, String>>): List<Traitement> {
         val treatment = mutableListOf(
             Traitement(

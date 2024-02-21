@@ -177,8 +177,8 @@ class ListeTraitementAdapterR(
         }
 
         ouiButton.setOnClickListener {
+            notifyItemRemoved(list.indexOf(item))
             list.remove(item)
-            notifyDataSetChanged()
             onItemClick.invoke(item, true)
             dosageDialog.dismiss()
         }

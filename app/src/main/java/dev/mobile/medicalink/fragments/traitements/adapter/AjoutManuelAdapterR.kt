@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import android.text.InputFilter
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
@@ -27,25 +27,15 @@ import java.util.*
 class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
     RecyclerView.Adapter<AjoutManuelAdapterR.AjoutManuelViewHolder>() {
 
-    val listePriseLiveData: MutableLiveData<List<Prise>> = MutableLiveData()
-
     class AjoutManuelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-
         val textNumeroPrise = view.findViewById<TextView>(R.id.numeroPrise)
         val heurePriseInput = view.findViewById<TextInputEditText>(R.id.heurePriseInput)
         val quantiteInput = view.findViewById<TextInputEditText>(R.id.quantiteInput)
-
         val supprimer = view.findViewById<LinearLayout>(R.id.supprimerlayout)
-
-
     }
 
     override fun getItemCount(): Int {
         return list.size
-    }
-
-    fun getItems(): MutableList<Prise> {
-        return list.toMutableList()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder {
@@ -82,13 +72,16 @@ class AjoutManuelAdapterR(private val list: MutableList<Prise>) :
         }
 
         holder.supprimer.setOnClickListener {
+            Log.d("del", position.toString())
+            Log.d("del", item.toString())
+
             list.remove(item)
-            notifyDataSetChanged()
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, list.size)
         }
 
         holder.view.setOnLongClickListener {
-            item.enMajuscule()
-            notifyDataSetChanged()
+            Log.d("clique", position.toString())
             true
         }
     }
