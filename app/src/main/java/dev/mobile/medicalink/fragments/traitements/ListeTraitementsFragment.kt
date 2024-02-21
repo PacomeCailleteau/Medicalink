@@ -1,13 +1,17 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -297,6 +301,7 @@ class ListeTraitementsFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     private fun ajoutPlusieursTraitements(inflater: LayoutInflater, container: ViewGroup?, traitements: ArrayList<Traitement>) {
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
@@ -339,13 +344,22 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
         }
-        Log.d("Zeubi!", "${traitements.isEmpty()} || $compteur")
         if (traitements.isEmpty() || compteur>0) {
-            Log.d("Zeubi!", "peut être que la popup se faire toutes seuls")
-            val alertDialogBuilder = AlertDialog.Builder(context)
-            alertDialogBuilder.setTitle("Invalide Picture")
-            alertDialogBuilder.setMessage("No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.")
-            alertDialogBuilder.show()
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_duplicate_substance, null)
+            val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
+            builder.setView(dialogView)
+
+            val dosageDialog = builder.create()
+
+            val dial = dialogView.findViewById<TextView>(R.id.ajouterVrm)
+            dial.text = "No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication."
+            val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
+
+            jaiCompris.setOnClickListener {
+                dosageDialog.dismiss()
+            }
+
+            dosageDialog.show()
         }
     }
 
