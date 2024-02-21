@@ -10,6 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.LocalDateTime
 
 
 // NE FONCTIONNE PAS SUR LES PC DE L'IUT
@@ -22,9 +23,33 @@ class UserRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var userRepository: UserRepository
     private val defaultUser =
-        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
+        User(
+            "1",
+            "Utilisateur",
+            "test",
+            "test",
+            "test",
+            "a@b.c",
+            "test",
+            false,
+            LocalDateTime.of(0, 0, 0, 4, 0, ).toString(),
+            LocalDateTime.of(0, 0, 0, 8, 0, ).toString(),
+            LocalDateTime.of(0, 0, 0, 22, 0, ).toString()
+        )
     private val defaultUser2 =
-        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
+        User(
+            "2",
+            "Utilisateur",
+            "test2",
+            "test2",
+            "test2",
+            "a@b.c",
+            "test2",
+            true,
+            LocalDateTime.of(0, 0, 0, 4, 0, ).toString(),
+            LocalDateTime.of(0, 0, 0, 8, 0, ).toString(),
+            LocalDateTime.of(0, 0, 0, 22, 0, ).toString()
+        )
 
     @Before
     fun setupDatabase() {
@@ -194,12 +219,12 @@ class UserRepositoryTest {
         val userFromDatabase = userRepository.getOneUserById(user.uuid)
         assertEquals(userFromDatabase.size, 1)
         assertEquals(userFromDatabase[0].uuid, user.uuid)
-        userFromDatabase[0].isConnected?.let { assert(it) }
+        userFromDatabase[0].isConnected.let { assert(it) }
         //Verify that user2 is not connected
         val user2FromDatabase = userRepository.getOneUserById(user2.uuid)
         assertEquals(user2FromDatabase.size, 1)
         assertEquals(user2FromDatabase[0].uuid, user2.uuid)
-        user2FromDatabase[0].isConnected?.let { assertFalse(it) }
+        user2FromDatabase[0].isConnected.let { assertFalse(it) }
     }
 
 
