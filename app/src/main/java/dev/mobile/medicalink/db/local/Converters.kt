@@ -24,4 +24,26 @@ class Converters {
     fun dateToTimestamp(date: LocalDate?): String? {
         return date?.toString()
     }
+
+    /**
+     * Convert a pair of int to a string
+     * @param pair the pair to convert
+     * @return the string
+     */
+    @TypeConverter
+    fun pairToString(pair: Pair<Int, Int>?): String? {
+        return pair?.toString()
+    }
+
+    /**
+     * Convert a string to a pair of int
+     * requiert the format of 'pair.toString' -> (int, int)
+     * @param str the string to convert
+     * @return the pair
+     */
+    @TypeConverter
+    fun stringToPair(str: String?): Pair<Int, Int>? {
+        val result = str?.removeSurrounding("(", ")")?.split(", ") ?: return null
+        return Pair(result[0].toInt(), result[1].toInt())
+    }
 }

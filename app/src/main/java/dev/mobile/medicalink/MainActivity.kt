@@ -78,9 +78,9 @@ class MainActivity : AppCompatActivity() {
                     "",
                     "666666",
                     isConnected = true,
-                    "4:0",
-                    "8:0",
-                    "22:0"
+                    Pair(4, 0),
+                    Pair(8, 0),
+                    Pair(22, 0)
                 )
             )*/
             val res = userDatabaseInterface.getUsersConnected()
