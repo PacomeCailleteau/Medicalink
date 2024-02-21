@@ -1,8 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -109,48 +107,7 @@ class ListeTraitementsFragment : Fragment() {
         // Vrai veut dire qu'on ajoute un traitement
         // Faux veut dire qu'on modifie un traitement
         if (viewModel.isAddingTraitement.value == true || viewModel.isAddingTraitement.value == false) {
-            val newMedoc: Medoc
-
-            var newTraitementEffetsSec: String? = null
-            if (viewModel.effetsSecondaires.value != null) {
-                var chaineDeChar = ""
-                for (effet in viewModel.effetsSecondaires.value!!) {
-                    chaineDeChar += "$effet;"
-                }
-                if (chaineDeChar != "") chaineDeChar =
-                    chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
-                newTraitementEffetsSec = chaineDeChar
-            }
-
-            var newTraitementPrises: String? = null
-            if (viewModel.prises.value != null) {
-                var chaineDeChar = ""
-                for (prise in viewModel.prises.value!!) {
-                    chaineDeChar += "${prise}/"
-                }
-                if (chaineDeChar != "") chaineDeChar =
-                    chaineDeChar.subSequence(0, chaineDeChar.length - 1).toString()
-                newTraitementPrises = chaineDeChar
-            }
-
-
-            newMedoc = Medoc(
-                if (viewModel.isAddingTraitement.value!!) UUID.randomUUID()
-                    .toString() else viewModel.UUID.value!!,
-                "",
-                viewModel.nomTraitement.value ?: "",
-                viewModel.codeCIS.value ?: "",
-                viewModel.dosageNb.value.toString(),
-                viewModel.frequencePrise.value ?: "",
-                viewModel.dateFinTraitement.value?.toString() ?: "null",
-                viewModel.typeComprime.value ?: "",
-                viewModel.comprimesRestants.value ?: 0,
-                viewModel.dateFinTraitement.value != null && viewModel.dateFinTraitement.value!! < LocalDate.now(),
-                newTraitementEffetsSec ?: "null",
-                newTraitementPrises ?: "null",
-                viewModel.totalQuantite.value ?: 0,
-                viewModel.dateDbtTraitement.value?.toString() ?: "null"
-            )
+            val newMedoc = viewModel.toMedoc()
 
             val queue2 = LinkedBlockingQueue<Boolean>()
             Thread {
@@ -165,20 +122,8 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
 
-            val newTraitement = viewModel.makeTraitement()
-            val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
-            val jourPremierePrise = newTraitement.dateDbtTraitement
-            val date = LocalDate.now().toString()
-            val numero = newTraitement.getProchainePrise(null).numeroPrise
-            if (jourPremierePrise != null) {
-                NotificationService.createFirstNotif(
-                    view.context,
-                    heurePremierePrise,
-                    jourPremierePrise,
-                    newTraitement,
-                    Pair(date, numero)
-                )
-            }
+            sendNotifIfNeeded(viewModel.makeTraitement(), view)
+
             viewModel.reset()
         }
     }
@@ -413,6 +358,30 @@ class ListeTraitementsFragment : Fragment() {
             dosageDialog.show()
         }
     }
+
+    /**
+     * Fonction qui permet d'envoyer une notification si besoin
+     * @param newTraitement : le traitement à notifier
+     * @param view : la vue actuelle
+     */
+    private fun sendNotifIfNeeded(newTraitement: Traitement, view: View) {
+        val heurePremierePrise = newTraitement.getProchainePrise(null).heurePrise
+        val jourPremierePrise = newTraitement.dateDbtTraitement
+        val date = LocalDate.now().toString()
+        val numero = newTraitement.getProchainePrise(null).numeroPrise
+        if (jourPremierePrise != null) {
+            NotificationService.createFirstNotif(
+                view.context,
+                heurePremierePrise,
+                jourPremierePrise,
+                newTraitement,
+                Pair(date, numero)
+            )
+        }
+
+    }
+
+
 
     override fun onResume() {
         super.onResume()
