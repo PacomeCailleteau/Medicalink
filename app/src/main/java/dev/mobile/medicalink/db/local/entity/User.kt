@@ -30,8 +30,6 @@ data class User(
             }
         }
     }
-
-
 }
 
 
