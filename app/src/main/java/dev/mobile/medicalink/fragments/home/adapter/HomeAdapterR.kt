@@ -466,10 +466,10 @@ class HomeAdapterR(
                 gererNotif(holder)
                 circleTick.setImageResource(R.drawable.correct)
             }
-            notifyDataSetChanged()
-            updateRapportText()
-            dosageDialog.dismiss()
         }
+        notifyDataSetChanged()
+        updateRapportText()
+        dosageDialog.dismiss()
     }
 
     /**

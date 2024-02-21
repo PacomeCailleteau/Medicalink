@@ -22,6 +22,7 @@ import dev.mobile.medicalink.fragments.home.adapter.HomeAdapterR
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.utils.GoTo
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -199,10 +200,7 @@ class HomeFragment : Fragment() {
         // Le listener sur le bouton paramètre
         paramBtn.setOnClickListener {
             //Navigation vers le fragment parametre
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, ParametreFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+            GoTo.fragment(ParametreFragment(), parentFragmentManager)
         }
 
         return view
@@ -369,11 +367,7 @@ class HomeFragment : Fragment() {
 
                         "Semaines" -> {
                             tousLesXJours = element.second.dosageNb.toLong() * 7L
-                            Log.d("s", tousLesXJours.toString())
-                            Log.d("s1", jourEntreDeuxDates.toString())
-                            Log.d("s2", (jourEntreDeuxDates % tousLesXJours).toString())
                             toAdd = jourEntreDeuxDates % tousLesXJours == 0L
-                            Log.d("doIaddIt", toAdd.toString())
                         }
 
                         "Mois" -> {
@@ -381,12 +375,6 @@ class HomeFragment : Fragment() {
                                 element.second.dateDbtTraitement,
                                 dateActuelle
                             ).months
-                            Log.d("m", element.second.dosageNb.toString())
-                            Log.d("m1", moisEntreDeuxDates.toString())
-                            Log.d(
-                                "m2",
-                                (moisEntreDeuxDates % element.second.dosageNb).toString()
-                            )
                             toAdd = if (moisEntreDeuxDates == 0) {
                                 element.second.dateDbtTraitement == dateActuelle
                             } else {

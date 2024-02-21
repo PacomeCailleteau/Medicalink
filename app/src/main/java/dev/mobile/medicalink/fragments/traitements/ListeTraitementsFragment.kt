@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +61,50 @@ class ListeTraitementsFragment : Fragment() {
         /* ##############################################################
         #               Partie update et insert du traitement           #
         ################################################################# */
+        upsert(viewModel, view, userDatabaseInterface, medocDatabaseInterface)
+
+
+        /* ##############################################################
+        #           Partie affichage de tous les traitements            #
+        ################################################################# */
+        val mesTraitements = getTreatmentToDisplay(medocDatabaseInterface, userDatabaseInterface)
+
+        val traitementsTries =
+            mesTraitements.sortedBy { it.dateDbtTraitement }.sortedBy { it.expire }.toMutableList()
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter(traitementsTries, viewModel, medocDatabaseInterface)
+
+        // Gestion de l'espacement entre les éléments du RecyclerView
+        val espacementEnDp = 22
+        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+
+        //Ajout de la fonctionnalité de retour à la page précédente
+        val retour = view.findViewById<ImageView>(R.id.annulerListeEffetsSecondaires)
+        retour.setOnClickListener {
+            GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
+        }
+
+        return view
+    }
+
+    /**
+     * Fonction qui permet d'insérer ou de mettre à jour un traitement dans la base de donnée
+     * @param viewModel : le viewModel partagé entre les fragments
+     * @param view : la vue actuelle
+     * @param userDatabaseInterface : l'interface de la base de donnée des utilisateurs
+     * @param medocDatabaseInterface : l'interface de la base de donnée des médicaments
+     */
+    private fun upsert(
+        viewModel: AjoutSharedViewModel,
+        view: View,
+        userDatabaseInterface: UserRepository,
+        medocDatabaseInterface: MedocRepository
+    ) {
+        // On ajoute/modifie seulement si la variable isAddingTraitement est à true ou false
+        // Vrai veut dire qu'on ajoute un traitement
+        // Faux veut dire qu'on modifie un traitement
         if (viewModel.isAddingTraitement.value == true || viewModel.isAddingTraitement.value == false) {
             val newMedoc: Medoc
 
@@ -133,15 +176,20 @@ class ListeTraitementsFragment : Fragment() {
                     Pair(date, numero)
                 )
             }
-
             viewModel.reset()
         }
+    }
 
-
-        /* ##############################################################
-        #           Partie affichage de tous les traitements            #
-        ################################################################# */
-
+    /**
+     * Fonction qui permet d'afficher les traitements dans la base de donnée
+     * @param medocDatabaseInterface : l'interface de la base de donnée des médicaments
+     * @param userDatabaseInterface : l'interface de la base de donnée des utilisateurs
+     * @return la liste des traitements
+     */
+    private fun getTreatmentToDisplay(
+        medocDatabaseInterface: MedocRepository,
+        userDatabaseInterface: UserRepository
+    ) : List<Traitement> {
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread {
@@ -177,7 +225,6 @@ class ListeTraitementsFragment : Fragment() {
                 var newTraitementFinDeTraitement: LocalDate? = null
 
                 if (medoc.dateFinTraitement != "null") {
-                    Log.d("test", medoc.dateFinTraitement.toString())
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateFinTraitement
 
@@ -187,7 +234,6 @@ class ListeTraitementsFragment : Fragment() {
                 var newTraitementDbtDeTraitement: LocalDate? = null
 
                 if (medoc.dateDbtTraitement != "null") {
-                    Log.d("test", medoc.dateDbtTraitement.toString())
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val date = medoc.dateDbtTraitement
 
@@ -217,85 +263,87 @@ class ListeTraitementsFragment : Fragment() {
             queue.add(listeTraitement)
         }.start()
 
-        // Récupération de tous les traitements grâce au Thread au dessus
-        val mesTraitements = queue.take()
+        return queue.take()
+    }
 
+    /**
+     * Fonction qui permet de créer un adapter pour la liste des traitements
+     * Elle permet de gérer les clics sur les traitements en fonction de si on veut les modifier, les supprimer ou les consulter
+     * @param traitementsTries : la liste des traitements
+     * @param viewModel : le viewModel partagé entre les fragments
+     * @param medocDatabaseInterface : l'interface de la base de donnée des médicaments
+     */
+    private fun adapter(
+        traitementsTries: MutableList<Traitement>,
+        viewModel: AjoutSharedViewModel,
+        medocDatabaseInterface: MedocRepository
+    ) : ListeTraitementAdapterR {
+        return ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
+            when (isSuppr) {
+                null -> {
+                    val bundle = Bundle()
+                    bundle.putSerializable("medoc", clickedTraitement)
+                    val destinationFragment = InfoMedocFragment()
+                    destinationFragment.arguments = bundle
+                    GoTo.fragment(destinationFragment, parentFragmentManager)
+                }
 
-        val traitementsTries =
-            mesTraitements.sortedBy { it.dateDbtTraitement }.sortedBy { it.expire }.toMutableList()
+                false -> {
+                    viewModel.setIsAddingTraitement(false)
+                    viewModel.setNomTraitement(clickedTraitement.nomTraitement)
+                    viewModel.setCodeCIS(clickedTraitement.codeCIS)
+                    viewModel.setDosageNb(clickedTraitement.dosageNb)
+                    viewModel.setFrequencePrise(clickedTraitement.frequencePrise)
+                    viewModel.setDateFinTraitement(clickedTraitement.dateFinTraitement)
+                    viewModel.setTypeComprime(clickedTraitement.typeComprime)
+                    viewModel.setComprimesRestants(clickedTraitement.comprimesRestants ?: 0)
+                    viewModel.setEffetsSecondaires(
+                        clickedTraitement.effetsSecondaires ?: mutableListOf()
+                    )
+                    viewModel.setPrises(clickedTraitement.prises ?: mutableListOf())
+                    viewModel.setTotalQuantite(clickedTraitement.totalQuantite ?: 0)
+                    viewModel.setUUID(clickedTraitement.uuid ?: "")
+                    viewModel.setUUIDUSER(clickedTraitement.uuidUser ?: "")
+                    viewModel.setDateDbtTraitement(
+                        clickedTraitement.dateDbtTraitement ?: LocalDate.now()
+                    )
 
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewListeEffetsSecondaires)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter =
-            ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
-                when (isSuppr) {
-                    null -> {
-                        Log.d("test", clickedTraitement.nomTraitement)
-                        val bundle = Bundle()
-                        bundle.putSerializable("medoc", clickedTraitement)
-                        val destinationFragment = InfoMedocFragment()
-                        destinationFragment.arguments = bundle
-                        GoTo.fragment(destinationFragment, parentFragmentManager)
-                    }
-
-                    false -> {
-                        viewModel.setIsAddingTraitement(false)
-                        viewModel.setNomTraitement(clickedTraitement.nomTraitement)
-                        viewModel.setCodeCIS(clickedTraitement.codeCIS)
-                        viewModel.setDosageNb(clickedTraitement.dosageNb)
-                        viewModel.setFrequencePrise(clickedTraitement.frequencePrise)
-                        viewModel.setDateFinTraitement(clickedTraitement.dateFinTraitement)
-                        viewModel.setTypeComprime(clickedTraitement.typeComprime)
-                        viewModel.setComprimesRestants(clickedTraitement.comprimesRestants ?: 0)
-                        viewModel.setEffetsSecondaires(
-                            clickedTraitement.effetsSecondaires ?: mutableListOf()
-                        )
-                        viewModel.setPrises(clickedTraitement.prises ?: mutableListOf())
-                        viewModel.setTotalQuantite(clickedTraitement.totalQuantite ?: 0)
-                        viewModel.setUUID(clickedTraitement.uuid ?: "")
-                        viewModel.setUUIDUSER(clickedTraitement.uuidUser ?: "")
-                        viewModel.setDateDbtTraitement(
-                            clickedTraitement.dateDbtTraitement ?: LocalDate.now()
-                        )
-
-                        if (clickedTraitement.frequencePrise == "auBesoin") {
+                    when (clickedTraitement.frequencePrise) {
+                        "auBesoin" -> {
                             viewModel.setSchemaPrise1("auBesoin")
                             viewModel.setProvenance("auBesoin")
-                        } else if (clickedTraitement.frequencePrise == "quotidiennement") {
+                        }
+                        "quotidiennement" -> {
                             viewModel.setSchemaPrise1("Quotidiennement")
                             viewModel.setProvenance("quotidiennement")
-                        } else {
+                        }
+                        else -> {
                             viewModel.setSchemaPrise1("Intervalle")
                             viewModel.setProvenance("intervalleRegulier")
                         }
-                        GoTo.fragment(AjoutManuelRecapitulatif(), parentFragmentManager)
                     }
+                    GoTo.fragment(AjoutManuelRecapitulatif(), parentFragmentManager)
+                }
 
-                    true -> {
-                        Thread {
-                            medocDatabaseInterface.deleteMedoc(
-                                medocDatabaseInterface.getOneMedocById(
-                                    clickedTraitement.uuid!!
-                                ).first()
-                            )
-                        }.start()
-                    }
+                true -> {
+                    Thread {
+                        medocDatabaseInterface.deleteMedoc(
+                            medocDatabaseInterface.getOneMedocById(
+                                clickedTraitement.uuid!!
+                            ).first()
+                        )
+                    }.start()
                 }
             }
-        // Gestion de l'espacement entre les éléments du RecyclerView
-        val espacementEnDp = 22
-        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
-        //Ajout de la fonctionnalité de retour à la page précédente
-        val retour = view.findViewById<ImageView>(R.id.annulerListeEffetsSecondaires)
-        retour.setOnClickListener {
-            GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
         }
-
-        return view
     }
 
+    /**
+     * Fonction qui permet d'ajouter plusieurs traitements à la base de donnée
+     * @param inflater : le layoutInflater
+     * @param container : le container
+     * @param traitements : la liste des traitements à ajouter
+     */
     private fun ajoutPlusieursTraitements(inflater: LayoutInflater, container: ViewGroup?, traitements: ArrayList<Traitement>) {
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
@@ -338,9 +386,8 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
         }
-        Log.d("Zeubi!", "${traitements.isEmpty()} || $compteur")
+
         if (traitements.isEmpty() || compteur>0) {
-            Log.d("Zeubi!", "peut être que la popup se faire toutes seuls")
             val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("Invalide Picture")
             alertDialogBuilder.setMessage("No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.")
