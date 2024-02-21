@@ -32,15 +32,50 @@ class ListeEffetsSecondairesFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_liste_effets_secondaires, container, false)
-        val db = AppDatabase.getInstance(view.context.applicationContext)
-        val userDatabaseInterface = UserRepository(db.userDao())
-        val medocDatabaseInterface = MedocRepository(db.medocDao())
 
         annuler = view.findViewById(R.id.annulerListeEffetsSecondaires)
         textAucunEffetSec = view.findViewById(R.id.textAucunEffetsSec)
 
-        val queue = LinkedBlockingQueue<MutableList<Traitement>>()
+        val mesTraitements = getCurrentUserTreatments()
 
+        val traitementsTries = mesTraitements.sortedBy { it.expire }.toMutableList()
+
+        val effetsSecondairesMedicaments = getEffetsSecondairesMedicaments(traitementsTries)
+
+        if (effetsSecondairesMedicaments.isEmpty()) {
+            textAucunEffetSec.visibility = View.VISIBLE
+        } else {
+            textAucunEffetSec.visibility = View.GONE
+        }
+
+        recyclerView = view.findViewById(R.id.recyclerViewTypeMedic)
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)
+
+        val espacementEnDp = 22
+        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
+
+
+        annuler.setOnClickListener {
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, MainTraitementsFragment())
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+        }
+
+        return view
+    }
+
+    /**
+     * Récupère les traitements de l'utilisateur courant
+     * @return MutableList<Traitement>
+     */
+    private fun getCurrentUserTreatments (): MutableList<Traitement> {
+        val db = AppDatabase.getInstance(requireContext())
+        val medocDatabaseInterface = MedocRepository(db.medocDao())
+        val userDatabaseInterface = UserRepository(db.userDao())
+
+        val queue = LinkedBlockingQueue<MutableList<Traitement>>()
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread {
             val listeTraitement: MutableList<Traitement> = mutableListOf()
@@ -115,14 +150,13 @@ class ListeEffetsSecondairesFragment : Fragment() {
             }
             queue.add(listeTraitement)
         }.start()
+        return queue.take()
+    }
 
-        val mesTraitements = queue.take()
-
-        val traitementsTries = mesTraitements.sortedBy { it.expire }.toMutableList()
-
-        val effetsSecondairesMedicaments = mutableMapOf<String, MutableList<Traitement>>()
-
-        // Parcoure la liste de traitements (lp).
+    private fun getEffetsSecondairesMedicaments(
+        traitementsTries: MutableList<Traitement>,
+    ): MutableMap<String, MutableList<Traitement>> {
+        val effetsSecondairesMedicaments: MutableMap<String, MutableList<Traitement>> = mutableMapOf()
         traitementsTries.forEach { traitement ->
             traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
                 // Vérifie si l'effet secondaire est déjà dans la carte
@@ -138,29 +172,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
                 }
             }
         }
-
-        if (effetsSecondairesMedicaments.isEmpty()) {
-            textAucunEffetSec.visibility = View.VISIBLE
-        } else {
-            textAucunEffetSec.visibility = View.GONE
-        }
-
-        recyclerView = view.findViewById(R.id.recyclerViewTypeMedic)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter = ListeEffetsSecondairesAdapterR(traitementsTries)
-
-        val espacementEnDp = 22
-        recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-
-
-        annuler.setOnClickListener {
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, MainTraitementsFragment())
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
-        }
-
-        return view
+        return effetsSecondairesMedicaments
     }
 
 }
