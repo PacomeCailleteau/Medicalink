@@ -55,7 +55,6 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var retour: ImageView
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -179,7 +178,6 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
-
     private fun filterItems(query: String) {
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val filteredItemList = originalItemList.filter { item ->
@@ -211,7 +209,6 @@ class AjoutManuelSearchFragment : Fragment() {
      * S'il y a un médicament en conflit, on affiche un dialog pour prévenir l'utilisateur
      * @param context le contexte de l'application
      * @param codeCis le codeCis du médicament que l'on veut ajouter
-     * @return la liste des médicaments en conflit avec le médicament que l'on veut ajouter
      */
     private fun searchForDuplcateSubstance(context: Context, codeCis: String) {
         val db = AppDatabase.getInstance(context)

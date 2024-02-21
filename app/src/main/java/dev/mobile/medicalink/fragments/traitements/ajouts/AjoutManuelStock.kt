@@ -36,7 +36,6 @@ class AjoutManuelStock : Fragment() {
     private lateinit var switchStock: Switch
 
     @SuppressLint("ClickableViewAccessibility")
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -117,6 +116,8 @@ class AjoutManuelStock : Fragment() {
 
     /**
      * Fonction gérant l'apparence du switch
+     * @param isChecked L'état du switch
+     * @param layoutStock Le layout contenant les champs de stock
      */
     private fun updateSwitchAppearance(isChecked: Boolean, layoutStock: View) {
         val thumbColor = ContextCompat.getColorStateList(
@@ -142,6 +143,10 @@ class AjoutManuelStock : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
+    /**
+     * Fonction qui affiche une boîte de dialogue pour choisir le nombre de jours de stock
+     * @param context Le contexte de l'application
+     */
     private fun showJourStockDialog(context: Context) {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_jours_stock, null)
@@ -182,6 +187,11 @@ class AjoutManuelStock : Fragment() {
         intervalleRegulierDialog.show()
     }
 
+    /**
+     * Fonction qui affiche une boîte de dialogue pour choisir l'heure de rappel
+     * @param context Le contexte de l'application
+     * @param heurePriseInput Le champ de texte où l'heure de rappel sera affichée
+     */
     private fun showTimePickerDialog(
         context: Context,
         heurePriseInput: EditText,
@@ -204,6 +214,12 @@ class AjoutManuelStock : Fragment() {
         timePickerDialog.show()
     }
 
+    /**
+     * Fonction qui formate l'heure pour l'afficher dans le champ de texte
+     * @param hour L'heure
+     * @param minute Les minutes
+     * @return L'heure formatée
+     */
     private fun formatTime(hour: Int, minute: Int): String {
         val calendar = Calendar.getInstance()
         calendar[Calendar.HOUR_OF_DAY] = hour
@@ -227,6 +243,9 @@ class AjoutManuelStock : Fragment() {
         }
     }
 
+    /**
+     * Fonction qui met à jour l'état du bouton "Suivant" en fonction de l'état du switch et des champs de texte
+     */
     private fun updateButtonState() {
         val isSwitchChecked = switchStock.isChecked
         val allFieldsFilled = inputStockActuel.text!!.isNotBlank()
@@ -240,7 +259,11 @@ class AjoutManuelStock : Fragment() {
         }
     }
 
-    fun clearFocusAndHideKeyboard(view: View) {
+    /**
+     * Fonction qui efface le focus des champs de texte et cache le clavier
+     * @param view La vue actuelle
+     */
+    private fun clearFocusAndHideKeyboard(view: View) {
         // Parcours tous les champs de texte, efface le focus
         val editTextList = listOf(
             inputStockActuel,
