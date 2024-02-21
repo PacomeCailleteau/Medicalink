@@ -184,7 +184,7 @@
     <string name="rapport_journalier">Rapport journalier :</string>
     <string name="x_x" translatable="false">X/X</string>
     <string name="chargement">Chargement</string>
-    <string name="dark_mode" translatable="false">Dark mode</string>
+    <string name="dark_mode">Mode sombre</string>
     <string name="ajouter">Ajouter</string>
     <string name="supprimer_compte">Supprimer le compte</string>
     <string name="vos_contacts">Vos contacts</string>
@@ -209,5 +209,6 @@
     <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
     <string name="specialite_s">Spécialité : %s</string>
     <string name="date_invalide">Date invalide</string>
+    <string name="pas_medoc_dans_photo">Aucune prescription n\'a été détectée dans l\'image. Veuillez essayer d\'utiliser une autre image de l\'ordonnance ou ajouter manuellement vos médicaments.</string>
 
 </resources>

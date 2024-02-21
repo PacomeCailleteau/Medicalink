@@ -26,7 +26,6 @@ import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
 import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -142,71 +141,12 @@ class ListeTraitementsFragment : Fragment() {
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread {
             val listeTraitement: MutableList<Traitement> = mutableListOf()
-
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected(true).first().uuid
             )
-
             for (medoc in listeMedoc) {
-
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-
-                val listePrise = mutableListOf<Prise>()
-
-                if (!medoc.prises.isNullOrEmpty()) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        val maPrise = Prise(
-                            traitementPrise[0],
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            traitementPrise[3]
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateFinTraitement
-
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateDbtTraitement
-
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                val traitement = Traitement(
-                    medoc.nom,
-                    medoc.codeCIS,
-                    medoc.dosageNB.toInt(),
-                    medoc.frequencePrise,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    medoc.expire,
-                    listeEffetsSec,
-                    listePrise,
-                    medoc.totalQuantite,
-                    medoc.uuid,
-                    medoc.uuidUser,
-                    newTraitementDbtDeTraitement
-                )
-
+                val traitement = medoc.toTraitement()
                 listeTraitement.add(traitement)
-
             }
             queue.add(listeTraitement)
         }.start()
@@ -348,7 +288,7 @@ class ListeTraitementsFragment : Fragment() {
             val dosageDialog = builder.create()
 
             val dial = dialogView.findViewById<TextView>(R.id.ajouterVrm)
-            dial.text = "No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication."
+            dial.text = resources.getString(R.string.pas_medoc_dans_photo)
             val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
 
             jaiCompris.setOnClickListener {
