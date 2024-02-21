@@ -127,29 +127,39 @@ class Traitement(
                 if (resultAlgo.isNotEmpty()) {
                     mot = resultAlgo
                 } else {
-                    try {
-                        entier = s.toInt()
+                    entier = try {
+                        s.toInt()
                     } catch (e: NumberFormatException) {
-                        entier = 1
+                        1
                     }
                 }
             }
-            if (mot != null) {
-                this.dateDbtTraitement = LocalDate.now()
-                when (mot) {
-                    "jour" -> this.dateFinTraitement =
-                        this.dateDbtTraitement!!.plusDays(entier.toLong())
 
-                    "semaine" -> this.dateFinTraitement =
-                        this.dateDbtTraitement!!.plusWeeks(entier.toLong())
+            calculDuree(mot, entier)
+        }
+    }
 
-                    "mois" -> this.dateFinTraitement =
-                        this.dateDbtTraitement!!.plusMonths(entier.toLong())
-                }
-            } else {
-                this.dateDbtTraitement = null
-                this.dateFinTraitement = null
+    /**
+     * Calcul la durée du traitement
+     * @param mot le mot qui correspond à l'unité de temps
+     * @param entier le nombre de jours/semaines/mois
+     */
+    private fun calculDuree(mot: String?, entier: Int) {
+        if (mot != null) {
+            this.dateDbtTraitement = LocalDate.now()
+            when (mot) {
+                "jour" -> this.dateFinTraitement =
+                    this.dateDbtTraitement!!.plusDays(entier.toLong())
+
+                "semaine" -> this.dateFinTraitement =
+                    this.dateDbtTraitement!!.plusWeeks(entier.toLong())
+
+                "mois" -> this.dateFinTraitement =
+                    this.dateDbtTraitement!!.plusMonths(entier.toLong())
             }
+        } else {
+            this.dateDbtTraitement = null
+            this.dateFinTraitement = null
         }
     }
 
