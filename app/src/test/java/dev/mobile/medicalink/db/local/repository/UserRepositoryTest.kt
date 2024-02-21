@@ -31,9 +31,9 @@ class UserRepositoryTest {
             "a@b.c",
             "test",
             false,
-            "4:0",
-            "8:0",
-            "22:0"
+            Pair(4, 0),
+            Pair(8, 0),
+            Pair(22, 0)
         )
     private val defaultUser2 =
         User(
@@ -45,9 +45,9 @@ class UserRepositoryTest {
             "a@b.c",
             "test2",
             true,
-            "4:0",
-            "8:0",
-            "22:0"
+            Pair(4, 0),
+            Pair(8, 0),
+            Pair(22, 0)
         )
 
     @Before

@@ -165,9 +165,9 @@ class CreerProfilActivity : AppCompatActivity() {
             email,
             password,
             isConnected,
-            "4:0",
-            "8:0",
-            "22:0"
+            Pair(4, 0),
+            Pair(8, 0),
+            Pair(22, 0)
         )
         // Insertion de l'utilisateur dans la base de données dans un Thread parce que un appel à la base de données est asynchrone
         Thread {
