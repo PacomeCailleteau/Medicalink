@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,11 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.adapter.HomeAdapterR
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import dev.mobile.medicalink.utils.GoTo
 import java.time.LocalDate
 import java.time.Period
@@ -249,7 +249,7 @@ class HomeFragment : Fragment() {
                         "123456",
                         "17:00",
                         7,
-                        "Comp"
+                        EnumTypeMedic.COMPRIME
                     ),
                     Traitement(
                         "x",
@@ -257,7 +257,7 @@ class HomeFragment : Fragment() {
                         1,
                         EnumFrequence.AUBESOIN,
                         null,
-                        "comp",
+                        EnumTypeMedic.COMPRIME,
                         25,
                         false,
                         null,

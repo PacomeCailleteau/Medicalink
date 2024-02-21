@@ -14,7 +14,7 @@ import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence.Companion.getStringFromEnum
 import java.util.concurrent.LinkedBlockingQueue
 
 class InfoMedocFragment : Fragment() {

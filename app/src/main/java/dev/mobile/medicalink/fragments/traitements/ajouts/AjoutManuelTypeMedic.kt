@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelTypeMedicAdapterR
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic.Companion.getStringFromEnum
 import dev.mobile.medicalink.utils.GoTo
 
 
@@ -40,23 +42,17 @@ class AjoutManuelTypeMedic : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        val listeTypeMedic: MutableList<String> =
-            mutableListOf(
-                resources.getString(R.string.comprime),
-                resources.getString(R.string.gellule),
-                resources.getString(R.string.sachet),
-                resources.getString(R.string.sirop),
-                resources.getString(R.string.pipette),
-                resources.getString(R.string.seringue),
-                resources.getString(R.string.bonbon),
-            )
+        val listeTypeMedic = mutableListOf(
+            EnumTypeMedic.COMPRIME,
+            EnumTypeMedic.GELLULE,
+            EnumTypeMedic.SACHET,
+            EnumTypeMedic.SIROP,
+            EnumTypeMedic.PIPETTE,
+            EnumTypeMedic.SERINGUE,
+            EnumTypeMedic.BONBON
+        )
 
-        var selected = viewModel.typeComprime.value.toString()
-        Log.d("selected", selected)
-        if (selected == "") {
-            viewModel.setTypeComprime(resources.getString(R.string.comprime))
-            selected = resources.getString(R.string.comprime)
-        }
+        var selected = viewModel.typeComprime.value ?: EnumTypeMedic.COMPRIME
 
         val recyclerViewTypeMedic = view.findViewById<RecyclerView>(R.id.recyclerViewTypeMedic)
         recyclerViewTypeMedic.layoutManager = LinearLayoutManager(context)

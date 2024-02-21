@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.mobile.medicalink.db.local.entity.Medoc
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import java.time.LocalDate
 
 
@@ -42,9 +43,9 @@ class AjoutSharedViewModel : ViewModel() {
         _dateFinTraitement.value = date
     }
 
-    private val _typeComprime = MutableLiveData("")
-    val typeComprime: LiveData<String> get() = _typeComprime
-    fun setTypeComprime(type: String) {
+    private val _typeComprime = MutableLiveData(EnumTypeMedic.COMPRIME)
+    val typeComprime: LiveData<EnumTypeMedic> get() = _typeComprime
+    fun setTypeComprime(type: EnumTypeMedic) {
         _typeComprime.value = type
     }
 
@@ -120,7 +121,7 @@ class AjoutSharedViewModel : ViewModel() {
         dosageNb.value ?: 0,
         frequencePrise.value ?: EnumFrequence.AUBESOIN,
         dateFinTraitement.value,
-        typeComprime.value ?: "",
+        typeComprime.value ?: EnumTypeMedic.COMPRIME,
         comprimesRestants.value ?: 0,
         effetsSecondaires = effetsSecondaires.value?.toMutableList() ?: mutableListOf(),
         prises = prises.value?.toMutableList() ?: mutableListOf(),
@@ -143,7 +144,7 @@ class AjoutSharedViewModel : ViewModel() {
         dosageNb.value ?: 0,
         frequencePrise.value ?: EnumFrequence.AUBESOIN,
         dateFinTraitement.value,
-        typeComprime.value ?: "",
+        typeComprime.value ?: EnumTypeMedic.COMPRIME,
         comprimesRestants.value ?: 0,
         dateFinTraitement.value != null && dateFinTraitement.value!! < LocalDate.now(),
         effectsSec() ?: "null",
@@ -212,7 +213,7 @@ class AjoutSharedViewModel : ViewModel() {
         setDosageNb(0)
         setFrequencePrise(EnumFrequence.AUBESOIN)
         setDateFinTraitement(null)
-        setTypeComprime("")
+        setTypeComprime(EnumTypeMedic.COMPRIME)
         setComprimesRestants(0)
         setEffetsSecondaires(mutableListOf())
         setPrises(mutableListOf())

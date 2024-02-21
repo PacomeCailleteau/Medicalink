@@ -19,6 +19,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelAdapterR
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import dev.mobile.medicalink.utils.GoTo
 import java.util.UUID
 
@@ -57,12 +58,12 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                         UUID.randomUUID().toString(),
                         resources.getString(R.string._17_00),
                         1,
-                        viewModel.typeComprime.value?.toString() ?: ""
+                        viewModel.typeComprime.value ?: EnumTypeMedic.COMPRIME
                     )
                 )
         } else {
             for (prise in listePrise) {
-                prise.typeComprime = viewModel.typeComprime.value?.toString() ?: ""
+                prise.typeComprime = viewModel.typeComprime.value ?: EnumTypeMedic.COMPRIME
             }
         }
 
@@ -82,7 +83,7 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                 UUID.randomUUID().toString(),
                 resources.getString(R.string._17_00),
                 1,
-                viewModel.typeComprime.value.toString()
+                viewModel.typeComprime.value ?: EnumTypeMedic.COMPRIME
             )
             listePrise.add(nouvellePrise)
             ajoutManuelAdapter.notifyItemInserted(listePrise.size - 1)
@@ -177,12 +178,12 @@ class AjoutManuelSchemaPrise2Fragment : Fragment() {
                             UUID.randomUUID().toString(),
                             resources.getString(R.string._17_00),
                             1,
-                            viewModel.typeComprime.value?.toString() ?: ""
+                            viewModel.typeComprime.value ?: EnumTypeMedic.COMPRIME
                         )
                     )
                 } else {
                     for (prise in listePrise) {
-                        prise.typeComprime = viewModel.typeComprime.value?.toString() ?: ""
+                        prise.typeComprime = viewModel.typeComprime.value ?: EnumTypeMedic.COMPRIME
                     }
                 }
 

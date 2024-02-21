@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.fragments.traitements
+package dev.mobile.medicalink.fragments.traitements.enums
 
 import android.content.Context
 import dev.mobile.medicalink.R

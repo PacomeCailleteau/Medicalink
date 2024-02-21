@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic.Companion.getStringFromEnum
 
 
 class AjoutManuelTypeMedicAdapterR(
-    private val list: MutableList<String>,
-    private var selected: String,
+    private val list: MutableList<EnumTypeMedic>,
+    private var selected: EnumTypeMedic,
     private val viewModel: AjoutSharedViewModel
 ) :
     RecyclerView.Adapter<AjoutManuelTypeMedicAdapterR.AjoutManuelTypeMedicViewHolder>() {
@@ -44,7 +46,7 @@ class AjoutManuelTypeMedicAdapterR(
     override fun onBindViewHolder(holder: AjoutManuelTypeMedicViewHolder, position: Int) {
         val item = list[position]
 
-        holder.textTypeMedic.text = item
+        holder.textTypeMedic.text = getStringFromEnum(item, holder.view.context)
 
         if (selected == item) {
             holder.layoutTypeMedic.setBackgroundResource(R.drawable.rounded_blue_button_blue_stroke_background)

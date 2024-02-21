@@ -24,6 +24,7 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeTraitementAdapterR
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutManuelRecapitulatif
 import dev.mobile.medicalink.fragments.traitements.ajouts.AjoutSharedViewModel
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.utils.GoTo
 import dev.mobile.medicalink.utils.notification.NotificationService
 import java.time.LocalDate
@@ -113,8 +114,6 @@ class ListeTraitementsFragment : Fragment() {
             Thread {
                 val uuidUserCourant = userDatabaseInterface.getUsersConnected(true).first().uuid
                 newMedoc.uuidUser = uuidUserCourant
-                Log.d("AjoutMedoc", newMedoc.toString())
-                Log.d("AjoutMedoc", viewModel.isAddingTraitement.value.toString())
                 if (viewModel.isAddingTraitement.value!!) {
                     medocDatabaseInterface.insertMedoc(newMedoc)
                 } else {

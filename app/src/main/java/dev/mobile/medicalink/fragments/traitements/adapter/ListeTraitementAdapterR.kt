@@ -12,8 +12,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence.Companion.getStringFromEnum
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic.Companion.getStringFromEnum
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.time.LocalDate
 
@@ -106,7 +107,7 @@ class ListeTraitementAdapterR(
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_yellow_button_background)
             holder.imageView.setImageResource(R.drawable.medicenattente)
             holder.nbComprimesRestants.text =
-                "${item.comprimesRestants} ${item.typeComprime.lowercase()}${
+                "${item.comprimesRestants} ${getStringFromEnum(item.typeComprime, holder.view.context)}${
                     holder.view.resources.getString(
                         R.string.s_restants
                     )
@@ -119,7 +120,7 @@ class ListeTraitementAdapterR(
             holder.constraintLayout.setBackgroundResource(R.drawable.squared_blue_button_background)
             holder.imageView.setImageResource(R.drawable.medicencours)
             holder.nbComprimesRestants.text =
-                "${item.comprimesRestants} ${item.typeComprime.lowercase()}${
+                "${item.comprimesRestants} ${getStringFromEnum(item.typeComprime, holder.view.context)}${
                     holder.view.resources.getString(
                         R.string.s_restants
                     )

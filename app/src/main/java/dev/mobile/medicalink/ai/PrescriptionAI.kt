@@ -8,8 +8,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import androidx.annotation.WorkerThread
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import fr.medicapp.medicapp.tokenization.Feature
 import fr.medicapp.medicapp.tokenization.FeatureConverter
 import org.pytorch.IValue
@@ -201,7 +202,7 @@ class PrescriptionAI(
                     when (label.removePrefix("B-")) {
                         "Drug" -> treatment[last].nomTraitement = word
                         "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
-                        "DrugForm" -> treatment[last].typeComprime = word
+                        "DrugForm" -> treatment[last].typeComprime = EnumTypeMedic.valueOf(word.uppercase())
                         "DrugFrequency" -> treatment[last].suggFrequence = word
                         "DrugDuration" -> treatment[last].suggDuree = word
                     }
@@ -211,7 +212,7 @@ class PrescriptionAI(
                     when (label.removePrefix("I-")) {
                         "Drug" -> treatment[last].nomTraitement += " $word"
                         "DrugQuantity" -> treatment[last].dosageNb = word.toInt()
-                        "DrugForm" -> treatment[last].typeComprime = " $word"
+                        "DrugForm" -> treatment[last].typeComprime = EnumTypeMedic.valueOf(word.uppercase())
                         "DrugFrequency" -> treatment[last].suggFrequence = " $word"
                         "DrugDuration" -> treatment[last].suggDuree += " $word"
                     }

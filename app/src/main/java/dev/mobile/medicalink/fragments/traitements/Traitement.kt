@@ -1,6 +1,8 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.content.Context
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import java.io.Serializable
 import java.time.LocalDate
 
@@ -11,7 +13,7 @@ class Traitement(
     var dosageNb: Int,
     var frequencePrise: EnumFrequence,
     var dateFinTraitement: LocalDate?,
-    var typeComprime: String = "Comprimé",
+    var typeComprime: EnumTypeMedic = EnumTypeMedic.COMPRIME,
     var comprimesRestants: Int?,
     var expire: Boolean = false,
     var effetsSecondaires: MutableList<String>?,
@@ -33,7 +35,7 @@ class Traitement(
      */
     fun getProchainePrise(prise: Prise?): Prise {
         return if (prises == null || prises!!.isEmpty()) {
-            return Prise("-1", "14:38", 0, "Comprimé")
+            return Prise("-1", "14:38", 0, EnumTypeMedic.COMPRIME)
         } else if (prise == null) {
             prises!![0]
         } else {

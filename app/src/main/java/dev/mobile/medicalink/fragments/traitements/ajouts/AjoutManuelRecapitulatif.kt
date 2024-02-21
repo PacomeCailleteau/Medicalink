@@ -14,11 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.ListeTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.adapter.RecapAdapterR
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic.Companion.getStringFromEnum
 import dev.mobile.medicalink.utils.GoTo
 
 
@@ -92,7 +93,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         }
 
         nomMedoc.text = viewModel.nomTraitement.value
-        textUnite.text = viewModel.typeComprime.value
+        textUnite.text = getStringFromEnum(viewModel.typeComprime.value!!, requireContext())
         textStock.text = "${viewModel.comprimesRestants.value} ${viewModel.typeComprime.value}"
         if (viewModel.comprimesRestants.value!! > 1) {
             textStock.text = "${textStock.text}s"

@@ -15,8 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dev.mobile.medicalink.R
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence
-import dev.mobile.medicalink.fragments.traitements.EnumFrequence.Companion.getStringFromEnum
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence.Companion.getStringFromEnum
 import dev.mobile.medicalink.utils.GoTo
 
 
