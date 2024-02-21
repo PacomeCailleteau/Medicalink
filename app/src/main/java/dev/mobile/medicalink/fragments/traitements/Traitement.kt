@@ -27,6 +27,7 @@ class Traitement(
 
     var suggDuree: String? = null
     var suggFrequence: String? = null
+    var suggType: String? = null
 
     /**
      * Renvoie la prochaine prise à effectuer
@@ -111,6 +112,37 @@ class Traitement(
         }
     }
 
+    /**
+     * Conformise le type de comprimé
+     */
+    private fun trouveType() {
+        if (this.suggDuree != null) {
+            val test = this.suggType!!.split(" ")
+            var result: String
+            var retour = EnumTypeMedic.COMPRIME
+
+            val algo = JaroWinkler()
+            algo.base = listOf(
+                "COMPRIME",
+                "GELLULE",
+                "SACHET",
+                "SIROP",
+                "PIPETTE",
+                "SERINGUE",
+                "BONBON"
+            )
+
+            for (s: String in test) {
+                algo.aChercher = s.uppercase()
+                result = algo.lancerDistance()
+
+                if (result.isNotEmpty()) {
+                    retour = EnumTypeMedic.valueOf(result)
+                }
+            }
+            this.typeComprime = retour
+        }
+    }
 
     /**
      * Remplie les variables dateDbtTraitement et dateFinTraitement
@@ -142,7 +174,6 @@ class Traitement(
                     }
                 }
             }
-
             calculDuree(mot, entier)
         }
     }
@@ -178,6 +209,7 @@ class Traitement(
         trouveNom(context)
         trouveDuree()
         trouveUnite()
+        trouveType()
     }
 
     override fun toString(): String {
