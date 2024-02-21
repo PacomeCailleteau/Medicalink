@@ -18,10 +18,10 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.PriseValideeRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.home.adapter.HomeAdapterR
-import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import dev.mobile.medicalink.utils.GoTo
 import java.time.LocalDate

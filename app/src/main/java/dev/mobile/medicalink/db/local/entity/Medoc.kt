@@ -6,9 +6,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
 import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import java.time.LocalDate
 

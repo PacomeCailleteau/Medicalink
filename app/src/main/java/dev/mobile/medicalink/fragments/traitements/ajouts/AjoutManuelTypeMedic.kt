@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements.ajouts
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.adapter.AjoutManuelTypeMedicAdapterR
 import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
-import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic.Companion.getStringFromEnum
 import dev.mobile.medicalink.utils.GoTo
 
 
