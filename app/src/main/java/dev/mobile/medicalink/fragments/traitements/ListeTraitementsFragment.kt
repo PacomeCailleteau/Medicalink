@@ -27,7 +27,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
-import kotlin.collections.ArrayList
 
 
 class ListeTraitementsFragment : Fragment() {
@@ -189,7 +188,7 @@ class ListeTraitementsFragment : Fragment() {
     private fun getTreatmentToDisplay(
         medocDatabaseInterface: MedocRepository,
         userDatabaseInterface: UserRepository
-    ) : List<Traitement> {
+    ): List<Traitement> {
         val queue = LinkedBlockingQueue<MutableList<Traitement>>()
         //Récupération des traitements (nommé médocs dans la base de donnée) en les transformant en une liste de traitement pour les afficher
         Thread {
@@ -277,7 +276,7 @@ class ListeTraitementsFragment : Fragment() {
         traitementsTries: MutableList<Traitement>,
         viewModel: AjoutSharedViewModel,
         medocDatabaseInterface: MedocRepository
-    ) : ListeTraitementAdapterR {
+    ): ListeTraitementAdapterR {
         return ListeTraitementAdapterR(traitementsTries) { clickedTraitement, isSuppr ->
             when (isSuppr) {
                 null -> {
@@ -313,10 +312,12 @@ class ListeTraitementsFragment : Fragment() {
                             viewModel.setSchemaPrise1("auBesoin")
                             viewModel.setProvenance("auBesoin")
                         }
+
                         "quotidiennement" -> {
                             viewModel.setSchemaPrise1("Quotidiennement")
                             viewModel.setProvenance("quotidiennement")
                         }
+
                         else -> {
                             viewModel.setSchemaPrise1("Intervalle")
                             viewModel.setProvenance("intervalleRegulier")
@@ -344,14 +345,18 @@ class ListeTraitementsFragment : Fragment() {
      * @param container : le container
      * @param traitements : la liste des traitements à ajouter
      */
-    private fun ajoutPlusieursTraitements(inflater: LayoutInflater, container: ViewGroup?, traitements: ArrayList<Traitement>) {
+    private fun ajoutPlusieursTraitements(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        traitements: ArrayList<Traitement>
+    ) {
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val cisBdpmInterface = CisBdpmRepository(db.cisBdpmDao())
-        var newMedoc : Medoc
-        var codeCIS : String
+        var newMedoc: Medoc
+        var codeCIS: String
         val queue2 = LinkedBlockingQueue<Boolean>()
         var compteur = 0
         // faire une popup si tout n'a pas été trouvé
@@ -387,7 +392,7 @@ class ListeTraitementsFragment : Fragment() {
             queue2.take()
         }
 
-        if (traitements.isEmpty() || compteur>0) {
+        if (traitements.isEmpty() || compteur > 0) {
             val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("Invalide Picture")
             alertDialogBuilder.setMessage("No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.")

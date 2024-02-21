@@ -76,7 +76,7 @@ data class Medoc(
      * @param date la date à convertir
      * @return la date convertie
      */
-    private fun toDate (date: String?): LocalDate? {
+    private fun toDate(date: String?): LocalDate? {
         return if (date != "null") {
             val formatter = DateTimeFormatter.ofPattern(datePattern)
             LocalDate.parse(date, formatter)

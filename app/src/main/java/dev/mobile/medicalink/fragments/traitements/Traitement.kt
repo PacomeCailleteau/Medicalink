@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.content.Context
 import java.io.Serializable
-import java.lang.NumberFormatException
 import java.time.LocalDate
 
 

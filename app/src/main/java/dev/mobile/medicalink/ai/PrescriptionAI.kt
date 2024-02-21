@@ -21,7 +21,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.time.LocalDate
 
 /**
@@ -158,19 +157,21 @@ class PrescriptionAI(
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun postAnalyse(prediction: List<Pair<String, String>>): List<Traitement> {
-        val treatment = mutableListOf(Traitement(
-            "",
-            "",
-            0,
-            "",
-            null,
-            comprimesRestants = null,
-            effetsSecondaires = null,
-            totalQuantite = null,
-            uuid = null,
-            uuidUser = null,
-            dateDbtTraitement = LocalDate.now()
-        ))
+        val treatment = mutableListOf(
+            Traitement(
+                "",
+                "",
+                0,
+                "",
+                null,
+                comprimesRestants = null,
+                effetsSecondaires = null,
+                totalQuantite = null,
+                uuid = null,
+                uuidUser = null,
+                dateDbtTraitement = LocalDate.now()
+            )
+        )
         var last = 0
         prediction.forEach { (word, label) ->
             when {
@@ -197,7 +198,7 @@ class PrescriptionAI(
                                 dateDbtTraitement = LocalDate.now()
                             )
                         )
-                        last = treatment.size-1
+                        last = treatment.size - 1
 
                     }
                     when (label.removePrefix("B-")) {

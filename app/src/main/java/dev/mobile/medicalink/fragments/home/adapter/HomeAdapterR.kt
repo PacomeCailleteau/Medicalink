@@ -199,7 +199,8 @@ class HomeAdapterR(
      */
     private fun updateImageCercle(holder: AjoutManuelViewHolder, item: Pair<Prise, Traitement>) {
         val db = AppDatabase.getInstance(holder.itemView.context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+        val priseValideeDatabaseInterface =
+            PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
 
         if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
