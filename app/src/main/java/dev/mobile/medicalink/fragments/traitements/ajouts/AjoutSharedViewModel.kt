@@ -53,13 +53,13 @@ class AjoutSharedViewModel : ViewModel() {
         _comprimesRestants.value = comprimes
     }
 
-    private val _effetsSecondaires = MutableLiveData<List<String>>(mutableListOf())
+    private val _effetsSecondaires = MutableLiveData<List<String>>(listOf())
     val effetsSecondaires: LiveData<List<String>> get() = _effetsSecondaires
     fun setEffetsSecondaires(effets: List<String>) {
         _effetsSecondaires.value = effets
     }
 
-    private val _prises = MutableLiveData<List<Prise>>(mutableListOf())
+    private val _prises = MutableLiveData<List<Prise>>(listOf())
     val prises: LiveData<List<Prise>> get() = _prises
     fun setPrises(prises: List<Prise>) {
         _prises.value = prises
@@ -89,7 +89,7 @@ class AjoutSharedViewModel : ViewModel() {
         _dateDbtTraitement.value = date
     }
 
-    private val _traitements = MutableLiveData<List<Traitement>>(mutableListOf())
+    private val _traitements = MutableLiveData<List<Traitement>>(listOf())
     val traitements: LiveData<List<Traitement>> get() = _traitements
     private fun setTraitements(traitements: List<Traitement>) {
         _traitements.value = traitements
