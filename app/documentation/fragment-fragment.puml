@@ -1,0 +1,75 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+
+package fragment{
+
+    class MainActivity {
+        - imageConnexion: ImageView
+        - textBienvenue: TextView
+        - buttonConnexion: Button
+        - buttonChangerUtilisateur: Button
+        - boutonAjouterProfil: Button
+        + onCreate(savedInstanceState: Bundle) : void
+        + authenticateWithBiometric() : void
+        + showBiometricPrompt() : void
+        + showPasswordDialog() : void
+        + isValidPassword(password: String) : Boolean
+        + creerCanalNotification() : void
+        + showIntervalleRegulierDialog(context: Context) : void
+    }
+
+    class CreerProfilActivity {
+        - textMedicalink: TextView
+        - imageProfil: ImageView
+        - textVotreProfil: TextView
+        - textStatut: TextView
+        - radioButtonUtilisateur: RadioButton
+        - radioButtonProfessionnel: RadioButton
+        - textInformationsPersonnelles: TextView
+        - inputNom: TextInputEditText
+        - inputPrenom: TextInputEditText
+        - inputDateDeNaissance: TextInputEditText
+        - inputEmail: TextInputEditText
+        - inputMotDePasse: TextInputEditText
+        - checkboxRgpd: CheckBox
+        - buttonCreerProfil: Button
+        + onCreate(savedInstanceState: Bundle) : void
+        + clearFocusAndHideKeyboard(view: View) : void
+        + showDatePickerDialog() : void
+        + formatDate(day: Int, month: Int, year: Int) : String
+        + validateEmail(email: String) : Boolean
+        + updateButtonState() : void
+        + isValidPassword(password: String) : Boolean
+    }
+
+    class ChangerUtilisateurAdapterR {
+        - list: List<User>
+        - onItemClick: (User) -> Unit
+        + getItemCount() : Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int) : AjoutManuelViewHolder
+        + onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) : void
+    }
+
+    class MongoManager {
+        - mongoClient: MongoClient
+        - database: MongoDatabase
+        - mongoHost: String
+        - mongoPort: Int
+        - databaseName: String
+        - username: String
+        - password: String
+        + MongoManager()
+        + insertDocument(collectionName: String, document: Document) : void
+        + selectAllDocuments(collectionName: String) : List<Document>
+    }
+}
+
+
+
+@enduml

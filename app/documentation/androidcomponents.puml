@@ -1,0 +1,70 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+package android {
+	package app{
+		class Activity
+	}
+	
+	package text {
+		class Editable
+		class TextWatcher
+	}
+
+	package content {
+		package res {
+			class AssetManager
+		}
+		class BroadcastReceiver
+		class Context
+		class Intent
+	}
+	
+	package view {
+		class LayoutInflater
+		class View
+		class ViewGroup
+		class MotionEvent
+	}
+
+	package widget {
+	    class TextView
+	    class ImageView
+	    class Button
+	    class RadioButton
+	    class CheckBox
+	    class TextInputEditText
+	    class ViewGroup
+	    class Bundle
+	    class Toast
+	}
+}
+
+    package widget {
+        package RecyclerView {
+            class ItemDecoration
+            class Adapter
+            class ViewHolder
+            class LinearLayoutManager
+            class RecyclerView
+        package layout {
+            class ConstraintLayout
+        }
+}
+
+CreerProfilActivity --> "*" TextInputEditText : has
+CreerProfilActivity --> "*" CheckBox : has
+CreerProfilActivity --> "*" Button : has
+CreerProfilActivity --> "*" RadioButton : has
+CreerProfilActivity --> "*" TextView : has
+CreerProfilActivity --> "*" ImageView : has
+CreerProfilActivity --> "*" ViewGroup : has
+CreerProfilActivity --> "*" Bundle : has
+
+
+@enduml

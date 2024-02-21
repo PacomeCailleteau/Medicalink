@@ -1,0 +1,87 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+'skinparam groupInheritance 2
+
+package tokenization {
+
+    class BasicTokenizer{
+        +void Init(doLowerCase: Boolean = false)
+        - doLowerCase: Boolean
+        - tokenize(text: String): MutableList<String>
+        + cleanText(text: String?): String
+        + whitespaceTokenize(text: String?): MutableList<String>
+        + runSplitOnPunc(text: String?): MutableList<String>
+    }
+
+    class CamemBERT {
+        + BOS_TOKEN: String = "<s>"
+        + EOS_TOKEN: String = "</s>"
+        + SEP_TOKEN: String = "</s>"
+        + CLS_TOKEN: String = "<s>"
+        + UNK_TOKEN: String = "<unk>"
+        + PAD_TOKEN: String = "<pad>"
+        + MASK_TOKEN: String = "<mask>"
+    }
+
+    class CharChecker {
+        + isInvalid(ch: Char): Boolean
+        + isControl(ch: Char): Boolean
+        + isWhitespace(ch: Char): Boolean
+        + isPunctuation(ch: Char): Boolean
+    }
+
+    class Feature {
+        + inputIds: IntArray
+        + inputMask: IntArray
+        + segmentIds: IntArray
+        + origTokens: List<String>
+        + tokenToOrigMap: Map<Int, Int>
+
+        + Init(    inputIds: List<Int>,
+        inputMask: List<Int>,
+        segmentIds: List<Int>,
+        origTokens: List<String>,
+        tokenToOrigMap: Map<Int, Int> )
+    }
+    class FeatureConverter {
+        - tokenizer: FullTokenizer
+        - maxQueryLen: Int
+        - maxSeqLen: Int
+        + Init( inputDic: HashMap<String, Int>, doLowerCase: Boolean, maxQueryLen: Int, maxSeqLen: Int )
+        + convert(context: String): Feature
+        + align_word_ids(feature: Feature, labelAllTokens: Boolean = false): MutableList<Int>
+    }
+
+    class FullTokenizer{
+        - basicTokenizer: BasicTokenizer
+        - wordpieceTokenizer: WordpieceTokenizer
+        - dic: HashMap<String, Int>
+        + Init(inputDic: HashMap<String, Int>,doLowerCase: Boolean)
+        + tokenize(text: String): MutableList<String>
+        + convertTokensToIds(tokens: MutableList<String>): MutableList<Int>
+
+    }
+
+    class WordpieceTokenizer {
+        - dic: HashMap<String, Int>
+        - MAX_INPUTCHARS_PER_WORD = 200
+        + Init(vocab: HashMap<String, Int>)
+        + tokenize(text: String?): MutableList<String>
+    }
+}
+BasicTokenizer --> CharChecker : Uses
+
+FullTokenizer  "1" *--  "1" BasicTokenizer : contains
+FullTokenizer  "1" *-- "1" WordpieceTokenizer : contains
+
+FeatureConverter "1" *-- "1" FullTokenizer : contains
+FeatureConverter "1" *-- "1" Feature : contains
+FeatureConverter  -->  CamemBERT : Uses
+
+
+
+@enduml

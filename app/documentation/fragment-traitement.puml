@@ -1,0 +1,194 @@
+@startuml
+
+hide circle
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam backgroundcolor white
+skinparam groupInheritance 2
+
+package traitements {
+
+
+
+
+    class AddTraitementsFragment extends Fragment {
+    - photoButton: LinearLayout
+    - loadButton: LinearLayout
+    - manualImportButton: LinearLayout
+    - annuler: ImageView
+    - currentPhotoPath: Uri? = null
+    - photoLauncher: ActivityResultLauncher<Uri>
+    - loadLauncher: ActivityResultLauncher<String>
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    + createImageFile(): Uri
+    + testRealImage(uri: Uri): Boolean
+    }
+
+    class InfoMedicamentFragment extends Fragment {
+    + onCreateView(
+              inflater: LayoutInflater, container: ViewGroup?,
+              savedInstanceState: Bundle?
+          ): View?
+    }
+
+    class ListeEffetsSecondairesAdapterR {
+        - list: MutableList<Traitement>
+        + init (list: MutableList<Traitement>)
+    }
+
+    class TraitementViewHolder extends ViewHolder {
+        - view : View
+        + init(val view: View)
+        + nomEffet: TextView
+        + provoquePar : TextView
+    }
+TraitementViewHolder --+ ListeEffetsSecondairesAdapterR
+
+    class ListeEffetsSecondairesFragment extends Fragment {
+        - recyclerView: RecyclerView
+        - annuler: ImageView
+        - textAucunEffetSec: TextView
+        + init (recyclerView: RecyclerView, annuler: ImageView, textAucunEffetSec: TextView)
+        + CreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View?
+    }
+
+    class ListeTraitementAdapterR extends Adapter{
+        - list: MutableList<Traitement>
+        - onItemClick: (Traitement, Boolean) -> Units
+        + init (list: MutableList<Traitement>, onItemClick: (Traitement, Boolean) -> Units )
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int): TraitementViewHolder
+        + onBindViewHolder(holder: TraitementViewHolder, position: Int)
+        - showConfirmSuppressDialog(
+                  context: Context,
+                  item: Traitement)
+    }
+TraitementViewHolder --+ ListeTraitementAdapterR
+
+
+    class LoaderFragment extends Fragment {
+        -  handler = Handler()
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        + onViewCreated(view: View, savedInstanceState: Bundle?)
+        - handleResult(result: List<String?>)
+        - startLoadingAnimation()
+        + onDestroy()
+        + createTraitement(text: String): List<String?>
+    }
+
+    class MainTraitementsFragment extends Fragment {
+            - addTraitementButton: LinearLayout
+            - traitementsButton: LinearLayout
+            - journalButton: LinearLayout
+
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+    }
+
+    class PreviewFragment extends Fragment {
+        - buttonTakePicture: Button
+        - buttonChooseFromGallery: Button
+        - imagePreview: ImageView
+        - validateButton: Button
+        - currentPhotoPath: Uri? = null
+        - takePictureLauncher: ActivityResultLauncher<Uri>
+        - chooseFromGalleryLauncher: ActivityResultLauncher<String>
+        - retour: ImageView
+        + onCreateView(
+                  inflater: LayoutInflater, container: ViewGroup?,
+                  savedInstanceState: Bundle?
+              ): View?
+        - displayImage(uri: Uri)
+        - createImageFile(): Uri
+        - extractTextFromImage(bitmap: Bitmap, onTextExtracted: (String) -> Unit)
+        - processTextRecognitionResult(texts: Text): String
+    }
+
+
+    class Prise {
+        + numeroPrise: String
+        + heurePrise: String
+        + quantite: Int
+        + dosageUnite: String
+
+        + init (numeroPrise: String,
+        heurePrise: String,
+        quantite: Int,
+        dosageUnite: String)
+
+        + enMajuscule()
+        + getName(): String
+        + override fun toString(): String
+    }
+
+    class RecapAdapterR extends Adapter {
+        - list: MutableList<Prise>
+        + init(list: MutableList<Prise>)
+        + getItemCount(): Int
+        + onCreateViewHolder(parent: ViewGroup, viewType: Int): AjoutManuelViewHolder
+        + onBindViewHolder(holder: AjoutManuelViewHolder, position: Int)
+    }
+
+    class AjoutManuelViewHolder extends ViewHolder{
+        + view : View
+        + heurePrise : TextView
+        + dosageRecap : TextView
+        + init (view : View)
+    }
+
+AjoutManuelViewHolder --+ RecapAdapterR
+
+
+    class SpacingRecyclerView extends ItemDecoration {
+        - espacementDp: Int
+        + init
+        + dpToPx(dp: Int): Int
+        + getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State)
+    }
+
+    class Traitement {
+        + CodeCIS: Int?,
+        + nomTraitement: String,
+        + dosageNb: Int,
+        + dosageUnite: String,
+        + dateFinTraitement: LocalDate?,
+        + typeComprime: String = "Comprimé",
+        + comprimesRestants: Int?,
+        + expire: Boolean = false,
+        + effetsSecondaires: MutableList<String>?,
+        + prises: MutableList<Prise>? = null,
+        + totalQuantite: Int?,
+        + UUID: String?,
+        + UUIDUSER: String?,
+        + dateDbtTraitement: LocalDate?
+
+        + init (CodeCIS: Int?,
+                nomTraitement: String,
+                dosageNb: Int,
+                dosageUnite: String,
+                dateFinTraitement: LocalDate?,
+                typeComprime: String = "Comprimé",
+                comprimesRestants: Int?,
+                expire: Boolean = false,
+                effetsSecondaires: MutableList<String>?,
+                prises: MutableList<Prise>? = null,
+                totalQuantite: Int?,
+                UUID: String?,
+                UUIDUSER: String?,
+                dateDbtTraitement: LocalDate?)
+
+        + enMajuscule()
+        + getName(): String
+        + getProchainePrise(prise: Prise?): Prise
+
+    }
+
+@enduml
