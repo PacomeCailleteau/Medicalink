@@ -10,7 +10,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.time.LocalDateTime
 
 
 // NE FONCTIONNE PAS SUR LES PC DE L'IUT
@@ -32,9 +31,9 @@ class UserRepositoryTest {
             "a@b.c",
             "test",
             false,
-            LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
-            LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
-            LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
+            "4:0",
+            "8:0",
+            "22:0"
         )
     private val defaultUser2 =
         User(
@@ -46,9 +45,9 @@ class UserRepositoryTest {
             "a@b.c",
             "test2",
             true,
-            LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
-            LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
-            LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
+            "4:0",
+            "8:0",
+            "22:0"
         )
 
     @Before

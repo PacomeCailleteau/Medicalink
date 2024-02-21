@@ -29,7 +29,6 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import fr.medicapp.medicapp.ai.PrescriptionAI
-import java.time.LocalDateTime
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
@@ -80,9 +79,9 @@ class MainActivity : AppCompatActivity() {
                     "",
                     "666666",
                     isConnected = true,
-                    LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
-                    LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
-                    LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
+                    "4:0",
+                    "8:0",
+                    "22:0"
                 )
             )
             val res = userDatabaseInterface.getUsersConnected()

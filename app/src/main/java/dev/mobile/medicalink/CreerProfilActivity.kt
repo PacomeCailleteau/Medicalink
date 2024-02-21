@@ -20,7 +20,6 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -166,9 +165,9 @@ class CreerProfilActivity : AppCompatActivity() {
             email,
             password,
             isConnected,
-            LocalDateTime.of(0, 1, 1, 4, 0, ).toString(),
-            LocalDateTime.of(0, 1, 1, 8, 0, ).toString(),
-            LocalDateTime.of(0, 1, 1, 22, 0, ).toString()
+            "4:0",
+            "8:0",
+            "22:0"
         )
         // Insertion de l'utilisateur dans la base de données dans un Thread parce que un appel à la base de données est asynchrone
         Thread {
