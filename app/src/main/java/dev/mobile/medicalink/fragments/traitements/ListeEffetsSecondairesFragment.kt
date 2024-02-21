@@ -1,7 +1,6 @@
 package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,6 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.adapter.ListeEffetsSecondairesAdapterR
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.concurrent.LinkedBlockingQueue
 
 class ListeEffetsSecondairesFragment : Fragment() {
@@ -87,66 +84,8 @@ class ListeEffetsSecondairesFragment : Fragment() {
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(uuidUser)
 
             for (medoc in listeMedoc) {
-
-                var listeEffetsSec: MutableList<String>? = null
-                if (medoc.effetsSecondaires != null) {
-                    listeEffetsSec = medoc.effetsSecondaires.split(";").toMutableList()
-                }
-
-
-                val listePrise = mutableListOf<Prise>()
-
-                if (medoc.prises != null) {
-                    for (prise in medoc.prises.split("/")) {
-                        val traitementPrise: MutableList<String> = prise.split(";").toMutableList()
-                        val maPrise = Prise(
-                            traitementPrise[0],
-                            traitementPrise[1],
-                            traitementPrise[2].toInt(),
-                            traitementPrise[3]
-                        )
-                        listePrise.add(maPrise)
-                    }
-                }
-
-                var newTraitementFinDeTraitement: LocalDate? = null
-
-                if (medoc.dateFinTraitement != "null") {
-                    Log.d("test", medoc.dateFinTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateFinTraitement
-
-                    newTraitementFinDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                var newTraitementDbtDeTraitement: LocalDate? = null
-
-                if (medoc.dateDbtTraitement != "null") {
-                    Log.d("test", medoc.dateDbtTraitement.toString())
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = medoc.dateDbtTraitement
-
-                    newTraitementDbtDeTraitement = LocalDate.parse(date, formatter)
-                }
-
-                val traitement = Traitement(
-                    medoc.nom,
-                    medoc.codeCIS,
-                    medoc.dosageNB.toInt(),
-                    medoc.frequencePrise,
-                    newTraitementFinDeTraitement,
-                    medoc.typeComprime,
-                    medoc.comprimesRestants,
-                    effetsSecondaires = listeEffetsSec,
-                    prises = listePrise,
-                    totalQuantite = medoc.totalQuantite,
-                    uuid = medoc.uuid,
-                    uuidUser = medoc.uuidUser,
-                    dateDbtTraitement = newTraitementDbtDeTraitement
-                )
-
+                val traitement = medoc.toTraitement()
                 listeTraitement.add(traitement)
-
             }
             queue.add(listeTraitement)
         }.start()
