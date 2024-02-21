@@ -67,7 +67,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
      * Récupère les traitements de l'utilisateur courant
      * @return MutableList<Traitement>
      */
-    private fun getCurrentUserTreatments (): MutableList<Traitement> {
+    private fun getCurrentUserTreatments(): MutableList<Traitement> {
         val db = AppDatabase.getInstance(requireContext())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val userDatabaseInterface = UserRepository(db.userDao())
@@ -95,7 +95,8 @@ class ListeEffetsSecondairesFragment : Fragment() {
     private fun getEffetsSecondairesMedicaments(
         traitementsTries: List<Traitement>,
     ): MutableMap<String, MutableList<Traitement>> {
-        val effetsSecondairesMedicaments: MutableMap<String, MutableList<Traitement>> = mutableMapOf()
+        val effetsSecondairesMedicaments: MutableMap<String, MutableList<Traitement>> =
+            mutableMapOf()
         traitementsTries.forEach { traitement ->
             traitement.effetsSecondaires.orEmpty().forEach { effetSecondaire ->
                 // Vérifie si l'effet secondaire est déjà dans la carte

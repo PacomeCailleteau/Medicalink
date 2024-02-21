@@ -280,8 +280,9 @@ class ListeTraitementsFragment : Fragment() {
             }.start()
             queue2.take()
         }
-        if (traitements.isEmpty() || compteur>0) {
-            val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_duplicate_substance, null)
+        if (traitements.isEmpty() || compteur > 0) {
+            val dialogView =
+                LayoutInflater.from(context).inflate(R.layout.dialog_duplicate_substance, null)
             val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
             builder.setView(dialogView)
 
@@ -320,7 +321,6 @@ class ListeTraitementsFragment : Fragment() {
         }
 
     }
-
 
 
     override fun onResume() {

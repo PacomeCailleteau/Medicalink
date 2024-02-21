@@ -143,9 +143,11 @@ class ListeTraitementAdapterR(
             "auBesoin" -> {
                 holder.view.resources.getString(R.string.au_besoin)
             }
+
             "quotidiennement" -> {
                 "${item.totalQuantite} ${holder.view.resources.getString(R.string.par_jour)}"
             }
+
             else -> {
                 "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.frequencePrise}"
             }
