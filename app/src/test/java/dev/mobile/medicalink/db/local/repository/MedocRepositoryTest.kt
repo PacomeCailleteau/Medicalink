@@ -6,11 +6,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 //@Config(sdk = [29])
@@ -19,40 +22,40 @@ class MedocRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var medocRepository: MedocRepository
     private val userOfDefaultMedoc =
-        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
+        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false, Pair(1, 1), Pair(1, 1), Pair(1, 1))
     private val userOfDefaultMedoc2 =
-        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
+        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true, Pair(2, 2), Pair(2, 2), Pair(2, 2))
     private val defaultMedoc = Medoc(
         "1",
         "1",
         "nom",
         "1111111111",
-        "dosageNB",
-        "typeComprime",
-        "dateFinTraitement",
-        "typeComprime",
+        1,
+        EnumFrequence.JOUR,
+        LocalDate.now(),
+        EnumTypeMedic.COMPRIME,
         1,
         true,
         "effetsSecondaires",
         "prises",
         1,
-        "dateDbtTraitement"
+        LocalDate.now()
     )
     private val defaultMedoc2 = Medoc(
         "2",
         "2",
         "nom2",
         "2222222222",
-        "dosageNB2",
-        "dosageUnite2",
-        "dateFinTraitement2",
-        "typeComprime2",
+        2,
+        EnumFrequence.MOIS,
+        LocalDate.now(),
+        EnumTypeMedic.BONBON,
         2,
         false,
         "effetsSecondaires2",
         "prises2",
         2,
-        "dateDbtTraitement2"
+        LocalDate.now()
     )
 
     @Before

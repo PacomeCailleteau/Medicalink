@@ -46,9 +46,9 @@ class ContactMedecinRepositoryTest {
             "F"
         )
     private val userOfDefaultMedoc =
-        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
+        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false, Pair(1, 1), Pair(1, 1), Pair(1, 1))
     private val userOfDefaultMedoc2 =
-        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
+        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true, Pair(2, 2), Pair(2, 2), Pair(2, 2))
 
 
     @Before
