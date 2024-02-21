@@ -6,6 +6,15 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { stream ->
+        localProperties.load(stream)
+    }
+}
+def apiRppsUrl = "\"${localProperties['apiRppsUrl'].toString()}\""
+
 android {
     compileSdk 32
 
@@ -20,6 +29,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String', 'API_RPPS_URL', apiRppsUrl
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
