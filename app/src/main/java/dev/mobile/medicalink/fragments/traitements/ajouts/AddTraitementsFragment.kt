@@ -140,7 +140,8 @@ class AddTraitementsFragment : Fragment() {
         return FileProvider.getUriForFile(
             view?.context!!.applicationContext,
             "${view?.context?.applicationContext?.packageName}.fileprovider",
-            image)
+            image
+        )
     }
 
     /**

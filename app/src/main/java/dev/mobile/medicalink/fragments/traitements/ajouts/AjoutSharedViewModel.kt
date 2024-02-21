@@ -155,7 +155,7 @@ class AjoutSharedViewModel : ViewModel() {
      * Convertit la liste d'effets secondaires en une chaine de caractères
      * @return String? : la chaine de caractères
      */
-    private fun effectsSec() : String? {
+    private fun effectsSec(): String? {
         var newTraitementEffetsSec: String? = null
         if (effetsSecondaires.value != null) {
             var chaineDeChar = ""
@@ -173,7 +173,7 @@ class AjoutSharedViewModel : ViewModel() {
      * Convertit la liste de prises en une chaine de caractères
      * @return String? : la chaine de caractères
      */
-    private fun prises() : String? {
+    private fun prises(): String? {
         var newTraitementPrises: String? = null
         if (prises.value != null) {
             var chaineDeChar = ""
@@ -188,7 +188,7 @@ class AjoutSharedViewModel : ViewModel() {
     }
 
     fun addTraitement(traitement: Traitement = makeTraitement()) {
-        val list : MutableList<Traitement>? = _traitements.value?.toMutableList()
+        val list: MutableList<Traitement>? = _traitements.value?.toMutableList()
         if (list != null) {
             list.add(traitement)
             setTraitements(list)
@@ -198,7 +198,7 @@ class AjoutSharedViewModel : ViewModel() {
     }
 
     fun removeTraitement(traitement: Traitement) {
-        val list : MutableList<Traitement>? = _traitements.value?.toMutableList()
+        val list: MutableList<Traitement>? = _traitements.value?.toMutableList()
         if (list != null) {
             list.remove(traitement)
             setTraitements(list)

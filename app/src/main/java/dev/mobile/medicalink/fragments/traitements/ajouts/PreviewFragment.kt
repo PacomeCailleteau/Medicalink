@@ -138,9 +138,11 @@ class PreviewFragment : Fragment() {
             createNewFile()
         }
 
-        return FileProvider.getUriForFile(view?.context!!.applicationContext,
+        return FileProvider.getUriForFile(
+            view?.context!!.applicationContext,
             "${view?.context?.applicationContext?.packageName}.fileprovider",
-            image)
+            image
+        )
     }
 
 

@@ -113,7 +113,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             var liste: MutableList<Prise>
             liste = mutableListOf()
             if (viewModel.prises.value != null) {
-                liste = viewModel.prises.value!!
+                liste = viewModel.prises.value!!.toMutableList()
             }
             recyclerView.adapter = RecapAdapterR(liste)
             // Gestion de l'espacement entre les éléments du RecyclerView

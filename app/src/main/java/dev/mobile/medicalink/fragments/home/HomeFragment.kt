@@ -297,7 +297,7 @@ class HomeFragment : Fragment() {
         listePriseValidee = queue2.take()
 
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
-        homeAdapter.notifyItemRangeChanged(0, traitementsTries.size)
+        homeAdapter.notifyDataSetChanged()
     }
 
     /**
