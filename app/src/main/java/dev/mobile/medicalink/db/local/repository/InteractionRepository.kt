@@ -38,11 +38,11 @@ class InteractionRepository(private val InteractionDao: InteractionDao) {
         try {
             InteractionDao.insertAll(*cisBdpmList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
-            Log.e("InteractionRepository", "InteractionRepository already exists")
+            Log.e("InteractionRepository", "InteractionRepository already exists : ${e.message}")
         } catch (e: SQLiteException) {
-            Log.e("InteractionRepository", "Database Error while inserting CIS_bdpm : ${e.message}")
+            Log.e("InteractionRepository", "Database Error while inserting Interaction : ${e.message}")
         } catch (e: Exception) {
-            Log.e("InteractionRepository", "Unknown Error while inserting CIS_bdpm : ${e.message}")
+            Log.e("InteractionRepository", "Unknown Error while inserting Interaction : ${e.message}")
         }
     }
 
@@ -66,7 +66,7 @@ class InteractionRepository(private val InteractionDao: InteractionDao) {
                 )
                 cisBdpmList.add(Interaction)
             } else {
-                Log.e("CisBdpmRepository", "Error while parsing CSV line : $line")
+                Log.e("InteractionRepository", "Error while parsing CSV line : $line")
             }
         }
         return cisBdpmList

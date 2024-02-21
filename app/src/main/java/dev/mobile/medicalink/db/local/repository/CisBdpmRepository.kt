@@ -49,7 +49,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         try {
             CISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
-            Log.e("CisBdpmRepository", "CIS_bdpm already exists")
+            Log.e("CisBdpmRepository", "CIS_bdpm already exists test")
         } catch (e: SQLiteException) {
             Log.e("CisBdpmRepository", "Database Error while inserting CIS_bdpm : ${e.message}")
         } catch (e: Exception) {
