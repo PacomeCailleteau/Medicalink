@@ -28,7 +28,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
-import kotlin.collections.ArrayList
 
 
 class ListeTraitementsFragment : Fragment() {
@@ -53,7 +52,7 @@ class ListeTraitementsFragment : Fragment() {
 
 
         // ajout des nouveaux traitements si on vient de l'OCR
-        val resultList = arguments?.getSerializable("result") as? ArrayList<Traitement>
+        val resultList = arguments?.getSerializable("result") as ArrayList<Traitement>?
 
         if (resultList != null) {
             ajoutPlusieursTraitements(inflater, container, resultList)
@@ -296,14 +295,18 @@ class ListeTraitementsFragment : Fragment() {
         return view
     }
 
-    private fun ajoutPlusieursTraitements(inflater: LayoutInflater, container: ViewGroup?, traitements: ArrayList<Traitement>) {
+    private fun ajoutPlusieursTraitements(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        traitements: ArrayList<Traitement>
+    ) {
         val view = inflater.inflate(R.layout.fragment_liste_traitements, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val cisBdpmInterface = CisBdpmRepository(db.cisBdpmDao())
-        var newMedoc : Medoc
-        var codeCIS : String
+        var newMedoc: Medoc
+        var codeCIS: String
         val queue2 = LinkedBlockingQueue<Boolean>()
         var compteur = 0
         // faire une popup si tout n'a pas été trouvé
@@ -339,7 +342,7 @@ class ListeTraitementsFragment : Fragment() {
             queue2.take()
         }
         Log.d("Zeubi!", "${traitements.isEmpty()} || $compteur")
-        if (traitements.isEmpty() || compteur>0) {
+        if (traitements.isEmpty() || compteur > 0) {
             Log.d("Zeubi!", "peut être que la popup se faire toutes seuls")
             val alertDialogBuilder = AlertDialog.Builder(context)
             alertDialogBuilder.setTitle("Invalide Picture")

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -153,8 +152,8 @@ class ListeTraitementAdapterR(
         }
 
         ouiButton.setOnClickListener {
+            notifyItemRemoved(list.indexOf(item))
             list.remove(item)
-            notifyDataSetChanged()
             onItemClick.invoke(item, true)
             dosageDialog.dismiss()
         }

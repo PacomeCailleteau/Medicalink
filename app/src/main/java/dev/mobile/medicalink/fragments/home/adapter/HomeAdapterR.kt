@@ -199,7 +199,8 @@ class HomeAdapterR(
      */
     private fun updateImageCercle(holder: AjoutManuelViewHolder, item: Pair<Prise, Traitement>) {
         val db = AppDatabase.getInstance(holder.itemView.context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
+        val priseValideeDatabaseInterface =
+            PriseValideeRepository(db.priseValideeDao())// Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
 
         if (dateCourante >= LocalDate.now().plusDays(1)) {
             holder.circleTick.setImageResource(R.drawable.horloge)
@@ -388,7 +389,7 @@ class HomeAdapterR(
             onClick("prendre", circleTick, holder, dosageDialog)
         }
 
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, itemCount)
         updateRapportText()
         dosageDialog.show()
     }
@@ -427,7 +428,7 @@ class HomeAdapterR(
             Thread {
                 val priseToDelete = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
                     dateCourante.toString(),
-                    list[holder.adapterPosition].first.numeroPrise
+                    list[holder.bindingAdapterPosition].first.numeroPrise
                 )
                 if (priseToDelete.isNotEmpty()) {
                     priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
@@ -443,7 +444,7 @@ class HomeAdapterR(
             Thread {
                 val priseToUpdate = priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
                     dateCourante.toString(),
-                    list[holder.adapterPosition].first.numeroPrise
+                    list[holder.bindingAdapterPosition].first.numeroPrise
                 )
                 if (priseToUpdate.isNotEmpty()) {
                     val maPrise = priseToUpdate.first()
@@ -453,7 +454,7 @@ class HomeAdapterR(
                     val priseValidee = PriseValidee(
                         uuid = UUID.randomUUID().toString(),
                         date = dateCourante.toString(),
-                        uuidPrise = list[holder.adapterPosition].first.numeroPrise,
+                        uuidPrise = list[holder.bindingAdapterPosition].first.numeroPrise,
                         statut = typeBouton,
                     )
                     priseValideeDatabaseInterface.insertPriseValidee(priseValidee)
@@ -466,7 +467,7 @@ class HomeAdapterR(
                 gererNotif(holder)
                 circleTick.setImageResource(R.drawable.correct)
             }
-            notifyDataSetChanged()
+            notifyItemChanged(holder.bindingAdapterPosition)
             updateRapportText()
             dosageDialog.dismiss()
         }
@@ -479,8 +480,8 @@ class HomeAdapterR(
     private fun gererNotif(holder: AjoutManuelViewHolder) {
         //On veut créer une notification pour la prochaine prise du traitement, cette prise peut être plus tard dans la journée ou un jour prochain
         //On récupère le traitement et la prise
-        val traitement = list[holder.adapterPosition].second
-        val prise = list[holder.adapterPosition].first
+        val traitement = list[holder.bindingAdapterPosition].second
+        val prise = list[holder.bindingAdapterPosition].first
 
         // On récupère toutes les infos dont on aura besoin
         val context = holder.itemView.context
@@ -538,7 +539,7 @@ class HomeAdapterR(
                 return@Thread
             } else {
                 val date = dateCourante.toString()
-                val numero = list[holder.adapterPosition].first.numeroPrise
+                val numero = list[holder.bindingAdapterPosition].first.numeroPrise
                 //On créer la notification de la prochaine prise
                 NotificationService.createNextNotif(
                     context,

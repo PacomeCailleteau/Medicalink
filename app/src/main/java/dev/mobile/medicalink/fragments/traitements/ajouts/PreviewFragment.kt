@@ -124,9 +124,7 @@ class PreviewFragment : Fragment() {
     }
 
     private fun createImageFile(): Uri {
-        val provider = "${view?.context?.applicationContext?.packageName}.fileprovider"
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
 
         val context = view?.context
             ?: return Uri.EMPTY  // Si le contexte est nul, renvoyez une valeur par défaut
@@ -134,14 +132,16 @@ class PreviewFragment : Fragment() {
         val cacheDir = context.cacheDir
 
         val image = File.createTempFile(
-            imageFileName, /* prefix */
+            "JPEG_" + timeStamp + "_", /* prefix */
             ".jpg", /* suffix */
             cacheDir      /* directory */
         ).apply {
             createNewFile()
         }
 
-        return FileProvider.getUriForFile(view?.context!!.applicationContext, provider, image)
+        return FileProvider.getUriForFile(view?.context!!.applicationContext,
+            "${view?.context?.applicationContext?.packageName}.fileprovider",
+            image)
     }
 
 

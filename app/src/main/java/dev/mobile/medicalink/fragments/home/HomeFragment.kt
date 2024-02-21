@@ -259,7 +259,7 @@ class HomeFragment : Fragment() {
         val medocDatabaseInterface = MedocRepository(db.medocDao())
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
 
-        val listeTraitementPrise : MutableList<Pair<Prise, Traitement>> =
+        val listeTraitementPrise: MutableList<Pair<Prise, Traitement>> =
             findListeTraitementPrise(userDatabaseInterface, medocDatabaseInterface)
 
         val listePriseAffiche: MutableList<Pair<Prise, Traitement>> = mutableListOf()
@@ -330,7 +330,7 @@ class HomeFragment : Fragment() {
         listePriseValidee = queue2.take()
 
         homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
-        homeAdapter.notifyDataSetChanged()
+        homeAdapter.notifyItemRangeChanged(0, traitementsTries.size)
     }
 
     /**
@@ -339,7 +339,7 @@ class HomeFragment : Fragment() {
      * @param dateActuelle la date actuelle
      * @return true si la prise doit être ajoutée, false sinon
      */
-    private fun toAdd(element: Pair<Prise, Traitement>, dateActuelle: LocalDate) : Boolean {
+    private fun toAdd(element: Pair<Prise, Traitement>, dateActuelle: LocalDate): Boolean {
         var toAdd = false
         if ((!element.second.expire) && (dateActuelle >= element.second.dateDbtTraitement!!)) {
             //Si le traitement n'est pas expiré et que la date actuelle est supérieure à la date de début de traitement

@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -53,9 +52,7 @@ class AjoutManuelStock : Fragment() {
 
         val rootLayout = view.findViewById<View>(R.id.constraintStock)
         rootLayout.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                clearFocusAndHideKeyboard(v)
-            }
+            clearFocusAndHideKeyboard(v)
             return@setOnTouchListener false
         }
 
@@ -70,7 +67,7 @@ class AjoutManuelStock : Fragment() {
 
         inputStockActuel.setText(viewModel.comprimesRestants.value.toString())
 
-        switchStock.isChecked = true
+        switchStock.isChecked = false
 
         if (switchStock.isChecked) {
             // Switch est activé (état "on")

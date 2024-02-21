@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import fr.medicapp.medicapp.tokenization.Feature
@@ -21,7 +19,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.time.LocalDate
 
 /**
@@ -129,7 +126,6 @@ class PrescriptionAI(
      * @param imageUri L'URI de l'image à analyser.
      * @return Liste de 'Traitement'
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun analyse(
         imageUri: Uri
     ): List<Traitement> {
@@ -156,21 +152,22 @@ class PrescriptionAI(
      * @param prediction resultat de l'OCR avec les tokens
      * @return liste de 'Traitement'
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun postAnalyse(prediction: List<Pair<String, String>>): List<Traitement> {
-        val treatment = mutableListOf(Traitement(
-            "",
-            "",
-            0,
-            "",
-            null,
-            comprimesRestants = null,
-            effetsSecondaires = null,
-            totalQuantite = null,
-            uuid = null,
-            uuidUser = null,
-            dateDbtTraitement = LocalDate.now()
-        ))
+        val treatment = mutableListOf(
+            Traitement(
+                "",
+                "",
+                0,
+                "",
+                null,
+                comprimesRestants = null,
+                effetsSecondaires = null,
+                totalQuantite = null,
+                uuid = null,
+                uuidUser = null,
+                dateDbtTraitement = LocalDate.now()
+            )
+        )
         var last = 0
         prediction.forEach { (word, label) ->
             when {
@@ -197,7 +194,7 @@ class PrescriptionAI(
                                 dateDbtTraitement = LocalDate.now()
                             )
                         )
-                        last = treatment.size-1
+                        last = treatment.size - 1
 
                     }
                     when (label.removePrefix("B-")) {
