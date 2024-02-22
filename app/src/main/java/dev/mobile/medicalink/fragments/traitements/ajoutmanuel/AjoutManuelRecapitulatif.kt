@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.Interaction
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.InteractionRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
@@ -31,6 +32,7 @@ import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.RecapAdapterR
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import java.text.Normalizer
 
 
 class AjoutManuelRecapitulatif : Fragment() {
@@ -157,10 +159,15 @@ class AjoutManuelRecapitulatif : Fragment() {
                     interactionDatabaseInterface
                 ) { listDuplicate, listIncompatible, substanceAdd ->
 
+                    //TODO Duplication et Interaction a la suite
+                    //TODO Test inverse paracetamol et Flucloxacilline
+                    //                  Flucloxacilline et Paracetamol
+                    //TODO TEST D'autres interactions
+
                     if (listDuplicate.isNotEmpty()) {
                         activity?.runOnUiThread {
                             this.context?.let { it1 ->
-                                showDuplicateDialog(
+                                showDuplicateOrInteractionDialog(
                                     it1,
                                     traitement,
                                     listDuplicate,
@@ -169,11 +176,32 @@ class AjoutManuelRecapitulatif : Fragment() {
                                     schemaPrise1,
                                     provenance,
                                     dureePriseDbt,
-                                    dureePriseFin
+                                    dureePriseFin,
+                                    "À la même substance active que : "
                                 )
                             }
                         }
-                    } else {
+                    }
+                    else if (listIncompatible.isNotEmpty()){
+                        activity?.runOnUiThread {
+                            this.context?.let { it1 ->
+                                showDuplicateOrInteractionDialog(
+                                    it1,
+                                    traitement,
+                                    listIncompatible,
+                                    substanceAdd,
+                                    isAddingTraitement,
+                                    schemaPrise1,
+                                    provenance,
+                                    dureePriseDbt,
+                                    dureePriseFin,
+                                    "Est incompatible avec : ",
+                                    "Interactions Détectées"
+                                )
+                            }
+                        }
+                    }
+                    else {
                         val bundle = Bundle()
                         bundle.putSerializable(
                             "newTraitement",
@@ -451,7 +479,7 @@ class AjoutManuelRecapitulatif : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun showDuplicateDialog(
+    private fun showDuplicateOrInteractionDialog(
         context: Context,
         traitement: Traitement,
         listDuplicate: List<String>,
@@ -460,7 +488,9 @@ class AjoutManuelRecapitulatif : Fragment() {
         schemaPrise1: String?,
         provenance: String?,
         dureePriseDbt: String?,
-        dureePriseFin: String?
+        dureePriseFin: String?,
+        textVue : String,
+        titreDialog : String = "Duplications Détectées"
     ) {
         val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =
@@ -473,14 +503,16 @@ class AjoutManuelRecapitulatif : Fragment() {
         val listeMedoc = dialogView.findViewById<TextView>(R.id.listeMedicaments)
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
         val cancelButton = dialogView.findViewById<Button>(R.id.annulerButton)
+        val titre = dialogView.findViewById<TextView>(R.id.textView13)
 
+        titre.text = titreDialog
         nomMedocAAdd.text = getString(R.string.le_m_dicament, traitement.nomTraitement)
         substanceActive.text = getString(R.string.ayant_la_substance_active, substanceAdd)
-        listeMedoc.text = getString(
-            R.string.la_m_me_substance_active_que,
-            "- ",
-            listDuplicate.joinToString("\n- ")
-        )
+        listeMedoc.text = buildString {
+            append(textVue)
+            append("\n- ")
+            append(listDuplicate.joinToString("\n- "))
+        }
 
         okButton.setOnClickListener {
             val bundle = Bundle()
@@ -635,7 +667,9 @@ class AjoutManuelRecapitulatif : Fragment() {
     ) {
         Thread {
             val listDuplicate: MutableList<String> = mutableListOf()
-            val listIncompatible: MutableList<String> = mutableListOf()
+            val listSubstanceIncompatible: MutableList<String> = mutableListOf()
+            val listMedicamentIncompatible: MutableList<String> = mutableListOf()
+
 
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected()[0].uuid
@@ -645,9 +679,29 @@ class AjoutManuelRecapitulatif : Fragment() {
             } catch (e: Exception) {
                 return@Thread
             }
+            val interactions = mutableListOf<Interaction>()
 
-            val interactions = interactionDatabaseInterface.getAllInteraction()
+            //without accents using normalizer JE PREND QUE LE 1ER MOT POUR L'INSTANT SINON TROP DE TRUC
+            val wor = Normalizer.normalize(substanceAdd.split(" ")[0], Normalizer.Form.NFD)
+                .replace("[^\\p{ASCII}]".toRegex(), "")
 
+            Log.d("InteractionSubstance", wor)
+
+            interactions.addAll(interactionDatabaseInterface.getAllInteractionLikeSubstance(
+                //without accents using normalizer
+                wor
+            ))
+
+
+
+            Log.d("InteractionSubstance", interactions.toString())
+
+            if (interactions.isNotEmpty()) {
+                for (interaction in interactions) {
+                    listSubstanceIncompatible.addAll(interaction.incompatibles.split(";"))
+                }
+            }
+            Log.d("InteractionSubstance", listSubstanceIncompatible.toString())
 
             for (medoc in listeMedoc) {
                 if (medoc.CodeCIS == null) {
@@ -662,10 +716,25 @@ class AjoutManuelRecapitulatif : Fragment() {
                 if (substance == substanceAdd) {
                     listDuplicate.add(medoc.nom)
                 }
+
+                for (element in listSubstanceIncompatible){
+                    //LES 2 sans accents  LE \\p{ASCII} c'est pour enlever les espaces donc je sais pas si c'est bon
+                    val substanceSansAccents = Normalizer.normalize(substance, Normalizer.Form.NFD)
+                        .replace("[^\\p{ASCII}]".toRegex(), "")
+                    val elementSansAccents = Normalizer.normalize(element, Normalizer.Form.NFD)
+                        .replace("[^\\p{ASCII}]".toRegex(), "")
+
+                    if (substanceSansAccents in elementSansAccents){
+                        listMedicamentIncompatible.add(medoc.nom)
+                    }
+                }
+
+
+
             }
 
             Handler(Looper.getMainLooper()).post {
-                callback(listDuplicate, listIncompatible, substanceAdd)
+                callback(listDuplicate, listMedicamentIncompatible, substanceAdd)
             }
         }.start()
 

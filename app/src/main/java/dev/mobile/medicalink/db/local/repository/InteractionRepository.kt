@@ -12,15 +12,15 @@ import dev.mobile.medicalink.db.local.entity.Interaction
 class InteractionRepository(private val interactionDao: InteractionDao) {
     private val commonFonctionnality = CsvCommonFonctionnality()
 
-    fun getAllInteraction(): List<Interaction> {
+    fun getAllInteractionLikeSubstance(substance: String): List<Interaction> {
         return try {
-            interactionDao.getAll()
+            interactionDao.getAllLike(substance)
         } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun getOneInteractionBySubstance(substance: Int): List<Interaction> {
+    fun getOneInteractionBySubstance(substance: String): List<Interaction> {
         return try {
             interactionDao.getBySubstance(substance)
         } catch (e: Exception) {
