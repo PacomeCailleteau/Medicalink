@@ -9,5 +9,5 @@ data class EffetSecondaire(
     val uuidEffetSecondaire: String,
     val titre: String,
     val message: String,
-    val date: String?
+    val date: String
 ) : Serializable

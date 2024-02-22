@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -98,13 +100,21 @@ class AjoutEffetSecondaireFragment: Fragment() {
             }
         }
 
+        inputNomEffetSecondaire.addTextChangedListener(textWatcher)
+
+        inputMessageEffetSecondaire.addTextChangedListener(textWatcher)
+
+        updateButtonState()
+
         boutonAjouter.setOnClickListener {
             Thread {
                 val uuidEffetSecondaire = UUID.randomUUID().toString()
-                saveImageToInternalStorage(
-                    view.context,
-                    previewPhoto.drawToBitmap(),
-                    "${uuidEffetSecondaire}.png")
+                if (previewPhoto.visibility == View.VISIBLE) {
+                    saveImageToInternalStorage(
+                        view.context,
+                        previewPhoto.drawToBitmap(),
+                        "${uuidEffetSecondaire}.png")
+                }
                 val bundle = Bundle()
                 effetSecondaireDatabaseInterface.insertEffetSecondaire(EffetSecondaire(
                     userDatabaseInterface.getUsersConnected()[0].uuid,
@@ -147,5 +157,33 @@ class AjoutEffetSecondaireFragment: Fragment() {
             e.printStackTrace()
         }
         return context.getFileStreamPath(fileName).absolutePath
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun afterTextChanged(editable: Editable?) {
+            updateButtonState()
+        }
+    }
+
+
+    /**
+     * Mise à jour de l'état du bouton "Ajouter" pour l'activer uniquement quand le champ de recherche n'est pas vide
+     */
+    private fun updateButtonState() {
+        val allFieldsFilled = (inputNomEffetSecondaire.text!!.isNotBlank() && inputMessageEffetSecondaire.text!!.isNotBlank())
+
+        if (allFieldsFilled) {
+            boutonAjouter.isEnabled = true
+            boutonAjouter.alpha = 1.0f
+        } else {
+            boutonAjouter.isEnabled = false
+            boutonAjouter.alpha = 0.3.toFloat()
+        }
     }
 }
