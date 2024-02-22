@@ -1,7 +1,7 @@
 package fr.medicapp.medicapp.tokenization
 
 
-final class FullTokenizer(
+class FullTokenizer(
     inputDic: HashMap<String, Int>,
     doLowerCase: Boolean
 ) {
@@ -26,7 +26,7 @@ final class FullTokenizer(
     fun convertTokensToIds(tokens: MutableList<String>): MutableList<Int> {
         val outputIds: MutableList<Int> = ArrayList()
         for (token in tokens) {
-            outputIds.add(dic[token]!!)
+            dic[token]?.let { outputIds.add(it) }
         }
         return outputIds
     }
