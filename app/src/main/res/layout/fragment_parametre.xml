@@ -21,7 +21,7 @@
 
 
         <TextView
-            android:id="@+id/dark_mode_text"
+            android:id="@+id/supprimer_compte_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardDeconnexion">
 
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchDarkMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

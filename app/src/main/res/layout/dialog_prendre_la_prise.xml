@@ -136,11 +136,12 @@
                 android:id="@+id/imageView5"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_marginTop="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/prochain"
-                app:tint="@color/black"
-                tools:layout_editor_absoluteY="3dp" />
+                app:tint="@color/black" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
