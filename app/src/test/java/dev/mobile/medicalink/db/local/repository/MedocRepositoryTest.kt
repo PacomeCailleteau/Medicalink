@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
@@ -57,6 +58,35 @@ class MedocRepositoryTest {
         2,
         LocalDate.now()
     )
+    private val defaultCis = CisBdpm(
+        "1111111111",
+        "denomination",
+        "formePharmaceutique",
+        "voiesAdministration",
+        "statutAdministratifAMM",
+        "typeProcedureAMM",
+        "etatCommercialisation",
+        "dateAMM",
+        "statutBdm",
+        "numeroAutorisationEuropeenne",
+        "titulaire",
+        "surveillanceRenforcee"
+    )
+
+    private val defaultCis2 = CisBdpm(
+        "2222222222",
+        "denomination",
+        "formePharmaceutique",
+        "voiesAdministration",
+        "statutAdministratifAMM",
+        "typeProcedureAMM",
+        "etatCommercialisation",
+        "dateAMM",
+        "statutBdm",
+        "numeroAutorisationEuropeenne",
+        "titulaire",
+        "surveillanceRenforcee"
+    )
 
     @Before
     fun setupDatabase() {
@@ -73,6 +103,12 @@ class MedocRepositoryTest {
         val userRepository = UserRepository(db.userDao())
         userRepository.insertUser(userOfDefaultMedoc)
         userRepository.insertUser(userOfDefaultMedoc2)
+
+        //We also need to insert a CisBdpm in the database
+        // !!! WARNING !!! We need to be sure that CisBdpmRepository has been tested before
+        val cisBdpmRepository = CisBdpmRepository(db.cisBdpmDao())
+        cisBdpmRepository.insertCisBdpm(defaultCis)
+        cisBdpmRepository.insertCisBdpm(defaultCis2)
     }
 
     @After
@@ -93,6 +129,7 @@ class MedocRepositoryTest {
         // I prefer to create a new val medoc than using defaultMedoc
         val medoc = defaultMedoc
         val res = medocRepository.insertMedoc(medoc)
+        println(res)
         assertTrue(res.first)
         assertEquals(res.second, "Success")
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
