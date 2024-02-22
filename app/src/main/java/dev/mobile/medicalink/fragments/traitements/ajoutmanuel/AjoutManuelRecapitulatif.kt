@@ -161,93 +161,84 @@ class AjoutManuelRecapitulatif : Fragment() {
 
                     //TODO TEST D'autres interactions
 
-                    if (listDuplicate.isNotEmpty() && listIncompatible.isNotEmpty()){
-                        activity?.runOnUiThread {
-                            this.context?.let { it1 ->
-                                showDuplicateOrInteractionDialog(
-                                    it1,
-                                    traitement,
-                                    (listDuplicate + listIncompatible).distinct(),//peut etre pas le mieux
-                                    substanceAdd,
-                                    isAddingTraitement,
-                                    schemaPrise1,
-                                    provenance,
-                                    dureePriseDbt,
-                                    dureePriseFin,
-                                    "Réagit avec : ",
-                                    "Duplications et Interactions Détectées ",
-                                    true)
-                            }
-                        }
-                    }
-                    else if (listDuplicate.isNotEmpty()) {
-                        activity?.runOnUiThread {
-                            this.context?.let { it1 ->
-                                showDuplicateOrInteractionDialog(
-                                    it1,
-                                    traitement,
-                                    listDuplicate,
-                                    substanceAdd,
-                                    isAddingTraitement,
-                                    schemaPrise1,
-                                    provenance,
-                                    dureePriseDbt,
-                                    dureePriseFin,
-                                    "À la même substance active que : ")
-                            }
-                        }
-                    }
-                    else if (listIncompatible.isNotEmpty()){
-                        activity?.runOnUiThread {
-                            this.context?.let { it1 ->
-                                showDuplicateOrInteractionDialog(
-                                    it1,
-                                    traitement,
-                                    listIncompatible,
-                                    substanceAdd,
-                                    isAddingTraitement,
-                                    schemaPrise1,
-                                    provenance,
-                                    dureePriseDbt,
-                                    dureePriseFin,
-                                    "Est incompatible avec : ",
-                                    "Interactions Détectées")
-                            }
-                        }
-                    }
-                    else {
-                        val bundle = Bundle()
-                        bundle.putSerializable(
-                            "newTraitement",
-                            Traitement(
-                                traitement.CodeCIS,
-                                traitement.nomTraitement,
-                                traitement.dosageNb,
-                                traitement.dosageUnite,
-                                traitement.dateFinTraitement,
-                                traitement.typeComprime,
-                                traitement.comprimesRestants,
-                                false,
-                                null,
-                                traitement.prises,
-                                traitement.totalQuantite,
-                                traitement.UUID,
-                                traitement.UUIDUSER,
-                                traitement.dateDbtTraitement
-                            )
+                    val bundle = Bundle()
+                    bundle.putSerializable(
+                        "newTraitement",
+                        Traitement(
+                            traitement.CodeCIS,
+                            traitement.nomTraitement,
+                            traitement.dosageNb,
+                            traitement.dosageUnite,
+                            traitement.dateFinTraitement,
+                            traitement.typeComprime,
+                            traitement.comprimesRestants,
+                            false,
+                            null,
+                            traitement.prises,
+                            traitement.totalQuantite,
+                            traitement.UUID,
+                            traitement.UUIDUSER,
+                            traitement.dateDbtTraitement
                         )
-                        bundle.putString("isAddingTraitement", "$isAddingTraitement")
-                        bundle.putString("schema_prise1", "$schemaPrise1")
-                        bundle.putString("provenance", "$provenance")
-                        bundle.putString("dureePriseDbt", "$dureePriseDbt")
-                        bundle.putString("dureePriseFin", "$dureePriseFin")
-                        val destinationFragment = ListeTraitementsFragment()
-                        destinationFragment.arguments = bundle
-                        val fragTransaction = parentFragmentManager.beginTransaction()
-                        fragTransaction.replace(R.id.FL, destinationFragment)
-                        fragTransaction.addToBackStack(null)
-                        fragTransaction.commit()
+                    )
+                    bundle.putString("isAddingTraitement", "$isAddingTraitement")
+                    bundle.putString("schema_prise1", "$schemaPrise1")
+                    bundle.putString("provenance", "$provenance")
+                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
+                    bundle.putString("dureePriseFin", "$dureePriseFin")
 
+                    when {
+                        listDuplicate.isNotEmpty() && listIncompatible.isNotEmpty() -> {
+                            activity?.runOnUiThread {
+                                this.context?.let { it1 ->
+                                    showDuplicateOrInteractionDialog(
+                                        it1,
+                                        traitement,
+                                        (listDuplicate + listIncompatible).distinct(),//peut etre pas le mieux
+                                        substanceAdd,
+                                        bundle,
+                                        "Réagit avec : ",
+                                        "Duplications et Interactions Détectées ",
+                                        true)
+                                }
+                            }
+                        }
+                        listDuplicate.isNotEmpty() -> {
+                            activity?.runOnUiThread {
+                                this.context?.let { it1 ->
+                                    showDuplicateOrInteractionDialog(
+                                        it1,
+                                        traitement,
+                                        listDuplicate,
+                                        substanceAdd,
+                                        bundle,
+                                        "À la même substance active que : ")
+                                }
+                            }
+                        }
+                        listIncompatible.isNotEmpty() -> {
+                            activity?.runOnUiThread {
+                                this.context?.let { it1 ->
+                                    showDuplicateOrInteractionDialog(
+                                        it1,
+                                        traitement,
+                                        listIncompatible,
+                                        substanceAdd,
+                                        bundle,
+                                        "Est incompatible avec : ",
+                                        "Interactions Détectées")
+                                }
+                            }
+                        }
+                        else -> {
+                            val destinationFragment = ListeTraitementsFragment()
+                            destinationFragment.arguments = bundle
+                            val fragTransaction = parentFragmentManager.beginTransaction()
+                            fragTransaction.replace(R.id.FL, destinationFragment)
+                            fragTransaction.addToBackStack(null)
+                            fragTransaction.commit()
+
+                        }
                     }
                 }
             }
@@ -496,13 +487,9 @@ class AjoutManuelRecapitulatif : Fragment() {
     private fun showDuplicateOrInteractionDialog(
         context: Context,
         traitement: Traitement,
-        listDuplicate: List<String>,
+        listTraitements: List<String>,
         substanceAdd: String,
-        isAddingTraitement: String?,
-        schemaPrise1: String?,
-        provenance: String?,
-        dureePriseDbt: String?,
-        dureePriseFin: String?,
+        bundle: Bundle,
         textVue : String,
         titreDialog : String = "Duplications Détectées",
         interactionBool : Boolean = false) {
@@ -530,35 +517,10 @@ class AjoutManuelRecapitulatif : Fragment() {
         listeMedoc.text = buildString {
             append(textVue)
             append("\n- ")
-            append(listDuplicate.joinToString("\n- "))
+            append(listTraitements.joinToString("\n- "))
         }
 
         okButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "newTraitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
-            )
-            bundle.putString("isAddingTraitement", "$isAddingTraitement")
-            bundle.putString("schema_prise1", "$schemaPrise1")
-            bundle.putString("provenance", "$provenance")
-            bundle.putString("dureePriseDbt", "$dureePriseDbt")
-            bundle.putString("dureePriseFin", "$dureePriseFin")
             val destinationFragment = ListeTraitementsFragment()
             destinationFragment.arguments = bundle
             val fragTransaction = parentFragmentManager.beginTransaction()
@@ -688,7 +650,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val listDuplicate: MutableList<String> = mutableListOf()
             val listSubstanceIncompatible: MutableList<String> = mutableListOf()
             val listMedicamentIncompatible: MutableList<String> = mutableListOf()
-
+            val regex = "[^\\p{ASCII}]"
 
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected()[0].uuid
@@ -702,14 +664,14 @@ class AjoutManuelRecapitulatif : Fragment() {
 
             //without accents using normalizer JE PREND QUE LE 1ER MOT POUR L'INSTANT SINON TROP DE TRUC
             val wor = Normalizer.normalize(substanceAdd.split(" ")[0], Normalizer.Form.NFD)
-                .replace("[^\\p{ASCII}]".toRegex(), "")
+                .replace(regex.toRegex(), "")
 
             Log.d("InteractionSubstance", wor)
 
-            interactions.addAll(interactionDatabaseInterface.getAllInteractionLikeSubstance(
+            interactions += interactionDatabaseInterface.getAllInteractionLikeSubstance(
                 //without accents using normalizer
                 wor
-            ))
+            )
 
 
 
@@ -744,11 +706,11 @@ class AjoutManuelRecapitulatif : Fragment() {
                             break@loup // Breaks out of both loops
                         }
                     }
-                    //LES 2 sans accents  LE \\p{ASCII} c'est pour enlever les espaces donc je sais pas si c'est bon
+                    //LES 2 sans accents  LE regex \\p{ASCII} c'est pour enlever les espaces donc je sais pas si c'est bon
                     val substanceSansAccents = Normalizer.normalize(substance, Normalizer.Form.NFD)
-                        .replace("[^\\p{ASCII}]".toRegex(), "")
+                        .replace(regex.toRegex(), "")
                     val elementSansAccents = Normalizer.normalize(element, Normalizer.Form.NFD)
-                        .replace("[^\\p{ASCII}]".toRegex(), "")
+                        .replace(regex.toRegex(), "")
 
                     Log.d("InteractionSubstance", substanceSansAccents)
                     Log.d("InteractionSubstance", elementSansAccents)
