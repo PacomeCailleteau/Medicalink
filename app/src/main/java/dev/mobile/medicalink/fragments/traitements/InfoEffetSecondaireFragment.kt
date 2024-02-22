@@ -1,16 +1,23 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.Contact
+import dev.mobile.medicalink.db.local.entity.EffetSecondaire
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 
@@ -20,89 +27,61 @@ class InfoEffetSecondaireFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_descriptif_medoc, container, false)
+        val view = inflater.inflate(R.layout.fragment_info_effet_secondaire, container, false)
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val cisCompoDatabaseInterface = CisCompoBdpmRepository(db.cisCompoBdpmDao())
         val cisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
-        val codeCis = arguments?.getString("codeCIS")
+        val effetSecondaire = requireArguments().getSerializable("effetSecondaire") as EffetSecondaire
 
-        val retour = view.findViewById<ImageView>(R.id.retour_descriptif_medoc)
+        val retour = view.findViewById<ImageView>(R.id.retour_info_effet_secondaire)
 
         retour.setOnClickListener {
-            val destinationFragment = ListeTraitementsFragment()
+            val destinationFragment = ListeEffetsSecondairesFragment()
             val fragTransaction = parentFragmentManager.beginTransaction()
             fragTransaction.replace(R.id.FL, destinationFragment)
             fragTransaction.addToBackStack(null)
             fragTransaction.commit()
         }
 
-        //informations du medicament : code CIS, denomination, forme pharmaceutique, voies administration, etat commercialisation, date AMM, titulaire, surveillance renforcée
-        val nomMedocView = view.findViewById<TextView>(R.id.nomCompletMedoc)
-        val codeCisView = view.findViewById<TextView>(R.id.cis)
-        val formePharmaceutiqueView = view.findViewById<TextView>(R.id.formePharmaceutique)
-        val voiesAdministrationView = view.findViewById<TextView>(R.id.voieAdmission)
-        val etatCommercialisationView = view.findViewById<TextView>(R.id.etatDeCommercialisation)
-        val dateAmmView = view.findViewById<TextView>(R.id.dateAMM)
-        val titulaireView = view.findViewById<TextView>(R.id.laboratoire)
-        val surveillanceRenforceeView = view.findViewById<TextView>(R.id.surveillanceRenforcee)
+        val nomEffetSecondaire = view.findViewById<TextView>(R.id.nomInfoEffetSecondaire)
+        val messageEffetSecondaire = view.findViewById<TextView>(R.id.messageInfoEffetSecondaire)
+        val previewPhoto = view.findViewById<ImageView>(R.id.previewPhotoInfoEffetSecondaire)
+        val dateEffetSecondaire = view.findViewById<TextView>(R.id.dateInfoEffetSecondaire)
+        val supprimerEffetSecondaire = view.findViewById<AppCompatButton>(R.id.boutonSupprimerEffetSecondaire)
 
-        //info Compo : denomination, dosage
-        val substanceActiveDosageView = view.findViewById<TextView>(R.id.substanceActiveInfoMedoc)
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
 
+        supprimerEffetSecondaire.setOnClickListener {
+            Thread {
+                db.effetSecondaireDao().delete(effetSecondaire)
+                val destinationFragment = ListeEffetsSecondairesFragment()
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
+            }.start()
+        }
 
         Thread {
-            val cisBdpm = cisBdpmDatabaseInterface.getOneCisBdpmById(
-                (codeCis ?: return@Thread).toInt()
-            ).first()
-            val cisCompoBdpm = cisCompoDatabaseInterface.getOneCisCompoBdpmById(
-                codeCis.toInt()
-            ).first()
-            //informations du medicament : code CIS, denomination, forme pharmaceutique, voies administration, etat commercialisation, date AMM, titulaire, surveillance renforcée
+            activity?.runOnUiThread {
+                nomEffetSecondaire.text = effetSecondaire.titre
+                messageEffetSecondaire.text = effetSecondaire.message
 
-            //TODO effet secondaire et contre-indications quand on aura
-
-            nomMedocView.text = buildString {
-                append(cisBdpm.denomination.trim())
+                val bitmap = BitmapFactory.decodeFile(context?.filesDir?.path + "/" + effetSecondaire.uuidEffetSecondaire + ".png")
+                if (bitmap == null) {
+                    previewPhoto.visibility = View.GONE
+                } else {
+                    val path = BitmapDrawable(context?.resources, bitmap)
+                    previewPhoto.setImageDrawable(path)
+                }
+                dateEffetSecondaire.text = effetSecondaire.date
             }
-            codeCisView.text = buildString {
-                append("Code CIS : ")
-                append(cisBdpm.CodeCIS.toString().trim())
-            }
-            formePharmaceutiqueView.text = buildString {
-                append("Forme pharmaceutique : \n")
-                append(cisBdpm.formePharmaceutique.trim())
-            }
-            voiesAdministrationView.text = buildString {
-                append("Voie d'administration : \n")
-                append(cisBdpm.voiesAdministration.trim())
-            }
-            etatCommercialisationView.text = buildString {
-                append("État de commercialisation : \n")
-                append(cisBdpm.etatCommercialisation.trim())
-            }
-            dateAmmView.text = buildString {
-                append("Date d'autorisation de mise sur le marché : \n")
-                append(cisBdpm.dateAMM.trim())
-            }
-            titulaireView.text = buildString {
-                append("Laboratoire : \n")
-                append(cisBdpm.titulaire.trim())
-            }
-            surveillanceRenforceeView.text = buildString {
-                append("Surveillance renforcée : \n")
-                append(cisBdpm.surveillanceRenforcee.trim())
-            }
-
-            //info Compo : denomination, dosage
-            substanceActiveDosageView.text = buildString {
-                append("Substance active : \n")
-                append(cisCompoBdpm.denomination.trim())
-                append(", ")
-                append(cisCompoBdpm.dosage.trim())
-            }
-
         }.start()
+
         return view
     }
 }
