@@ -21,6 +21,7 @@ import dev.mobile.medicalink.db.local.repository.EffetSecondaireRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -52,7 +53,7 @@ class ListeEffetsSecondairesFragment : Fragment() {
             navBarre.visibility = View.VISIBLE
         }
 
-        val queue = LinkedBlockingQueue<MutableList<Traitement>>()
+        val queue = LinkedBlockingQueue<List<EffetSecondaire>>()
 
         //Récupération des effets secondaires en les transformant en une liste d'effets secondaires pour les afficher
         Thread {
@@ -66,6 +67,9 @@ class ListeEffetsSecondairesFragment : Fragment() {
             } else {
                 aucunEffetSecondaire.visibility = View.GONE
             }
+
+            queue.add(listeEffetSecondaire)
+
         }.start()
 
         ajoutEffetSecondaire.setOnClickListener {
@@ -96,10 +100,20 @@ class ListeEffetsSecondairesFragment : Fragment() {
             fragTransaction.commit()
         }
 
+        var listeEffetSecondaire = queue.take()
+
+        //TODO(Faire le tri des effets secondaires par date de manière décroissante)
+        listeEffetSecondaire = listeEffetSecondaire.sortedByDescending {
+            LocalDateTime.parse(it.date, DateTimeFormatter.ofPattern("dd/MM/yyyy HH'h'mm"))
+        }.toMutableList()
+
+
+
+        Log.d("test",listeEffetSecondaire.toString())
         recyclerView = view.findViewById(R.id.recyclerViewEffetSecondaire)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
-            ListeEffetsSecondairesAdapterR(emptyList()) { clickedItem -> afficherEffetSecondaire(clickedItem) }
+            ListeEffetsSecondairesAdapterR(listeEffetSecondaire) { clickedItem -> afficherEffetSecondaire(clickedItem) }
 
         Thread {
             val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
