@@ -159,12 +159,28 @@ class AjoutManuelRecapitulatif : Fragment() {
                     interactionDatabaseInterface
                 ) { listDuplicate, listIncompatible, substanceAdd ->
 
-                    //TODO Duplication et Interaction a la suite
-                    //TODO Test inverse paracetamol et Flucloxacilline
-                    //                  Flucloxacilline et Paracetamol
                     //TODO TEST D'autres interactions
 
-                    if (listDuplicate.isNotEmpty()) {
+                    if (listDuplicate.isNotEmpty() && listIncompatible.isNotEmpty()){
+                        activity?.runOnUiThread {
+                            this.context?.let { it1 ->
+                                showDuplicateOrInteractionDialog(
+                                    it1,
+                                    traitement,
+                                    (listDuplicate + listIncompatible).distinct(),//peut etre pas le mieux
+                                    substanceAdd,
+                                    isAddingTraitement,
+                                    schemaPrise1,
+                                    provenance,
+                                    dureePriseDbt,
+                                    dureePriseFin,
+                                    "Réagit avec : ",
+                                    "Duplications et Interactions Détectées ",
+                                    true)
+                            }
+                        }
+                    }
+                    else if (listDuplicate.isNotEmpty()) {
                         activity?.runOnUiThread {
                             this.context?.let { it1 ->
                                 showDuplicateOrInteractionDialog(
@@ -177,8 +193,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                                     provenance,
                                     dureePriseDbt,
                                     dureePriseFin,
-                                    "À la même substance active que : "
-                                )
+                                    "À la même substance active que : ")
                             }
                         }
                     }
@@ -196,8 +211,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                                     dureePriseDbt,
                                     dureePriseFin,
                                     "Est incompatible avec : ",
-                                    "Interactions Détectées"
-                                )
+                                    "Interactions Détectées")
                             }
                         }
                     }
@@ -490,11 +504,11 @@ class AjoutManuelRecapitulatif : Fragment() {
         dureePriseDbt: String?,
         dureePriseFin: String?,
         textVue : String,
-        titreDialog : String = "Duplications Détectées"
-    ) {
+        titreDialog : String = "Duplications Détectées",
+        interactionBool : Boolean = false) {
         val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =
-            LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null)
+            LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null )
         dialog.setContentView(dialogView)
         dialog.show()
 
@@ -504,6 +518,11 @@ class AjoutManuelRecapitulatif : Fragment() {
         val okButton = dialogView.findViewById<Button>(R.id.prendreButton)
         val cancelButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val titre = dialogView.findViewById<TextView>(R.id.textView13)
+
+        if (interactionBool){
+            val image = dialogView.findViewById<ImageView>(R.id.imageView4)
+            image.setImageResource(R.drawable.interaction)
+        }
 
         titre.text = titreDialog
         nomMedocAAdd.text = getString(R.string.le_m_dicament, traitement.nomTraitement)
@@ -717,12 +736,22 @@ class AjoutManuelRecapitulatif : Fragment() {
                     listDuplicate.add(medoc.nom)
                 }
 
-                for (element in listSubstanceIncompatible){
+                 // Label for the outer loop
+                loup@ for (element in listSubstanceIncompatible){
+                    for (sub in substance.split(" ")){
+                        if (sub in element){
+                            listMedicamentIncompatible.add(medoc.nom)
+                            break@loup // Breaks out of both loops
+                        }
+                    }
                     //LES 2 sans accents  LE \\p{ASCII} c'est pour enlever les espaces donc je sais pas si c'est bon
                     val substanceSansAccents = Normalizer.normalize(substance, Normalizer.Form.NFD)
                         .replace("[^\\p{ASCII}]".toRegex(), "")
                     val elementSansAccents = Normalizer.normalize(element, Normalizer.Form.NFD)
                         .replace("[^\\p{ASCII}]".toRegex(), "")
+
+                    Log.d("InteractionSubstance", substanceSansAccents)
+                    Log.d("InteractionSubstance", elementSansAccents)
 
                     if (substanceSansAccents in elementSansAccents){
                         listMedicamentIncompatible.add(medoc.nom)
