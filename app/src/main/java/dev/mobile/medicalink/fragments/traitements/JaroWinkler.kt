@@ -77,11 +77,37 @@ class JaroWinkler {
             len2 = tmp
         }
         if (len2 == 0) return if (len1 == 0) 0.0 else 1.0
+
+        val result = comparaisonMots(string1, string2)
+
+        if (result.second == -1) return result.first
+
+        val jaro = ((result.first / len1) + (result.first / len2) + ((result.first - result.second / 2.0) / result.first)) / 3.0
+        var commonPrefix = 0
+        len2 = 4.coerceAtMost(len2)
+
+        for (i in 0 until len2) {
+            if (string1[i] == string2[i]) ++commonPrefix
+        }
+        return 1.0 - (jaro + commonPrefix * 0.1 * (1.0 - jaro))
+    }
+
+    /**
+     * compare les différences entre deux mots au niveau du placement de leur caractère
+     * @param string1 mot comparé
+     * @param string2 mot comparatif
+     * @return distance entre les deux mots à partir de ce critère
+     * @return nombre de transposition
+     */
+    private fun comparaisonMots(string1: String, string2:String): Pair<Double, Int> {
+        val len1 = string1.length
+        val len2 = string2.length
         val delta = 1.coerceAtLeast(len1 / 2) - 1
         val flag = BooleanArray(len2)
         Arrays.fill(flag, false)
         val ch1Match = CharArray(len1)
         var matches = 0
+
         for (i in 0 until len1) {
             val ch1 = string1[i]
             for (j in 0 until len2) {
@@ -93,12 +119,29 @@ class JaroWinkler {
                 }
             }
         }
-        if (matches == 0) return 1.0
+        return calculResult(string2, flag, matches, ch1Match)
+    }
+
+    /**
+     * compte le nombre de transposition
+     * complète la fonction comparaisonMots
+     * @param string2 mot comparatif
+     * @param flag liste indiquant les caractères qui ont trouvés une correspondance avec le mot comparé
+     * @param matches nombre totale de correspondance suite à la fonction comparaisonMots
+     * @param ch1Match liste des caratères du mot comparé qui ont été appariés
+     * @return distance entre les deux mots suites à ces calculs
+     * @return nombre de transposition
+     */
+    private fun calculResult(string2: String, flag: BooleanArray, matches: Int, ch1Match: CharArray): Pair<Double, Int> {
+        if (matches == 0) return Pair(1.0, -1)
+
         var transpositions = 0
+
         run {
             var i = 0
             var j = 0
-            while (j < len2) {
+
+            while (j < string2.length) {
                 if (flag[j]) {
                     if (string2[j] != ch1Match[i]) ++transpositions
                     ++i
@@ -107,13 +150,8 @@ class JaroWinkler {
             }
         }
         val m = matches.toDouble()
-        val jaro = ((m / len1) + (m / len2) + ((m - transpositions / 2.0) / m)) / 3.0
-        var commonPrefix = 0
-        len2 = 4.coerceAtMost(len2)
-        for (i in 0 until len2) {
-            if (string1[i] == string2[i]) ++commonPrefix
-        }
-        return 1.0 - (jaro + commonPrefix * 0.1 * (1.0 - jaro))
+
+        return Pair(m, transpositions)
     }
 
     /**
