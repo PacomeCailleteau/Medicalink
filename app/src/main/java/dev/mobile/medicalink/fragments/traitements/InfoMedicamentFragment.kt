@@ -14,6 +14,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisSideInfosRepository
 
 class InfoMedicamentFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -25,6 +26,7 @@ class InfoMedicamentFragment : Fragment() {
         val db = AppDatabase.getInstance(view.context.applicationContext)
         val cisCompoDatabaseInterface = CisCompoBdpmRepository(db.cisCompoBdpmDao())
         val cisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
+        val cisSideInfosDatabaseInterface = CisSideInfosRepository(db.cisSideInfosDao())
 
         val codeCis = arguments?.getString("codeCIS")
 
@@ -69,8 +71,9 @@ class InfoMedicamentFragment : Fragment() {
                 codeCis.toInt()
             ).first()
             //informations du medicament : code CIS, denomination, forme pharmaceutique, voies administration, etat commercialisation, date AMM, titulaire, surveillance renforcée
-
-            //TODO effet secondaire et contre-indications quand on aura
+            val cisSideInfos = cisSideInfosDatabaseInterface.getOneCisSideInfosById(
+                codeCis.toInt()
+            ).first()
 
             nomMedocView.text = buildString {
                 append(cisBdpm.denomination.trim())
@@ -113,20 +116,19 @@ class InfoMedicamentFragment : Fragment() {
 
             textcontresIndications.text = "Contre-indications :"
             var html =  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(cisBdpm.contreIndications, Html.FROM_HTML_MODE_COMPACT)
+                Html.fromHtml(cisSideInfos.contreIndications, Html.FROM_HTML_MODE_COMPACT)
             } else {
-                Html.fromHtml(cisBdpm.contreIndications)
+                Html.fromHtml(cisSideInfos.contreIndications)
             }
             contresIndications.text = html
 
             textAllergies.text = "Allergies :"
             html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(cisBdpm.allergies, Html.FROM_HTML_MODE_COMPACT)
+                Html.fromHtml(cisSideInfos.allergies, Html.FROM_HTML_MODE_COMPACT)
             } else {
-                Html.fromHtml(cisBdpm.allergies)
+                Html.fromHtml(cisSideInfos.allergies)
             }
             allergies.text = html
-
 
         }.start()
         return view

@@ -6,19 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.dao.CisCompoBdpmDao
+import dev.mobile.medicalink.db.local.dao.CisSideInfosDao
 import dev.mobile.medicalink.db.local.dao.MedocDao
 import dev.mobile.medicalink.db.local.dao.PriseValideeDao
 import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
+import dev.mobile.medicalink.db.local.entity.CisSideInfos
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisSideInfosRepository
 
 @Database(
-    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisCompoBdpm::class],
+    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisCompoBdpm::class, CisSideInfos::class],
     version = 1,
     exportSchema = false
 )
@@ -30,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun cisBdpmDao(): CisBdpmDao
     abstract fun priseValideeDao(): PriseValideeDao
     abstract fun cisCompoBdpmDao(): CisCompoBdpmDao
-
+    abstract fun cisSideInfosDao(): CisSideInfosDao
 
     companion object {
         private const val DATABASE_NAME = "medicalink.db"
@@ -68,6 +71,14 @@ abstract class AppDatabase : RoomDatabase() {
                     val cisCompoBdpmRepository = CisCompoBdpmRepository(instance.cisCompoBdpmDao())
                     cisCompoBdpmRepository.insertFromCsv(context)
                 }).start()
+                Thread {
+                    // On supprime les données de la base de données médicamenteuse
+                    //instance.medocDao().deleteAll()
+                    // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
+                    val cisSideInfosRepository = CisSideInfosRepository(instance.cisSideInfosDao())
+                    cisSideInfosRepository.insertFromCsv(context)
+                }.start()
+
                 instance
             }
         }

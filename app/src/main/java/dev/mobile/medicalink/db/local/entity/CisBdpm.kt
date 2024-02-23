@@ -18,8 +18,6 @@ data class CisBdpm(
     var numeroAutorisationEuropeenne: String,
     var titulaire: String,
     var surveillanceRenforcee: String,
-    //var contreIndications: String,
-    //var allergies: String
 )
 
 
