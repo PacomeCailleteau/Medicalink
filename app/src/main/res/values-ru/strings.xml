@@ -182,4 +182,21 @@
     <string name="pas_medoc_dans_photo">На изображении не обнаружено ни одного рецепта. Пожалуйста, попробуйте использовать другое изображение рецепта или добавьте лекарства вручную.</string>
     <string name="specialite_s">Специальность: %s</string>
     <string name="dark_mode">Темный режим</string>
+    <string name="defaultMedocNameInDetails">Название препарата по умолчанию</string>
+    <string name="dosageDetailMedoc">Дозировка: %s</string>
+    <string name="uniteDetailMedoc">Единица измерения: %s</string>
+    <string name="typeComprimeDetailMedoc">Тип планшета: %s</string>
+    <string name="restantsDetailMedoc">Осталось : %s</string>
+    <string name="quantiteDetailMedoc">Количество: %s</string>
+    <string name="debutTraitementDetailMedoc">Начало лечения: %s</string>
+    <string name="finTraitementDetailMedoc">Окончание лечения: %s</string>
+    <string name="expireDetailMedoc">Срок действия: %s</string>
+    <string name="effetsSecondairesDetailMedoc">Побочные эффекты: %s</string>
+    <string name="prisesDetailMedoc">Сокеты: %s</string>
+    <string name="principeActifDetailMedoc">Активный принцип: %s</string>
+    <string name="denominationPrincipeDetailMedoc">Принцип имени: %s</string>
+    <string name="dosageSubstanceDetailMedoc">Дозировка Вещество: %s</string>
+    <string name="formePharmaceutiqueDetailMedoc">Лекарственная форма: %s</string>
+    <string name="voieAdministrationDetailMedoc">Способ применения: %s</string>
+    <string name="voirPlusInformations">См. дополнительную информацию</string>
 </resources>
