@@ -73,7 +73,7 @@ class InfoMedicamentFragment : Fragment() {
             //informations du medicament : code CIS, denomination, forme pharmaceutique, voies administration, etat commercialisation, date AMM, titulaire, surveillance renforcée
             val cisSideInfos = cisSideInfosDatabaseInterface.getOneCisSideInfosById(
                 codeCis.toInt()
-            ).first()
+            ).getOrNull(0)
 
             nomMedocView.text = buildString {
                 append(cisBdpm.denomination.trim())
@@ -114,21 +114,30 @@ class InfoMedicamentFragment : Fragment() {
                 append(cisBdpm.surveillanceRenforcee.trim())
             }
 
-            textcontresIndications.text = "Contre-indications :"
-            var html =  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(cisSideInfos.contreIndications, Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                Html.fromHtml(cisSideInfos.contreIndications)
-            }
-            contresIndications.text = html
+            if (cisSideInfos != null) {
+                textcontresIndications.text = "Contre-indications :"
+                var html =  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(cisSideInfos.contreIndications, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(cisSideInfos.contreIndications)
+                }
+                contresIndications.text = html
 
-            textAllergies.text = "Allergies :"
-            html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(cisSideInfos.allergies, Html.FROM_HTML_MODE_COMPACT)
+                textAllergies.text = "Allergies :"
+                html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(cisSideInfos.allergies, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(cisSideInfos.allergies)
+                }
+                allergies.text = html
             } else {
-                Html.fromHtml(cisSideInfos.allergies)
+                textcontresIndications.visibility = View.GONE
+                contresIndications.visibility = View.GONE
+                textAllergies.visibility = View.GONE
+                allergies.visibility = View.GONE
             }
-            allergies.text = html
+
+
 
         }.start()
         return view

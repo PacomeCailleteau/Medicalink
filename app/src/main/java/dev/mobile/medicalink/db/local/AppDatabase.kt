@@ -64,7 +64,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     DATABASE_NAME
-                ).build()
+                ).createFromAsset("medicalink_db.db")
+                    .build()
                 INSTANCE = instance
 
                 //On créer un thread pour remplir la base de données (oui c'est pas la meilleure manière de faire)
@@ -94,7 +95,7 @@ abstract class AppDatabase : RoomDatabase() {
                     //instance.medocDao().deleteAll()
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                     val cisSideInfosRepository = CisSideInfosRepository(instance.cisSideInfosDao())
-                    cisSideInfosRepository.insertFromCsv(context)
+                    //cisSideInfosRepository.insertFromCsv(context)
                 }.start()
 
                 instance
