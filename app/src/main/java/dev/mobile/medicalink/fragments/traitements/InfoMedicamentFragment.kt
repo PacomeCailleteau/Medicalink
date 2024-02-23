@@ -2,6 +2,7 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,14 +110,23 @@ class InfoMedicamentFragment : Fragment() {
             surveillanceRenforceeView.text = buildString {
                 append(cisBdpm.surveillanceRenforcee.trim())
             }
+
             textcontresIndications.text = "Contre-indications :"
-            contresIndications.text = buildString {
-                append("Aucune contre-indication")
+            var html =  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(cisBdpm.contreIndications, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                Html.fromHtml(cisBdpm.contreIndications)
             }
+            contresIndications.text = html
+
             textAllergies.text = "Allergies :"
-            allergies.text = buildString {
-                append("Aucune allergie")
+            html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(cisBdpm.allergies, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                Html.fromHtml(cisBdpm.allergies)
             }
+            allergies.text = html
+
 
         }.start()
         return view

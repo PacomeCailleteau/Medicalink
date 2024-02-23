@@ -45,6 +45,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
      */
     fun insertFromCsv(context: Context) {
         val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_bdpm.csv")
+        //val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_bdpm_new.csv")
         val cisBdpmList = parseCsv(csvContent)
         try {
             CISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
@@ -70,7 +71,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
             val values = commonFonctionnality.parseCsvLine(line)
-            if (values.size == 12) {
+            if (values.size == 14) {
                 val cisBdpm = CisBdpm(
                     CodeCIS = values[0].toInt(),
                     denomination = values[1],
@@ -83,7 +84,9 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
                     statutBdm = values[8],
                     numeroAutorisationEuropeenne = values[9],
                     titulaire = values[10],
-                    surveillanceRenforcee = values[11]
+                    surveillanceRenforcee = values[11],
+                    contreIndications = values[12],
+                    allergies = values[13]
                 )
                 cisBdpmList.add(cisBdpm)
             } else {
