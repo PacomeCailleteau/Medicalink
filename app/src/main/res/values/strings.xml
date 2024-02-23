@@ -210,5 +210,6 @@
     <string name="specialite_s">Spécialité : %s</string>
     <string name="date_invalide">Date invalide</string>
     <string name="pas_medoc_dans_photo">Aucune prescription n\'a été détectée dans l\'image. Veuillez essayer d\'utiliser une autre image de l\'ordonnance ou ajouter manuellement vos médicaments.</string>
+    <string name="graphique_des_douleurs">Graphiques des douleurs</string>
 
 </resources>

@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.fragments.douleur.AffichageGraphFragment
 import dev.mobile.medicalink.fragments.traitements.ajouts.AddTraitementsFragment
 import dev.mobile.medicalink.utils.GoTo
 
@@ -16,6 +17,7 @@ class MainTraitementsFragment : Fragment() {
     private lateinit var addTraitementButton: LinearLayout
     private lateinit var traitementsButton: LinearLayout
     private lateinit var journalButton: LinearLayout
+    private lateinit var graphDouleurButton: LinearLayout
 
 
     override fun onCreateView(
@@ -27,6 +29,7 @@ class MainTraitementsFragment : Fragment() {
         addTraitementButton = view.findViewById(R.id.cardaddtraitements)
         traitementsButton = view.findViewById(R.id.cardtraitements)
         journalButton = view.findViewById(R.id.cardjournal)
+        graphDouleurButton = view.findViewById(R.id.cardDouleur)
 
 
         //Si on clique sur le bouton "Ajouter un traitement" alors on change le fragment actuel (MainTraitementsFragment) par le fragment AddTraitementsFragment
@@ -41,6 +44,10 @@ class MainTraitementsFragment : Fragment() {
 
         journalButton.setOnClickListener {
             GoTo.fragment(ListeEffetsSecondairesFragment(), parentFragmentManager)
+        }
+
+        graphDouleurButton.setOnClickListener {
+            GoTo.fragment(AffichageGraphFragment(), parentFragmentManager)
         }
 
         val callback: OnBackPressedCallback =

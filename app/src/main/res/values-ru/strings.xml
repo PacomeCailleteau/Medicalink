@@ -182,4 +182,5 @@
     <string name="pas_medoc_dans_photo">На изображении не обнаружено ни одного рецепта. Пожалуйста, попробуйте использовать другое изображение рецепта или добавьте лекарства вручную.</string>
     <string name="specialite_s">Специальность: %s</string>
     <string name="dark_mode">Темный режим</string>
+    <string name="graphique_des_douleurs">График боли</string>
 </resources>

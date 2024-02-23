@@ -181,4 +181,5 @@
     <string name="dark_mode">Dark mode</string>
     <string name="specialite_s">Speciality : %s</string>
     <string name="pas_medoc_dans_photo">No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.</string>
+    <string name="graphique_des_douleurs">Pain graph</string>
 </resources>
