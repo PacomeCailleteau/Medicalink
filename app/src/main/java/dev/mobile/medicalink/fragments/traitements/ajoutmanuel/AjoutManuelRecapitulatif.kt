@@ -639,6 +639,7 @@ class AjoutManuelRecapitulatif : Fragment() {
      * Récupérer le nom de la substance1 dans cis compo a partir de la clé primaire cis
      * La meme chose pour tous les medoc éxistant
      * liste si substance = a la substance1 et le nom du traitement correspondant
+     *
      * @param codeCIS le code cis du traitement a add
      * @param substanceDatabaseInterface la base de donnée des substances
      * @param medocDatabaseInterface la base de donnée des traitements
@@ -665,7 +666,8 @@ class AjoutManuelRecapitulatif : Fragment() {
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected()[0].uuid
             )
-            val substanceAdd: String = findSubstanceName(codeCIS, substanceDatabaseInterface) ?: return@Thread
+            val substanceAdd: String =
+                findSubstanceName(codeCIS, substanceDatabaseInterface) ?: return@Thread
             val interactions = mutableListOf<Interaction>()
 
             //without accents using normalizer JE PREND QUE LE 1ER MOT POUR L'INSTANT SINON TROP DE TRUC
@@ -673,7 +675,9 @@ class AjoutManuelRecapitulatif : Fragment() {
 
             Log.d("InteractionSubstance", premierMotSubstance)
 
-            interactions += interactionDatabaseInterface.getAllInteractionLikeSubstance(premierMotSubstance)
+            interactions += interactionDatabaseInterface.getAllInteractionLikeSubstance(
+                premierMotSubstance
+            )
 
 
 
@@ -688,14 +692,20 @@ class AjoutManuelRecapitulatif : Fragment() {
                     continue
                 }
 
-                val substance = findSubstanceName(medoc.CodeCIS, substanceDatabaseInterface) ?: continue
+                val substance =
+                    findSubstanceName(medoc.CodeCIS, substanceDatabaseInterface) ?: continue
 
                 //remplir les duplications
                 if (substance == substanceAdd) listDuplicate.add(medoc.nom)
 
 
                 //remplir les incompatibles
-                addToIncompatible(listSubstanceIncompatible, substance, listMedicamentIncompatible, medoc)
+                addToIncompatible(
+                    listSubstanceIncompatible,
+                    substance,
+                    listMedicamentIncompatible,
+                    medoc
+                )
 
 
             }
@@ -708,8 +718,25 @@ class AjoutManuelRecapitulatif : Fragment() {
 
     }
 
+    /**
+     * Ajoute les medicaments incompatibles dans la liste
+     *
+     * amélioration possible "if (element in sub) {
+     *   listMedicamentIncompatible.add(medoc.nom)
+     *   break@outerLoup // Breaks out of both loops et REMOve l'autre
+     *   }" au lieu de if (substance.removeAccents() in element.removeAccents()) {
+     *   listMedicamentIncompatible.add(medoc.nom)
+     *   } mais pas test
+     *
+     *
+     * @param listSubstanceIncompatible la liste des substances incompatibles
+     * @param substance la substance du medoc
+     * @param listMedicamentIncompatible la liste des medicaments incompatibles
+     * @param medoc le medoc a ajouter
+     * @see String.removeAccents pour enlever les accents
+     */
     private fun addToIncompatible(
-        listSubstanceIncompatible: MutableList<String>,
+        listSubstanceIncompatible: List<String>,
         substance: String,
         listMedicamentIncompatible: MutableList<String>,
         medoc: Medoc
@@ -724,14 +751,6 @@ class AjoutManuelRecapitulatif : Fragment() {
                     listMedicamentIncompatible.add(medoc.nom)
                     break@outerLoup // Breaks out of both loops
                 }
-
-                /*
-                //possible amélioration
-                if (element in sub) {
-                    listMedicamentIncompatible.add(medoc.nom)
-                    break@outerLoup // Breaks out of both loops et REMOve l'autre
-                }
-                */
             }
             //si la substance incompatible est dans la substance du medoc
             if (substance.removeAccents() in element.removeAccents()) {
@@ -741,7 +760,7 @@ class AjoutManuelRecapitulatif : Fragment() {
     }
 
     private fun findIncompatibles(
-        interactions: MutableList<Interaction>,
+        interactions: List<Interaction>,
         listSubstanceIncompatible: MutableList<String>
     ) {
         if (interactions.isEmpty()) return
@@ -761,7 +780,10 @@ class AjoutManuelRecapitulatif : Fragment() {
     }
 
     //try to find the substance name in compo
-    fun findSubstanceName(codeCIS: Int, substanceDatabaseInterface: CisCompoBdpmRepository): String? {
+    fun findSubstanceName(
+        codeCIS: Int,
+        substanceDatabaseInterface: CisCompoBdpmRepository
+    ): String? {
         return try {
             //[0 car c'est des listes]
             substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
