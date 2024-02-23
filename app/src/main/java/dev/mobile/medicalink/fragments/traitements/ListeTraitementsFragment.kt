@@ -118,7 +118,9 @@ class ListeTraitementsFragment : Fragment() {
                     }
 
                     "false" -> {
+                        Log.d("Listeeeeeeee", newMedoc.toString())
                         medocDatabaseInterface.updateMedoc(newMedoc)
+
                     }
                 }
                 queue2.add(true)
@@ -275,22 +277,7 @@ class ListeTraitementsFragment : Fragment() {
 
                         bundle.putSerializable(
                             "traitement",
-                            Traitement(
-                                clickedTraitement.CodeCIS,
-                                clickedTraitement.nomTraitement,
-                                clickedTraitement.dosageNb,
-                                clickedTraitement.dosageUnite,
-                                clickedTraitement.dateFinTraitement,
-                                clickedTraitement.typeComprime,
-                                clickedTraitement.comprimesRestants,
-                                clickedTraitement.expire,
-                                clickedTraitement.effetsSecondaires,
-                                clickedTraitement.prises,
-                                clickedTraitement.totalQuantite,
-                                clickedTraitement.UUID,
-                                clickedTraitement.UUIDUSER,
-                                clickedTraitement.dateDbtTraitement
-                            )
+                            clickedTraitement
                         )
 
                         val schema_prise1: String

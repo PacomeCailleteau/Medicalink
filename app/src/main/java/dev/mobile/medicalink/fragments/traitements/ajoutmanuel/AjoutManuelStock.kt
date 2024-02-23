@@ -115,6 +115,11 @@ class AjoutManuelStock : Fragment() {
 
         updateButtonState()
         //TODO("Faire la vérif sur tous les boutons suivant du processus de création de traitement")
+        traitement.comprimesRestants = inputStockActuel.text.toString().toInt()
+
+        traitement.expire = false
+        traitement.effetsSecondaires = null
+
         suivant.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable(
@@ -154,25 +159,11 @@ class AjoutManuelStock : Fragment() {
         retour.setOnClickListener {
 
             if (isAddingTraitement == "false") {
+                traitement.dateFinTraitement = null
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
-                    Traitement(
-                        traitement.CodeCIS,
-                        traitement.nomTraitement,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
+                    traitement
                 )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
@@ -188,24 +179,10 @@ class AjoutManuelStock : Fragment() {
             }
 
             val bundle = Bundle()
+            traitement.comprimesRestants = inputStockActuel.text.toString().toInt()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    inputStockActuel.text.toString().toInt(),
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
@@ -379,26 +356,15 @@ class AjoutManuelStock : Fragment() {
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
+                traitement.dateFinTraitement = null
+                traitement.expire = false
+                traitement.effetsSecondaires = null
+
                 if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",
-                        Traitement(
-                            traitement.CodeCIS,
-                            traitement.nomTraitement,
-                            traitement.dosageNb,
-                            traitement.dosageUnite,
-                            null,
-                            traitement.typeComprime,
-                            traitement.comprimesRestants,
-                            false,
-                            null,
-                            traitement.prises,
-                            traitement.totalQuantite,
-                            traitement.UUID,
-                            traitement.UUIDUSER,
-                            traitement.dateDbtTraitement
-                        )
+                        traitement
                     )
                     bundle.putString("isAddingTraitement", "$isAddingTraitement")
                     bundle.putString("schema_prise1", "$schema_prise1")
@@ -416,22 +382,7 @@ class AjoutManuelStock : Fragment() {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
-                    Traitement(
-                        traitement.CodeCIS,
-                        traitement.nomTraitement,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
+                    traitement
                 )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")

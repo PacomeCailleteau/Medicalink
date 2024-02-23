@@ -73,27 +73,18 @@ class AjoutManuelTypeMedic : Fragment() {
         val espacement = 20
         recyclerViewTypeMedic.addItemDecoration(SpacingRecyclerView(espacement))
 
+
         suivant.setOnClickListener {
             val bundle = Bundle()
             Log.d("LLLL", AjoutManuelTypeMedicAdapter.selected)
+
+            traitement.dateFinTraitement = null
+            traitement.typeComprime = AjoutManuelTypeMedicAdapter.selected
+            traitement.expire = false
+            traitement.effetsSecondaires = null
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    AjoutManuelTypeMedicAdapter.selected,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
@@ -110,27 +101,15 @@ class AjoutManuelTypeMedic : Fragment() {
 
 
         retour.setOnClickListener {
+            traitement.dateFinTraitement = null
+            traitement.expire = false
+            traitement.effetsSecondaires = null
 
             if (isAddingTraitement == "false") {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
-                    Traitement(
-                        traitement.CodeCIS,
-                        traitement.nomTraitement,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
+                    traitement
                 )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
@@ -144,26 +123,12 @@ class AjoutManuelTypeMedic : Fragment() {
                 fragTransaction.commit()
                 return@setOnClickListener
             }
+            traitement.typeComprime = AjoutManuelTypeMedicAdapter.selected
 
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    null,
-                    AjoutManuelTypeMedicAdapter.selected,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")
@@ -209,26 +174,16 @@ class AjoutManuelTypeMedic : Fragment() {
                 val AjoutManuelTypeMedicAdapter =
                     AjoutManuelTypeMedicAdapterR(listeTypeMedic, selected)
 
+                traitement.dateFinTraitement = null
+                traitement.expire = false
+                traitement.effetsSecondaires = null
+                traitement.typeComprime = AjoutManuelTypeMedicAdapter.selected
+
                 if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",
-                        Traitement(
-                            traitement.CodeCIS,
-                            traitement.nomTraitement,
-                            traitement.dosageNb,
-                            traitement.dosageUnite,
-                            null,
-                            AjoutManuelTypeMedicAdapter.selected,
-                            traitement.comprimesRestants,
-                            false,
-                            null,
-                            traitement.prises,
-                            traitement.totalQuantite,
-                            traitement.UUID,
-                            traitement.UUIDUSER,
-                            traitement.dateDbtTraitement
-                        )
+                        traitement
                     )
                     bundle.putString("isAddingTraitement", "$isAddingTraitement")
                     bundle.putString("schema_prise1", "$schema_prise1")
@@ -246,22 +201,7 @@ class AjoutManuelTypeMedic : Fragment() {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
-                    Traitement(
-                        traitement.CodeCIS,
-                        traitement.nomTraitement,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        AjoutManuelTypeMedicAdapter.selected,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
+                    traitement
                 )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")

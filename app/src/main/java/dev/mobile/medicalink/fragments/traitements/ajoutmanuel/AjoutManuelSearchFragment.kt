@@ -166,24 +166,12 @@ class AjoutManuelSearchFragment : Fragment() {
             println("Traitement : ${addManuallySearchBar.text.toString()}")
             println("TraitementCis : ${traitement.CodeCIS}")
 
+            traitement.effetsSecondaires = null
+            traitement.nomTraitement = addManuallySearchBar.text.toString()
+
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    addManuallySearchBar.text.toString(),
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    traitement.expire,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schema_prise1")

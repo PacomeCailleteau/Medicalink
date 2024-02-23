@@ -148,9 +148,22 @@ class AjoutManuelRecapitulatif : Fragment() {
             priseLayout.visibility = View.GONE
         }
 
-
+        traitement.expire = false
+        traitement.effetsSecondaires = null
 
         suivant.setOnClickListener {
+            val bundle = Bundle()
+
+            bundle.putSerializable(
+                "newTraitement",
+                traitement
+            )
+            bundle.putString("isAddingTraitement", "$isAddingTraitement")
+            bundle.putString("schema_prise1", "$schemaPrise1")
+            bundle.putString("provenance", "$provenance")
+            bundle.putString("dureePriseDbt", "$dureePriseDbt")
+            bundle.putString("dureePriseFin", "$dureePriseFin")
+
             if (isAddingTraitement == "true" && traitement.CodeCIS != null) {
                 checkIfSubstanceDuplicateOrInteraction(
                     traitement.CodeCIS!!,
@@ -162,31 +175,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
                     //TODO TEST D'autres interactions
 
-                    val bundle = Bundle()
-                    bundle.putSerializable(
-                        "newTraitement",
-                        Traitement(
-                            traitement.CodeCIS,
-                            traitement.nomTraitement,
-                            traitement.dosageNb,
-                            traitement.dosageUnite,
-                            traitement.dateFinTraitement,
-                            traitement.typeComprime,
-                            traitement.comprimesRestants,
-                            false,
-                            null,
-                            traitement.prises,
-                            traitement.totalQuantite,
-                            traitement.UUID,
-                            traitement.UUIDUSER,
-                            traitement.dateDbtTraitement
-                        )
-                    )
-                    bundle.putString("isAddingTraitement", "$isAddingTraitement")
-                    bundle.putString("schema_prise1", "$schemaPrise1")
-                    bundle.putString("provenance", "$provenance")
-                    bundle.putString("dureePriseDbt", "$dureePriseDbt")
-                    bundle.putString("dureePriseFin", "$dureePriseFin")
+
 
                     when {
                         listDuplicate.isNotEmpty() && listIncompatible.isNotEmpty() -> {
@@ -236,20 +225,16 @@ class AjoutManuelRecapitulatif : Fragment() {
                                 }
                             }
                         }
-
-                        else -> {
-                            val destinationFragment = ListeTraitementsFragment()
-                            destinationFragment.arguments = bundle
-                            val fragTransaction = parentFragmentManager.beginTransaction()
-                            fragTransaction.replace(R.id.FL, destinationFragment)
-                            fragTransaction.addToBackStack(null)
-                            fragTransaction.commit()
-
-                        }
                     }
                 }
-            }
 
+            }
+            val destinationFragment = ListeTraitementsFragment()
+            destinationFragment.arguments = bundle
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
 
         }
         if (isAddingTraitement == "false") {
@@ -278,22 +263,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schemaPrise1")
@@ -313,22 +283,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schemaPrise1")
@@ -349,22 +304,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schemaPrise1")
@@ -385,22 +325,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schemaPrise1")
@@ -421,22 +346,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schemaPrise1")
@@ -457,22 +367,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(
                 "traitement",
-                Traitement(
-                    traitement.CodeCIS,
-                    traitement.nomTraitement,
-                    traitement.dosageNb,
-                    traitement.dosageUnite,
-                    traitement.dateFinTraitement,
-                    traitement.typeComprime,
-                    traitement.comprimesRestants,
-                    false,
-                    null,
-                    traitement.prises,
-                    traitement.totalQuantite,
-                    traitement.UUID,
-                    traitement.UUIDUSER,
-                    traitement.dateDbtTraitement
-                )
+                traitement
             )
             bundle.putString("isAddingTraitement", "$isAddingTraitement")
             bundle.putString("schema_prise1", "$schemaPrise1")
@@ -562,26 +457,16 @@ class AjoutManuelRecapitulatif : Fragment() {
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
 
+
+                traitement.expire = false
+                traitement.effetsSecondaires = null
+                traitement.dateFinTraitement = null
+
                 if (isAddingTraitement == "false") {
                     val bundle = Bundle()
                     bundle.putSerializable(
                         "traitement",
-                        Traitement(
-                            traitement.CodeCIS,
-                            traitement.nomTraitement,
-                            traitement.dosageNb,
-                            traitement.dosageUnite,
-                            null,
-                            traitement.typeComprime,
-                            traitement.comprimesRestants,
-                            false,
-                            null,
-                            traitement.prises,
-                            traitement.totalQuantite,
-                            traitement.UUID,
-                            traitement.UUIDUSER,
-                            traitement.dateDbtTraitement
-                        )
+                        traitement
                     )
                     bundle.putString("schema_prise1", "$schema_prise1")
                     bundle.putString("dureePriseDbt", "$dureePriseDbt")
@@ -598,22 +483,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "traitement",
-                    Traitement(
-                        traitement.CodeCIS,
-                        traitement.nomTraitement,
-                        traitement.dosageNb,
-                        traitement.dosageUnite,
-                        null,
-                        traitement.typeComprime,
-                        traitement.comprimesRestants,
-                        false,
-                        null,
-                        traitement.prises,
-                        traitement.totalQuantite,
-                        traitement.UUID,
-                        traitement.UUIDUSER,
-                        traitement.dateDbtTraitement
-                    )
+                    traitement
                 )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
                 bundle.putString("schema_prise1", "$schema_prise1")
@@ -774,13 +644,13 @@ class AjoutManuelRecapitulatif : Fragment() {
      * \\p enléve les espace pas sur que ce soit bon
      * @return String la chaine de caractère sans accents
      */
-    fun String.removeAccents(): String {
+    private fun String.removeAccents(): String {
         val regex = "[^\\p{ASCII}]"
         return Normalizer.normalize(this, Normalizer.Form.NFD).replace(regex.toRegex(), "")
     }
 
     //try to find the substance name in compo
-    fun findSubstanceName(
+    private fun findSubstanceName(
         codeCIS: Int,
         substanceDatabaseInterface: CisCompoBdpmRepository
     ): String? {
