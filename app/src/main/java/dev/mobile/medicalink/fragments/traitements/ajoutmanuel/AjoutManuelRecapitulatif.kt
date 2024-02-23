@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.Interaction
+import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.InteractionRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
@@ -199,10 +200,12 @@ class AjoutManuelRecapitulatif : Fragment() {
                                         bundle,
                                         "Réagit avec : ",
                                         "Duplications et Interactions Détectées ",
-                                        true)
+                                        true
+                                    )
                                 }
                             }
                         }
+
                         listDuplicate.isNotEmpty() -> {
                             activity?.runOnUiThread {
                                 this.context?.let { it1 ->
@@ -212,10 +215,12 @@ class AjoutManuelRecapitulatif : Fragment() {
                                         listDuplicate,
                                         substanceAdd,
                                         bundle,
-                                        "À la même substance active que : ")
+                                        "À la même substance active que : "
+                                    )
                                 }
                             }
                         }
+
                         listIncompatible.isNotEmpty() -> {
                             activity?.runOnUiThread {
                                 this.context?.let { it1 ->
@@ -226,10 +231,12 @@ class AjoutManuelRecapitulatif : Fragment() {
                                         substanceAdd,
                                         bundle,
                                         "Est incompatible avec : ",
-                                        "Interactions Détectées")
+                                        "Interactions Détectées"
+                                    )
                                 }
                             }
                         }
+
                         else -> {
                             val destinationFragment = ListeTraitementsFragment()
                             destinationFragment.arguments = bundle
@@ -490,12 +497,13 @@ class AjoutManuelRecapitulatif : Fragment() {
         listTraitements: List<String>,
         substanceAdd: String,
         bundle: Bundle,
-        textVue : String,
-        titreDialog : String = "Duplications Détectées",
-        interactionBool : Boolean = false) {
+        textVue: String,
+        titreDialog: String = "Duplications Détectées",
+        interactionBool: Boolean = false
+    ) {
         val dialog = Dialog(context, R.style.RoundedDialog)
         val dialogView =
-            LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null )
+            LayoutInflater.from(dialog.context).inflate(R.layout.dialog_duplicate, null)
         dialog.setContentView(dialogView)
         dialog.show()
 
@@ -506,7 +514,7 @@ class AjoutManuelRecapitulatif : Fragment() {
         val cancelButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val titre = dialogView.findViewById<TextView>(R.id.textView13)
 
-        if (interactionBool){
+        if (interactionBool) {
             val image = dialogView.findViewById<ImageView>(R.id.imageView4)
             image.setImageResource(R.drawable.interaction)
         }
@@ -635,6 +643,7 @@ class AjoutManuelRecapitulatif : Fragment() {
      * @param substanceDatabaseInterface la base de donnée des substances
      * @param medocDatabaseInterface la base de donnée des traitements
      * @param userDatabaseInterface la base de donnée des utilisateurs
+     * @see String.removeAccents pour enlever les accents
      * @return List<String> liste des nom de traitements contenant la meme substance
      * @return String nom de la substance
      */
@@ -647,79 +656,46 @@ class AjoutManuelRecapitulatif : Fragment() {
         callback: (List<String>, List<String>, String) -> Unit
     ) {
         Thread {
+            //définir les listes résultat
             val listDuplicate: MutableList<String> = mutableListOf()
             val listSubstanceIncompatible: MutableList<String> = mutableListOf()
             val listMedicamentIncompatible: MutableList<String> = mutableListOf()
-            val regex = "[^\\p{ASCII}]"
+
 
             val listeMedoc = medocDatabaseInterface.getAllMedocByUserId(
                 userDatabaseInterface.getUsersConnected()[0].uuid
             )
-            val substanceAdd: String = try {
-                substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
-            } catch (e: Exception) {
-                return@Thread
-            }
+            val substanceAdd: String = findSubstanceName(codeCIS, substanceDatabaseInterface) ?: return@Thread
             val interactions = mutableListOf<Interaction>()
 
             //without accents using normalizer JE PREND QUE LE 1ER MOT POUR L'INSTANT SINON TROP DE TRUC
-            val wor = Normalizer.normalize(substanceAdd.split(" ")[0], Normalizer.Form.NFD)
-                .replace(regex.toRegex(), "")
+            val premierMotSubstance = substanceAdd.split(" ")[0].removeAccents()
 
-            Log.d("InteractionSubstance", wor)
+            Log.d("InteractionSubstance", premierMotSubstance)
 
-            interactions += interactionDatabaseInterface.getAllInteractionLikeSubstance(
-                //without accents using normalizer
-                wor
-            )
+            interactions += interactionDatabaseInterface.getAllInteractionLikeSubstance(premierMotSubstance)
 
 
 
             Log.d("InteractionSubstance", interactions.toString())
 
-            if (interactions.isNotEmpty()) {
-                for (interaction in interactions) {
-                    listSubstanceIncompatible.addAll(interaction.incompatibles.split(";"))
-                }
-            }
+            findIncompatibles(interactions, listSubstanceIncompatible)
+
             Log.d("InteractionSubstance", listSubstanceIncompatible.toString())
 
             for (medoc in listeMedoc) {
                 if (medoc.CodeCIS == null) {
                     continue
                 }
-                val substance = try {
-                    substanceDatabaseInterface.getOneCisCompoBdpmById(medoc.CodeCIS)[0].denomination
-                } catch (e: Exception) {
-                    continue
-                }
 
-                if (substance == substanceAdd) {
-                    listDuplicate.add(medoc.nom)
-                }
+                val substance = findSubstanceName(medoc.CodeCIS, substanceDatabaseInterface) ?: continue
 
-                 // Label for the outer loop
-                loup@ for (element in listSubstanceIncompatible){
-                    for (sub in substance.split(" ")){
-                        if (sub in element){
-                            listMedicamentIncompatible.add(medoc.nom)
-                            break@loup // Breaks out of both loops
-                        }
-                    }
-                    //LES 2 sans accents  LE regex \\p{ASCII} c'est pour enlever les espaces donc je sais pas si c'est bon
-                    val substanceSansAccents = Normalizer.normalize(substance, Normalizer.Form.NFD)
-                        .replace(regex.toRegex(), "")
-                    val elementSansAccents = Normalizer.normalize(element, Normalizer.Form.NFD)
-                        .replace(regex.toRegex(), "")
+                //remplir les duplications
+                if (substance == substanceAdd) listDuplicate.add(medoc.nom)
 
-                    Log.d("InteractionSubstance", substanceSansAccents)
-                    Log.d("InteractionSubstance", elementSansAccents)
 
-                    if (substanceSansAccents in elementSansAccents){
-                        listMedicamentIncompatible.add(medoc.nom)
-                    }
-                }
-
+                //remplir les incompatibles
+                addToIncompatible(listSubstanceIncompatible, substance, listMedicamentIncompatible, medoc)
 
 
             }
@@ -730,6 +706,68 @@ class AjoutManuelRecapitulatif : Fragment() {
         }.start()
 
 
+    }
+
+    private fun addToIncompatible(
+        listSubstanceIncompatible: MutableList<String>,
+        substance: String,
+        listMedicamentIncompatible: MutableList<String>,
+        medoc: Medoc
+    ) {
+        outerLoup@
+        //pour chaque substance incompatible avec le medoc ajouté
+        for (element in listSubstanceIncompatible) {
+            //pour chaque mot de la substance du medoc
+            for (sub in substance.split(" ")) {
+                //si le mot est dans la substance incompatible
+                if (sub in element) {
+                    listMedicamentIncompatible.add(medoc.nom)
+                    break@outerLoup // Breaks out of both loops
+                }
+
+                /*
+                //possible amélioration
+                if (element in sub) {
+                    listMedicamentIncompatible.add(medoc.nom)
+                    break@outerLoup // Breaks out of both loops et REMOve l'autre
+                }
+                */
+            }
+            //si la substance incompatible est dans la substance du medoc
+            if (substance.removeAccents() in element.removeAccents()) {
+                listMedicamentIncompatible.add(medoc.nom)
+            }
+        }
+    }
+
+    private fun findIncompatibles(
+        interactions: MutableList<Interaction>,
+        listSubstanceIncompatible: MutableList<String>
+    ) {
+        if (interactions.isEmpty()) return
+        for (interaction in interactions) {
+            listSubstanceIncompatible.addAll(interaction.incompatibles.split(";"))
+        }
+    }
+
+    /**
+     * Enleve les accents d'une chaine de caractère
+     * \\p enléve les espace pas sur que ce soit bon
+     * @return String la chaine de caractère sans accents
+     */
+    fun String.removeAccents(): String {
+        val regex = "[^\\p{ASCII}]"
+        return Normalizer.normalize(this, Normalizer.Form.NFD).replace(regex.toRegex(), "")
+    }
+
+    //try to find the substance name in compo
+    fun findSubstanceName(codeCIS: Int, substanceDatabaseInterface: CisCompoBdpmRepository): String? {
+        return try {
+            //[0 car c'est des listes]
+            substanceDatabaseInterface.getOneCisCompoBdpmById(codeCIS)[0].denomination
+        } catch (e: Exception) {
+            null
+        }
     }
 
 
