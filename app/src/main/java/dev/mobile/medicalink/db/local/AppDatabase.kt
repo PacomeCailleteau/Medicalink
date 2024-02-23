@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.dao.CisCompoBdpmDao
+import dev.mobile.medicalink.db.local.dao.CisSideInfosDao
 import dev.mobile.medicalink.db.local.dao.ContactDao
 import dev.mobile.medicalink.db.local.dao.InteractionDao
 import dev.mobile.medicalink.db.local.dao.EffetSecondaireDao
@@ -17,15 +18,17 @@ import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
 import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.entity.Interaction
 import dev.mobile.medicalink.db.local.entity.EffetSecondaire
+import dev.mobile.medicalink.db.local.entity.CisSideInfos
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
+import dev.mobile.medicalink.db.local.repository.CisSideInfosRepository
 import dev.mobile.medicalink.db.local.repository.InteractionRepository
 
 @Database(
-    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisCompoBdpm::class, Contact::class, EffetSecondaire::class, Interaction::class],
+    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisCompoBdpm::class, Contact::class, EffetSecondaire::class, Interaction::class, CisSideInfos::class],
     version = 1,
     exportSchema = false
 )
@@ -41,6 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun effetSecondaireDao(): EffetSecondaireDao
     abstract fun interactionDao(): InteractionDao
 
+    abstract fun cisSideInfosDao(): CisSideInfosDao
 
     companion object {
         private const val DATABASE_NAME = "medicalink.db"
@@ -85,6 +89,14 @@ abstract class AppDatabase : RoomDatabase() {
                     val interactionRepository = InteractionRepository(instance.interactionDao())
                     interactionRepository.insertFromCsv(context)
                 }.start()
+                Thread {
+                    // On supprime les données de la base de données médicamenteuse
+                    //instance.medocDao().deleteAll()
+                    // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
+                    val cisSideInfosRepository = CisSideInfosRepository(instance.cisSideInfosDao())
+                    cisSideInfosRepository.insertFromCsv(context)
+                }.start()
+
                 instance
             }
         }

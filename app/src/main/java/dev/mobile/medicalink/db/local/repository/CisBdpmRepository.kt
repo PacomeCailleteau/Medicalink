@@ -45,6 +45,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
      */
     fun insertFromCsv(context: Context) {
         val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_bdpm.csv")
+        //val csvContent = commonFonctionnality.readCsvFromAssets(context, "CIS_bdpm_new.csv")
         val cisBdpmList = parseCsv(csvContent)
         try {
             CISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
@@ -83,7 +84,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
                     statutBdm = values[8],
                     numeroAutorisationEuropeenne = values[9],
                     titulaire = values[10],
-                    surveillanceRenforcee = values[11]
+                    surveillanceRenforcee = values[11],
                 )
                 cisBdpmList.add(cisBdpm)
             } else {
