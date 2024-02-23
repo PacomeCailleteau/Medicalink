@@ -182,5 +182,22 @@
     <string name="dark_mode">Dark mode</string>
     <string name="specialite_s">Speciality : %s</string>
     <string name="pas_medoc_dans_photo">No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.</string>
+    <string name="defaultMedocNameInDetails">Default drug name</string>
+    <string name="dosageDetailMedoc">Dosage : %s</string>
+    <string name="uniteDetailMedoc">Unit: %s</string>
+    <string name="typeComprimeDetailMedoc">Type of tablet: %s</string>
+    <string name="restantsDetailMedoc">Remaining : %s</string>
+    <string name="quantiteDetailMedoc">Quantity : %s</string>
+    <string name="debutTraitementDetailMedoc">Start of the treatment : %S</string>
+    <string name="finTraitementDetailMedoc">End of the treatment : %s</string>
+    <string name="expireDetailMedoc">Expire : %s</string>
+    <string name="effetsSecondairesDetailMedoc">Side effects : %s</string>
+    <string name="prisesDetailMedoc">Intakes : %s</string>
+    <string name="principeActifDetailMedoc">Active principle: %s</string>
+    <string name="denominationPrincipeDetailMedoc">Name Principle: %s</string>
+    <string name="dosageSubstanceDetailMedoc">Dosage Substance: %s</string>
+    <string name="formePharmaceutiqueDetailMedoc">Pharmaceutical form: %s</string>
+    <string name="voieAdministrationDetailMedoc">Route of administration: %s</string>
+    <string name="voirPlusInformations">See more informations</string>
     <string name="graphique_des_douleurs">Pain graph</string>
 </resources>

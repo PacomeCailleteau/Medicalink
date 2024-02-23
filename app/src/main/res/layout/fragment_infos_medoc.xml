@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -10,7 +11,7 @@
         android:id="@+id/TitleInfoMedoc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nom du médicament"
+        android:text="@string/defaultMedocNameInDetails"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +29,7 @@
         android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/voirPlusInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleInfoMedoc"
@@ -54,14 +55,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Dosage : " />
+                    android:text="@string/dosageDetailMedoc" />
 
                 <TextView
                     android:id="@+id/dosageUniteInfoMedoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Unité : " />
+                    android:text="@string/uniteDetailMedoc" />
             </LinearLayout>
 
             <!-- Spacer -->
@@ -80,14 +81,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Type de comprimé : " />
+                    android:text="@string/typeComprimeDetailMedoc" />
 
                 <TextView
                     android:id="@+id/comprimeRestantInfoMedoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Restants : " />
+                    android:text="@string/restantsDetailMedoc" />
             </LinearLayout>
 
             <!-- Spacer -->
@@ -100,7 +101,7 @@
                 android:id="@+id/quantiteInfoMedoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quantité : " />
+                android:text="@string/quantiteDetailMedoc" />
 
             <!-- Spacer -->
             <Space
@@ -118,14 +119,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Début du traitement : " />
+                    android:text="@string/debutTraitementDetailMedoc" />
 
                 <TextView
                     android:id="@+id/dateFinTraitementInfoMedoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Fin du traitement : " />
+                    android:text="@string/finTraitementDetailMedoc" />
 
             </LinearLayout>
 
@@ -133,7 +134,7 @@
                 android:id="@+id/expireInfoMedoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Expire : " />
+                android:text="@string/expireDetailMedoc" />
 
             <!-- Spacer -->
             <Space
@@ -145,13 +146,13 @@
                 android:id="@+id/effetsSecondairesInfoMedoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Effets secondaires : " />
+                android:text="@string/effetsSecondairesDetailMedoc" />
 
             <TextView
                 android:id="@+id/prisesInfoMedoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Prises : " />
+                android:text="@string/prisesDetailMedoc" />
 
             <!-- Spacer -->
             <Space
@@ -169,21 +170,21 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Principe Actif : " />
+                    android:text="@string/principeActifDetailMedoc" />
 
                 <TextView
                     android:id="@+id/denominationPrincipeInfoMedoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Dénomination Principe : " />
+                    android:text="@string/denominationPrincipeDetailMedoc" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/dosageSubstanceInfoMedoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dosage Substance : " />
+                android:text="@string/dosageSubstanceDetailMedoc" />
 
             <Space
                 android:layout_width="match_parent"
@@ -199,17 +200,37 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Forme Pharmaceutique : " />
+                    android:text="@string/formePharmaceutiqueDetailMedoc" />
 
                 <TextView
                     android:id="@+id/voieAdministrationInfoMedoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Voie d'Administration : " />
+                    android:text="@string/voieAdministrationDetailMedoc" />
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/voirPlusInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="@string/voirPlusInformations"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageLienExterne" />
+
+    <ImageView
+        android:id="@+id/imageLienExterne"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/lien_externe" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
