@@ -54,7 +54,7 @@ class AjoutManuelRecapitulatif : Fragment() {
     private lateinit var reapprovisionnementLayout: ConstraintLayout
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O) //ne marhra pas sous android 8
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,7 +70,19 @@ class AjoutManuelRecapitulatif : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        val traitement = arguments?.getSerializable("traitement") as Traitement
+        val traitement : Traitement? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getSerializable("traitement",Traitement::class.java)
+        } else {
+            arguments?.getSerializable("traitement") as Traitement
+        }
+        if (traitement == null) {
+            val destinationFragment = AddTraitementsFragment()
+            val fragTransaction = parentFragmentManager.beginTransaction()
+            fragTransaction.replace(R.id.FL, destinationFragment)
+            fragTransaction.addToBackStack(null)
+            fragTransaction.commit()
+            return view
+        }
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
         val schemaPrise1 = arguments?.getString("schema_prise1")
         val provenance = arguments?.getString("provenance")
@@ -179,6 +191,7 @@ class AjoutManuelRecapitulatif : Fragment() {
 
                     when {
                         listDuplicate.isNotEmpty() && listIncompatible.isNotEmpty() -> {
+                            //les 2 sont remplis
                             activity?.runOnUiThread {
                                 this.context?.let { it1 ->
                                     showDuplicateOrInteractionDialog(
@@ -196,6 +209,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                         }
 
                         listDuplicate.isNotEmpty() -> {
+                            //les duplications sont remplis
                             activity?.runOnUiThread {
                                 this.context?.let { it1 ->
                                     showDuplicateOrInteractionDialog(
@@ -211,6 +225,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                         }
 
                         listIncompatible.isNotEmpty() -> {
+                            //les incompatibles sont remplis
                             activity?.runOnUiThread {
                                 this.context?.let { it1 ->
                                     showDuplicateOrInteractionDialog(
@@ -225,16 +240,28 @@ class AjoutManuelRecapitulatif : Fragment() {
                                 }
                             }
                         }
+
+                        else -> {
+                            //aucun des deux ne sont remplis
+                            val destinationFragment = ListeTraitementsFragment()
+                            destinationFragment.arguments = bundle
+                            val fragTransaction = parentFragmentManager.beginTransaction()
+                            fragTransaction.replace(R.id.FL, destinationFragment)
+                            fragTransaction.addToBackStack(null)
+                            fragTransaction.commit()
+                        }
                     }
                 }
-
+            }else{
+                //mise a jour
+                val destinationFragment = ListeTraitementsFragment()
+                destinationFragment.arguments = bundle
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }
-            val destinationFragment = ListeTraitementsFragment()
-            destinationFragment.arguments = bundle
-            val fragTransaction = parentFragmentManager.beginTransaction()
-            fragTransaction.replace(R.id.FL, destinationFragment)
-            fragTransaction.addToBackStack(null)
-            fragTransaction.commit()
+
 
         }
         if (isAddingTraitement == "false") {
@@ -442,6 +469,8 @@ class AjoutManuelRecapitulatif : Fragment() {
             dialog.dismiss()
         }
 
+
+
     }
 
     override fun onResume() {
@@ -452,7 +481,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             override fun handleOnBackPressed() {
                 val traitement = arguments?.getSerializable("traitement") as Traitement
                 val isAddingTraitement = arguments?.getString("isAddingTraitement")
-                val schema_prise1 = arguments?.getString("schema_prise1")
+                val schemaPrise1 = arguments?.getString("schema_prise1")
                 val provenance = arguments?.getString("provenance")
                 val dureePriseDbt = arguments?.getString("dureePriseDbt")
                 val dureePriseFin = arguments?.getString("dureePriseFin")
@@ -468,7 +497,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                         "traitement",
                         traitement
                     )
-                    bundle.putString("schema_prise1", "$schema_prise1")
+                    bundle.putString("schema_prise1", "$schemaPrise1")
                     bundle.putString("dureePriseDbt", "$dureePriseDbt")
                     bundle.putString("dureePriseFin", "$dureePriseFin")
                     val destinationFragment = ListeTraitementsFragment()
@@ -486,7 +515,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                     traitement
                 )
                 bundle.putString("isAddingTraitement", "$isAddingTraitement")
-                bundle.putString("schema_prise1", "$schema_prise1")
+                bundle.putString("schema_prise1", "$schemaPrise1")
                 bundle.putString("provenance", "$provenance")
                 bundle.putString("dureePriseDbt", "$dureePriseDbt")
                 bundle.putString("dureePriseFin", "$dureePriseFin")
@@ -661,6 +690,7 @@ class AjoutManuelRecapitulatif : Fragment() {
             null
         }
     }
+
 
 
 }
