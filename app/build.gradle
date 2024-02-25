@@ -35,7 +35,8 @@ android {
         def apiRppsUrl = "\"${properties['apiRppsUrl'].toString()}\""
         debug {
             buildConfigField 'String', "API_RPPS_URL", apiRppsUrl.toString()
-            resValue("string", "API_RPPS_URL", apiRppsUrl.toString())        }
+            resValue("string", "API_RPPS_URL", apiRppsUrl.toString())
+        }
         release {
             buildConfigField 'String', "API_RPPS_URL", apiRppsUrl.toString()
             minifyEnabled false
