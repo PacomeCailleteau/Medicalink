@@ -12,7 +12,6 @@ jobs:
     steps:
 
 
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -21,6 +20,10 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
 
       - name: Run tests
         run: |
