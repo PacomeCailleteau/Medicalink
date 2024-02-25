@@ -22,8 +22,11 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Run tests
+      - name: Update Username from Secrets
         env:
           API_RPPS_URL: ${{ secrets.API_RPPS_URL }}
+        run: echo API_KEY="$API_KEY" > ./local.properties
+
+      - name: Run tests
         run: |
           ./gradlew test
