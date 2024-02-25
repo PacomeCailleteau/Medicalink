@@ -78,15 +78,15 @@ class ApiRppsClientTest {
 
     companion object {
         fun dummyPractician() : Practician {
-            var rpps =  10101080173
-            var firstName = "Jean-Marie"
-            var address = "RUE DES PALIS"
-            var city = "MAZE"
-            var fullName = "Dr. Jean-Marie CLEKA"
-            var lastName = "CLEKA"
-            var phoneNumber = null
-            var specialty = "Spécialiste en Médecine Générale"
-            var zipcode = "49630"
+            val rpps =  10101080173
+            val firstName = "Jean-Marie"
+            val address = "RUE DES PALIS"
+            val city = "MAZE"
+            val fullName = "Dr. Jean-Marie CLEKA"
+            val lastName = "CLEKA"
+            val phoneNumber = null
+            val specialty = "Spécialiste en Médecine Générale"
+            val zipcode = "49630"
 
             return Practician(
                 rpps = rpps,
