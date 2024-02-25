@@ -16,12 +16,14 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
       - name: Run tests
+        env:
+          API_RPPS_URL: ${{ secrets.API_RPPS_URL }}
         run: |
           ./gradlew test
