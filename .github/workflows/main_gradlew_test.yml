@@ -25,7 +25,7 @@ jobs:
       - name: Update API_URL from Secrets
         env:
           API_RPPS_URL: ${{ secrets.API_RPPS_URL }}
-        run: echo API_RPPS_URL=API_RPPS_URL > ./local.properties
+        run: echo apiRppsUrl=API_RPPS_URL > ./local.properties
 
       - name: Run tests
         run: |
