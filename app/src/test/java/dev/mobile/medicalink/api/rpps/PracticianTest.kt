@@ -67,8 +67,8 @@ class PracticianTest {
     }
 
     @Test
-    fun samePhoneNumber(){
-        assertEquals(p1.address,p2.address)
+    fun sameAdresse(){
+        assertEquals(dummyPractician2().address,p2.address)
     }
 
     @Test

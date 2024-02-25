@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         val biometricManager = BiometricManager.from(this)
 
         // On vérifie que l'authentification biométrique est disponible sur l'appareil
-        if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+        if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS) {
             showBiometricPrompt()
         }
     }
@@ -152,6 +152,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
                     // Erreur d'authentification
+                    Log.d("BIO", "Erreur d'authentification : $errString")
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -161,10 +162,6 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                    // L'authentification a échoué, demande à l'utilisateur de réessayer
-                }
             })
 
         // Affiche la boîte de dialogue de la biométrie
@@ -312,14 +309,14 @@ class MainActivity : AppCompatActivity() {
         // Création de l'adapter pour le RecyclerView
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
-            val queue = LinkedBlockingQueue<String>()
+            val queue2 = LinkedBlockingQueue<String>()
             Thread {
                 userDatabaseInterface.setConnected(
                     userDatabaseInterface.getOneUserById(clickedUser.uuid).first()
                 )
-                queue.add(clickedUser.prenom)
+                queue2.add(clickedUser.prenom)
             }.start()
-            val prenom = queue.take()
+            val prenom = queue2.take()
             Log.d("test", prenom.toString())
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
             textBienvenue.text = txtBienvenue
