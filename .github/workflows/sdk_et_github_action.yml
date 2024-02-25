@@ -2,7 +2,7 @@ name: Android emulator
 on:
   push:
     branches:
-      - sdk_et_github_action
+      - main
   schedule:
     - cron: "0 20 * * *"
 
