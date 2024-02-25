@@ -189,4 +189,16 @@
     <string name="supprimer_compte">Supprimer le compte</string>
     <string name="le_m_dicament">Le médicament : %s </string>
     <string name="ayant_la_substance_active">Ayant la substance active : %s</string>
+    <string name="label_substance_active">Substance active :</string>
+    <string name="label_forme_pharmaceutique">Forme pharmaceutique :</string>
+    <string name="label_voie_administration">Voie d\'administration :</string>
+    <string name="label_etat_commercialisation">État de commercialisation :</string>
+    <string name="label_date_amm">Date d\'autorisation de mise sur le marché :</string>
+    <string name="label_laboratoire">Laboratoire :</string>
+    <string name="label_surveillance_renforcee">Surveillance renforcée :</string>
+    <string name="contre_indications">Contre-indications :</string>
+    <string name="allergies">Allergies :</string>
+    <string name="substance_active_dosage">%1$s, %2$s</string>
+    <string name="code_cis">Code Cis : %1$s</string>
+    <string name="failed_authentification_biometrique">l\'authentification n\'a pas fonctionné, veuillé réésailler</string>
 </resources>

@@ -84,7 +84,7 @@ class ApiRppsClientTest {
             var city = "MAZE"
             var fullName = "Dr. Jean-Marie CLEKA"
             var lastName = "CLEKA"
-            var phoneNumber = ""
+            var phoneNumber = null
             var specialty = "Spécialiste en Médecine Générale"
             var zipcode = "49630"
 

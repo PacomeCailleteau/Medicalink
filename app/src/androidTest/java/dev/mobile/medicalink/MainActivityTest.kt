@@ -1,6 +1,7 @@
 package dev.mobile.medicalink
 
 
+import android.Manifest
 import android.widget.DatePicker
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
@@ -15,17 +16,26 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
+
+    @JvmField
+    @Rule
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
+
     @Before
     fun setUp() {
+
         // On initialise Intents avant chaque test
         Intents.init()
         // On lance notre application via sa première activité
@@ -49,7 +59,13 @@ class MainActivityTest {
     @Test
     fun testTexteBienvue() {
         // Vérification que le texte de bienvenue est bien présent
-        onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome on Medicalink !")))
+        //en fonction de la langue du téléphone, le texte peut être différent
+
+        if (Locale.getDefault().language == "fr") {
+            onView(withId(R.id.text_bienvenue)).check(matches(withText("Bienvenue sur Medicalink !")))
+        } else {
+            onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome on Medicalink !")))
+        }
     }
 
     @Test
@@ -95,7 +111,12 @@ class MainActivityTest {
         intended(hasComponent("dev.mobile.medicalink.MainActivity"))
 
         // On a un compte alors le texte devait avoir changé
-        onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome prenom !")))
+
+        if (Locale.getDefault().language == "fr") {
+            onView(withId(R.id.text_bienvenue)).check(matches(withText("Bienvenue prenom !")))
+        } else {
+            onView(withId(R.id.text_bienvenue)).check(matches(withText("Welcome prenom !")))
+        }
     }
 
 

@@ -109,7 +109,7 @@ class ContactRepositoryTest {
         //Get the contact from database after update
         val contactFromDatabaseAfterUpdate = contactRepository.getOneContactById(contact.uuid,contact.rpps)
         assert(contactFromDatabaseAfterUpdate?.uuid == contact.uuid)
-        assert(contactFromDatabaseAfterUpdate?.lastName == "testUpdate")
+        assert(contactFromDatabaseAfterUpdate?.firstName == "testUpdate")
     }
 
     @Test
@@ -139,7 +139,7 @@ class ContactRepositoryTest {
         }
         //Get the contact from database after delete
         val contactFromDatabaseAfterDelete = contactRepository.getOneContactById(contact.uuid,contact.rpps)
-        assert(contactFromDatabaseAfterDelete!!.equals(null))
+        assert(contactFromDatabaseAfterDelete == null)
     }
 
     @Test

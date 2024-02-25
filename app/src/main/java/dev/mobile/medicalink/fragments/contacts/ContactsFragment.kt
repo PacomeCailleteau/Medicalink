@@ -74,13 +74,16 @@ class ContactsFragment : Fragment() {
             val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
             val listMedecin = contactDatabaseInterface.getContactsByUuid(uuid)
             val aucunContact = view.findViewById<View>(R.id.textAucunContact)
-            if (listMedecin.isEmpty()) {
-                aucunContact.visibility = View.VISIBLE
-            } else {
-                aucunContact.visibility = View.GONE
+            activity?.runOnUiThread {
+                if (listMedecin.isEmpty()) {
+                    aucunContact.visibility = View.VISIBLE
+                } else {
+                    aucunContact.visibility = View.GONE
+                }
+                recyclerView.adapter =
+                    ContactsAdapterR(listMedecin) { clickedItem -> afficherContact(clickedItem) }
             }
-            recyclerView.adapter =
-                ContactsAdapterR(listMedecin) { clickedItem -> afficherContact(clickedItem) }
+
         }.start()
 
         val espacementEnDp = 10
