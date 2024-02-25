@@ -14,7 +14,7 @@ if (localPropertiesFile.exists()) {
         localProperties.load(stream)
     }
 }
-def apiRppsUrl = "\"${localProperties['apiRppsUrl'].toString()}\""
+//def apiRppsUrl = "\"${localProperties['apiRppsUrl'].toString()}\""
 
 android {
     compileSdk 34
@@ -30,8 +30,12 @@ android {
     }
 
     buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def apiRppsUrl = "\"${properties['apiRppsUrl'].toString()}\""
         debug {
-            buildConfigField 'String', 'API_RPPS_URL', apiRppsUrl
+            buildConfigField 'String', "API_RPPS_URL", apiRppsUrl.toString()
+            resValue('string', "API_RPPS_URL", apiRppsUrl).toString()
         }
         release {
             minifyEnabled false
