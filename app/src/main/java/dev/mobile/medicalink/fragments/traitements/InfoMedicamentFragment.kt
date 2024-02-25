@@ -8,16 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.CisSideInfos
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSideInfosRepository
 
 class InfoMedicamentFragment : Fragment() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,19 +43,22 @@ class InfoMedicamentFragment : Fragment() {
         val nomMedocView = view.findViewById<TextView>(R.id.nomCompletMedoc)
         val codeCisView = view.findViewById<TextView>(R.id.cis)
         val substanceActiveDosageView = view.findViewById<TextView>(R.id.substanceActiveInfoMedoc)
-        val textSubstanceActiveDosageView = view.findViewById<TextView>(R.id.textSubstanceActiveInfoMedoc)
+        val textSubstanceActiveDosageView =
+            view.findViewById<TextView>(R.id.textSubstanceActiveInfoMedoc)
         val formePharmaceutiqueView = view.findViewById<TextView>(R.id.formePharmaceutique)
         val textFormePharmaceutiqueView = view.findViewById<TextView>(R.id.textFormePharmaceutique)
         val voiesAdministrationView = view.findViewById<TextView>(R.id.voieAdmission)
         val textVoiesAdministrationView = view.findViewById<TextView>(R.id.textVoieAdmission)
         val etatCommercialisationView = view.findViewById<TextView>(R.id.etatDeCommercialisation)
-        val textEtatCommercialisationView = view.findViewById<TextView>(R.id.textEtatDeCommercialisation)
+        val textEtatCommercialisationView =
+            view.findViewById<TextView>(R.id.textEtatDeCommercialisation)
         val dateAmmView = view.findViewById<TextView>(R.id.dateAMM)
         val textDateAmmView = view.findViewById<TextView>(R.id.textDateAMM)
         val titulaireView = view.findViewById<TextView>(R.id.laboratoire)
         val textTitulaireView = view.findViewById<TextView>(R.id.textLaboratoire)
         val surveillanceRenforceeView = view.findViewById<TextView>(R.id.surveillanceRenforcee)
-        val textSurveillanceRenforceeView = view.findViewById<TextView>(R.id.textSurveillanceRenforcee)
+        val textSurveillanceRenforceeView =
+            view.findViewById<TextView>(R.id.textSurveillanceRenforcee)
         val contresIndications = view.findViewById<TextView>(R.id.contreIndications)
         val textcontresIndications = view.findViewById<TextView>(R.id.textContreIndications)
         val allergies = view.findViewById<TextView>(R.id.allergies)
@@ -75,71 +77,104 @@ class InfoMedicamentFragment : Fragment() {
                 codeCis.toInt()
             ).getOrNull(0)
 
-            nomMedocView.text = buildString {
-                append(cisBdpm.denomination.trim())
-            }
-            codeCisView.text = buildString {
-                append("Code CIS : ")
-                append(cisBdpm.CodeCIS.toString().trim())
-            }
-            //info Compo : denomination, dosage
-            textSubstanceActiveDosageView.text = "Substance active :"
-            substanceActiveDosageView.text = buildString {
-                append(cisCompoBdpm.denomination.trim())
-                append(", ")
-                append(cisCompoBdpm.dosage.trim())
-            }
-            textFormePharmaceutiqueView.text = "Forme pharmaceutique :"
-            formePharmaceutiqueView.text = buildString {
-                append(cisBdpm.formePharmaceutique.trim())
-            }
-            textVoiesAdministrationView.text = "Voie d'administration :"
-            voiesAdministrationView.text = buildString {
-                append(cisBdpm.voiesAdministration.trim())
-            }
-            textEtatCommercialisationView.text = "État de commercialisation :"
-            etatCommercialisationView.text = buildString {
-                append(cisBdpm.etatCommercialisation.trim())
-            }
-            textDateAmmView.text = "Date d'autorisation de mise sur le marché :"
-            dateAmmView.text = buildString {
-                append(cisBdpm.dateAMM.trim())
-            }
-            textTitulaireView.text = "Laboratoire :"
-            titulaireView.text = buildString {
-                append(cisBdpm.titulaire.trim())
-            }
-            textSurveillanceRenforceeView.text = "Surveillance renforcée :"
-            surveillanceRenforceeView.text = buildString {
-                append(cisBdpm.surveillanceRenforcee.trim())
-            }
+            //Visionez les stings dans strings.xml translation editor
 
-            if (cisSideInfos != null) {
-                textcontresIndications.text = "Contre-indications :"
-                var html =  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Html.fromHtml(cisSideInfos.contreIndications, Html.FROM_HTML_MODE_COMPACT)
-                } else {
-                    Html.fromHtml(cisSideInfos.contreIndications)
-                }
-                contresIndications.text = html
+            activity?.runOnUiThread {
+                nomMedocView.text = cisBdpm.denomination.trim()
 
-                textAllergies.text = "Allergies :"
-                html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Html.fromHtml(cisSideInfos.allergies, Html.FROM_HTML_MODE_COMPACT)
-                } else {
-                    Html.fromHtml(cisSideInfos.allergies)
-                }
-                allergies.text = html
-            } else {
-                textcontresIndications.visibility = View.GONE
-                contresIndications.visibility = View.GONE
-                textAllergies.visibility = View.GONE
-                allergies.visibility = View.GONE
+                codeCisView.text = getString(R.string.code_cis, cisBdpm.CodeCIS.toString().trim())
+
+                textSubstanceActiveDosageView.text = getString(R.string.label_substance_active)
+                substanceActiveDosageView.text = getString(
+                    R.string.substance_active_dosage,
+                    cisCompoBdpm.denomination.trim(),
+                    cisCompoBdpm.dosage.trim()
+                )
+
+                textFormePharmaceutiqueView.text = getString(R.string.label_forme_pharmaceutique)
+                formePharmaceutiqueView.text = cisBdpm.formePharmaceutique.trim()
+
+                textVoiesAdministrationView.text = getString(R.string.label_voie_administration)
+                voiesAdministrationView.text = cisBdpm.voiesAdministration.trim()
+
+                textEtatCommercialisationView.text =
+                    getString(R.string.label_etat_commercialisation)
+                etatCommercialisationView.text = cisBdpm.etatCommercialisation.trim()
+
+                textDateAmmView.text = getString(R.string.label_date_amm)
+                dateAmmView.text = cisBdpm.dateAMM.trim()
+
+                textTitulaireView.text = getString(R.string.label_laboratoire)
+                titulaireView.text = cisBdpm.titulaire.trim()
+
+                textSurveillanceRenforceeView.text =
+                    getString(R.string.label_surveillance_renforcee)
+                surveillanceRenforceeView.text = cisBdpm.surveillanceRenforcee.trim()
+
+                cisInfo(
+                    cisSideInfos,
+                    contresIndications,
+                    textcontresIndications,
+                    allergies,
+                    textAllergies
+                )
+
             }
-
 
 
         }.start()
         return view
     }
+
+    private fun cisInfo(
+        cisSideInfos: CisSideInfos?,
+        contresIndications: TextView,
+        textcontresIndications: TextView,
+        allergies: TextView,
+        textAllergies: TextView
+    ) {
+        if (cisSideInfos == null) {
+            hideViews(textcontresIndications, contresIndications, textAllergies, allergies)
+            return
+        }
+
+        if (cisSideInfos.contreIndications.isNotEmpty()) {
+            showTextWithHtml(
+                cisSideInfos.contreIndications,
+                textcontresIndications,
+                contresIndications,
+                R.string.contre_indications
+            )
+        } else {
+            hideViews(textcontresIndications, contresIndications)
+        }
+
+        if (cisSideInfos.allergies.isNotEmpty()) {
+            showTextWithHtml(cisSideInfos.allergies, textAllergies, allergies, R.string.allergies)
+        } else {
+            hideViews(textAllergies, allergies)
+        }
+    }
+
+    private fun hideViews(vararg views: View) {
+        views.forEach { it.visibility = View.GONE }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun showTextWithHtml(
+        htmlText: String,
+        textView: TextView,
+        targetView: TextView,
+        stringResource: Int
+    ) {
+        textView.text = targetView.context.getString(stringResource)
+        val html = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            Html.fromHtml(htmlText)
+        }
+        targetView.text = html
+    }
+
+
 }
