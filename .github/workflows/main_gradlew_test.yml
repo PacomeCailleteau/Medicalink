@@ -3,23 +3,22 @@ name: Run Tests
 on:
   push:
     branches:
-      - sdk_et_github_action
+      - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          distribution: 'adopt'
+          java-version: '17'
 
       - name: Run tests
-        run: ./gradlew test
-        working-directory: app
-
-      # You may need to add more steps depending on your project's dependencies and configurations
+        run: |
+          ./gradlew test
