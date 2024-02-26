@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -14,6 +15,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.utils.GoTo
 
 
 class UserInfoFragment : Fragment() {
@@ -24,6 +26,8 @@ class UserInfoFragment : Fragment() {
     private lateinit var email: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var user: User
+    private lateinit var modifPass: Button
+    private lateinit var modifEmail: Button
 
 
     override fun onCreateView(
@@ -40,6 +44,8 @@ class UserInfoFragment : Fragment() {
         dateDeNaissance = view.findViewById(R.id.userInfoDateNaissance)
         email = view.findViewById(R.id.userInfoEmail)
         progressBar = view.findViewById(R.id.userInfoProgressBar)
+        modifPass = view.findViewById(R.id.boutonModifPassword)
+        modifEmail = view.findViewById(R.id.boutonModifEmail)
 
         retour.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -47,7 +53,21 @@ class UserInfoFragment : Fragment() {
 
         getUserInfos()
 
+        modifPass.setOnClickListener {
+            val fragment = ModiferInfoFragment()
+            val buddle = Bundle()
+            buddle.putString("type", "password")
+            fragment.arguments = buddle
+            GoTo.fragment(fragment, parentFragmentManager)
+        }
 
+        modifEmail.setOnClickListener {
+            val fragment = ModiferInfoFragment()
+            val buddle = Bundle()
+            buddle.putString("type", "email")
+            fragment.arguments = buddle
+            GoTo.fragment(fragment, parentFragmentManager)
+        }
 
         return view
     }

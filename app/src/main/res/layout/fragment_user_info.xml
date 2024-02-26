@@ -80,5 +80,25 @@
         app:layout_constraintTop_toBottomOf="@+id/userInfoRetour"
         app:layout_constraintVertical_bias="0.25" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boutonModifPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:text="Modifier mon mot de passe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoEmail" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boutonModifEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Modifier mon email"
+        app:layout_constraintEnd_toEndOf="@+id/boutonModifPassword"
+        app:layout_constraintStart_toStartOf="@+id/boutonModifPassword"
+        app:layout_constraintTop_toBottomOf="@+id/boutonModifPassword" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

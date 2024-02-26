@@ -205,4 +205,8 @@
     <string name="mes_informations">My informations</string>
     <string name="modifier_email">Buttun to modify your email</string>
     <string name="contentDescriptionRetour">Back to previous page button</string>
+    <string name="changer_mon_s">Change my %s</string>
+    <string name="entrez_votre_nouveau_s">Enter your new %s</string>
+    <string name="email">email</string>
+    <string name="mot_de_passe">password</string>
 </resources>
