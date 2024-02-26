@@ -131,22 +131,28 @@ class InfosContactFragment : Fragment() {
             btnTelephone.visibility = View.VISIBLE
         }
 
-        lifecycleScope.launch {
-            val res = apiRpps.getEmail(contact.rpps)
-            if (res.isSuccessful) {
-                contact.email = res.body()?.getOrNull(0)
-                if (contact.email == null) {
-                    btnEmail.visibility = View.INVISIBLE
-                    textEmail.text = "Email non renseigné"
+        if (contact.email == null) {
+            lifecycleScope.launch {
+                val res = apiRpps.getEmail(contact.rpps)
+                if (res.isSuccessful) {
+                    contact.email = res.body()?.getOrNull(0)
+                    if (contact.email == null) {
+                        btnEmail.visibility = View.INVISIBLE
+                        textEmail.text = "Email non renseigné"
+                    } else {
+                        textEmail.text = contact.email
+                        btnEmail.visibility = View.VISIBLE
+                    }
                 } else {
-                    textEmail.text = contact.email
-                    btnEmail.visibility = View.VISIBLE
+                    textEmail.text = "Email non renseigné"
+                    btnEmail.visibility = View.INVISIBLE
                 }
-            } else {
-                textEmail.text = "Email non renseigné"
-                btnEmail.visibility = View.INVISIBLE
             }
+        } else {
+            textEmail.text = contact.email
+            btnEmail.visibility = View.VISIBLE
         }
+
 
         if (contact.address == null) {
             textAdresse.text = "Adresse non renseigné"

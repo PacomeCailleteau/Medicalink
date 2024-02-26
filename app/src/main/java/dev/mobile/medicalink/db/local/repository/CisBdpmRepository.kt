@@ -18,6 +18,14 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         }
     }
 
+    fun search100(searchQuery: String): List<CisBdpm> {
+        return try {
+            CISbdpmDao.search100(searchQuery)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     fun getOneCisBdpmById(CodeCIS: Int): List<CisBdpm> {
         return try {
             CISbdpmDao.getById(CodeCIS)
