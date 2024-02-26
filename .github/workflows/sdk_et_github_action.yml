@@ -1,4 +1,4 @@
-name: Android emulator
+name: Android emulator et Android Test
 on:
   push:
     branches:
@@ -40,6 +40,13 @@ jobs:
           chmod +x ./start_emu_headless.sh
           EMULATOR_TIMEOUT=$EMULATOR_TIMEOUT EMULATOR_NAME=$EMULATOR_NAME ./start_emu_headless.sh
 
-      - name: Run Android tests
-        run: |
-          adb shell am instrument -w dev.mobile.medicalink.test/androidx.test.runner.AndroidJUnitRunner
+  run-android-tests-on-emulator:
+    needs: playwright-emulator
+    runs-on: macos-latest
+    steps:
+     - uses: actions/checkout@v3
+
+     - name: Run Android tests
+       run: |
+         chmod +x ./gradlew
+         ./gradlew connectedAndroidTest
