@@ -198,6 +198,8 @@
     <string name="prenom_s">Prénom : %s</string>
     <string name="nom_s">Nom : %s</string>
     <string name="email_s">Email : %s</string>
+    <string name="date_de_naissance_s">Date de naissance : %s</string>
+    <string name="specialite_s">Spécialité : %s</string>
     <string name="phone_s">Téléphone : %s</string>
     <string name="adresse_s">Adresse : %s</string>
     <string name="code_postal_s">Code postal : %s</string>
@@ -207,8 +209,37 @@
     <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
     <string name="j_ai_compris">J\'ai compris</string>
     <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
-    <string name="specialite_s">Spécialité : %s</string>
     <string name="date_invalide">Date invalide</string>
     <string name="pas_medoc_dans_photo">Aucune prescription n\'a été détectée dans l\'image. Veuillez essayer d\'utiliser une autre image de l\'ordonnance ou ajouter manuellement vos médicaments.</string>
+    <string name="defaultMedocNameInDetails">Nom du médicament par défault</string>
+    <string name="dosageDetailMedoc">Dosage : %s</string>
+    <string name="uniteDetailMedoc">Unité : %s</string>
+    <string name="typeComprimeDetailMedoc">Type de comprimé : %s</string>
+    <string name="restantsDetailMedoc">Restants : %s</string>
+    <string name="quantiteDetailMedoc">Quantité : %s</string>
+    <string name="debutTraitementDetailMedoc">Début du traitement : %s</string>
+    <string name="finTraitementDetailMedoc">Fin du traitement : %s</string>
+    <string name="expireDetailMedoc">Expire : %s</string>
+    <string name="effetsSecondairesDetailMedoc">Effets secondaires : %s</string>
+    <string name="prisesDetailMedoc">Prises : %s</string>
+    <string name="principeActifDetailMedoc">Principe Actif : %s</string>
+    <string name="denominationPrincipeDetailMedoc">Dénomination Principe : %s</string>
+    <string name="dosageSubstanceDetailMedoc">Dosage Substance : %s</string>
+    <string name="formePharmaceutiqueDetailMedoc">Forme Pharmaceutique : %s</string>
+    <string name="voieAdministrationDetailMedoc">Voie d\'Administration : %s</string>
+    <string name="voirPlusInformations">Voir plus d\'informations</string>
+    <string name="graphique_des_douleurs">Graphiques des douleurs</string>
+    <string name="image_porte_de_sortie">Image d\'une porte de sortie</string>
+    <string name="voir_mes_informations">Voir mes informations</string>
+    <string name="mes_informations">Mes informations</string>
+    <string name="modifier_email">Bouton de modification de l\'email</string>
+    <string name="contentDescriptionRetour">Bouton de retour à la page précédente</string>
+    <string name="changer_mon_s">Changer mon %s</string>
+    <string name="entrez_votre_nouveau_s">Entrez votre nouveau %s</string>
+    <string name="email">email</string>
+    <string name="mot_de_passe">mot de passe</string>
+    <string name="error_rpps">Le rpps ne peut contenir que des chiffres</string>
+    <string name="error_search_medecin_user">Veuillez renseigner un rpps (11 chiffres) ou un nom/prenom</string>
+    <string name="error_search_medecin_api">Erreur lors de la recherche, veuillez être plus précis</string>
 
 </resources>

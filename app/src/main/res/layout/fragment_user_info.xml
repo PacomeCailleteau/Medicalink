@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/userInfoFragment">
+
+    <TextView
+        android:id="@+id/titreMesInfos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:text="@string/mes_informations"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/userInfoRetour"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/titreMesInfos"
+        app:layout_constraintTop_toBottomOf="@+id/titreMesInfos"
+        app:srcCompat="@drawable/annuler"
+        android:contentDescription="@string/contentDescriptionRetour" />
+
+    <TextView
+        android:id="@+id/userInfoNom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoRetour" />
+
+    <TextView
+        android:id="@+id/userInfoPrenom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/userInfoNom"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoNom" />
+
+    <TextView
+        android:id="@+id/userInfoDateNaissance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/userInfoNom"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoPrenom" />
+
+    <TextView
+        android:id="@+id/userInfoEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/userInfoNom"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoDateNaissance" />
+
+
+    <ProgressBar
+        android:id="@+id/userInfoProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoRetour"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boutonModifPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:text="Modifier mon mot de passe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoEmail" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boutonModifEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Modifier mon email"
+        app:layout_constraintEnd_toEndOf="@+id/boutonModifPassword"
+        app:layout_constraintStart_toStartOf="@+id/boutonModifPassword"
+        app:layout_constraintTop_toBottomOf="@+id/boutonModifPassword" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

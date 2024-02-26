@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/modifUserInfoFragment">
+
+    <TextView
+        android:id="@+id/titreModifierInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="start"
+        android:text="@string/changer_mon_s"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/titreModifierInfo2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/quicksand_semibold"
+        android:gravity="center"
+        android:text="@string/entrez_votre_nouveau_s"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/retourModifInfo" />
+
+    <EditText
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        app:layout_constraintStart_toStartOf="@+id/titreModifierInfo2"
+        app:layout_constraintTop_toBottomOf="@+id/titreModifierInfo2" />
+
+    <ImageView
+        android:id="@+id/retourModifInfo"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/annuler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toEndOf="@+id/titreModifierInfo"
+        app:layout_constraintTop_toBottomOf="@+id/titreModifierInfo"
+        android:contentDescription="@string/contentDescriptionRetour" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/valider"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_darker_blue_button_no_stroke_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/dialog_valider"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit" />
+
+    <ImageView
+        android:id="@+id/effacerText"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/refuser"
+        app:layout_constraintBottom_toBottomOf="@+id/edit"
+        app:layout_constraintStart_toEndOf="@+id/edit"
+        app:layout_constraintTop_toTopOf="@+id/edit" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

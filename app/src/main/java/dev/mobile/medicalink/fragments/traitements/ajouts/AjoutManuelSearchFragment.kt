@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -53,9 +54,8 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var originalItemList: List<CisBdpm>
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
-
-
     private lateinit var retour: ImageView
+    private lateinit var loader: ProgressBar
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     override fun onCreateView(
@@ -64,6 +64,13 @@ class AjoutManuelSearchFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
+
+        recyclerView = view.findViewById(R.id.recyclerViewSearch)
+        addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
+        addManuallyButton = view.findViewById(R.id.add_manually_button)
+        supprimerSearch = view.findViewById(R.id.supprimerSearch)
+        retour = view.findViewById(R.id.retour_schema_prise2)
+        loader = view.findViewById(R.id.loaderSearch)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -74,19 +81,22 @@ class AjoutManuelSearchFragment : Fragment() {
         val cisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
         //Récupération de la liste des Médicaments pour l'afficher
-        val queue = LinkedBlockingQueue<List<CisBdpm>>()
         Thread {
             val listCisBdpm = cisBdpmDatabaseInterface.getAllCisBdpm()
-            Log.d("CisBDPM list", listCisBdpm.toString())
-            queue.add(listCisBdpm)
+            originalItemList = listCisBdpm
+            filteredItemList = listCisBdpm
+            itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
+                searchForDuplcateSubstance(view.context, clickedItem.codeCIS)
+                searchForInteractions(view.context, clickedItem.codeCIS)
+                updateSearchBar(clickedItem.denomination)
+                viewModel.setNomTraitement(clickedItem.denomination)
+                viewModel.setCodeCIS(clickedItem.codeCIS)
+            }
+            requireActivity().runOnUiThread {
+                recyclerView.adapter = itemAdapter
+                loader.visibility = View.GONE
+            }
         }.start()
-        originalItemList = queue.take()
-        filteredItemList = originalItemList
-
-
-        addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
-        addManuallyButton = view.findViewById(R.id.add_manually_button)
-        supprimerSearch = view.findViewById(R.id.supprimerSearch)
 
         supprimerSearch.setOnClickListener {
             addManuallySearchBar.setText("")
@@ -106,17 +116,6 @@ class AjoutManuelSearchFragment : Fragment() {
                 }
             }
 
-
-        recyclerView = view.findViewById(R.id.recyclerViewSearch)
-
-        itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-            searchForDuplcateSubstance(view.context, clickedItem.codeCIS)
-            searchForInteractions(view.context, clickedItem.codeCIS)
-            updateSearchBar(clickedItem.denomination)
-            viewModel.setNomTraitement(clickedItem.denomination)
-            viewModel.setCodeCIS(clickedItem.codeCIS)
-        }
-        recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
@@ -124,8 +123,6 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButton.setOnClickListener {
             GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
         }
-
-        retour = view.findViewById(R.id.retour_schema_prise2)
 
         retour.setOnClickListener {
             viewModel.reset()

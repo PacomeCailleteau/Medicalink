@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         val queue = LinkedBlockingQueue<String>()
 
         // Thread pour récupérer le prénom de l'utilisateur connecté pour son affichage
-        Thread {/*
+        Thread {
             //On créer un user factice pour aller plus vite
             userDatabaseInterface.insertUser(
                 User(
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     Pair(8, 0),
                     Pair(22, 0)
                 )
-            )*/
+            )
             val res = userDatabaseInterface.getUsersConnected()
             if (res.isNotEmpty()) {
                 queue.add(res.first().prenom)
@@ -105,6 +105,8 @@ class MainActivity : AppCompatActivity() {
 
             //On met les bons listeners
             buttonConnexion.setOnClickListener {
+                val intent = Intent(this, MainFragment::class.java)
+                startActivity(intent)
                 // Commenter les 2 lignes ci-dessous pour désactiver l'authentification
                 showPasswordDialog()
                 authenticateWithBiometric()
