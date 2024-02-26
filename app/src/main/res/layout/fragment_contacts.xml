@@ -26,14 +26,13 @@
         android:id="@+id/recyclerViewMessages"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/creerContact"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/creerContact"
-        app:layout_constraintTop_toBottomOf="@+id/creerContact" />
+        app:layout_constraintTop_toBottomOf="@+id/creerContact"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/titreContact"

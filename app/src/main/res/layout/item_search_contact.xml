@@ -4,6 +4,7 @@
     android:id="@+id/layout_item_recap"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
     android:background="@drawable/rounded_white_black_stroke_button_background"
     android:padding="10dp">
 
