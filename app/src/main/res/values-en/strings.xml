@@ -180,6 +180,7 @@
     <string name="ajouter_vrm_medoc_conflit">You are already taking %s medicine(s) that use(s) the same active substance: %s.</string>
     <string name="date_invalide">Invalid date</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="date_de_naissance_s">Birthdate : %s</string>
     <string name="specialite_s">Speciality : %s</string>
     <string name="pas_medoc_dans_photo">No prescription was detected in the picture. Please, try to use another picture of the prescription or add manually your medication.</string>
     <string name="defaultMedocNameInDetails">Default drug name</string>
@@ -200,4 +201,9 @@
     <string name="voieAdministrationDetailMedoc">Route of administration: %s</string>
     <string name="voirPlusInformations">See more informations</string>
     <string name="graphique_des_douleurs">Pain graph</string>
+    <string name="image_porte_de_sortie">Image of an exit door</string>
+    <string name="voir_mes_informations">See my informations</string>
+    <string name="mes_informations">My informations</string>
+    <string name="modifier_email">Buttun to modify your email</string>
+    <string name="contentDescriptionRetour">Back to previous page button</string>
 </resources>

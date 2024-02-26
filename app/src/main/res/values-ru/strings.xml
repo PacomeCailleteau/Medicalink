@@ -180,6 +180,7 @@
     <string name="ajouter_vrm_medoc_conflit">Вы уже принимаете %s лекарств, в которых используется то же самое действующее вещество: %s.</string>
     <string name="date_invalide">Неверная дата</string>
     <string name="pas_medoc_dans_photo">На изображении не обнаружено ни одного рецепта. Пожалуйста, попробуйте использовать другое изображение рецепта или добавьте лекарства вручную.</string>
+    <string name="date_de_naissance_s">Дата рождения : %s</string>
     <string name="specialite_s">Специальность: %s</string>
     <string name="dark_mode">Темный режим</string>
     <string name="defaultMedocNameInDetails">Название препарата по умолчанию</string>
@@ -200,4 +201,9 @@
     <string name="voieAdministrationDetailMedoc">Способ применения: %s</string>
     <string name="voirPlusInformations">См. дополнительную информацию</string>
     <string name="graphique_des_douleurs">График боли</string>
+    <string name="image_porte_de_sortie">Изображение выходной двери</string>
+    <string name="voir_mes_informations">Просмотр моей информации</string>
+    <string name="mes_informations">Моя информация</string>
+    <string name="modifier_email">Кнопка изменения электронной почты</string>
+    <string name="contentDescriptionRetour">Кнопка возврата к предыдущей странице</string>
 </resources>
