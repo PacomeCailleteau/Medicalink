@@ -9,7 +9,7 @@ interface CisBdpmDao {
     @Query("SELECT * FROM CisBdpm")
     fun getAll(): List<CisBdpm>
 
-    @Query("SELECT * FROM CisBdpm WHERE denomination || ' ' || formePharmaceutique LIKE '%' || :searchQuery || '%'")
+    @Query("SELECT * FROM CisBdpm WHERE denomination || ' ' || formePharmaceutique LIKE '%' || :searchQuery || '%' LIMIT 100")
     fun search100(searchQuery: String): List<CisBdpm>
 
     @Query("SELECT * FROM CisBdpm WHERE CodeCIS IN (:CodeCIS)")
