@@ -147,6 +147,10 @@ class ContactsSearchFragment : Fragment() {
 
                 } else {
                     results = getPracticiansToContact(uuid, query)
+                    if (results.isEmpty()) {
+                        erreurRecherche.text = "Aucun résultat"
+                        erreurRecherche.visibility = View.VISIBLE
+                    }
                 }
             }
         } else {
