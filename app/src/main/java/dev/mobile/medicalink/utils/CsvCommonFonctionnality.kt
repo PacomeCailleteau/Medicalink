@@ -1,4 +1,4 @@
-package dev.mobile.medicalink.db.local.repository
+package dev.mobile.medicalink.utils
 
 import android.content.Context
 import android.util.Log

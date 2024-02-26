@@ -10,6 +10,7 @@ package db {
         package DAOs {
             interface CisBdpmDao {
                 + getAll(): List<CisBdpm>
+                + search100(searchQuery: String): List<CisBdpm>
                 + getById(CodeCIS: Int): List<CisBdpm>
                 + insertAll(CisBdpmDaos: List<CisBdpm>)
                 + delete(CisBdpmDao: CisBdpm)
@@ -24,6 +25,34 @@ package db {
                 + update(CisCompoBdpmDao: CisCompoBdpm)
                 + deleteAll() 
             }
+
+            interface ContactDao {
+                + getAll(): List<Contact>
+                + getById(Rpps: Int): List<Contact>
+                + getByUuid(uuid: String): List<Contact>
+                + getByIdAndUuid(Rpps: Long, uuid: String): Contact
+                + getByIdAndUuid(Rpps: Int, uuid: String): Contact
+                + insertAll(vararg ContactDaos: Contact)
+                + delete(ContactDao: Contact)
+                + update(ContactDao: Contact)
+                + deleteAll()
+            }
+
+            interface EffetSecondaireDao{
+                + getAll(): List<EffetSecondaire>
+                + getByuuidUser(uuidUser: String): List<EffetSecondaire>
+                + insertAll(vararg EffetSecondaireDaos: EffetSecondaire)
+                + delete(EffetSecondaireDao: EffetSecondaire)
+                + update(EffetSecondaireDao: EffetSecondaire)
+                + deleteAll()
+            }
+
+            interface InteractionDao{
+                + getAllLike(substance: String): List<Interaction>
+                + getBySubstance(substance: String): List<Interaction>
+                + insertAll(vararg InteractionDaos: Interaction)
+            }
+
             interface MedocDao {
                 + getAll(): List<Medoc>
                 + getById(uuid: String): List<Medoc>
@@ -48,19 +77,54 @@ package db {
                 + delete(User: User)
                 + update(User: User)
             }
+
         }
 
         package Repositories {
             class CisBdpmRepository {
                 - cisBdpmDao: CisBdpmDao
-                + insert(cis: CisBdpm)
-                + selectAll(): List<CisBdpm>
+                + getAllCisBdpm(): List<CisBdpm>
+                + search100(searchQuery: String): List<CisBdpm>
+                + getOneCisBdpmById(CodeCIS: Int): List<CisBdpm>
+                + insertCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String>
+                + insertFromCsv(context: Context)
+                - parseCsv(csvContent: String): List<CisBdpm>
+                + deleteCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String>
+                + updateCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String>
             }
+
             class CisCompoBdpmRepository {
                 - cisCompoBdpmDao: CisCompoBdpmDao
-                + insert(cisCompo: CisCompoBdpm)
-                + selectAll(): List<CisCompoBdpm>
+                + getAllCisCompoBdpm(): List<CisCompoBdpm>
+                + getOneCisCompoBdpmById(CodeCIS: Int): List<CisCompoBdpm>
+                + insertCisCompoBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String>
+                + insertFromCsv(context: Context)
+                + parseCsv(csvContent: String): List<CisCompoBdpm>
+                + deleteCisBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String>
+                + updateCisBdpm(cisCompoBdpm: CisCompoBdpm): Pair<Boolean, String>
             }
+
+            class CisSideInfosRepository{
+                - CisSideInfosDao: CisSideInfosDao
+                + getAllCisSideInfos(): List<CisSideInfos>
+                + getOneCisSideInfosById(CodeCIS: Int): List<CisSideInfos>
+                + insertCisSideInfos(cisSideInfos: CisSideInfos): Pair<Boolean, String>
+                + insertFromCsv(context: Context)
+                - parseCsv(csvContent: String): List<CisSideInfos>
+                + deleteCisSideInfos(cisSideInfos: CisSideInfos): Pair<Boolean, String>
+                + updateCisSideInfos(cisSideInfos: CisSideInfos): Pair<Boolean, String>
+            }
+
+            class ContactRepository {
+                - ContactDao: ContactDao
+                + getAllContact(): List<Contact>
+                + getOneContactById(uuid: String, rpps: Long): Contact?
+                + getContactsByUuid(uuid: String): List<Contact>
+                + insertContact(Contact: Contact): Pair<Boolean, String>
+                + deleteContact(Contact: Contact): Pair<Boolean, String>
+                + updateContact(Contact: Contact): Pair<Boolean, String>
+            }
+
             class MedocRepository {
                 - medocDao: MedocDao
                 + insert(medoc: Medoc)
@@ -73,8 +137,24 @@ package db {
             }
             class UserRepository {
                 - userDao: UserDao
-                + insert(user: User)
-                + selectAll(): List<User>
+                + getAllUsers(): List<User>
+                + getOneUserById(uuid: String): List<User>
+                + getUsersConnected(isConnected: Boolean = true): List<User>
+                + insertUser(user: User): Pair<Boolean, String>
+                + deleteUser(user: User): Pair<Boolean, String>
+                + updateUser(user: User, isPasswordChanged: Boolean = false): Pair<Boolean, String>
+                + hashPassword(password: String): String
+                + setConnected(user: User): Pair<Boolean, String>
+                + isValidPassword(pass: String): Pair<Boolean, String>
+            }
+            class ContactRepository{
+                - contactDao: ContactDao
+                + getAllContact(): List<Contact>
+                + getOneContactById(uuid: String, rpps: Long): Contact?
+                + getContactsByUuid(uuid: String): List<Contact>
+                + insertContact(Contact: Contact): Pair<Boolean, String>
+                + deleteContact(Contact: Contact): Pair<Boolean, String>
+                + updateContact(Contact: Contact): Pair<Boolean, String>
             }
         }
 
@@ -146,6 +226,21 @@ package db {
                 + getHeurePrise() : String
                 + getQuantite() : Int
                 + getDosageUnite() : String
+            }
+
+            class Contact{
+                - uuid: String
+                - rpps: Long
+                - firstName: String
+                - lastName: String
+                - fullName: String
+                - specialty: String?
+                - address: String?
+                - zipcode: String?
+                - city: String?
+                - phoneNumber: String?
+                - email: String?
+                + fromPractician(uuid: String, practician: Practician): Contact
             }
 
         }

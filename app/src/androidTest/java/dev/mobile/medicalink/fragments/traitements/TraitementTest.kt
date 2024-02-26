@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import dev.mobile.medicalink.fragments.traitements.PriseTest.Companion.dummyPrise1
 import dev.mobile.medicalink.fragments.traitements.PriseTest.Companion.dummyPrise2
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import java.io.Serializable
 import java.time.LocalDate
@@ -12,19 +13,21 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 class TraitementTest {
 
+    private var t1 = dummyTraitement1()
     @Test
     fun enMajuscule() {
+        assertEquals(t1.nomTraitement,"ZOPICLONE ZYDUS 7,5 mg, comprimé pelliculé sécable")
     }
 
 
     @Test
     fun getName() {
-
+        assertEquals(t1.nomTraitement, t1.getName())
     }
 
     @Test
-    fun getProchainePrise(prise: PriseTest?) {
-
+    fun getProchainePrise() {
+        assertEquals(dummyPrise1(),t1.getProchainePrise(dummyPrise1()))
     }
 
     companion object {

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisCompoBdpmDao
 import dev.mobile.medicalink.db.local.entity.CisCompoBdpm
+import dev.mobile.medicalink.utils.CsvCommonFonctionnality
 
 class CisCompoBdpmRepository(private val cisCompoBdpmDao: CisCompoBdpmDao) {
     val commonFonctionnality = CsvCommonFonctionnality()

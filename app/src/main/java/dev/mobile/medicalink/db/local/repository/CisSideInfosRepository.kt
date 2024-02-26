@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisSideInfosDao
 import dev.mobile.medicalink.db.local.entity.CisSideInfos
+import dev.mobile.medicalink.utils.CsvCommonFonctionnality
 
 class CisSideInfosRepository(private val CisSideInfosDao: CisSideInfosDao) {
     val commonFonctionnality = CsvCommonFonctionnality()

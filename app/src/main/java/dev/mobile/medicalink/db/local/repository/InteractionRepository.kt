@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import dev.mobile.medicalink.db.local.dao.InteractionDao
 import dev.mobile.medicalink.db.local.entity.Interaction
+import dev.mobile.medicalink.utils.CsvCommonFonctionnality
 
 
 class InteractionRepository(private val interactionDao: InteractionDao) {
