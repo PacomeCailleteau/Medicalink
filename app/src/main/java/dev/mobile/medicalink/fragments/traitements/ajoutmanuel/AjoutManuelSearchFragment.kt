@@ -28,12 +28,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.fragments.traitements.AddTraitementsFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
 import java.util.concurrent.LinkedBlockingQueue
+import kotlin.concurrent.thread
 
 
 class AjoutManuelSearchFragment : Fragment() {
@@ -44,10 +46,10 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var addManuallyButtonLauncher: ActivityResultLauncher<Intent>
     private lateinit var supprimerSearch: ImageView
-    private lateinit var originalItemList: List<CisBdpm>
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
 
+    private lateinit var CisBdpmDatabaseInterface: CisBdpmRepository
 
     private lateinit var retour: ImageView
 
@@ -65,19 +67,7 @@ class AjoutManuelSearchFragment : Fragment() {
         }
 
         val db = AppDatabase.getInstance(view.context.applicationContext)
-        val CisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
-
-        //Récupération de la liste des Médicaments pour l'afficher
-        val queue = LinkedBlockingQueue<List<CisBdpm>>()
-        Thread {
-            val listCisBdpm = CisBdpmDatabaseInterface.getAllCisBdpm()
-            Log.d("CisBDPM list", listCisBdpm.toString())
-            queue.add(listCisBdpm)
-
-        }.start()
-        originalItemList = queue.take()
-        filteredItemList = originalItemList
-
+        CisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
         val traitement = arguments?.getSerializable("traitement") as Traitement
         val isAddingTraitement = arguments?.getString("isAddingTraitement")
@@ -85,7 +75,6 @@ class AjoutManuelSearchFragment : Fragment() {
         var provenance = arguments?.getString("provenance")
         val dureePriseDbt = arguments?.getString("dureePriseDbt")
         val dureePriseFin = arguments?.getString("dureePriseFin")
-
 
         addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
         addManuallyButton = view.findViewById(R.id.add_manually_button)
@@ -149,11 +138,6 @@ class AjoutManuelSearchFragment : Fragment() {
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewSearch)
 
-        Log.d("ICI", filteredItemList.toString())
-        itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-            updateSearchBar(clickedItem, traitement)
-        }
-        recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
@@ -194,6 +178,8 @@ class AjoutManuelSearchFragment : Fragment() {
             fragTransaction.commit()
         }
 
+        updateItems("", traitement)
+
         return view
     }
 
@@ -204,8 +190,7 @@ class AjoutManuelSearchFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                filterItems(s.toString(), traitement)
-                Log.d("Change", s.toString())
+                updateItems(addManuallySearchBar.text.toString(), traitement)
             }
 
             override fun afterTextChanged(editable: Editable?) {
@@ -262,20 +247,21 @@ class AjoutManuelSearchFragment : Fragment() {
      * Fonction de filtrage de la liste de médicaments sur une chaine de caractère (ici le contenu de la barre de recherche)
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
-    private fun filterItems(query: String, traitement: Traitement) {
-        var filteredItemList = originalItemList.filter { item ->
-            item.denomination.contains(query, ignoreCase = true)
-        }
-        requireActivity().runOnUiThread {
-            itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-                updateSearchBar(
-                    clickedItem,
-                    traitement
-                )
+    private fun updateItems(query: String, traitement: Traitement) {
+        Thread {
+            val itemList = CisBdpmDatabaseInterface.search100(query)
+            requireActivity().runOnUiThread {
+                itemAdapter = AjoutManuelSearchAdapterR(itemList) { clickedItem ->
+                    updateSearchBar(
+                        clickedItem,
+                        traitement
+                    )
+                }
+                recyclerView.adapter = itemAdapter
+                itemAdapter.notifyDataSetChanged()
             }
-            recyclerView.adapter = itemAdapter
-            itemAdapter.notifyDataSetChanged()
-        }
+        }.start()
+
     }
 
     /**
