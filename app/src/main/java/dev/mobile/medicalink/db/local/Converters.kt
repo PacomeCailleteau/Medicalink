@@ -2,6 +2,7 @@ package dev.mobile.medicalink.db.local
 
 import androidx.room.TypeConverter
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class Converters {
 
@@ -45,5 +46,25 @@ class Converters {
     fun stringToPair(str: String?): Pair<Int, Int>? {
         val result = str?.removeSurrounding("(", ")")?.split(", ") ?: return null
         return Pair(result[0].toInt(), result[1].toInt())
+    }
+
+    /**
+     * Convert a string to a LocalDate
+     * @param value the string to convert
+     * @return the LocalDate
+     */
+    @TypeConverter
+    fun stringToLocalDateTime(value: String?): LocalDateTime? {
+        return value?.let { LocalDateTime.parse(it) }
+    }
+
+    /**
+     * Convert a LocalDate to a string
+     * @param date the LocalDate to convert
+     * @return the string
+     */
+    @TypeConverter
+    fun localDateTimeToTimestamp(date: LocalDateTime?): String? {
+        return date?.toString()
     }
 }
