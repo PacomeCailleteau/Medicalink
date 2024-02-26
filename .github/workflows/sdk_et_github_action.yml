@@ -40,6 +40,6 @@ jobs:
           chmod +x ./start_emu_headless.sh
           EMULATOR_TIMEOUT=$EMULATOR_TIMEOUT EMULATOR_NAME=$EMULATOR_NAME ./start_emu_headless.sh
 
-      - name: Run Android tests
-        run: |
-          adb shell am instrument -w dev.mobile.medicalink.test/androidx.test.runner.AndroidJUnitRunner
+  Run Android tests:
+    run: |
+     adb shell am instrument -w dev.mobile.medicalink.test/androidx.test.runner.AndroidJUnitRunner
