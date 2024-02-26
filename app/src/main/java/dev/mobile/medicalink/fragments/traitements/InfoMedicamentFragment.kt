@@ -129,7 +129,8 @@ class InfoMedicamentFragment : Fragment() {
 
                 val clickableSpan = object : ClickableSpan() {
                     override fun onClick(view: View) {
-                        val url = "https://base-donnees-publique.medicaments.gouv.fr/extrait.php?specid=${cisBdpm.CodeCIS}"
+                        val url =
+                            "https://base-donnees-publique.medicaments.gouv.fr/extrait.php?specid=${cisBdpm.CodeCIS}"
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.data = Uri.parse(url)
                         startActivity(intent)

@@ -44,9 +44,9 @@ jobs:
     needs: playwright-emulator
     runs-on: macos-latest
     steps:
-     - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-     - name: Run Android tests
-       run: |
-         chmod +x ./gradlew
-         ./gradlew connectedAndroidTest
+      - name: Run Android tests
+        run: |
+          chmod +x ./gradlew
+          ./gradlew connectedAndroidTest

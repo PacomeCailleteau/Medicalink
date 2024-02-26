@@ -51,7 +51,12 @@ class CsvCommonFonctionnality {
         return values
     }
 
-    fun insertCsvContentInBatches(context: Context, batchSize: Int, filePath: String, insertFunction: (List<CisSideInfos>) -> Unit) {
+    fun insertCsvContentInBatches(
+        context: Context,
+        batchSize: Int,
+        filePath: String,
+        insertFunction: (List<CisSideInfos>) -> Unit
+    ) {
         context.assets.open(filePath).bufferedReader().useLines { lines ->
             val batch = mutableListOf<CisSideInfos>()
 
@@ -67,7 +72,10 @@ class CsvCommonFonctionnality {
                                 batch.clear()
                             }
                         } catch (e: NumberFormatException) {
-                            Log.e("CsvCommonFonctionnality", "Error parsing integer from CSV line: $line")
+                            Log.e(
+                                "CsvCommonFonctionnality",
+                                "Error parsing integer from CSV line: $line"
+                            )
                         }
                     } else {
                         Log.e("CsvCommonFonctionnality", "Invalid CSV line format: $line")

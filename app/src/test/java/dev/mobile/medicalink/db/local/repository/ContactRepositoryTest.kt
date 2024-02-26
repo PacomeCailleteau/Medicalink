@@ -23,7 +23,7 @@ class ContactRepositoryTest {
     private val defaultContact =
         Contact(
             uuid = "1",
-            rpps =  10101080173,
+            rpps = 10101080173,
             firstName = "Jean-Marie",
             address = "RUE DES PALIS",
             city = "MAZE",
@@ -32,7 +32,8 @@ class ContactRepositoryTest {
             phoneNumber = "",
             specialty = "Spécialiste en Médecine Générale",
             zipcode = "49630",
-            email = "jmc@test.fr")
+            email = "jmc@test.fr"
+        )
 
     private val defaultContact2 =
         Contact(
@@ -78,7 +79,7 @@ class ContactRepositoryTest {
         // I prefer to create a new val contact than using defaultContact
         val contact = defaultContact
         contactRepository.insertContact(contact)
-        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid, contact.rpps)
         assert(contactFromDatabase?.uuid == contact.uuid)
     }
 
@@ -93,13 +94,12 @@ class ContactRepositoryTest {
     }
 
 
-
     @Test
     fun `test update contact`() {
         val contact = defaultContact
         contactRepository.insertContact(contact)
         //Get the contact from database
-        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid, contact.rpps)
         assert(contactFromDatabase?.uuid == contact.uuid)
         //Update the contact
         val contactToUpdate = contactFromDatabase?.copy(firstName = "testUpdate")
@@ -107,7 +107,8 @@ class ContactRepositoryTest {
         assert(res.first)
         assert(res.second == "Success")
         //Get the contact from database after update
-        val contactFromDatabaseAfterUpdate = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabaseAfterUpdate =
+            contactRepository.getOneContactById(contact.uuid, contact.rpps)
         assert(contactFromDatabaseAfterUpdate?.uuid == contact.uuid)
         assert(contactFromDatabaseAfterUpdate?.firstName == "testUpdate")
     }
@@ -118,7 +119,7 @@ class ContactRepositoryTest {
         val contact = defaultContact
         contactRepository.updateContact(contact)
         //Get the contact from database
-        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid, contact.rpps)
         if (contactFromDatabase != null) {
             assert(contactFromDatabase.equals(null))
         }
@@ -129,7 +130,7 @@ class ContactRepositoryTest {
         val contact = defaultContact
         contactRepository.insertContact(contact)
         //Get the contact from database
-        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabase = contactRepository.getOneContactById(contact.uuid, contact.rpps)
         assert(contactFromDatabase?.uuid == contact.uuid)
         //Delete the contact that we just get from database
         val res = contactFromDatabase?.let { contactRepository.deleteContact(it) }
@@ -138,7 +139,8 @@ class ContactRepositoryTest {
             assert(res.second == "Success")
         }
         //Get the contact from database after delete
-        val contactFromDatabaseAfterDelete = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabaseAfterDelete =
+            contactRepository.getOneContactById(contact.uuid, contact.rpps)
         assert(contactFromDatabaseAfterDelete == null)
     }
 
@@ -153,10 +155,10 @@ class ContactRepositoryTest {
         assert(res.first)
         assert(res.second == "Success")
         //Get the contact from database after delete to verify that contact is still here
-        val contactFromDatabaseAfterDelete = contactRepository.getOneContactById(contact.uuid,contact.rpps)
+        val contactFromDatabaseAfterDelete =
+            contactRepository.getOneContactById(contact.uuid, contact.rpps)
         assert(contactFromDatabaseAfterDelete!!.uuid == contact.uuid)
     }
-
 
 
 }

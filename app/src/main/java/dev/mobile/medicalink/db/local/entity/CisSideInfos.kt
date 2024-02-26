@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class CisSideInfos (
+class CisSideInfos(
     @PrimaryKey val CodeCIS: Int,
     var contreIndications: String,
     var allergies: String,
-        )
+)

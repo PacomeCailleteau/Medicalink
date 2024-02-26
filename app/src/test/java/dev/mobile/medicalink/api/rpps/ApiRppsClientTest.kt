@@ -2,37 +2,37 @@ package dev.mobile.medicalink.api.rpps
 
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import kotlinx.coroutines.runBlocking
 
 class ApiRppsClientTest {
 
-    lateinit var apiRpps : ApiRppsService
+    lateinit var apiRpps: ApiRppsService
 
     @Before
-    fun init(){
+    fun init() {
         apiRpps = ApiRppsClient().apiService
     }
 
     @Test
-    fun apiCanBeInstanciated(){
+    fun apiCanBeInstanciated() {
         assertNotNull(apiRpps)
     }
 
     @Test
     fun apiIsAccessible() = runBlocking {
-        assertNotNull( apiRpps.getPracticians(""))
+        assertNotNull(apiRpps.getPracticians(""))
     }
 
     @Test
     fun doesFindOne() = runBlocking {
-        assertEquals( arrayListOf( dummyPractician()) ,apiRpps.getPracticians("Cleka").body())
+        assertEquals(arrayListOf(dummyPractician()), apiRpps.getPracticians("Cleka").body())
     }
-    
+
     @Test
     fun doesNotFindOne() = runBlocking {
-        assertEquals( arrayListOf<Practician>() ,apiRpps.getPracticians("CarpenterBrut").body())
+        assertEquals(arrayListOf<Practician>(), apiRpps.getPracticians("CarpenterBrut").body())
     }
 
     @Test
@@ -72,13 +72,13 @@ class ApiRppsClientTest {
             null
         )
 
-        assertEquals( arrayListOf(o1,o2,o3) ,apiRpps.getPracticians("OSSELIN").body())
+        assertEquals(arrayListOf(o1, o2, o3), apiRpps.getPracticians("OSSELIN").body())
 
     }
 
     companion object {
-        fun dummyPractician() : Practician {
-            val rpps =  10101080173
+        fun dummyPractician(): Practician {
+            val rpps = 10101080173
             val firstName = "Jean-Marie"
             val address = "RUE DES PALIS"
             val city = "MAZE"

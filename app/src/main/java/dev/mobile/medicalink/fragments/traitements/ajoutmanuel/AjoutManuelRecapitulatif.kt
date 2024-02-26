@@ -70,8 +70,8 @@ class AjoutManuelRecapitulatif : Fragment() {
         retour = view.findViewById(R.id.retour_schema_prise2)
         suivant = view.findViewById(R.id.suivant1)
 
-        val traitement : Traitement? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getSerializable("traitement",Traitement::class.java)
+        val traitement: Traitement? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getSerializable("traitement", Traitement::class.java)
         } else {
             arguments?.getSerializable("traitement") as Traitement
         }
@@ -188,7 +188,6 @@ class AjoutManuelRecapitulatif : Fragment() {
                     //TODO TEST D'autres interactions
 
 
-
                     when {
                         listDuplicate.isNotEmpty() && listIncompatible.isNotEmpty() -> {
                             //les 2 sont remplis
@@ -252,7 +251,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                         }
                     }
                 }
-            }else{
+            } else {
                 //mise a jour
                 val destinationFragment = ListeTraitementsFragment()
                 destinationFragment.arguments = bundle
@@ -468,7 +467,6 @@ class AjoutManuelRecapitulatif : Fragment() {
             fragTransaction.commit()
             dialog.dismiss()
         }
-
 
 
     }
@@ -690,7 +688,6 @@ class AjoutManuelRecapitulatif : Fragment() {
             null
         }
     }
-
 
 
 }

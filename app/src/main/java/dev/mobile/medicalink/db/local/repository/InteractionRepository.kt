@@ -41,9 +41,15 @@ class InteractionRepository(private val interactionDao: InteractionDao) {
         } catch (e: SQLiteConstraintException) {
             Log.e("InteractionRepository", "InteractionRepository already exists : ${e.message}")
         } catch (e: SQLiteException) {
-            Log.e("InteractionRepository", "Database Error while inserting Interaction : ${e.message}")
+            Log.e(
+                "InteractionRepository",
+                "Database Error while inserting Interaction : ${e.message}"
+            )
         } catch (e: Exception) {
-            Log.e("InteractionRepository", "Unknown Error while inserting Interaction : ${e.message}")
+            Log.e(
+                "InteractionRepository",
+                "Unknown Error while inserting Interaction : ${e.message}"
+            )
         }
     }
 
