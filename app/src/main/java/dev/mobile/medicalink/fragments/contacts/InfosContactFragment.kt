@@ -16,6 +16,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import dev.mobile.medicalink.R
+import dev.mobile.medicalink.R.string.Telephone_non_renseigne
 import dev.mobile.medicalink.api.rpps.ApiRppsClient
 import dev.mobile.medicalink.api.rpps.ApiRppsService
 import dev.mobile.medicalink.db.local.AppDatabase
@@ -91,7 +92,7 @@ class InfosContactFragment : Fragment() {
             }
         }.start()
 
-        btnTelephone.setOnClickListener(View.OnClickListener {
+        btnTelephone.setOnClickListener({
             val number = textTelephone.text.toString()
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
             startActivity(intent)
@@ -123,7 +124,7 @@ class InfosContactFragment : Fragment() {
         }
         textSpecialite.text = contact.specialty ?: "Spécialité non renseigné"
         if (contact.phoneNumber == null) {
-            textTelephone.text = "Téléphone non renseigné"
+            textTelephone.text = Telephone_non_renseigne.toString()
             btnTelephone.visibility = View.INVISIBLE
         } else {
             textTelephone.text = contact.phoneNumber
