@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteException
 import dev.mobile.medicalink.db.local.dao.InteractionSubstanceDao
 import dev.mobile.medicalink.db.local.entity.InteractionSubstance
 
-class InteractionSubstanceRepository (private val interactionSubstanceDao: InteractionSubstanceDao) {
+class InteractionSubstanceRepository(private val interactionSubstanceDao: InteractionSubstanceDao) {
 
     fun getAll(): List<InteractionSubstance> {
         return try {
@@ -54,7 +54,6 @@ class InteractionSubstanceRepository (private val interactionSubstanceDao: Inter
             Pair(false, "Unknown Error : ${e.message}")
         }
     }
-
 
 
 }

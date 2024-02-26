@@ -206,4 +206,8 @@
     <string name="mes_informations">Моя информация</string>
     <string name="modifier_email">Кнопка изменения электронной почты</string>
     <string name="contentDescriptionRetour">Кнопка возврата к предыдущей странице</string>
+    <string name="changer_mon_s">Измените мон %s</string>
+    <string name="entrez_votre_nouveau_s">Введите новый %s</string>
+    <string name="email">Электронная почта</string>
+    <string name="mot_de_passe">пароль</string>
 </resources>

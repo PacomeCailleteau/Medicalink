@@ -33,7 +33,7 @@ import java.time.temporal.WeekFields
 import java.util.Calendar
 import java.util.Locale
 
-class AffichageGraphFragment: Fragment() {
+class AffichageGraphFragment : Fragment() {
 
     var statutDouleur: List<StatutDouleur> = listOf()
     var entries: ArrayList<Entry> = arrayListOf()

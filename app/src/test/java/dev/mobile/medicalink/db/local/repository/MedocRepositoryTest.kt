@@ -23,9 +23,33 @@ class MedocRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var medocRepository: MedocRepository
     private val userOfDefaultMedoc =
-        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false, Pair(1, 1), Pair(1, 1), Pair(1, 1))
+        User(
+            "1",
+            "Utilisateur",
+            "test",
+            "test",
+            "test",
+            "a@b.c",
+            "test",
+            false,
+            Pair(1, 1),
+            Pair(1, 1),
+            Pair(1, 1)
+        )
     private val userOfDefaultMedoc2 =
-        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true, Pair(2, 2), Pair(2, 2), Pair(2, 2))
+        User(
+            "2",
+            "Utilisateur",
+            "test2",
+            "test2",
+            "test2",
+            "a@b.c",
+            "test2",
+            true,
+            Pair(2, 2),
+            Pair(2, 2),
+            Pair(2, 2)
+        )
     private val defaultMedoc = Medoc(
         "1",
         "1",

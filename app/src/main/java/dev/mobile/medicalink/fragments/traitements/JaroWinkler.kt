@@ -82,7 +82,8 @@ class JaroWinkler {
 
         if (result.second == -1) return result.first
 
-        val jaro = ((result.first / len1) + (result.first / len2) + ((result.first - result.second / 2.0) / result.first)) / 3.0
+        val jaro =
+            ((result.first / len1) + (result.first / len2) + ((result.first - result.second / 2.0) / result.first)) / 3.0
         var commonPrefix = 0
         len2 = 4.coerceAtMost(len2)
 
@@ -99,7 +100,7 @@ class JaroWinkler {
      * @return distance entre les deux mots à partir de ce critère
      * @return nombre de transposition
      */
-    private fun comparaisonMots(string1: String, string2:String): Pair<Double, Int> {
+    private fun comparaisonMots(string1: String, string2: String): Pair<Double, Int> {
         val len1 = string1.length
         val len2 = string2.length
         val delta = 1.coerceAtLeast(len1 / 2) - 1
@@ -132,7 +133,12 @@ class JaroWinkler {
      * @return distance entre les deux mots suites à ces calculs
      * @return nombre de transposition
      */
-    private fun calculResult(string2: String, flag: BooleanArray, matches: Int, ch1Match: CharArray): Pair<Double, Int> {
+    private fun calculResult(
+        string2: String,
+        flag: BooleanArray,
+        matches: Int,
+        ch1Match: CharArray
+    ): Pair<Double, Int> {
         if (matches == 0) return Pair(1.0, -1)
 
         var transpositions = 0
