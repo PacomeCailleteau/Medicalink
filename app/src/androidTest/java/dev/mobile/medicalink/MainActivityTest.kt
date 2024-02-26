@@ -1,6 +1,5 @@
 package dev.mobile.medicalink
 
-
 import android.Manifest
 import android.widget.DatePicker
 import androidx.test.core.app.ActivityScenario
@@ -28,7 +27,6 @@ import java.util.Locale
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
-
     @JvmField
     @Rule
     val permissionRule: GrantPermissionRule =
@@ -50,7 +48,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testClickOnButtunCreateProfile() {
+    fun testClickOnButtonCreateProfile() {
         // Simulation du clic sur le bouton de création de profiles (oui oui, son id est bien button_connexion, merci Pacôme)
         onView(withId(R.id.button_connexion)).perform(click())
         // Vérification que l'activité de création de profiles est lancée
@@ -58,7 +56,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testTexteBienvue() {
+    fun testTexteBienvenue() {
         // Vérification que le texte de bienvenue est bien présent
         //en fonction de la langue du téléphone, le texte peut être différent
 
