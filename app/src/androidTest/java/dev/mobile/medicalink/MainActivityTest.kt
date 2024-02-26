@@ -31,7 +31,8 @@ class MainActivityTest {
 
     @JvmField
     @Rule
-    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
+    val permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
 
     @Before
     fun setUp() {

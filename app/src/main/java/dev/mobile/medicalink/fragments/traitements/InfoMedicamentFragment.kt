@@ -1,8 +1,13 @@
 package dev.mobile.medicalink.fragments.traitements
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +68,7 @@ class InfoMedicamentFragment : Fragment() {
         val textcontresIndications = view.findViewById<TextView>(R.id.textContreIndications)
         val allergies = view.findViewById<TextView>(R.id.allergies)
         val textAllergies = view.findViewById<TextView>(R.id.textAllergies)
-
+        val plusDeDetails = view.findViewById<TextView>(R.id.plusDetailMedoc)
 
         Thread {
             val cisBdpm = cisBdpmDatabaseInterface.getOneCisBdpmById(
@@ -118,6 +123,32 @@ class InfoMedicamentFragment : Fragment() {
                     allergies,
                     textAllergies
                 )
+
+                val texteComplet = plusDeDetails.text
+                val spannableString = SpannableString(texteComplet)
+
+                val clickableSpan = object : ClickableSpan() {
+                    override fun onClick(view: View) {
+                        val url =
+                            "https://base-donnees-publique.medicaments.gouv.fr/extrait.php?specid=${cisBdpm.CodeCIS}"
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
+                }
+
+                val indiceMotIci = texteComplet.indexOf("ici")
+
+                spannableString.setSpan(
+                    clickableSpan,
+                    indiceMotIci,
+                    indiceMotIci + "ici".length,
+                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                plusDeDetails.text = spannableString
+
+                plusDeDetails.movementMethod = LinkMovementMethod.getInstance()
 
             }
 

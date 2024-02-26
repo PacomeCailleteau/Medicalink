@@ -4,7 +4,6 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
-import dev.mobile.medicalink.db.local.entity.Contact
 import dev.mobile.medicalink.db.local.entity.EffetSecondaire
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisCompoBdpmRepository
@@ -32,7 +30,8 @@ class InfoEffetSecondaireFragment : Fragment() {
         val cisCompoDatabaseInterface = CisCompoBdpmRepository(db.cisCompoBdpmDao())
         val cisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
-        val effetSecondaire = requireArguments().getSerializable("effetSecondaire") as EffetSecondaire
+        val effetSecondaire =
+            requireArguments().getSerializable("effetSecondaire") as EffetSecondaire
 
         val retour = view.findViewById<ImageView>(R.id.retour_info_effet_secondaire)
 
@@ -48,7 +47,8 @@ class InfoEffetSecondaireFragment : Fragment() {
         val messageEffetSecondaire = view.findViewById<TextView>(R.id.messageInfoEffetSecondaire)
         val previewPhoto = view.findViewById<ImageView>(R.id.previewPhotoInfoEffetSecondaire)
         val dateEffetSecondaire = view.findViewById<TextView>(R.id.dateInfoEffetSecondaire)
-        val supprimerEffetSecondaire = view.findViewById<AppCompatButton>(R.id.boutonSupprimerEffetSecondaire)
+        val supprimerEffetSecondaire =
+            view.findViewById<AppCompatButton>(R.id.boutonSupprimerEffetSecondaire)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -71,7 +71,8 @@ class InfoEffetSecondaireFragment : Fragment() {
                 nomEffetSecondaire.text = effetSecondaire.titre
                 messageEffetSecondaire.text = effetSecondaire.message
 
-                val bitmap = BitmapFactory.decodeFile(context?.filesDir?.path + "/" + effetSecondaire.uuidEffetSecondaire + ".png")
+                val bitmap =
+                    BitmapFactory.decodeFile(context?.filesDir?.path + "/" + effetSecondaire.uuidEffetSecondaire + ".png")
                 if (bitmap == null) {
                     previewPhoto.visibility = View.GONE
                 } else {

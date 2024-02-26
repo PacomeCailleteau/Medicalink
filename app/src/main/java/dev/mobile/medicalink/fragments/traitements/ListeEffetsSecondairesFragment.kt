@@ -18,9 +18,7 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.EffetSecondaire
 import dev.mobile.medicalink.db.local.repository.EffetSecondaireRepository
-import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.LinkedBlockingQueue
@@ -109,11 +107,15 @@ class ListeEffetsSecondairesFragment : Fragment() {
 
 
 
-        Log.d("test",listeEffetSecondaire.toString())
+        Log.d("test", listeEffetSecondaire.toString())
         recyclerView = view.findViewById(R.id.recyclerViewEffetSecondaire)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter =
-            ListeEffetsSecondairesAdapterR(listeEffetSecondaire) { clickedItem -> afficherEffetSecondaire(clickedItem) }
+            ListeEffetsSecondairesAdapterR(listeEffetSecondaire) { clickedItem ->
+                afficherEffetSecondaire(
+                    clickedItem
+                )
+            }
 
         Thread {
             val uuid = userDatabaseInterface.getUsersConnected()[0].uuid
@@ -125,7 +127,11 @@ class ListeEffetsSecondairesFragment : Fragment() {
                 aucunEffetSecondaire.visibility = View.GONE
             }
             recyclerView.adapter =
-                ListeEffetsSecondairesAdapterR(listEffetSecondaire) { clickedItem -> afficherEffetSecondaire(clickedItem) }
+                ListeEffetsSecondairesAdapterR(listEffetSecondaire) { clickedItem ->
+                    afficherEffetSecondaire(
+                        clickedItem
+                    )
+                }
         }.start()
 
         val espacementEnDp = 10

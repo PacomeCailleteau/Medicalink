@@ -1,25 +1,23 @@
 package dev.mobile.medicalink.fragments.traitements
 
-import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.entity.EffetSecondaire
-import dev.mobile.medicalink.utils.MapIconeMedecin
 
 
-class ListeEffetsSecondairesAdapterR(private val list: List<EffetSecondaire>, private val onItemClick: (EffetSecondaire) -> Unit) :
+class ListeEffetsSecondairesAdapterR(
+    private val list: List<EffetSecondaire>,
+    private val onItemClick: (EffetSecondaire) -> Unit
+) :
     RecyclerView.Adapter<ListeEffetsSecondairesAdapterR.TraitementViewHolder>() {
 
     class TraitementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -50,7 +48,10 @@ class ListeEffetsSecondairesAdapterR(private val list: List<EffetSecondaire>, pr
         holder.messageEffetSecondaire.text = item.message
 
         val context = holder.view.context
-        val path = BitmapDrawable(context.resources, BitmapFactory.decodeFile(context.filesDir.path + "/" + item.uuidEffetSecondaire+".png"))
+        val path = BitmapDrawable(
+            context.resources,
+            BitmapFactory.decodeFile(context.filesDir.path + "/" + item.uuidEffetSecondaire + ".png")
+        )
 
         if (path == null) {
             holder.imageEffetSecondaire.visibility = View.GONE

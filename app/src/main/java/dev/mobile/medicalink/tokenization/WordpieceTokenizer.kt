@@ -1,6 +1,6 @@
 package fr.medicapp.medicapp.tokenization
 
-final class WordpieceTokenizer(
+class WordpieceTokenizer(
     vocab: HashMap<String, Int>
 ) {
     private var dic: HashMap<String, Int>

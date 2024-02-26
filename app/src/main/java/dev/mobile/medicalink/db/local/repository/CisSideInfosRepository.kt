@@ -7,7 +7,7 @@ import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisSideInfosDao
 import dev.mobile.medicalink.db.local.entity.CisSideInfos
 
-class CisSideInfosRepository (private val CisSideInfosDao: CisSideInfosDao) {
+class CisSideInfosRepository(private val CisSideInfosDao: CisSideInfosDao) {
     val commonFonctionnality = CsvCommonFonctionnality()
 
     fun getAllCisSideInfos(): List<CisSideInfos> {
@@ -51,9 +51,15 @@ class CisSideInfosRepository (private val CisSideInfosDao: CisSideInfosDao) {
         } catch (e: SQLiteConstraintException) {
             Log.e("CisSideInfosRepository", "CIS_side_infos already exists : ${e.message}")
         } catch (e: SQLiteException) {
-            Log.e("CisSideInfosRepository", "Database Error while inserting CIS_side_infos : ${e.message}")
+            Log.e(
+                "CisSideInfosRepository",
+                "Database Error while inserting CIS_side_infos : ${e.message}"
+            )
         } catch (e: Exception) {
-            Log.e("CisSideInfosRepository", "Unknown Error while inserting CIS_side_infos : ${e.message}")
+            Log.e(
+                "CisSideInfosRepository",
+                "Unknown Error while inserting CIS_side_infos : ${e.message}"
+            )
         }
     }
 

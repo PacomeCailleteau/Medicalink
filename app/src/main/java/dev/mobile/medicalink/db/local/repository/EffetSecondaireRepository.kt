@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteException
 import dev.mobile.medicalink.db.local.dao.EffetSecondaireDao
 import dev.mobile.medicalink.db.local.entity.EffetSecondaire
 
-class EffetSecondaireRepository (private val EffetSecondaireDao: EffetSecondaireDao) {
+class EffetSecondaireRepository(private val EffetSecondaireDao: EffetSecondaireDao) {
 
     fun getAllEffetSecondaire(): List<EffetSecondaire> {
         return try {

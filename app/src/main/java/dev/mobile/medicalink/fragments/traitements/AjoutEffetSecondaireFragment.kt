@@ -30,7 +30,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-class AjoutEffetSecondaireFragment: Fragment() {
+class AjoutEffetSecondaireFragment : Fragment() {
     private lateinit var annuler: ImageView
     private lateinit var inputNomEffetSecondaire: TextInputEditText
     private lateinit var inputMessageEffetSecondaire: TextInputEditText
@@ -40,13 +40,11 @@ class AjoutEffetSecondaireFragment: Fragment() {
     private lateinit var chooseFromGalleryLauncher: ActivityResultLauncher<String>
 
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
 
         val view = inflater.inflate(R.layout.fragment_add_effet_secondaire, container, false)
@@ -102,16 +100,20 @@ class AjoutEffetSecondaireFragment: Fragment() {
                     saveImageToInternalStorage(
                         view.context,
                         previewPhoto.drawToBitmap(),
-                        "${uuidEffetSecondaire}.png")
+                        "${uuidEffetSecondaire}.png"
+                    )
                 }
                 val bundle = Bundle()
-                effetSecondaireDatabaseInterface.insertEffetSecondaire(EffetSecondaire(
-                    userDatabaseInterface.getUsersConnected()[0].uuid,
-                    uuidEffetSecondaire,
-                    inputNomEffetSecondaire.text.toString(),
-                    inputMessageEffetSecondaire.text.toString(),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH'h'mm"))
-                    ))
+                effetSecondaireDatabaseInterface.insertEffetSecondaire(
+                    EffetSecondaire(
+                        userDatabaseInterface.getUsersConnected()[0].uuid,
+                        uuidEffetSecondaire,
+                        inputNomEffetSecondaire.text.toString(),
+                        inputMessageEffetSecondaire.text.toString(),
+                        LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH'h'mm"))
+                    )
+                )
                 val destinationFragment = ListeEffetsSecondairesFragment()
                 destinationFragment.arguments = bundle
                 val fragTransaction = parentFragmentManager.beginTransaction()
@@ -167,7 +169,8 @@ class AjoutEffetSecondaireFragment: Fragment() {
      * Mise à jour de l'état du bouton "Ajouter" pour l'activer uniquement quand le champ de recherche n'est pas vide
      */
     private fun updateButtonState() {
-        val allFieldsFilled = (inputNomEffetSecondaire.text!!.isNotBlank() && inputMessageEffetSecondaire.text!!.isNotBlank())
+        val allFieldsFilled =
+            (inputNomEffetSecondaire.text!!.isNotBlank() && inputMessageEffetSecondaire.text!!.isNotBlank())
 
         if (allFieldsFilled) {
             boutonAjouter.isEnabled = true
