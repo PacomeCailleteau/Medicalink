@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import com.github.mikephil.charting.charts.LineChart
@@ -12,6 +13,8 @@ import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
+import dev.mobile.medicalink.utils.GoTo
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -44,6 +47,12 @@ class AffichageGraphFragment: Fragment() {
         lineChart.description = description
 
         lineChart.invalidate()
+
+        //Ajout de la fonctionnalité de retour à la page précédente
+        val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
+        retour.setOnClickListener {
+            GoTo.fragment(MainTraitementsFragment(), parentFragmentManager)
+        }
 
         return rootView
     }
