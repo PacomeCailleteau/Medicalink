@@ -2,7 +2,6 @@ package dev.mobile.medicalink.fragments.home
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.User
@@ -84,7 +84,8 @@ class UserInfoFragment : Fragment() {
                 activity?.runOnUiThread {
                     nom.text = getString(R.string.nom_s, user.nom)
                     prenom.text = getString(R.string.prenom_s, user.prenom)
-                    dateDeNaissance.text = getString(R.string.date_de_naissance_s, user.dateDeNaissance)
+                    dateDeNaissance.text =
+                        getString(R.string.date_de_naissance_s, user.dateDeNaissance)
                     email.text = getString(R.string.email_s, user.email)
                     progressBar.visibility = View.GONE
                 }
