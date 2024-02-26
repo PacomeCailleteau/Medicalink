@@ -2,63 +2,67 @@ package dev.mobile.medicalink.fragments.traitements
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import dev.mobile.medicalink.fragments.traitements.PriseTest.Companion.dummyPrise1
+import dev.mobile.medicalink.fragments.traitements.PriseTest.Companion.dummyPrise2
+import org.junit.Test
 import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-class TraitementTest(
-    var CodeCIS: Int?,
-    var nomTraitement: String,
-    var dosageNb: Int,
-    var dosageUnite: String,
-    var dateFinTraitement: LocalDate?,
-    var typeComprime: String = "Comprimé",
-    var comprimesRestants: Int?,
-    var expire: Boolean = false,
-    var effetsSecondaires: MutableList<String>?,
-    var prises: MutableList<PriseTest>? = null,
-    var totalQuantite: Int?,
-    var UUID: String?,
-    var UUIDUSER: String?,
-    var dateDbtTraitement: LocalDate?
+class TraitementTest {
 
-) : Serializable {
-
+    @Test
     fun enMajuscule() {
-        nomTraitement = nomTraitement.uppercase(Locale.getDefault())
     }
 
-    fun getName(): String {
-        return nomTraitement
+
+    @Test
+    fun getName() {
+
     }
 
-    fun getProchainePrise(prise: PriseTest?): PriseTest {
-        if (prise == null) {
-            return prises!![0]
-        } else {
-            var prochainePrise = prise
-            //S'il n'y a qu'une seule prise, on retourne cette prise
-            if (prises?.size == 1) {
-                return prochainePrise
-            }
-            //Sinon :
-            //On tri les prises en fonction de leur heure de prise
-            prises?.sortBy { it.heurePrise }
-            //On boucle sur les prises pour trouver la prochaine prise, si la prise est la dernière de la liste, on retourne la première prise
-            for (i in 0 until prises!!.size) {
-                if (prises!![i] == prise) {
-                    prochainePrise = if (i == prises!!.size - 1) {
-                        prises!![0]
-                    } else {
-                        prises!![i + 1]
-                    }
-                }
-            }
+    @Test
+    fun getProchainePrise(prise: PriseTest?) {
 
-            //On est de toute façon dans le else alors prochainePrise ne peut pas être null
-            return prochainePrise!!
+    }
+
+    companion object {
+        public fun dummyTraitement1() : Traitement {
+            var CodeCIS: Int? = 65883886
+            var nomTraitement: String = "ZOPICLONE ZYDUS 7,5 mg, comprimé pelliculé sécable"
+            var dosageNb: Int = 1
+            var dosageUnite: String = "1"
+            var dateFinTraitement: LocalDate? = LocalDate.now()
+            var typeComprime: String = "Comprimé"
+            var comprimesRestants: Int? = 5
+            var expire: Boolean = true
+            var effetsSecondaires: MutableList<String>? = null
+            var prises: MutableList<Prise> = mutableListOf<Prise>(
+                dummyPrise1(),
+                dummyPrise2()
+            )
+            var totalQuantite: Int? = 30
+            var UUID: String? = "3a25971c-1b71-45a5-8ae0-28c8719434bc"
+            var UUIDUSER: String? = "9206ab59-43e2-4b7a-8880-f7ac37a5a41a"
+            var dateDbtTraitement: LocalDate? = LocalDate.MIN
+
+            return Traitement(
+                CodeCIS,
+                nomTraitement,
+                dosageNb,
+                dosageUnite,
+                dateFinTraitement,
+                typeComprime,
+                comprimesRestants,
+                expire,
+                effetsSecondaires,
+                prises,
+                totalQuantite,
+                UUID,
+                UUIDUSER,
+                dateDbtTraitement
+            )
         }
     }
-
 }
