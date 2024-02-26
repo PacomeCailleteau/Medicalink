@@ -238,5 +238,8 @@
     <string name="entrez_votre_nouveau_s">Entrez votre nouveau %s</string>
     <string name="email">email</string>
     <string name="mot_de_passe">mot de passe</string>
+    <string name="error_rpps">Le rpps ne peut contenir que des chiffres</string>
+    <string name="error_search_medecin_user">Veuillez renseigner un rpps (11 chiffres) ou un nom/prenom</string>
+    <string name="error_search_medecin_api">Erreur lors de la recherche, veuillez être plus précis</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package dev.mobile.medicalink.fragments.contacts
 
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +75,6 @@ class AjoutContactMedecinFragment : Fragment() {
             }.start()
         }
 
-
         /* Suppression des champs de recherche */
         supprimerSearch.setOnClickListener {
             searchByRpps.text?.clear()
@@ -86,6 +86,24 @@ class AjoutContactMedecinFragment : Fragment() {
             val fragmentManager = this.parentFragmentManager
             fragmentManager.popBackStack()
         }
+
+        // On ajoute un pattern au champs rpps pour qu'il ne puisse contenir que des chiffres
+        searchByRpps.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: android.text.Editable?) {
+                val rpps = searchByRpps.text.toString()
+                if (rpps.isNotEmpty() && !rpps.matches(Regex("[0-9]+"))) {
+                    searchByRpps.error = getString(R.string.error_rpps)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ne fait rien
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ne fait rien
+            }
+        })
 
         return view
     }
@@ -99,7 +117,7 @@ class AjoutContactMedecinFragment : Fragment() {
     private fun rechercheMedecin(rpps: String, name: String): List<Medecin> {
         var lstMed = mutableListOf<Medecin>()
         try {
-            if (rpps.isNotEmpty()) {
+            if (rpps.isNotEmpty() && rpps.length == 11) {
                 val medecin = medecinApi.getMedecin(rpps)
                 if (medecin != null) {
                     lstMed = mutableListOf(medecin)
@@ -116,13 +134,23 @@ class AjoutContactMedecinFragment : Fragment() {
                 if (res2 != null) {
                     lstMed.addAll(res2)
                 }
+            } else {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        this.context,
+                        getString(R.string.error_search_medecin_user),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         } catch (e: Exception) {
-            Toast.makeText(
-                this.context,
-                "Erreur lors de la recherche, veuillez être plus précis",
-                Toast.LENGTH_SHORT
-            ).show()
+            requireActivity().runOnUiThread {
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.error_search_medecin_api),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
         return lstMed
     }
