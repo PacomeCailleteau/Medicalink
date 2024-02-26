@@ -19,16 +19,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.Converters
 import dev.mobile.medicalink.db.local.entity.StatutDouleur
-import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.StatutDouleurRepository
 import dev.mobile.medicalink.fragments.douleur.enums.FiltreDate
-import dev.mobile.medicalink.fragments.traitements.MainTraitementsFragment
-import dev.mobile.medicalink.utils.GoTo
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.temporal.WeekFields
 import java.util.Calendar
 import java.util.Locale
