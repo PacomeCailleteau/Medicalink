@@ -210,4 +210,7 @@
     <string name="entrez_votre_nouveau_s">Enter your new %s</string>
     <string name="email">email</string>
     <string name="mot_de_passe">password</string>
+    <string name="error_rpps">The rpps can only contain digits</string>
+    <string name="error_search_medecin_user">Please enter an rpps (11 digits) or a first/last name</string>
+    <string name="error_search_medecin_api">Search error, please be more precise</string>
 </resources>

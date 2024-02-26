@@ -210,4 +210,7 @@
     <string name="entrez_votre_nouveau_s">Введите новый %s</string>
     <string name="email">Электронная почта</string>
     <string name="mot_de_passe">пароль</string>
+    <string name="error_rpps">В rpps могут содержаться только числа</string>
+    <string name="error_search_medecin_user">Введите rpps (11 цифр) или фамилию/имя.</string>
+    <string name="error_search_medecin_api">Ошибка поиска, пожалуйста, уточните</string>
 </resources>
