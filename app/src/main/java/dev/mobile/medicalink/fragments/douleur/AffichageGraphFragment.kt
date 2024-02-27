@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import com.github.mikephil.charting.charts.LineChart
@@ -31,8 +32,12 @@ import java.util.Locale
 
 class AffichageGraphFragment : Fragment() {
 
-    var statutDouleur: List<StatutDouleur> = listOf()
-    var entries: ArrayList<Entry> = arrayListOf()
+    lateinit var lineChart: LineChart
+    lateinit var spinner: Spinner
+
+    private var valeurSpinner1 = FiltreDate.MOIS
+    private var statutDouleur: List<StatutDouleur> = listOf()
+    private var entries: ArrayList<Entry> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +47,9 @@ class AffichageGraphFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_affichage_statut_douleur, container, false)
 
-        val lineChart = rootView.findViewById<LineChart>(R.id.lineChart)
+
+        // graphe
+        this.lineChart = rootView.findViewById<LineChart>(R.id.lineChart)
 
         val entries = generateData()
 
@@ -102,7 +109,7 @@ class AffichageGraphFragment : Fragment() {
         val db = AppDatabase.getInstance(this.requireContext())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
         this.statutDouleur = statutInterface.getAllStatutDouleur()
-        filtreDate(FiltreDate.JOUR)
+        filtreDate()
         val retour = arrayListOf<Entry>()
         val converters = Converters()
 
@@ -115,12 +122,12 @@ class AffichageGraphFragment : Fragment() {
         this.entries = retour
     }
 
-    private fun filtreDate(filtreDate: FiltreDate) {
+    private fun filtreDate() {
         val converters = Converters()
         val today = LocalDate.now()
         val statuts = mutableListOf<StatutDouleur>()
 
-        when (filtreDate) {
+        when (this.valeurSpinner1) {
             FiltreDate.JOUR -> {
                 for (s: StatutDouleur in this.statutDouleur) {
                     if (converters.stringToLocalDateTime(s.date)!!.toLocalDate() == today) {
