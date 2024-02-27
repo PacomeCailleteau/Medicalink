@@ -4,7 +4,9 @@ hide circle
 skinparam monochrome true
 skinparam classAttributeIconSize 0
 skinparam backgroundcolor white
-'skinparam groupInheritance 2
+skinparam groupInheritance 2
+
+
 package db {
     package local {
         package DAOs {
@@ -65,7 +67,7 @@ package db {
                 + getAll(): List<PriseValidee>
                 + getById(CodeCIS: Int): List<PriseValidee>
                 + getByUUIDTraitementAndDate(date: String, uuidPrise: String): List<PriseValidee>
-                + insertAll(priseValidee: PriseValidee)
+                + insertAll(priseValidee: PriseValidee)C
                 + delete(priseValidee: PriseValidee)
                 + update(priseValidee: PriseValidee)
             }
@@ -76,6 +78,15 @@ package db {
                 + insertAll(users: List<User>)
                 + delete(User: User)
                 + update(User: User)
+            }
+
+            interface CisSideInfosDao {
+                + getAll(): List<CisSideInfos>
+                + getById(CodeCIS: Int): List<CisSideInfos>
+                + insertAll(vararg CisSideInfosDaos: CisSideInfos)
+                + delete(CisSideInfosDao: CisSideInfos)
+                + update(CisSideInfosDao: CisSideInfos)
+                + deleteAll()
             }
 
         }
@@ -125,15 +136,39 @@ package db {
                 + updateContact(Contact: Contact): Pair<Boolean, String>
             }
 
+            class EffetSecondaireRepository {
+                - EffetSecondaireDao: EffetSecondaireDao
+                + getAllEffetSecondaire(): List<EffetSecondaire>
+                + getEffetSecondairesByUuid(uuid: String): List<EffetSecondaire>
+                + insertEffetSecondaire(EffetSecondaire: EffetSecondaire): Pair<Boolean, String>
+                + deleteEffetSecondaire(EffetSecondaire: EffetSecondaire): Pair<Boolean, String>
+                + updateEffetSecondaire(EffetSecondaire: EffetSecondaire): Pair<Boolean, String>
+            }
+
+            class InteractionRepository {
+                 - interactionDao: InteractionDao
+                 + getAllInteractionLikeSubstance(substance: String): List<Interaction>
+                 + getOneInteractionBySubstance(substance: String): List<Interaction>
+                 + insertFromCsv(context: Context)
+                 - parseCsv(csvContent: String): List<Interaction>
+                 }
+
             class MedocRepository {
                 - medocDao: MedocDao
-                + insert(medoc: Medoc)
-                + selectAll(): List<Medoc>
+                + getAllMedocs(): List<Medoc>
+                + getOneMedocById(uuid: String): List<Medoc>
+                + getAllMedocByUserId(uuidUser: String): List<Medoc>
+                + insertMedoc(medoc: Medoc): Pair<Boolean, String>
+                + deleteMedoc(medoc: Medoc): Pair<Boolean, String>
+                + updateMedoc(medoc: Medoc): Pair<Boolean, String>
             }
             class PriseValideeRepository {
                 - priseValideeDao: PriseValideeDao
-                + insert(prise: PriseValidee)
-                + selectAll(): List<PriseValidee>
+                + getAllPriseValidee(): List<PriseValidee>
+                + getOnePriseValideeById(uuid: String): List<PriseValidee>
+                + getByUUIDTraitementAndDate(date: String, uuidPrise: String): List<PriseValidee>
+                + deletePriseValidee(priseValidee: PriseValidee): Pair<Boolean, String>
+                + updatePriseValidee(priseValidee: PriseValidee): Pair<Boolean, String>
             }
             class UserRepository {
                 - userDao: UserDao
@@ -209,6 +244,26 @@ package db {
                 - statut: String
             }
 
+            class Interaction {
+                - substance: String
+                - incompatibles: String
+            }
+
+            class CisSideInfos {
+                - CodeCIS: Int
+                - contreIndications: String
+                - allergies: String
+            }
+
+            class EffetSecondaire {
+                - uuidUser: String
+                - uuidEffetSecondaire: String
+                - titre: String
+                - message: String
+                - date: Strin
+
+            }
+
             class User {
                 - username: String
                 - password: String
@@ -261,13 +316,21 @@ package db {
 }
 
 CisBdpmRepository --> CisBdpmDao : Uses
-CisCompoBdpmRepository --> CisCompoBdpmDao : Uses
+CisCompoBdpmRepository --> CisCompoBdpmDao : Usess
+CisSideInfosRepository --> CisSideInfosDao : Uses
+ContactRepository --> ContactDao : Uses
+EffetSecondaireRepository --> EffetSecondaireDao : Uses
+InteractionRepository --> InteractionDao : Uses
 MedocRepository --> MedocDao : Uses
 PriseValideeRepository --> PriseValideeDao : Uses
 UserRepository --> UserDao : Uses
 
 CisBdpmDao --> CisBdpm : Aggregates
 CisCompoBdpmDao --> CisCompoBdpm : Aggregates
+CisSideInfosDao --> CisSideInfos : Aggregates
+ContactDao --> Contact : Aggregates
+EffetSecondaireDao --> EffetSecondaire : Aggregates
+InteractionRepository --> Interaction : Aggregates
 MedocDao --> Medoc : Aggregates
 PriseValideeDao --> PriseValidee : Aggregates
 UserDao --> User : Aggregates
@@ -277,5 +340,10 @@ AppDatabase --> MedocDao : Uses
 AppDatabase --> CisBdpmDao : Uses
 AppDatabase --> PriseValideeDao : Uses
 AppDatabase --> CisCompoBdpmDao : Uses
+AppDatabase --> ContactDao : Uses
+AppDatabase --> EffetSecondaireDao : Uses
+AppDatabase --> InteractionDao : Uses
+AppDatabase --> CisSideInfosDao : Uses
+
 
 @enduml
