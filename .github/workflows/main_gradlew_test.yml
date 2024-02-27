@@ -1,11 +1,11 @@
 name: Run Tests
 
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  
 
 jobs:
   build:
@@ -22,8 +22,25 @@ jobs:
           java-version: '17'
 
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./gradlew          
 
+
+  tests-api:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      
       - name: Update API_URL from Secrets
         env:
           API_RPPS_URL: ${{ secrets.API_RPPS_URL }}
@@ -31,4 +48,28 @@ jobs:
 
       - name: Run tests
         run: |
-          ./gradlew test
+          ./gradlew testRelease --tests "dev.mobile.medicalink.api.rpps.*"
+
+  tests-db:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Update API_URL from Secrets
+        env:
+          API_RPPS_URL: ${{ secrets.API_RPPS_URL }}
+        run: touch local.properties
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Run tests
+        run: |
+          ./gradlew testRelease --tests "dev.mobile.medicalink.db.local.*"
