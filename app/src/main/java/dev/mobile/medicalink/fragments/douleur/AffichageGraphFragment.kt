@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
@@ -33,7 +35,7 @@ import java.util.Locale
 class AffichageGraphFragment : Fragment() {
 
     lateinit var lineChart: LineChart
-    lateinit var spinner: Spinner
+    lateinit var spinner1: Spinner
 
     private var valeurSpinner1 = FiltreDate.MOIS
     private var statutDouleur: List<StatutDouleur> = listOf()
@@ -47,6 +49,7 @@ class AffichageGraphFragment : Fragment() {
      *
      * @return une vue
      */
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,9 +58,37 @@ class AffichageGraphFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_affichage_statut_douleur, container, false)
 
+        //Ajout de la fonctionnalité de retour à la page précédente
+        val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
+        retour.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        // spinner1
+        this.spinner1 = rootView.findViewById(R.id.spinner1)
+        val items = listOf(FiltreDate.getStringFromEnum(FiltreDate.JOUR, requireContext()),
+            FiltreDate.getStringFromEnum(FiltreDate.SEMAINE, requireContext()),
+            FiltreDate.getStringFromEnum(FiltreDate.MOIS, requireContext()))
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        this.spinner1.adapter = adapter
+        this.spinner1.setSelection(2)
+
+        this.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val option = listOf(FiltreDate.JOUR, FiltreDate.SEMAINE, FiltreDate.MOIS)
+                valeurSpinner1 = option[position]
+                recuperePoint()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
+            }
+        }
 
         // graphe
-        this.lineChart = rootView.findViewById<LineChart>(R.id.lineChart)
+        this.lineChart = rootView.findViewById(R.id.lineChart)
 
         val entries = generateData()
 
@@ -87,12 +118,6 @@ class AffichageGraphFragment : Fragment() {
 
         lineChart.invalidate()
 
-        //Ajout de la fonctionnalité de retour à la page précédente
-        val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
-        retour.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-
         return rootView
     }
 
@@ -120,6 +145,7 @@ class AffichageGraphFragment : Fragment() {
 
     /**
      * récupère tous les points de la base de données et les converties en forme utilisable par le graphe
+     * mets à jour le graphe
      * enregistre les points de la période souhaitée dans une variable de la classe
      */
     private fun recuperePoint() {
@@ -137,6 +163,22 @@ class AffichageGraphFragment : Fragment() {
         }
 
         this.entries = retour
+        // Obtenez une référence à votre LineData existant
+        val lineData = lineChart.data as LineData
+
+        // Ajoutez ou modifiez les ensembles de données avec de nouvelles données
+        val lineDataSet = LineDataSet(this.entries, "New Data Set")
+        lineDataSet.color = Color.GREEN
+        lineDataSet.valueTextColor = Color.BLACK
+
+        // Ajoutez le nouvel ensemble de données à votre LineData existant ou modifiez-le si nécessaire
+        lineData.addDataSet(lineDataSet)
+
+        // Appelez notifyDataSetChanged() sur votre LineData pour informer le graphique des changements
+        lineData.notifyDataChanged()
+
+        // Appelez invalidate() sur votre LineChart pour forcer le réaffichage du graphique avec les nouvelles données
+        this.lineChart.invalidate()
     }
 
     /**
