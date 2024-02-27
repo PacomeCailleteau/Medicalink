@@ -39,6 +39,14 @@ class AffichageGraphFragment : Fragment() {
     private var statutDouleur: List<StatutDouleur> = listOf()
     private var entries: ArrayList<Entry> = arrayListOf()
 
+    /**
+     * Initialise le fragment et ajoute les fonctionalités des boutons
+     * @param inflater layout XML
+     * @param container vue parent
+     * @param savedInstanceState donnée d'une vue précédente
+     *
+     * @return une vue
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,6 +96,11 @@ class AffichageGraphFragment : Fragment() {
         return rootView
     }
 
+    /**
+     * |Temporaire|
+     * Génère des points aléatoire pour voir comment se comporte le graphe
+     * @return liste de point
+     */
     private fun generateData(): ArrayList<Entry> {
         val entries = ArrayList<Entry>()
 
@@ -105,6 +118,10 @@ class AffichageGraphFragment : Fragment() {
 
     }
 
+    /**
+     * récupère tous les points de la base de données et les converties en forme utilisable par le graphe
+     * enregistre les points de la période souhaitée dans une variable de la classe
+     */
     private fun recuperePoint() {
         val db = AppDatabase.getInstance(this.requireContext())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
@@ -122,6 +139,10 @@ class AffichageGraphFragment : Fragment() {
         this.entries = retour
     }
 
+    /**
+     * filtre les points qu'ils correspondent au filtre de date
+     * enregistre les résultats dans une variable de classe
+     */
     private fun filtreDate() {
         val converters = Converters()
         val today = LocalDate.now()
