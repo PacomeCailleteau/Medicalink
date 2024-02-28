@@ -11,6 +11,9 @@ interface StatutDouleurDao {
     @Query("SELECT * FROM statutdouleur WHERE uuid IN (:uuid)")
     fun getById(uuid: String): StatutDouleur?
 
+    @Query("SELECT * FROM statutdouleur WHERE uuidUser IN (:uuidUser)")
+    fun getByUser(uuidUser: String): List<StatutDouleur>
+
     @Insert
     fun insertAll(vararg statuts: StatutDouleur)
 
