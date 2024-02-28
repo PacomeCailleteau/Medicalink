@@ -78,6 +78,13 @@ class ListeEffetsSecondairesAdapterR(private val list: MutableList<Traitement>) 
             return
         }
         val item = tousLesEffetsSecondaires[position]
+
+        if (item.isEmpty()) {
+            // Rendre la vue invisible si la liste est vide
+            holder.view.visibility = View.GONE
+            return
+        }
+
         holder.nomEffet.text = item.substring(0, 1).uppercase() + item.substring(1)
 
         val traitements = getListProvenance()[item]
