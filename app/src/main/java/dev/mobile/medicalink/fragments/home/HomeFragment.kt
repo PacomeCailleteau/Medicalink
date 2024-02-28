@@ -1,6 +1,5 @@
 package dev.mobile.medicalink.fragments.home
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,13 +29,19 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.LinkedBlockingQueue
 
+interface RapportJourCallback {
+    fun updateRapport(map: MutableMap<Int, CircleState>)
+}
+
 /**
  * Le fragment de la page d'accueil
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), RapportJourCallback{
     private lateinit var homeAdapter: HomeAdapterR
 
     private lateinit var calendrierMoisTextView: TextView
+
+    private lateinit var layout: ConstraintLayout
 
     private lateinit var jourAvantButton: Button
     private lateinit var jourJButton: Button
@@ -71,7 +77,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,6 +111,8 @@ class HomeFragment : Fragment() {
         )
 
         // Récupération des éléments de la vue
+        layout = view.findViewById(R.id.home)
+
         calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
         jourAvantButton = view.findViewById(R.id.jourAvant)
         jourJButton = view.findViewById(R.id.jourJ)
@@ -141,7 +148,7 @@ class HomeFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        homeAdapter = HomeAdapterR(traitementsTries, mutableListOf(), LocalDate.now(), recyclerView)
+        homeAdapter = HomeAdapterR(traitementsTries, LocalDate.now(), this, recyclerView)
         recyclerView.adapter = homeAdapter
         val espacementEnDp = 22
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
@@ -215,7 +222,6 @@ class HomeFragment : Fragment() {
      * @param dateClique la date sur laquelle l'utilisateur a cliqué
      * @param context le contexte de l'application
      */
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
         if (dateClique != LocalDate.now()) {
@@ -357,6 +363,7 @@ class HomeFragment : Fragment() {
             queue.add(listeTraitement)
 
         }.start()
+
         val listeTraitementPrise = queue.take()
         Log.d("test", listeTraitementPrise.toString())
         var doIaddIt: Boolean
@@ -433,34 +440,8 @@ class HomeFragment : Fragment() {
         }
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
-        if (traitementsTries.size > 0) {
-            traitementsTries.add(
-                0,
-                Pair(
-                    Prise(
-                        "123456",
-                        "17:00",
-                        7,
-                        "Comprime"
-                    ),
-                    Traitement(
-                        null,
-                        "x",
-                        1,
-                        "Comp",
-                        null,
-                        "comp",
-                        25,
-                        false,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null, null
-                    )
-                )
-            )
-        }
+
+
         val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
         Thread {
 
@@ -490,7 +471,28 @@ class HomeFragment : Fragment() {
         }.start()
         listePriseValidee = queue2.take()
         Log.d("XXX", listePriseValidee.toString())
-        homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
+        homeAdapter.updateData(traitementsTries, dateActuelle)
         homeAdapter.notifyDataSetChanged()
+    }
+
+    override fun updateRapport(map: MutableMap<Int, CircleState>) {
+        val pris = map.count { it.value == CircleState.PRENDRE }
+        val total = map.size
+        activity?.runOnUiThread(Runnable {
+            val rapport = layout.findViewById<TextView>(R.id.rapport)
+            val circleTick = layout.findViewById<ImageView>(R.id.circleTickHome)
+            rapport.text = "$pris/$total"
+            when (pris) {
+                total -> {
+                    circleTick.setImageResource(R.drawable.perfect_face)
+                }
+                0 -> {
+                    circleTick.setImageResource(R.drawable.sad_face)
+                }
+                else -> {
+                    circleTick.setImageResource(R.drawable.good_face)
+                }
+            }
+        })
     }
 }

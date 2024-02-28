@@ -10,7 +10,6 @@ data class PriseValidee(
     @ColumnInfo(name = "date") var date: String,
     @ColumnInfo(name = "uuidPrise") var uuidPrise: String,
     @ColumnInfo(name = "statut") var statut: String,
-
     )
 
 
