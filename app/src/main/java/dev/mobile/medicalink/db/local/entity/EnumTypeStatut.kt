@@ -13,7 +13,7 @@ enum class EnumTypeStatut {
             return when (type) {
                 Medicament -> context.getString(R.string.medicament)
                 Intervalle -> context.getString(R.string.dialog_intervalle_regulier)
-                Spontanee -> context.getString(R.string.mois)
+                Spontanee -> context.getString(R.string.spontane)
             }
         }
     }
