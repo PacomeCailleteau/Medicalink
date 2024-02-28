@@ -249,5 +249,7 @@
     <string name="pb_digit">La valeur doit être comprise entre 1 et 10</string>
     <string name="avant_prise">Avant Prise</string>
     <string name="apres_prise">Après Prise</string>
+    <string name="statut_ajoute">Statut ajouté</string>
+    <string name="echec_ajout">Valeurs incorrectes</string>
 
 </resources>

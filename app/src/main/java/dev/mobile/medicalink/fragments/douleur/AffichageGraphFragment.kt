@@ -41,6 +41,7 @@ import java.time.ZoneId
 import java.time.temporal.WeekFields
 import java.util.Calendar
 import java.util.Locale
+import java.util.UUID
 
 class AffichageGraphFragment : Fragment() {
 
@@ -55,9 +56,9 @@ class AffichageGraphFragment : Fragment() {
 
     // valeur du layout
     private var valeurSpinner1 = FiltreDate.MOIS
-    private var valeurSpinnerType: EnumTypeStatut? = null
-    private var valeurSpinnerMedic: String? = null
-    private var valeurSpinnerPrise: Boolean? = null
+    private var valeurSpinnerType: EnumTypeStatut = EnumTypeStatut.Medicament
+    lateinit var valeurSpinnerMedic: String
+    private var valeurSpinnerPrise: Boolean = true
 
     // from bd
     lateinit var userCo: String
@@ -193,7 +194,6 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                valeurSpinnerType = null
             }
         }
 
@@ -226,6 +226,7 @@ class AffichageGraphFragment : Fragment() {
         items = this.traitementUti.map { it.nom }
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        this.valeurSpinnerMedic = items[0]
 
         this.spinnerMedicament.adapter = adapter
 
@@ -235,7 +236,6 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                valeurSpinnerMedic = null
             }
         }
 
@@ -247,7 +247,6 @@ class AffichageGraphFragment : Fragment() {
         )
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
         this.spinnerPrise.adapter = adapter
 
         this.spinnerPrise.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -256,8 +255,13 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                valeurSpinnerPrise = null
             }
+        }
+
+
+        // valider
+        this.valider.setOnClickListener {
+            enregistrePoint()
         }
 
         return rootView
@@ -370,5 +374,55 @@ class AffichageGraphFragment : Fragment() {
         }
 
         this.statutDouleur = statuts
+    }
+
+
+    /**
+     * Crée un nouveau point et l'ajoute à la bd
+     * si pas assez d'information sont rentré, alors crée juste un toast
+     * mets à jour le graphe
+     */
+    private fun enregistrePoint() {
+        val newStatut: StatutDouleur
+        val converters = Converters()
+
+        if (this.inputSeuil.text.toString().toIntOrNull() == null) {
+            Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
+                .show()
+        } else {
+
+            if (valeurSpinnerType == EnumTypeStatut.Medicament) {
+                newStatut = StatutDouleur(
+                    UUID.randomUUID().toString(),
+                    this.valeurSpinnerType,
+                    this.valeurSpinnerMedic,
+                    this.valeurSpinnerPrise,
+                    converters.localDateTimeToTimestamp(LocalDateTime.now())!!,
+                    this.inputSeuil.text.toString().toInt(),
+                    this.userCo
+                )
+            } else {
+                newStatut = StatutDouleur(
+                    UUID.randomUUID().toString(),
+                    this.valeurSpinnerType,
+                    null,
+                    null,
+                    converters.localDateTimeToTimestamp(LocalDateTime.now())!!,
+                    this.inputSeuil.text.toString().toInt(),
+                    this.userCo
+                )
+            }
+
+            val db = AppDatabase.getInstance(requireContext())
+            val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
+            Thread {
+                statutInterface.insertStatutDouleur(newStatut)
+            }.start()
+
+            Toast.makeText(requireContext(), R.string.statut_ajoute, Toast.LENGTH_SHORT)
+                .show()
+
+            recuperePoint()
+        }
     }
 }

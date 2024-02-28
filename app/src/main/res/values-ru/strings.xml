@@ -221,4 +221,6 @@
     <string name="pb_digit">Значение должно быть от 1 до 10</string>
     <string name="avant_prise">Перед приемом</string>
     <string name="apres_prise">После приема</string>
+    <string name="statut_ajoute">Статус добавлен</string>
+    <string name="echec_ajout">Неправильные значения</string>
 </resources>

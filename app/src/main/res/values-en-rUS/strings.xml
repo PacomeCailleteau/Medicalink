@@ -220,4 +220,6 @@
     <string name="pb_digit">The value must be between 1 and 10</string>
     <string name="avant_prise">Before taking</string>
     <string name="apres_prise">After taking</string>
+    <string name="statut_ajoute">Added status</string>
+    <string name="echec_ajout">Incorrect values</string>
 </resources>
