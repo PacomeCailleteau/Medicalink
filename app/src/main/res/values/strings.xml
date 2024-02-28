@@ -15,7 +15,7 @@
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
     <string name="creer_profil_informations_personnelles">Informations personnelles</string>
     <string name="bouton_creer_mon_profil">Créer mon profil</string>
-    <string name="creer_profil_mot_de_passe">Mot de passe</string>
+    <string name="creer_profil_mot_de_passe">Mot de passe (6 chiffres)</string>
     <string name="creer_profil_nom">Nom</string>
     <string name="creer_profil_statut">Statut</string>
     <string name="creer_profil_rgpd">J\'accepte les conditions en matière de protection des données relatives au RGPD</string>

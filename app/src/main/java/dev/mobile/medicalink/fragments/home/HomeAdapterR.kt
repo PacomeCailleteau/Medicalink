@@ -259,7 +259,7 @@ class HomeAdapterR(
         nombreUnite.text = "${nbComprime.text}"
         val sauterLayout = dialogView.findViewById<ConstraintLayout>(R.id.sauterLinear)
         val prendreLayout = dialogView.findViewById<ConstraintLayout>(R.id.prendreLinear)
-        val imagePrendre = dialogView.findViewById<ImageView>(R.id.imageView6)
+        val imagePrendre = dialogView.findViewById<ImageView>(R.id.boutonPrendrePris)
         val prendreButton = dialogView.findViewById<Button>(R.id.prendreButton)
         prendreButton.isEnabled = false
         val sauterButton = dialogView.findViewById<Button>(R.id.annulerButton)
@@ -347,6 +347,9 @@ class HomeAdapterR(
         prendreLayout.setOnClickListener {
             // Si l'image est déjà un tick correct alors on la remet en cercle, sinon on la met en tick correct
             if (holder.circleState == CircleState.PRENDRE) {
+                val traitement = list[holder.adapterPosition].second
+                val prise = list[holder.adapterPosition].first
+
                 val queue = LinkedBlockingQueue<String>()
                 Thread {
 
@@ -356,6 +359,25 @@ class HomeAdapterR(
                     )
                     if (priseToDelete.isNotEmpty()) {
                         priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
+                    }
+                    val medocDatabaseInterface = MedocRepository(db.medocDao())
+                    var dateFinTraitement: String? = null
+                    if (traitement.UUID == null) {
+                        Log.d("UUID", "UUID null")
+                        return@Thread
+                    } else {
+                        val medoc = medocDatabaseInterface.getOneMedocById(traitement.UUID!!)
+                        if (medoc.size == 1) {
+                            //On récupère la date de fin du traitement
+                            val medicament = medoc[0]
+                            dateFinTraitement = medicament.dateFinTraitement
+
+                            medicament.comprimesRestants =
+                                medicament.comprimesRestants?.plus(prise.quantite)
+
+                            //On met à jour le médicament dans la base de données
+                            medocDatabaseInterface.updateMedoc(medicament)
+                        }
                     }
 
                     Log.d("priseValideeTest", priseToDelete.toString())
@@ -424,6 +446,7 @@ class HomeAdapterR(
                             //On récupère la date de fin du traitement
                             val medicament = medoc[0]
                             dateFinTraitement = medicament.dateFinTraitement
+
                             medicament.comprimesRestants =
                                 medicament.comprimesRestants?.minus(prise.quantite)
 
@@ -445,7 +468,7 @@ class HomeAdapterR(
                     }
 
                     //Si la date n'est pas null et qu'elle est supérieure à la date actuelle, on ne fait rien
-                    if (dateFinTraitement != null && dateFinTraitement > LocalTime.now()
+                    if (dateFinTraitement != null && dateFinTraitement!! > LocalTime.now()
                             .toString()
                     ) {
                         Log.d("FIN TRAITEMENT", "Date fin traitement supérieure à la date actuelle")
