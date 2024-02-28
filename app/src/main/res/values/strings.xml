@@ -247,5 +247,7 @@
     <string name="sauter">Sauter</string>
     <string name="spontane">Spontanée</string>
     <string name="pb_digit">La valeur doit être comprise entre 1 et 10</string>
+    <string name="avant_prise">Avant Prise</string>
+    <string name="apres_prise">Après Prise</string>
 
 </resources>

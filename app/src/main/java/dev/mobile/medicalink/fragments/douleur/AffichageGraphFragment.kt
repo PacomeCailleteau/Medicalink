@@ -57,7 +57,7 @@ class AffichageGraphFragment : Fragment() {
     private var valeurSpinner1 = FiltreDate.MOIS
     private var valeurSpinnerType: EnumTypeStatut? = null
     private var valeurSpinnerMedic: String? = null
-    private var valeurSpinnerPrise: Int? = null
+    private var valeurSpinnerPrise: Boolean? = null
 
     // from bd
     lateinit var userCo: String
@@ -239,6 +239,26 @@ class AffichageGraphFragment : Fragment() {
             }
         }
 
+
+        // spinnerPrise
+        items = listOf(
+            requireContext().getString(R.string.avant_prise),
+            requireContext().getString(R.string.apres_prise)
+        )
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        this.spinnerPrise.adapter = adapter
+
+        this.spinnerPrise.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                valeurSpinnerPrise = position == 0
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                valeurSpinnerPrise = null
+            }
+        }
 
         return rootView
     }

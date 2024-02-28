@@ -219,4 +219,6 @@
     <string name="sauter">Скипе</string>
     <string name="spontane">Спонтанный</string>
     <string name="pb_digit">Значение должно быть от 1 до 10</string>
+    <string name="avant_prise">Перед приемом</string>
+    <string name="apres_prise">После приема</string>
 </resources>
