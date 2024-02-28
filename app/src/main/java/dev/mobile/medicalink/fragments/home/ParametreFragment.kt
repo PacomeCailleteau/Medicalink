@@ -86,7 +86,7 @@ class ParametreFragment : Fragment() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 // Définir le mode sombre à partir du fragment
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             // Mettre à jour l'apparence du switch
             updateSwitchAppearance(isChecked)

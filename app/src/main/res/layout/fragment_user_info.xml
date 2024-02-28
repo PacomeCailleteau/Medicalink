@@ -37,6 +37,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text=""
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userInfoRetour" />
 
@@ -46,6 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text=""
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
         app:layout_constraintStart_toStartOf="@+id/userInfoNom"
         app:layout_constraintTop_toBottomOf="@+id/userInfoNom" />
 
@@ -55,6 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text=""
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
         app:layout_constraintStart_toStartOf="@+id/userInfoNom"
         app:layout_constraintTop_toBottomOf="@+id/userInfoPrenom" />
 
@@ -64,6 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text=""
+        android:textSize="16sp"
+        android:fontFamily="@font/quicksand_bold"
         app:layout_constraintStart_toStartOf="@+id/userInfoNom"
         app:layout_constraintTop_toBottomOf="@+id/userInfoDateNaissance" />
 
@@ -84,6 +92,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
+        android:background="@drawable/rounded_blue_button_blue_stroke_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:textColor="@color/evenDarkerBlue"
+        android:textSize="20sp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textAllCaps="false"
         android:text="Modifier mon mot de passe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +109,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_blue_button_blue_stroke_background"
+        android:fontFamily="@font/quicksand_bold"
+        android:textColor="@color/evenDarkerBlue"
+        android:textSize="20sp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textAllCaps="false"
         android:text="Modifier mon email"
         app:layout_constraintEnd_toEndOf="@+id/boutonModifPassword"
         app:layout_constraintStart_toStartOf="@+id/boutonModifPassword"
