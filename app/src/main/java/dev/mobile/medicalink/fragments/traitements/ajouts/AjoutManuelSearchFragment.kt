@@ -31,7 +31,6 @@ import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisSubstance
 import dev.mobile.medicalink.db.local.entity.Interactions
-import dev.mobile.medicalink.db.local.entity.InteractionsMedic
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
 import dev.mobile.medicalink.db.local.repository.InteractionsMedicRepository
@@ -180,6 +179,10 @@ class AjoutManuelSearchFragment : Fragment() {
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
     private fun filterItems(query: String) {
+        // Si originalItemList n'a pas encore été initialisé, on ne fait rien
+        if (!::originalItemList.isInitialized) {
+            return
+        }
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)

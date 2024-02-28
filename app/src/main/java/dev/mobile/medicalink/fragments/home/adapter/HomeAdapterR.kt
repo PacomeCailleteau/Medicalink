@@ -532,7 +532,7 @@ class HomeAdapterR(
                 return@Thread
             } else {
                 val date = dateCourante.toString()
-                val numero = list[holder.bindingAdapterPosition].first.numeroPrise
+                val numero = prise.numeroPrise
                 //On créer la notification de la prochaine prise
                 NotificationService.createNextNotif(
                     context,
