@@ -216,4 +216,5 @@
     <string name="seuil_douleur">Pain threshold \n(from 1 to 10)</string>
     <string name="before_after_taking">Before or after taking?</string>
     <string name="sauter">Skip</string>
+    <string name="spontane">Spontaneous</string>
 </resources>

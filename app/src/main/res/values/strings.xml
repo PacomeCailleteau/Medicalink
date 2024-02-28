@@ -245,5 +245,6 @@
     <string name="seuil_douleur">Seuil de douleur \n(de 1 à 10)</string>
     <string name="before_after_taking">Avant ou après prise?</string>
     <string name="sauter">Sauter</string>
+    <string name="spontane">Spontanée</string>
 
 </resources>

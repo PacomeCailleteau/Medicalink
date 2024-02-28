@@ -214,7 +214,8 @@
     <string name="error_search_medecin_user">Введите rpps (11 цифр) или фамилию/имя.</string>
     <string name="error_search_medecin_api">Ошибка поиска, пожалуйста, уточните</string>
     <string name="reason_status">причина статуса</string>
-    <string name="seuil_douleur">болевой порог \n (от 1 до 10)</string>
+    <string name="seuil_douleur">болевой порог \n(от 1 до 10)</string>
     <string name="before_after_taking">До или после приема?</string>
     <string name="sauter">Скипе</string>
+    <string name="spontane">Спонтанный</string>
 </resources>
