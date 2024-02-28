@@ -213,4 +213,8 @@
     <string name="error_rpps">The rpps can only contain digits</string>
     <string name="error_search_medecin_user">Please enter an rpps (11 digits) or a first/last name</string>
     <string name="error_search_medecin_api">Search error, please be more precise</string>
+    <string name="reason_status">Reason for status</string>
+    <string name="seuil_douleur">Pain threshold \n(from 1 to 10)</string>
+    <string name="before_after_taking">Before or after taking it?</string>
+    <string name="sauter">Skip</string>
 </resources>
