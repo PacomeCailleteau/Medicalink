@@ -56,8 +56,3 @@ git submodule foreach git lfs pull
 ```
 
 
-Pull model :
-
-```
-git submodule foreach git lfs pull
-```

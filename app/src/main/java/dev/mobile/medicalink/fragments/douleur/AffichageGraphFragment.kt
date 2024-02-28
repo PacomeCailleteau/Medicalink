@@ -3,6 +3,8 @@ package dev.mobile.medicalink.fragments.douleur
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import com.github.mikephil.charting.charts.LineChart
@@ -19,10 +24,15 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.textfield.TextInputEditText
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.Converters
+import dev.mobile.medicalink.db.local.entity.EnumTypeStatut
+import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.StatutDouleur
+import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.StatutDouleurRepository
+import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.douleur.enums.FiltreDate
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -34,10 +44,24 @@ import java.util.Locale
 
 class AffichageGraphFragment : Fragment() {
 
+    // from layout
     lateinit var lineChart: LineChart
-    lateinit var spinner1: Spinner
+    lateinit var spinnerGraph: Spinner
+    lateinit var spinnerType: Spinner
+    lateinit var inputSeuil: TextInputEditText
+    lateinit var spinnerMedicament: Spinner
+    lateinit var spinnerPrise: Spinner
+    lateinit var valider: AppCompatButton
 
+    // valeur du layout
     private var valeurSpinner1 = FiltreDate.MOIS
+    private var valeurSpinnerType: EnumTypeStatut? = null
+    private var valeurSpinnerMedic: String? = null
+    private var valeurSpinnerPrise: Int? = null
+
+    // from bd
+    lateinit var userCo: String
+    private var traitementUti: List<Medoc> = listOf()
     private var statutDouleur: List<StatutDouleur> = listOf()
     private var entries: ArrayList<Entry> = arrayListOf()
 
@@ -57,25 +81,48 @@ class AffichageGraphFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_affichage_statut_douleur, container, false)
+        val db = AppDatabase.getInstance(requireContext())
+        val userInterface = UserRepository(db.userDao())
+        val medocInterface = MedocRepository(db.medocDao())
+        Thread {
+            this.userCo = userInterface.getUsersConnected()[0].uuid
+            this.traitementUti = medocInterface.getAllMedocByUserId(this.userCo)
+        }.start()
+
+        val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
+        this.spinnerGraph = rootView.findViewById(R.id.spinner1)
+        this.lineChart = rootView.findViewById(R.id.lineChart)
+        this.spinnerType = rootView.findViewById(R.id.spinnerType)
+        this.inputSeuil = rootView.findViewById(R.id.input_seuil)
+        this.spinnerMedicament = rootView.findViewById(R.id.spinnerMedicament)
+        this.spinnerPrise = rootView.findViewById(R.id.spinnerPrise)
+        this.valider = rootView.findViewById(R.id.valider)
+
+
+        spinnerMedicament.visibility = View.GONE
+        spinnerPrise.visibility = View.GONE
+        rootView.findViewById<TextView>(R.id.textView5).visibility = View.GONE
+        rootView.findViewById<TextView>(R.id.textView6).visibility = View.GONE
+
 
         //Ajout de la fonctionnalité de retour à la page précédente
-        val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
         retour.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        // spinner1
-        this.spinner1 = rootView.findViewById(R.id.spinner1)
-        val items = listOf(FiltreDate.getStringFromEnum(FiltreDate.JOUR, requireContext()),
+
+        // spinnerGraph
+        var items = listOf(
+            FiltreDate.getStringFromEnum(FiltreDate.JOUR, requireContext()),
             FiltreDate.getStringFromEnum(FiltreDate.SEMAINE, requireContext()),
             FiltreDate.getStringFromEnum(FiltreDate.MOIS, requireContext()))
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        this.spinner1.adapter = adapter
-        this.spinner1.setSelection(2)
+        this.spinnerGraph.adapter = adapter
+        this.spinnerGraph.setSelection(2)
 
-        this.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        this.spinnerGraph.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val option = listOf(FiltreDate.JOUR, FiltreDate.SEMAINE, FiltreDate.MOIS)
                 valeurSpinner1 = option[position]
@@ -87,11 +134,9 @@ class AffichageGraphFragment : Fragment() {
             }
         }
 
+
         // graphe
-        this.lineChart = rootView.findViewById(R.id.lineChart)
-
         val entries = generateData()
-
         val lineDataSet = LineDataSet(entries, "Data Set")
         lineDataSet.color = Color.BLUE
         lineDataSet.valueTextColor = Color.RED
@@ -117,6 +162,83 @@ class AffichageGraphFragment : Fragment() {
         lineChart.description = description
 
         lineChart.invalidate()
+
+
+        // spinnerType
+        items = listOf(
+            EnumTypeStatut.getStringFromEnum(EnumTypeStatut.Medicament, requireContext()),
+            EnumTypeStatut.getStringFromEnum(EnumTypeStatut.Intervalle, requireContext()),
+            EnumTypeStatut.getStringFromEnum(EnumTypeStatut.Spontanee, requireContext()))
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        this.spinnerType.adapter = adapter
+
+        this.spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val option = listOf(EnumTypeStatut.Medicament, EnumTypeStatut.Intervalle, EnumTypeStatut.Spontanee)
+                valeurSpinnerType = option[position]
+
+                if (valeurSpinnerType == EnumTypeStatut.Medicament) {
+                    spinnerMedicament.visibility = View.VISIBLE
+                    spinnerPrise.visibility = View.VISIBLE
+                    rootView.findViewById<TextView>(R.id.textView5).visibility = View.VISIBLE
+                    rootView.findViewById<TextView>(R.id.textView6).visibility = View.VISIBLE
+                } else {
+                    spinnerMedicament.visibility = View.GONE
+                    spinnerPrise.visibility = View.GONE
+                    rootView.findViewById<TextView>(R.id.textView5).visibility = View.GONE
+                    rootView.findViewById<TextView>(R.id.textView6).visibility = View.GONE
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                valeurSpinnerType = null
+            }
+        }
+
+
+        // inputSeuil
+        inputSeuil.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() != "") {
+                    val value = s.toString().toIntOrNull()
+
+                    if (value == null || value !in 1..10) {
+
+                        // Affichez un Toast pour expliquer l'erreur
+                        Toast.makeText(requireContext(), R.string.pb_digit, Toast.LENGTH_SHORT)
+                            .show()
+                        // La valeur n'est pas valide, videz le champ
+                        inputSeuil.clearFocus()
+                        inputSeuil.text = null
+                    }
+                }
+            }
+        })
+
+
+        // spinnerMedicament
+        items = this.traitementUti.map { it.nom }
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        this.spinnerMedicament.adapter = adapter
+
+        this.spinnerMedicament.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                valeurSpinnerMedic = traitementUti[position].codeCIS
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                valeurSpinnerMedic = null
+            }
+        }
+
 
         return rootView
     }
@@ -149,10 +271,14 @@ class AffichageGraphFragment : Fragment() {
      * enregistre les points de la période souhaitée dans une variable de la classe
      */
     private fun recuperePoint() {
-        val db = AppDatabase.getInstance(this.requireContext())
+        val db = AppDatabase.getInstance(requireContext())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
-        this.statutDouleur = statutInterface.getAllStatutDouleur()
+        Thread{
+            this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
+        }.start()
+
         filtreDate()
+
         val retour = arrayListOf<Entry>()
         val converters = Converters()
 
