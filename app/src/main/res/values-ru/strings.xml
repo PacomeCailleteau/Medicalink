@@ -218,4 +218,5 @@
     <string name="before_after_taking">До или после приема?</string>
     <string name="sauter">Скипе</string>
     <string name="spontane">Спонтанный</string>
+    <string name="pb_digit">Значение должно быть от 1 до 10</string>
 </resources>

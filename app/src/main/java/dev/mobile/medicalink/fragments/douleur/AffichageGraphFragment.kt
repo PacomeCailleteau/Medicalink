@@ -3,6 +3,8 @@ package dev.mobile.medicalink.fragments.douleur
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
@@ -167,6 +170,30 @@ class AffichageGraphFragment : Fragment() {
                 valeurSpinnerType = null
             }
         }
+
+
+        // inputSeuil
+        this.inputSeuil = rootView.findViewById(R.id.input_seuil)
+
+        inputSeuil.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val value = s.toString().toIntOrNull()
+
+                if (value != null && value !in 1..10) {
+
+                    // Affichez un Toast pour expliquer l'erreur
+                    Toast.makeText(requireContext(), R.string.pb_digit, Toast.LENGTH_SHORT).show()
+                    // La valeur n'est pas valide, videz le champ
+                    inputSeuil.clearFocus()
+                    inputSeuil.setText(null)
+                }
+            }
+        })
+
 
         return rootView
     }
