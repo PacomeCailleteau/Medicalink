@@ -30,8 +30,14 @@ import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
 
 enum class CircleState {
-    PRENDRE, SAUTER, NULL
+    PRENDRE, SAUTER, NULL, VIDE
 }
+
+val CircleListStates = mapOf<CircleState, Int>(
+    CircleState.PRENDRE to R.drawable.correct,
+    CircleState.SAUTER to R.drawable.avertissement,
+    CircleState.NULL to R.drawable.circle
+)
 
 interface CircleStateCallback {
     fun changeEtat(etat: CircleState, position: Int)
@@ -44,14 +50,41 @@ class HomeAdapterR(
     private var list: MutableList<Pair<Prise, Traitement>>,
     private var dateCourante: LocalDate,
     private val callback: RapportJourCallback,
-    private val parentRecyclerView: RecyclerView,
+    parentRecyclerView: RecyclerView,
 
 ) : RecyclerView.Adapter<HomeAdapterR.AjoutManuelViewHolder>(), CircleStateCallback {
     private val VIEW_TYPE_EMPTY: Int = 0
     private val VIEW_TYPE_NORMAL: Int = 1
 
+    private val db = AppDatabase.getInstance(parentRecyclerView.context)
+    private val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+
     val listeEtatPrise: MutableMap<Int, CircleState> = mutableMapOf()
     var heureCourante: String? = null
+
+    init {
+        for (i in 0 until list.size) {
+            changeEtat(CircleState.NULL, i)
+            val queue = LinkedBlockingQueue<CircleState>()
+            Thread {
+                val isPriseCouranteValidee =
+                    priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        list[i].first.numeroPrise
+                    )
+                if (isPriseCouranteValidee.isEmpty()) {
+                    queue.add(CircleState.NULL)
+                } else if (isPriseCouranteValidee.first().statut == "prendre") {
+                    queue.add(CircleState.PRENDRE)
+                } else {
+                    queue.add(CircleState.SAUTER)
+                }
+            }.start()
+            val result = queue.take()
+            Log.d("RESULTAT", result.toString())
+            changeEtat(result, i)
+        }
+    }
 
     override fun changeEtat(etat: CircleState, position: Int) {
         listeEtatPrise[position] = etat
@@ -84,7 +117,6 @@ class HomeAdapterR(
      * @return : RecyclerView.ViewHolder
      */
     class AjoutManuelViewHolder(val view: View, val callback: CircleStateCallback) : RecyclerView.ViewHolder(view) {
-
         val nomMedic = view.findViewById<TextView>(R.id.nomMedic)
         val nbComprime = view.findViewById<TextView>(R.id.nbComprime)
         val heurePrise = view.findViewById<TextView>(R.id.heurePriseAccueil)
@@ -93,16 +125,14 @@ class HomeAdapterR(
         val mainHeure = view.findViewById<TextView>(R.id.mainHeureMedic)
         val mainHeureLayout = view.findViewById<ConstraintLayout>(R.id.layoutMainHeure)
 
-        val circleListStates = mapOf<CircleState, Int>(
-            CircleState.PRENDRE to R.drawable.correct,
-            CircleState.SAUTER to R.drawable.avertissement,
-            CircleState.NULL to R.drawable.circle
-        )
         var circleState = CircleState.NULL
         fun changeEtat(etat: CircleState) {
             circleState = etat
-            circleTick.setImageResource(circleListStates[etat]!!)
             callback.changeEtat(etat, bindingAdapterPosition)
+            if (etat == CircleState.VIDE) {
+                return
+            }
+            circleTick.setImageResource(CircleListStates[etat]!!)
         }
     }
 
@@ -167,10 +197,10 @@ class HomeAdapterR(
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
-        val db = AppDatabase.getInstance(holder.itemView.context)
-        val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
+
 
         if (list.isEmpty()) {
+            holder.changeEtat(CircleState.VIDE)
             return
         }
 
@@ -190,6 +220,7 @@ class HomeAdapterR(
         }
         // Si la prise est dans le futur, on affiche l'horloge et on désactive le bouton
         if (dateCourante >= LocalDate.now().plusDays(1)) {
+            holder.changeEtat(CircleState.NULL)
             holder.circleTick.setImageResource(R.drawable.horloge)
             holder.circleTick.isEnabled = false
             holder.circleTick.isClickable = false

@@ -144,15 +144,14 @@ class HomeFragment : Fragment(), RapportJourCallback{
         jPlus5 = LocalDate.now().plusDays(5)
 
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
-        val traitementsTries = mutableListOf<Pair<Prise, Traitement>>()
+        val traitementsTries = updateListePrise(LocalDate.now(), view.context.applicationContext)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
         homeAdapter = HomeAdapterR(traitementsTries, LocalDate.now(), this, recyclerView)
         recyclerView.adapter = homeAdapter
-        val espacementEnDp = 22
+        val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-        updateListePrise(LocalDate.now(), view.context.applicationContext)
 
         //Gestion du calendrier
         revenirDateCourante.visibility = View.GONE
@@ -253,7 +252,8 @@ class HomeFragment : Fragment(), RapportJourCallback{
         jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
         jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
         jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
-        updateListePrise(dateClique, context)
+
+        homeAdapter.updateData(updateListePrise(dateClique, context), dateClique)
     }
 
     /**
@@ -262,7 +262,7 @@ class HomeFragment : Fragment(), RapportJourCallback{
      * @param context le contexte de l'application
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateListePrise(dateActuelle: LocalDate, context: Context) {
+    fun updateListePrise(dateActuelle: LocalDate, context: Context): MutableList<Pair<Prise, Traitement>>{
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
@@ -441,41 +441,18 @@ class HomeFragment : Fragment(), RapportJourCallback{
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
 
-
-        val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
-        Thread {
-
-            val resultatListePriseValidee: MutableList<Pair<LocalDate, String>> = mutableListOf()
-
-            val listePriseValideeDB = priseValideeDatabaseInterface.getAllPriseValidee()
-
-            for (priseValidee in listePriseValideeDB) {
-
-                val uuidTraitement = priseValidee.uuidPrise
-
-                var dateReformate = LocalDate.now()
-
-                if (priseValidee.date != "null") {
-                    Log.d("testPriseValidee", priseValidee.date)
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = priseValidee.date
-
-                    //convert String to LocalDate
-                    dateReformate = LocalDate.parse(date, formatter)
-                }
-
-                resultatListePriseValidee.add(Pair(dateReformate, uuidTraitement))
-            }
-            queue2.add(resultatListePriseValidee)
-
-        }.start()
-        listePriseValidee = queue2.take()
-        Log.d("XXX", listePriseValidee.toString())
-        homeAdapter.updateData(traitementsTries, dateActuelle)
-        homeAdapter.notifyDataSetChanged()
+        return traitementsTries
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun updateRapport(map: MutableMap<Int, CircleState>) {
+        if (map.getOrDefault(0, CircleState.VIDE) == CircleState.VIDE) {
+            activity?.runOnUiThread(Runnable {
+                val rapportLayout = layout.findViewById<ConstraintLayout>(R.id.rapportLayout)
+                rapportLayout.visibility = View.GONE
+            })
+            return
+        }
         val pris = map.count { it.value == CircleState.PRENDRE }
         val total = map.size
         activity?.runOnUiThread(Runnable {
@@ -494,5 +471,7 @@ class HomeFragment : Fragment(), RapportJourCallback{
                 }
             }
         })
+
+
     }
 }
