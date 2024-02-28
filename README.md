@@ -27,6 +27,7 @@ We've added new features such as the possibility to check and change our informa
 * Artificial Intelligence Generator (Named Entity Recognition): [MedicAppAI](https://github.com/anrouxel/MedicAppAI#----)
 * Named Entity Recognition AI model for prescriptions (usable as a sub-module): [MedicAppAssets](https://gitlab.univ-nantes.fr/E213726L/MedicAppAssets.git)
 * Practicians API: [MedicaZeldaAPI](https://github.com/NicolasChusseau/MedicaZelda_API/)
+* Medication Interactions PDF scraper: [PDFScaper](https://github.com/Mthieu44/interactionMedicamentPdfScraper)
 
 ## Special thanks
 * Antonin Rouxel ([anrouxel](https://github.com/anrouxel)) for AI Generator and Named Entity Recognition AI model for prescriptions.
