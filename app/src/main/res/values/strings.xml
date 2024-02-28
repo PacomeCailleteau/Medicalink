@@ -192,7 +192,7 @@
     <string name="nom_message_item">Nom</string>
     <string name="rpps_message_item" translatable="false">RPPS</string>
     <string name="rechercher_par_prenom_et_nom">Rechercher par prénom et nom</string>
-    <string name="rechercher_par_rpps">Rechercher par RPPS\n</string>
+    <string name="rechercher_par_rpps">Rechercher par RPPS</string>
     <string name="rechercher_un_medecin">Rechercher un medecin</string>
     <string name="rpps_s" translatable="false">Rpps : %s</string>
     <string name="prenom_s">Prénom : %s</string>
