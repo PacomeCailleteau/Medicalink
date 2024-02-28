@@ -84,6 +84,7 @@ class HomeAdapterR(
             Log.d("RESULTAT", result.toString())
             changeEtat(result, i)
         }
+        callback.updateRapport(listeEtatPrise)
     }
 
     override fun changeEtat(etat: CircleState, position: Int) {

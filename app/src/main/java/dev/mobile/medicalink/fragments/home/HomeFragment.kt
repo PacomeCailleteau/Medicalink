@@ -447,7 +447,7 @@ class HomeFragment : Fragment(), RapportJourCallback{
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun updateRapport(map: MutableMap<Int, CircleState>) {
-        if (map.getOrDefault(0, CircleState.VIDE) == CircleState.VIDE || jourJ.toString() != LocalDate.now().toString()) {
+        if (map.getOrDefault(0, CircleState.VIDE) == CircleState.VIDE) {
             activity?.runOnUiThread(Runnable {
                 val rapportLayout = layout.findViewById<ConstraintLayout>(R.id.rapportLayout)
                 rapportLayout.visibility = View.GONE
