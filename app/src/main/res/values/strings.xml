@@ -251,5 +251,11 @@
     <string name="apres_prise">Après Prise</string>
     <string name="statut_ajoute">Statut ajouté</string>
     <string name="echec_ajout">Valeurs incorrectes</string>
+    <string name="modifier_mon_intervalle_de_notifications">Modifier mon intervalle de notifications:</string>
+    <string name="modifier_ma_plage_de_notifications">Modifier ma plage de notifications :</string>
+    <string name="definir_mes_notifications">Definir mes notifications</string>
+    <string name="modifier_mes_notifications">Modifier mes notifications</string>
+    <string name="six_heure">06:00</string>
+    <string name="dix_huit_heure">18:00</string>
 
 </resources>
