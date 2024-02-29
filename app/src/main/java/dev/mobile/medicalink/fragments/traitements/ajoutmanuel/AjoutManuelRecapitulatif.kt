@@ -217,7 +217,7 @@ class AjoutManuelRecapitulatif : Fragment() {
                                         listDuplicate,
                                         substanceAdd,
                                         bundle,
-                                        "À la même substance active que : "
+                                        "A la même substance active que : "
                                     )
                                 }
                             }
