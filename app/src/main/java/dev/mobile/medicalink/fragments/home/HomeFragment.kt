@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -24,6 +25,8 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelDateSchemaPrise
+import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelRecapitulatif
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -475,5 +478,18 @@ class HomeFragment : Fragment(), RapportJourCallback{
                 }
             })
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                // Ne fait rien ici pour désactiver le bouton de retour arrière
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }

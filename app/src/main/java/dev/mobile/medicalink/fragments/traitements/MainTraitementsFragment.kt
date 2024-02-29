@@ -71,4 +71,16 @@ class MainTraitementsFragment : Fragment() {
 
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Ne fait rien ici pour désactiver le bouton de retour arrière
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
 }
