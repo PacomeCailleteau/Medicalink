@@ -223,5 +223,9 @@
     <string name="apres_prise">После приема</string>
     <string name="statut_ajoute">Статус добавлен</string>
     <string name="echec_ajout">Неправильные значения</string>
+    <string name="modifier_mon_intervalle_de_notifications">Изменить интервал уведомлений :</string>
+    <string name="modifier_ma_plage_de_notifications">Изменить диапазон уведомлений :</string>
+    <string name="definir_mes_notifications">Настройка уведомлений</string>
+    <string name="modifier_mes_notifications">Изменение моих уведомлений</string>
     <string name="aucun_medicament">Без лекарств</string>
 </resources>
