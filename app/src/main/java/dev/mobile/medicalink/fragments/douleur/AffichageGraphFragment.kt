@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,7 +102,6 @@ class AffichageGraphFragment : Fragment() {
             this.userCo = userInterface.getUsersConnected()[0].uuid
             this.traitementUti = medocInterface.getAllMedocByUserId(this.userCo)
             this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
-            Log.d("zeubie", this.statutDouleur.toString())
             setEntries()
             queue.put("done")
         }.start()
@@ -413,8 +411,6 @@ class AffichageGraphFragment : Fragment() {
         val newStatut: StatutDouleur
         val converters = Converters()
         val selmed = this.traitementUti.find { it.uuid == this.valeurSpinnerMedic }
-
-        Log.d("zeubie", this.valeurSpinner1.toString())
 
         if (selmed == null) {
             Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
