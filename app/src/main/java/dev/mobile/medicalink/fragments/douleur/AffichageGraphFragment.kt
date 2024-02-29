@@ -3,8 +3,10 @@ package dev.mobile.medicalink.fragments.douleur
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +36,8 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.StatutDouleurRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.douleur.enums.FiltreDate
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -65,6 +69,7 @@ class AffichageGraphFragment : Fragment() {
     private var traitementUti: List<Medoc> = listOf()
     private var statutDouleur: List<StatutDouleur> = listOf()
     private var entries: ArrayList<Entry> = arrayListOf()
+    lateinit var lineDataSet: LineDataSet
 
     /**
      * Initialise le fragment et ajoute les fonctionalités des boutons
@@ -85,9 +90,14 @@ class AffichageGraphFragment : Fragment() {
         val db = AppDatabase.getInstance(requireContext())
         val userInterface = UserRepository(db.userDao())
         val medocInterface = MedocRepository(db.medocDao())
+        val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
+
         Thread {
             this.userCo = userInterface.getUsersConnected()[0].uuid
             this.traitementUti = medocInterface.getAllMedocByUserId(this.userCo)
+            this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
+            Log.d("zeubie", this.statutDouleur.toString())
+            setEntries()
         }.start()
 
         val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
@@ -112,33 +122,8 @@ class AffichageGraphFragment : Fragment() {
         }
 
 
-        // spinnerGraph
-        var items = listOf(
-            FiltreDate.getStringFromEnum(FiltreDate.JOUR, requireContext()),
-            FiltreDate.getStringFromEnum(FiltreDate.SEMAINE, requireContext()),
-            FiltreDate.getStringFromEnum(FiltreDate.MOIS, requireContext()))
-        var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        this.spinnerGraph.adapter = adapter
-        this.spinnerGraph.setSelection(2)
-
-        this.spinnerGraph.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val option = listOf(FiltreDate.JOUR, FiltreDate.SEMAINE, FiltreDate.MOIS)
-                valeurSpinner1 = option[position]
-                recuperePoint()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Rien à faire en cas de sélection vide
-            }
-        }
-
-
         // graphe
-        val entries = generateData()
-        val lineDataSet = LineDataSet(entries, "Data Set")
+        this.lineDataSet = LineDataSet(this.entries, "Data Set")
         lineDataSet.color = Color.BLUE
         lineDataSet.valueTextColor = Color.RED
 
@@ -163,6 +148,30 @@ class AffichageGraphFragment : Fragment() {
         lineChart.description = description
 
         lineChart.invalidate()
+
+
+        // spinnerGraph
+        var items = listOf(
+            FiltreDate.getStringFromEnum(FiltreDate.JOUR, requireContext()),
+            FiltreDate.getStringFromEnum(FiltreDate.SEMAINE, requireContext()),
+            FiltreDate.getStringFromEnum(FiltreDate.MOIS, requireContext()))
+        var adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        this.spinnerGraph.adapter = adapter
+        this.spinnerGraph.setSelection(2)
+
+        this.spinnerGraph.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val option = listOf(FiltreDate.JOUR, FiltreDate.SEMAINE, FiltreDate.MOIS)
+                valeurSpinner1 = option[position]
+                recuperePoint()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
+            }
+        }
 
 
         // spinnerType
@@ -223,16 +232,34 @@ class AffichageGraphFragment : Fragment() {
 
 
         // spinnerMedicament
+        if (traitementUti.isEmpty()) {
+            traitementUti = listOf(Medoc("0",
+                "Aucun traitement",
+                "zizi caca",
+                "0",
+                1,
+                EnumFrequence.AUBESOIN,
+                null,
+                EnumTypeMedic.COMPRIME,
+                5,
+                false,
+                "0",
+                "0",
+                10,
+                LocalDate.now()))
+        }
         items = this.traitementUti.map { it.nom }
+
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        this.valeurSpinnerMedic = items[0]
-
-        this.spinnerMedicament.adapter = adapter
+        if (items.isNotEmpty()) {
+            this.valeurSpinnerMedic = this.traitementUti.map { it.uuid }[0]
+            this.spinnerMedicament.adapter = adapter
+        }
 
         this.spinnerMedicament.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                valeurSpinnerMedic = traitementUti[position].codeCIS
+                valeurSpinnerMedic = traitementUti[position].uuid
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -267,27 +294,6 @@ class AffichageGraphFragment : Fragment() {
         return rootView
     }
 
-    /**
-     * |Temporaire|
-     * Génère des points aléatoire pour voir comment se comporte le graphe
-     * @return liste de point
-     */
-    private fun generateData(): ArrayList<Entry> {
-        val entries = ArrayList<Entry>()
-
-        val calendar = Calendar.getInstance()
-
-        // Generating dummy data for demonstration purpose
-        for (i in 0 until 10) {
-            calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val date = calendar.timeInMillis
-            val value = (1..10).random().toFloat() // Random value between 1 and 10
-            entries.add(Entry(date.toFloat(), value))
-        }
-
-        return entries
-
-    }
 
     /**
      * récupère tous les points de la base de données et les converties en forme utilisable par le graphe
@@ -303,6 +309,24 @@ class AffichageGraphFragment : Fragment() {
 
         filtreDate()
 
+        setEntries()
+
+        // Effacer les anciennes données
+        this.lineDataSet.clear()
+
+        // Ajouter les nouvelles données
+        this.lineDataSet = LineDataSet(this.entries, "Data Set")
+        val lineData = LineData(lineDataSet)
+        lineChart.data = lineData
+
+        // Redessiner le graphique avec les nouvelles données
+        this.lineChart.invalidate()
+    }
+
+    /**
+     * mets à jour les entrées du graphe à partir des points récupérés de la bd et filtrés
+     */
+    private fun setEntries() {
         val retour = arrayListOf<Entry>()
         val converters = Converters()
 
@@ -313,26 +337,10 @@ class AffichageGraphFragment : Fragment() {
         }
 
         this.entries = retour
-        // Obtenez une référence à votre LineData existant
-        val lineData = lineChart.data as LineData
-
-        // Ajoutez ou modifiez les ensembles de données avec de nouvelles données
-        val lineDataSet = LineDataSet(this.entries, "New Data Set")
-        lineDataSet.color = Color.GREEN
-        lineDataSet.valueTextColor = Color.BLACK
-
-        // Ajoutez le nouvel ensemble de données à votre LineData existant ou modifiez-le si nécessaire
-        lineData.addDataSet(lineDataSet)
-
-        // Appelez notifyDataSetChanged() sur votre LineData pour informer le graphique des changements
-        lineData.notifyDataChanged()
-
-        // Appelez invalidate() sur votre LineChart pour forcer le réaffichage du graphique avec les nouvelles données
-        this.lineChart.invalidate()
     }
 
     /**
-     * filtre les points qu'ils correspondent au filtre de date
+     * filtre les points pour qu'ils correspondent au filtre de date
      * enregistre les résultats dans une variable de classe
      */
     private fun filtreDate() {
@@ -416,12 +424,11 @@ class AffichageGraphFragment : Fragment() {
             val db = AppDatabase.getInstance(requireContext())
             val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
             Thread {
-                statutInterface.insertStatutDouleur(newStatut)
+                val rep = statutInterface.insertStatutDouleur(newStatut)
             }.start()
 
             Toast.makeText(requireContext(), R.string.statut_ajoute, Toast.LENGTH_SHORT)
                 .show()
-
             recuperePoint()
         }
     }
