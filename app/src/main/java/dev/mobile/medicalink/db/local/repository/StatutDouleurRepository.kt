@@ -28,6 +28,14 @@ class StatutDouleurRepository(private val statutDouleurDao: StatutDouleurDao) {
         }
     }
 
+    fun getStatutByUser(uuidUser: String): List<StatutDouleur> {
+        return try {
+            statutDouleurDao.getByUser(uuidUser)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     fun insertStatutDouleur(statutDouleur: StatutDouleur): Pair<Boolean, String> {
         return try {
             statutDouleurDao.insertAll(statutDouleur)

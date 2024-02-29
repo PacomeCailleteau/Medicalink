@@ -31,6 +31,7 @@ data class StatutDouleur(
     // Pour uuidMedoc et avantPrise, ils ne doivent être rempli que si le type == Medicament
     @ColumnInfo(name = "uuidMedoc") var uuidMedoc: String?,
     @ColumnInfo(name = "avantPrise") var avantPrise: Boolean?,
+    // string de LocalDateTime
     @ColumnInfo(name = "date") var date: String,
     @ColumnInfo(name = "valeur") var valeur: Int,
     @ColumnInfo(name = "uuidUser") val uuidUser: String

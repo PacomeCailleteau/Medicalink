@@ -18,6 +18,9 @@ interface CisSubstanceDao {
     @Query("SELECT * FROM CisSubstance WHERE codeSubstance IN (:codeSubstance)")
     fun getAllByCodeSubstance(codeSubstance: Int): List<CisSubstance>
 
+    @Query("SELECT * FROM CisSubstance WHERE denominationSubstance LIKE :name")
+    fun getByName(name: String): List<CisSubstance>
+
     @Insert
     fun insertAll(vararg cisSubstances: CisSubstance)
 

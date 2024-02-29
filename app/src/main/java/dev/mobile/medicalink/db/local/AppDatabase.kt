@@ -8,20 +8,25 @@ import androidx.room.TypeConverters
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.dao.CisSubstanceDao
 import dev.mobile.medicalink.db.local.dao.ContactMedecinDao
+import dev.mobile.medicalink.db.local.dao.InteractionsMedicDao
 import dev.mobile.medicalink.db.local.dao.MedocDao
 import dev.mobile.medicalink.db.local.dao.PriseValideeDao
+import dev.mobile.medicalink.db.local.dao.StatutDouleurDao
 import dev.mobile.medicalink.db.local.dao.UserDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisSubstance
 import dev.mobile.medicalink.db.local.entity.ContactMedecin
+import dev.mobile.medicalink.db.local.entity.InteractionsMedic
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.PriseValidee
+import dev.mobile.medicalink.db.local.entity.StatutDouleur
 import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
+import dev.mobile.medicalink.db.local.repository.InteractionsMedicRepository
 
 @Database(
-    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisSubstance::class, ContactMedecin::class],
+    entities = [User::class, Medoc::class, CisBdpm::class, PriseValidee::class, CisSubstance::class, ContactMedecin::class, StatutDouleur::class, InteractionsMedic::class],
     version = 1,
     exportSchema = false
 )
@@ -35,6 +40,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun priseValideeDao(): PriseValideeDao
     abstract fun cisSubstanceDao(): CisSubstanceDao
     abstract fun contactMedecinDao(): ContactMedecinDao
+    abstract fun statutDouleurDao(): StatutDouleurDao
+    abstract fun interactionsMedicDao(): InteractionsMedicDao
 
     companion object {
         private const val DATABASE_NAME = "medicalink.db"
@@ -62,6 +69,7 @@ abstract class AppDatabase : RoomDatabase() {
                     // On ajoute les données de la base de données médicamenteuse avant de retourner l'instance
                     CisBdpmRepository(instance.cisBdpmDao()).insertFromCsv(context)
                     CisSubstanceRepository(instance.cisSubstanceDao()).insertFromCsv(context)
+                    InteractionsMedicRepository(instance.interactionsMedicDao()).importFromJson(context)
                 }.start()
                 instance
             }

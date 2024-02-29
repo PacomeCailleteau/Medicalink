@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -29,8 +30,10 @@ import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.CisSubstance
+import dev.mobile.medicalink.db.local.entity.Interactions
 import dev.mobile.medicalink.db.local.repository.CisBdpmRepository
 import dev.mobile.medicalink.db.local.repository.CisSubstanceRepository
+import dev.mobile.medicalink.db.local.repository.InteractionsMedicRepository
 import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
@@ -50,9 +53,8 @@ class AjoutManuelSearchFragment : Fragment() {
     private lateinit var originalItemList: List<CisBdpm>
     private lateinit var filteredItemList: List<CisBdpm>
     private lateinit var itemAdapter: AjoutManuelSearchAdapterR
-
-
     private lateinit var retour: ImageView
+    private lateinit var loader: ProgressBar
 
     @SuppressLint("ClickableViewAccessibility", "MissingInflatedId")
     override fun onCreateView(
@@ -61,6 +63,13 @@ class AjoutManuelSearchFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ajout_manuel_search, container, false)
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
+
+        recyclerView = view.findViewById(R.id.recyclerViewSearch)
+        addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
+        addManuallyButton = view.findViewById(R.id.add_manually_button)
+        supprimerSearch = view.findViewById(R.id.supprimerSearch)
+        retour = view.findViewById(R.id.retour_schema_prise2)
+        loader = view.findViewById(R.id.loaderSearch)
 
         if (activity != null) {
             val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
@@ -71,19 +80,22 @@ class AjoutManuelSearchFragment : Fragment() {
         val cisBdpmDatabaseInterface = CisBdpmRepository(db.cisBdpmDao())
 
         //Récupération de la liste des Médicaments pour l'afficher
-        val queue = LinkedBlockingQueue<List<CisBdpm>>()
         Thread {
             val listCisBdpm = cisBdpmDatabaseInterface.getAllCisBdpm()
-            Log.d("CisBDPM list", listCisBdpm.toString())
-            queue.add(listCisBdpm)
+            originalItemList = listCisBdpm
+            filteredItemList = listCisBdpm
+            itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
+                searchForDuplcateSubstance(view.context, clickedItem.codeCIS)
+                searchForInteractions(view.context, clickedItem.codeCIS)
+                updateSearchBar(clickedItem.denomination)
+                viewModel.setNomTraitement(clickedItem.denomination)
+                viewModel.setCodeCIS(clickedItem.codeCIS)
+            }
+            requireActivity().runOnUiThread {
+                recyclerView.adapter = itemAdapter
+                loader.visibility = View.GONE
+            }
         }.start()
-        originalItemList = queue.take()
-        filteredItemList = originalItemList
-
-
-        addManuallySearchBar = view.findViewById(R.id.add_manually_search_bar)
-        addManuallyButton = view.findViewById(R.id.add_manually_button)
-        supprimerSearch = view.findViewById(R.id.supprimerSearch)
 
         supprimerSearch.setOnClickListener {
             addManuallySearchBar.setText("")
@@ -103,16 +115,6 @@ class AjoutManuelSearchFragment : Fragment() {
                 }
             }
 
-
-        recyclerView = view.findViewById(R.id.recyclerViewSearch)
-
-        itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
-            searchForDuplcateSubstance(view.context, clickedItem.codeCIS)
-            updateSearchBar(clickedItem.denomination)
-            viewModel.setNomTraitement(clickedItem.denomination)
-            viewModel.setCodeCIS(clickedItem.codeCIS)
-        }
-        recyclerView.adapter = itemAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
@@ -120,8 +122,6 @@ class AjoutManuelSearchFragment : Fragment() {
         addManuallyButton.setOnClickListener {
             GoTo.fragment(AjoutManuelTypeMedic(), parentFragmentManager)
         }
-
-        retour = view.findViewById(R.id.retour_schema_prise2)
 
         retour.setOnClickListener {
             viewModel.reset()
@@ -179,6 +179,10 @@ class AjoutManuelSearchFragment : Fragment() {
      * @param query la chaine de caractère sur laquelle on filtre la liste des médicaments
      */
     private fun filterItems(query: String) {
+        // Si originalItemList n'a pas encore été initialisé, on ne fait rien
+        if (!::originalItemList.isInitialized) {
+            return
+        }
         val viewModel = ViewModelProvider(requireActivity()).get(AjoutSharedViewModel::class.java)
         val filteredItemList = originalItemList.filter { item ->
             item.denomination.contains(query, ignoreCase = true)
@@ -186,6 +190,7 @@ class AjoutManuelSearchFragment : Fragment() {
         requireActivity().runOnUiThread {
             itemAdapter = AjoutManuelSearchAdapterR(filteredItemList) { clickedItem ->
                 searchForDuplcateSubstance(requireContext(), clickedItem.codeCIS)
+                searchForInteractions(requireContext(), clickedItem.codeCIS)
                 updateSearchBar(clickedItem.denomination)
                 viewModel.setNomTraitement(clickedItem.denomination)
                 viewModel.setCodeCIS(clickedItem.codeCIS)
@@ -205,7 +210,7 @@ class AjoutManuelSearchFragment : Fragment() {
     }
 
     /**
-     * Fonction utilisé pour rechercher si un médicament est déjà présent dans la liste des médicaments de l'utilisateur
+     * Fonction utilisée pour rechercher si un médicament est déjà présent dans la liste des médicaments de l'utilisateur
      * S'il y a un médicament en conflit, on affiche un dialog pour prévenir l'utilisateur
      * @param context le contexte de l'application
      * @param codeCis le codeCis du médicament que l'on veut ajouter
@@ -272,6 +277,89 @@ class AjoutManuelSearchFragment : Fragment() {
             lstDuplicate.size.toString(),
             lstDuplicate[0].denominationSubstance
         )
+        val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
+
+        jaiCompris.setOnClickListener {
+            dosageDialog.dismiss()
+        }
+
+        dosageDialog.show()
+    }
+
+    /**
+     * Fonction utilisée pour vérifier si un médicament a une interactions avec l'un des médicaments déjà présent dans la liste de l'utilisateur
+     * @param context le contexte de l'application
+     * @param codeCis le codeCis du médicament que l'on veut ajouter
+     */
+    private fun searchForInteractions(context: Context, codeCis: String) {
+        val db = AppDatabase.getInstance(context)
+        val userInterface = UserRepository(db.userDao())
+        val medocInterface = MedocRepository(db.medocDao())
+        val cisSubstanceInterface = CisSubstanceRepository(db.cisSubstanceDao())
+        val interactionsMedicInterface = InteractionsMedicRepository(db.interactionsMedicDao())
+
+        val queue = LinkedBlockingQueue<List<Interactions>>()
+        Thread {
+            try {
+                //Récupération de tout les codes de substances déjà pris par l'utilisateur
+                val userUuid = userInterface.getUsersConnected()[0].uuid
+                val codeCisMedicamentDejaPris: List<String> =
+                    medocInterface.getAllMedocByUserId(userUuid).map {
+                        it.codeCIS
+                    }
+                val medicamentCisDejaPris: MutableList<CisSubstance> = mutableListOf()
+                for (code in codeCisMedicamentDejaPris) {
+                    medicamentCisDejaPris.add(cisSubstanceInterface.getOneCisSubstanceById(code)!!)
+                }
+                val substancesPresentes = medicamentCisDejaPris.map { it.denominationSubstance }
+
+                //Réupération du nom de substance du médicament que l'on veut ajouter
+                val codeSubstanceMedicamentAjoute =
+                    cisSubstanceInterface.getOneCisSubstanceById(codeCis)!!.denominationSubstance
+
+                val interactionsMedic = interactionsMedicInterface.getInteractionsMedicBySubstance(
+                    codeSubstanceMedicamentAjoute
+                )[0]
+
+                val inte = interactionsMedic.interactions.filter { it.substance in substancesPresentes }
+
+                Log.d("Interactions", inte.toString())
+
+                queue.add(inte)
+            } catch (e: Exception) {
+                queue.add(listOf())
+                Log.e("Erreur", e.toString())
+            }
+        }.start()
+
+        val res = queue.take()
+
+        if (res.isNotEmpty()) {
+            afficheDialogInteractions(context, res)
+        }
+    }
+
+    /**
+     * Fonction pour afficher un dialog prévenant l'utilisateur qu'il veut ajouter un médicament en conflit avec un médicament déjà présent dans sa liste
+     * @param context le contexte de l'application
+     * @param lstInteractions la liste des médicaments en conflit
+     */
+    private fun afficheDialogInteractions(
+        context: Context,
+        lstInteractions: List<Interactions>
+    ) {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_duplicate_substance, null)
+        val builder = AlertDialog.Builder(context, R.style.RoundedDialog)
+        builder.setView(dialogView)
+
+        val dosageDialog = builder.create()
+
+        val dial = dialogView.findViewById<TextView>(R.id.ajouterVrm)
+        dial.text = "Vous avez un ou plusieurs médicaments en conflit avec le médicament que vous voulez ajouter"
+        for (inter in lstInteractions) {
+            dial.text = dial.text.toString() + "\n" + inter.com2 + " et " + inter.com1
+        }
         val jaiCompris = dialogView.findViewById<Button>(R.id.jaiCompris)
 
         jaiCompris.setOnClickListener {

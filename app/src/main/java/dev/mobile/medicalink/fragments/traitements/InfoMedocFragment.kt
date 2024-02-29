@@ -80,22 +80,34 @@ class InfoMedocFragment : Fragment() {
 
         titre.text = monMedoc.nom
         dosage.text = getString(R.string.dosageDetailMedoc, monMedoc.dosageNB.toString())
-        dosageUnite.text = getString(R.string.dosageSubstanceDetailMedoc, getStringFromEnum(monMedoc.frequencePrise, view.context))
+        dosageUnite.text = getString(
+            R.string.dosageSubstanceDetailMedoc,
+            getStringFromEnum(monMedoc.frequencePrise, view.context)
+        )
         typeComprime.text = getString(R.string.typeComprimeDetailMedoc, monMedoc.typeComprime)
-        restants.text = getString(R.string.typeComprimeDetailMedoc, monMedoc.comprimesRestants.toString())
+        restants.text =
+            getString(R.string.typeComprimeDetailMedoc, monMedoc.comprimesRestants.toString())
         quantite.text = getString(R.string.quantiteDetailMedoc, monMedoc.totalQuantite.toString())
-        debTraitement.text = getString(R.string.debutTraitementDetailMedoc, monMedoc.dateDbtTraitement)
-        finTraitement.text = getString(R.string.finTraitementDetailMedoc, monMedoc.dateFinTraitement)
+        debTraitement.text =
+            getString(R.string.debutTraitementDetailMedoc, monMedoc.dateDbtTraitement)
+        finTraitement.text =
+            getString(R.string.finTraitementDetailMedoc, monMedoc.dateFinTraitement)
         expire.text = getString(R.string.expireDetailMedoc, monMedoc.expire.toString())
-        effetsSec.text = getString(R.string.effetsSecondairesDetailMedoc, monMedoc.effetsSecondaires)
+        effetsSec.text =
+            getString(R.string.effetsSecondairesDetailMedoc, monMedoc.effetsSecondaires)
         prises.text = getString(R.string.prisesDetailMedoc, monMedoc.prises)
-        restants.text = getString(R.string.restantsDetailMedoc, monMedoc.comprimesRestants.toString())
+        restants.text =
+            getString(R.string.restantsDetailMedoc, monMedoc.comprimesRestants.toString())
 
-        denomPrincipe.text = getString(R.string.denominationPrincipeDetailMedoc, maSubstance.denominationSubstance)
-        doseSubstance.text = getString(R.string.dosageSubstanceDetailMedoc, maSubstance.dosageSubstance)
+        denomPrincipe.text =
+            getString(R.string.denominationPrincipeDetailMedoc, maSubstance.denominationSubstance)
+        doseSubstance.text =
+            getString(R.string.dosageSubstanceDetailMedoc, maSubstance.dosageSubstance)
 
-        formePharma.text = getString(R.string.formePharmaceutiqueDetailMedoc, monBdpm.formePharmaceutique)
-        voieAdministration.text = getString(R.string.voieAdministrationDetailMedoc, monBdpm.voiesAdministration)
+        formePharma.text =
+            getString(R.string.formePharmaceutiqueDetailMedoc, monBdpm.formePharmaceutique)
+        voieAdministration.text =
+            getString(R.string.voieAdministrationDetailMedoc, monBdpm.voiesAdministration)
 
         return view
     }
@@ -106,7 +118,8 @@ class InfoMedocFragment : Fragment() {
      */
     private fun ajoutLienCliquable(codeCIS: String) {
         // Quand on clique sur le lien, ça doit nous envoyer vers la page internet du médicament
-        val url = "https://base-donnees-publique.medicaments.gouv.fr/affichageDoc.php?typedoc=R&specid=$codeCIS"
+        val url =
+            "https://base-donnees-publique.medicaments.gouv.fr/affichageDoc.php?typedoc=R&specid=$codeCIS"
         txtPlusInfo.setOnClickListener {
             lancerIntent(url)
         }
@@ -124,8 +137,6 @@ class InfoMedocFragment : Fragment() {
         intent.data = Uri.parse(url)
         startActivity(intent)
     }
-
-
 
 
 }

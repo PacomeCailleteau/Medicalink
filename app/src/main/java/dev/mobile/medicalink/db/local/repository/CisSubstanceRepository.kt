@@ -33,6 +33,14 @@ class CisSubstanceRepository(private val cisSubstanceDao: CisSubstanceDao) {
         }
     }
 
+    fun getCodeSubstanceByName(name: String): Int? {
+        return try {
+            cisSubstanceDao.getByName(name)[0].codeSubstance
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     fun insertCisSubstance(cisSubstance: CisSubstance): Pair<Boolean, String> {
         return try {
             cisSubstanceDao.insertAll(cisSubstance)

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -406,7 +405,6 @@ class HomeAdapterR(
         holder: AjoutManuelViewHolder,
         dosageDialog: AlertDialog
     ) {
-        Log.d("HomeAdapterR", "onClick: $typeBouton")
         val context = holder.itemView.context
         val db = AppDatabase.getInstance(context)
         val priseValideeDatabaseInterface = PriseValideeRepository(db.priseValideeDao())
@@ -432,9 +430,7 @@ class HomeAdapterR(
                 if (priseToDelete.isNotEmpty()) {
                     priseValideeDatabaseInterface.deletePriseValidee(priseToDelete.first())
                 }
-
                 queue.add("True")
-
             }.start()
             queue.take()
             circleTick.setImageResource(R.drawable.circle)
@@ -536,7 +532,7 @@ class HomeAdapterR(
                 return@Thread
             } else {
                 val date = dateCourante.toString()
-                val numero = list[holder.bindingAdapterPosition].first.numeroPrise
+                val numero = prise.numeroPrise
                 //On créer la notification de la prochaine prise
                 NotificationService.createNextNotif(
                     context,

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class InteractionSubstance (
+data class InteractionSubstance(
     @PrimaryKey val denominationSubstance: String,
     val petitCommentaire: String,
     val listeDeInteraction: String

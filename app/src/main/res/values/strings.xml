@@ -192,12 +192,14 @@
     <string name="nom_message_item">Nom</string>
     <string name="rpps_message_item" translatable="false">RPPS</string>
     <string name="rechercher_par_prenom_et_nom">Rechercher par prénom et nom</string>
-    <string name="rechercher_par_rpps">Rechercher par RPPS\n</string>
+    <string name="rechercher_par_rpps">Rechercher par RPPS</string>
     <string name="rechercher_un_medecin">Rechercher un medecin</string>
     <string name="rpps_s" translatable="false">Rpps : %s</string>
     <string name="prenom_s">Prénom : %s</string>
     <string name="nom_s">Nom : %s</string>
     <string name="email_s">Email : %s</string>
+    <string name="date_de_naissance_s">Date de naissance : %s</string>
+    <string name="specialite_s">Spécialité : %s</string>
     <string name="phone_s">Téléphone : %s</string>
     <string name="adresse_s">Adresse : %s</string>
     <string name="code_postal_s">Code postal : %s</string>
@@ -207,7 +209,6 @@
     <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
     <string name="j_ai_compris">J\'ai compris</string>
     <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
-    <string name="specialite_s">Spécialité : %s</string>
     <string name="date_invalide">Date invalide</string>
     <string name="pas_medoc_dans_photo">Aucune prescription n\'a été détectée dans l\'image. Veuillez essayer d\'utiliser une autre image de l\'ordonnance ou ajouter manuellement vos médicaments.</string>
     <string name="defaultMedocNameInDetails">Nom du médicament par défault</string>
@@ -228,5 +229,33 @@
     <string name="voieAdministrationDetailMedoc">Voie d\'Administration : %s</string>
     <string name="voirPlusInformations">Voir plus d\'informations</string>
     <string name="graphique_des_douleurs">Graphiques des douleurs</string>
+    <string name="image_porte_de_sortie">Image d\'une porte de sortie</string>
+    <string name="voir_mes_informations">Voir mes informations</string>
+    <string name="mes_informations">Mes informations</string>
+    <string name="modifier_email">Bouton de modification de l\'email</string>
+    <string name="contentDescriptionRetour">Bouton de retour à la page précédente</string>
+    <string name="changer_mon_s">Changer mon %s</string>
+    <string name="entrez_votre_nouveau_s">Entrez votre nouveau %s</string>
+    <string name="email">email</string>
+    <string name="mot_de_passe">mot de passe</string>
+    <string name="error_rpps">Le rpps ne peut contenir que des chiffres</string>
+    <string name="error_search_medecin_user">Veuillez renseigner un rpps (11 chiffres) ou un nom/prenom</string>
+    <string name="error_search_medecin_api">Erreur lors de la recherche, veuillez être plus précis</string>
+    <string name="reason_status">Raison du statut</string>
+    <string name="seuil_douleur">Seuil de douleur \n(de 1 à 10)</string>
+    <string name="before_after_taking">Avant ou après prise?</string>
+    <string name="sauter">Sauter</string>
+    <string name="spontane">Spontanée</string>
+    <string name="pb_digit">La valeur doit être comprise entre 1 et 10</string>
+    <string name="avant_prise">Avant Prise</string>
+    <string name="apres_prise">Après Prise</string>
+    <string name="statut_ajoute">Statut ajouté</string>
+    <string name="echec_ajout">Valeurs incorrectes</string>
+    <string name="modifier_mon_intervalle_de_notifications">Modifier mon intervalle de notifications:</string>
+    <string name="modifier_ma_plage_de_notifications">Modifier ma plage de notifications :</string>
+    <string name="definir_mes_notifications">Definir mes notifications</string>
+    <string name="modifier_mes_notifications">Modifier mes notifications</string>
+    <string name="six_heure">06:00</string>
+    <string name="dix_huit_heure">18:00</string>
 
 </resources>

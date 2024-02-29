@@ -17,7 +17,7 @@
         android:paddingRight="32dp"
         app:layout_constraintEnd_toEndOf="@+id/cardDarkMode"
         app:layout_constraintStart_toStartOf="@+id/cardDarkMode"
-        app:layout_constraintTop_toBottomOf="@+id/cardDarkMode">
+        app:layout_constraintTop_toBottomOf="@+id/cardDeconnexion">
 
 
         <TextView
@@ -44,16 +44,8 @@
         android:paddingRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardDeconnexion">
+        app:layout_constraintTop_toBottomOf="@+id/cardDouleur">
 
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchDarkMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:thumbTint="#3E76CD"
-            android:trackTint="@android:color/holo_blue_light" />
 
         <TextView
             android:id="@+id/dark_mode_text"
@@ -65,10 +57,18 @@
             android:text="@string/dark_mode"
             android:textColor="@color/black"
             android:textSize="17sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchDarkMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:thumbTint="#3E76CD"
+            android:trackTint="@android:color/holo_blue_light" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/titreParametre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -87,7 +87,7 @@
         android:id="@+id/cardDeconnexion"
         android:layout_width="325dp"
         android:layout_height="69dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_blue_button_background"
         android:gravity="center"
         android:orientation="horizontal"
@@ -95,15 +95,8 @@
         android:paddingRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16">
+        app:layout_constraintTop_toBottomOf="@+id/cardDarkMode">
 
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:srcCompat="@drawable/annuler"
-            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/deconnexion"
@@ -116,6 +109,78 @@
             android:textColor="@color/black"
             android:textSize="17sp" />
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:contentDescription="@string/image_porte_de_sortie"
+            app:srcCompat="@drawable/sortie"
+            app:tint="@color/black" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cardInfo"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoRetour">
+
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="@string/voir_mes_informations"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/cardDouleur"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardInfo">
+
+
+        <TextView
+            android:id="@+id/douleur"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="@string/modifier_mes_notifications"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/userInfoRetour"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/titreParametre"
+        app:layout_constraintTop_toBottomOf="@+id/titreParametre"
+        app:srcCompat="@drawable/annuler"
+        android:contentDescription="@string/contentDescriptionRetour" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
