@@ -223,4 +223,10 @@
     <string name="apres_prise">After taking</string>
     <string name="statut_ajoute">Status added</string>
     <string name="echec_ajout">Incorrect values</string>
+    <string name="modifier_mon_intervalle_de_notifications">Change my notification interval :</string>
+    <string name="modifier_ma_plage_de_notifications">Modify my notification range :</string>
+    <string name="definir_mes_notifications">Define my notifications</string>
+    <string name="modifier_mes_notifications">Change my notifications</string>
+    <string name="aucun_medicament">No medication</string>
+    <string name="note_supp">Additional note on status (optional)</string>
 </resources>

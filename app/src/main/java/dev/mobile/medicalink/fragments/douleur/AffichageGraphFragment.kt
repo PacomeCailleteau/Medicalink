@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.douleur
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.os.SystemClock.sleep
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -17,6 +16,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import com.github.mikephil.charting.charts.LineChart
@@ -43,9 +43,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.WeekFields
-import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
+import java.util.concurrent.LinkedBlockingQueue
 
 class AffichageGraphFragment : Fragment() {
 
@@ -57,6 +57,7 @@ class AffichageGraphFragment : Fragment() {
     lateinit var spinnerMedicament: Spinner
     lateinit var spinnerPrise: Spinner
     lateinit var valider: AppCompatButton
+    lateinit var texteNote: TextInputEditText
 
     // valeur du layout
     private var valeurSpinner1 = FiltreDate.MOIS
@@ -92,13 +93,21 @@ class AffichageGraphFragment : Fragment() {
         val medocInterface = MedocRepository(db.medocDao())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
 
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
+
+        val queue = LinkedBlockingQueue<String>()
         Thread {
             this.userCo = userInterface.getUsersConnected()[0].uuid
             this.traitementUti = medocInterface.getAllMedocByUserId(this.userCo)
             this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
             Log.d("zeubie", this.statutDouleur.toString())
             setEntries()
+            queue.put("done")
         }.start()
+        queue.take()
 
         val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
         this.spinnerGraph = rootView.findViewById(R.id.spinner1)
@@ -108,6 +117,7 @@ class AffichageGraphFragment : Fragment() {
         this.spinnerMedicament = rootView.findViewById(R.id.spinnerMedicament)
         this.spinnerPrise = rootView.findViewById(R.id.spinnerPrise)
         this.valider = rootView.findViewById(R.id.valider)
+        this.texteNote = rootView.findViewById(R.id.input_note)
 
 
         spinnerMedicament.visibility = View.GONE
@@ -203,15 +213,20 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
             }
         }
 
 
         // inputSeuil
         inputSeuil.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Rien à faire avant le changement
+            }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Rien à faire pendant le changement
+            }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString() != "") {
@@ -233,9 +248,9 @@ class AffichageGraphFragment : Fragment() {
 
         // spinnerMedicament
         if (traitementUti.isEmpty()) {
-            traitementUti = listOf(Medoc("0",
-                "Aucun traitement",
-                "zizi caca",
+            traitementUti = listOf(Medoc("EmptyMed",
+                "0",
+                requireContext().getString(R.string.aucun_medicament),
                 "0",
                 1,
                 EnumFrequence.AUBESOIN,
@@ -259,10 +274,13 @@ class AffichageGraphFragment : Fragment() {
 
         this.spinnerMedicament.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                valeurSpinnerMedic = traitementUti[position].uuid
+                if (items.isNotEmpty()) {
+                    valeurSpinnerMedic = traitementUti[position].uuid
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
             }
         }
 
@@ -282,6 +300,7 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
             }
         }
 
@@ -303,9 +322,13 @@ class AffichageGraphFragment : Fragment() {
     private fun recuperePoint() {
         val db = AppDatabase.getInstance(requireContext())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
+
+        val queue = LinkedBlockingQueue<String>()
         Thread{
             this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
+            queue.put("done")
         }.start()
+        queue.take()
 
         filtreDate()
 
@@ -346,38 +369,25 @@ class AffichageGraphFragment : Fragment() {
     private fun filtreDate() {
         val converters = Converters()
         val today = LocalDate.now()
-        val statuts = mutableListOf<StatutDouleur>()
+        var statuts = mutableListOf<StatutDouleur>()
 
         when (this.valeurSpinner1) {
             FiltreDate.JOUR -> {
-                for (s: StatutDouleur in this.statutDouleur) {
-                    if (converters.stringToLocalDateTime(s.date)!!.toLocalDate() == today) {
-                        statuts.add(s)
-                    }
-                }
+                statuts = statutDouleur.filter { converters.stringToLocalDateTime(it.date)!!.toLocalDate() == today }.toMutableList()
             }
             FiltreDate.SEMAINE -> {
                 val weekFields = WeekFields.of(Locale.getDefault())
-                var date: LocalDateTime
 
-                for (s: StatutDouleur in this.statutDouleur) {
-                    date = converters.stringToLocalDateTime(s.date)!!
-
-                    if ((date.get(weekFields.weekOfYear()) == today.get(weekFields.weekOfYear())) && (date.year == today.year)) {
-                        statuts.add(s)
-                    }
-                }
+                statuts = statutDouleur.filter {
+                    val date = converters.stringToLocalDateTime(it.date)!!
+                    (date.get(weekFields.weekOfYear()) == today.get(weekFields.weekOfYear())) && (date.year == today.year)
+                }.toMutableList()
             }
             FiltreDate.MOIS -> {
-                var date: LocalDateTime
-
-                for (s: StatutDouleur in this.statutDouleur) {
-                    date = converters.stringToLocalDateTime(s.date)!!
-
-                    if ((date.month == today.month) && (date.year == today.year)) {
-                        statuts.add(s)
-                    }
-                }
+                statuts = statutDouleur.filter {
+                    val date = converters.stringToLocalDateTime(it.date)!!
+                    (date.month == today.month) && (date.year == today.year)
+                }.toMutableList()
             }
         }
 
@@ -393,8 +403,14 @@ class AffichageGraphFragment : Fragment() {
     private fun enregistrePoint() {
         val newStatut: StatutDouleur
         val converters = Converters()
+        val selmed = this.traitementUti.find { it.uuid == this.valeurSpinnerMedic }
 
-        if (this.inputSeuil.text.toString().toIntOrNull() == null) {
+        Log.d("zeubie", this.valeurSpinner1.toString())
+
+        if (selmed == null) {
+            Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
+                .show()
+        } else if (this.inputSeuil.text.toString().toIntOrNull() == null || selmed.uuid == "EmptyMed") {
             Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
                 .show()
         } else {
@@ -407,7 +423,8 @@ class AffichageGraphFragment : Fragment() {
                     this.valeurSpinnerPrise,
                     converters.localDateTimeToTimestamp(LocalDateTime.now())!!,
                     this.inputSeuil.text.toString().toInt(),
-                    this.userCo
+                    this.userCo,
+                    this.texteNote.toString()
                 )
             } else {
                 newStatut = StatutDouleur(
@@ -417,19 +434,25 @@ class AffichageGraphFragment : Fragment() {
                     null,
                     converters.localDateTimeToTimestamp(LocalDateTime.now())!!,
                     this.inputSeuil.text.toString().toInt(),
-                    this.userCo
+                    this.userCo,
+                    this.texteNote.toString()
                 )
             }
 
             val db = AppDatabase.getInstance(requireContext())
             val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
+            val queue = LinkedBlockingQueue<String>()
             Thread {
-                val rep = statutInterface.insertStatutDouleur(newStatut)
+                statutInterface.insertStatutDouleur(newStatut)
+                queue.put("done")
             }.start()
+            queue.take()
 
             Toast.makeText(requireContext(), R.string.statut_ajoute, Toast.LENGTH_SHORT)
                 .show()
             recuperePoint()
         }
+        this.texteNote.text = null
+        this.inputSeuil.text = null
     }
 }
