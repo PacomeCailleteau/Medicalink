@@ -77,12 +77,7 @@ class MainTraitementsFragment : Fragment() {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val destinationFragment = MainTraitementsFragment()
-
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                // Ne fait rien ici pour désactiver le bouton de retour arrière
             }
         }
 

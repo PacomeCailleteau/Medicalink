@@ -486,12 +486,7 @@ class HomeFragment : Fragment(), RapportJourCallback{
         val callback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
-                val destinationFragment = HomeFragment()
-
-                val fragTransaction = parentFragmentManager.beginTransaction()
-                fragTransaction.replace(R.id.FL, destinationFragment)
-                fragTransaction.addToBackStack(null)
-                fragTransaction.commit()
+                // Ne fait rien ici pour désactiver le bouton de retour arrière
             }
         }
 
