@@ -44,7 +44,7 @@
         android:paddingRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardInfo">
+        app:layout_constraintTop_toBottomOf="@+id/cardDouleur">
 
 
         <TextView
@@ -141,6 +141,34 @@
             android:fontFamily="@font/quicksand_semibold"
             android:gravity="center"
             android:text="@string/voir_mes_informations"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/cardDouleur"
+        android:layout_width="325dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_blue_button_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardInfo">
+
+
+        <TextView
+            android:id="@+id/douleur"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/quicksand_semibold"
+            android:gravity="center"
+            android:text="@string/modifier_mes_notifications"
             android:textColor="@color/black"
             android:textSize="17sp" />
     </LinearLayout>

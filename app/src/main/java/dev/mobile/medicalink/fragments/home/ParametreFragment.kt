@@ -16,6 +16,7 @@ import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.douleur.enums.NotificationsDouleursFragment
 import dev.mobile.medicalink.utils.GoTo
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -31,6 +32,7 @@ class ParametreFragment : Fragment() {
     private lateinit var supprimerCompte: LinearLayout
     private lateinit var infoCompte: LinearLayout
     private lateinit var retour: ImageView
+    private lateinit var infosDouleur : LinearLayout
 
     private var isDarkMode: Boolean =
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
@@ -48,9 +50,15 @@ class ParametreFragment : Fragment() {
         supprimerCompte = view.findViewById(R.id.deleteAccount)
         infoCompte = view.findViewById(R.id.cardInfo)
         retour = view.findViewById(R.id.userInfoRetour)
+        infosDouleur = view.findViewById(R.id.cardDouleur)
+
 
         retour.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        infosDouleur.setOnClickListener {
+            GoTo.fragment(NotificationsDouleursFragment(),parentFragmentManager)
         }
 
         infoCompte.setOnClickListener {
