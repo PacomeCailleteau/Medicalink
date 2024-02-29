@@ -3,7 +3,6 @@ package dev.mobile.medicalink.fragments.douleur
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.os.SystemClock.sleep
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -43,7 +42,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.WeekFields
-import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.LinkedBlockingQueue
@@ -58,6 +56,7 @@ class AffichageGraphFragment : Fragment() {
     lateinit var spinnerMedicament: Spinner
     lateinit var spinnerPrise: Spinner
     lateinit var valider: AppCompatButton
+    lateinit var texteNote: TextInputEditText
 
     // valeur du layout
     private var valeurSpinner1 = FiltreDate.MOIS
@@ -113,6 +112,7 @@ class AffichageGraphFragment : Fragment() {
         this.spinnerMedicament = rootView.findViewById(R.id.spinnerMedicament)
         this.spinnerPrise = rootView.findViewById(R.id.spinnerPrise)
         this.valider = rootView.findViewById(R.id.valider)
+        this.texteNote = rootView.findViewById(R.id.input_note)
 
 
         spinnerMedicament.visibility = View.GONE
@@ -264,7 +264,9 @@ class AffichageGraphFragment : Fragment() {
 
         this.spinnerMedicament.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                valeurSpinnerMedic = traitementUti[position].uuid
+                if (items.isNotEmpty()) {
+                    valeurSpinnerMedic = traitementUti[position].uuid
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -422,7 +424,8 @@ class AffichageGraphFragment : Fragment() {
                     this.valeurSpinnerPrise,
                     converters.localDateTimeToTimestamp(LocalDateTime.now())!!,
                     this.inputSeuil.text.toString().toInt(),
-                    this.userCo
+                    this.userCo,
+                    this.texteNote.toString()
                 )
             } else {
                 newStatut = StatutDouleur(
@@ -432,7 +435,8 @@ class AffichageGraphFragment : Fragment() {
                     null,
                     converters.localDateTimeToTimestamp(LocalDateTime.now())!!,
                     this.inputSeuil.text.toString().toInt(),
-                    this.userCo
+                    this.userCo,
+                    this.texteNote.toString()
                 )
             }
 
@@ -440,7 +444,7 @@ class AffichageGraphFragment : Fragment() {
             val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
             val queue = LinkedBlockingQueue<String>()
             Thread {
-                val rep = statutInterface.insertStatutDouleur(newStatut)
+                statutInterface.insertStatutDouleur(newStatut)
                 queue.put("done")
             }.start()
             queue.take()
@@ -449,5 +453,7 @@ class AffichageGraphFragment : Fragment() {
                 .show()
             recuperePoint()
         }
+        this.texteNote.text = null
+        this.inputSeuil.text = null
     }
 }

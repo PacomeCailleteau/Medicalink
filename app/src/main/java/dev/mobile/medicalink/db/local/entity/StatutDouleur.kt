@@ -34,5 +34,6 @@ data class StatutDouleur(
     // string de LocalDateTime
     @ColumnInfo(name = "date") var date: String,
     @ColumnInfo(name = "valeur") var valeur: Int,
-    @ColumnInfo(name = "uuidUser") val uuidUser: String
+    @ColumnInfo(name = "uuidUser") val uuidUser: String,
+    @ColumnInfo(name = "note") val note: String,
 )
