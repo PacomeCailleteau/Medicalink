@@ -258,5 +258,6 @@
     <string name="six_heure">06:00</string>
     <string name="dix_huit_heure">18:00</string>
     <string name="aucun_medicament">Aucun médicament</string>
+    <string name="note_supp">Note additionnelle sur le statut (optionnelle)</string>
 
 </resources>

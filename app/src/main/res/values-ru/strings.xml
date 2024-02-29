@@ -224,4 +224,5 @@
     <string name="statut_ajoute">Статус добавлен</string>
     <string name="echec_ajout">Неправильные значения</string>
     <string name="aucun_medicament">Без лекарств</string>
+    <string name="note_supp">Дополнительное примечание о статусе (необязательно)</string>
 </resources>

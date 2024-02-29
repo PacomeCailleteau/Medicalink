@@ -224,4 +224,5 @@
     <string name="statut_ajoute">Status added</string>
     <string name="echec_ajout">Incorrect values</string>
     <string name="aucun_medicament">No medication</string>
+    <string name="note_supp">Additional note on status (optional)</string>
 </resources>
