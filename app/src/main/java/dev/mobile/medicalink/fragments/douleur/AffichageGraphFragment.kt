@@ -36,6 +36,8 @@ import dev.mobile.medicalink.db.local.repository.MedocRepository
 import dev.mobile.medicalink.db.local.repository.StatutDouleurRepository
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.douleur.enums.FiltreDate
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -163,7 +165,6 @@ class AffichageGraphFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val option = listOf(FiltreDate.JOUR, FiltreDate.SEMAINE, FiltreDate.MOIS)
                 valeurSpinner1 = option[position]
-                sleep(10000)
                 recuperePoint()
             }
 
@@ -231,12 +232,28 @@ class AffichageGraphFragment : Fragment() {
 
 
         // spinnerMedicament
+        if (traitementUti.isEmpty()) {
+            traitementUti = listOf(Medoc("0",
+                "Aucun traitement",
+                "zizi caca",
+                "0",
+                1,
+                EnumFrequence.AUBESOIN,
+                null,
+                EnumTypeMedic.COMPRIME,
+                5,
+                false,
+                "0",
+                "0",
+                10,
+                LocalDate.now()))
+        }
         items = this.traitementUti.map { it.nom }
+
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         if (items.isNotEmpty()) {
             this.valeurSpinnerMedic = this.traitementUti.map { it.uuid }[0]
-
             this.spinnerMedicament.adapter = adapter
         }
 
@@ -288,7 +305,6 @@ class AffichageGraphFragment : Fragment() {
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
         Thread{
             this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
-            Log.d("zeubie", this.statutDouleur.toString())
         }.start()
 
         filtreDate()
@@ -299,10 +315,9 @@ class AffichageGraphFragment : Fragment() {
         this.lineDataSet.clear()
 
         // Ajouter les nouvelles données
-        this.lineDataSet.values.addAll(this.entries)
-
-        // Notifier le graphique que les données ont changé
-        this.lineDataSet.notifyDataSetChanged()
+        this.lineDataSet = LineDataSet(this.entries, "Data Set")
+        val lineData = LineData(lineDataSet)
+        lineChart.data = lineData
 
         // Redessiner le graphique avec les nouvelles données
         this.lineChart.invalidate()
@@ -319,14 +334,13 @@ class AffichageGraphFragment : Fragment() {
             val date = converters.stringToLocalDateTime(s.date)!!.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toFloat()
             val value = s.valeur.toFloat()
             retour.add(Entry(date, value))
-            Log.d("zeubie", date.toString())
         }
 
         this.entries = retour
     }
 
     /**
-     * filtre les points qu'ils correspondent au filtre de date
+     * filtre les points pour qu'ils correspondent au filtre de date
      * enregistre les résultats dans une variable de classe
      */
     private fun filtreDate() {
