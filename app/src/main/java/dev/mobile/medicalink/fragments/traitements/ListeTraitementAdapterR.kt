@@ -60,16 +60,20 @@ class ListeTraitementAdapterR(
         if (textAucunTraitement != null) {
             textAucunTraitement.visibility = View.GONE
         }
-        val item = list.get(position)
+        val item = list[position]
         holder.nomTraitement.text = item.nomTraitement
-        if (item.dosageUnite == "auBesoin") {
-            holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
-        } else if (item.dosageUnite == "quotidiennement") {
-            holder.dosage.text =
-                "${item.dosageNb} ${holder.view.resources.getString(R.string.par_jour)}"
-        } else {
-            holder.dosage.text =
-                "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
+        when (item.dosageUnite) {
+            "auBesoin" -> {
+                holder.dosage.text = holder.view.resources.getString(R.string.au_besoin)
+            }
+            "quotidiennement" -> {
+                holder.dosage.text =
+                    "${item.dosageNb} ${holder.view.resources.getString(R.string.par_jour)}"
+            }
+            else -> {
+                holder.dosage.text =
+                    "${item.totalQuantite} ${holder.view.resources.getString(R.string.tous_les_min)} ${item.dosageNb} ${item.dosageUnite}"
+            }
         }
         //Si le traitement est expiré, un format spécial lui est appliqué
         if (item.expire) {
@@ -142,8 +146,7 @@ class ListeTraitementAdapterR(
 
         val dosageDialog = builder.create()
 
-        val titreConfirmationSuppression =
-            dialogView.findViewById<TextView>(R.id.titreHeurePrise)
+        dialogView.findViewById<TextView>(R.id.titreHeurePrise)
         val nonButton = dialogView.findViewById<Button>(R.id.annulerButton)
         val ouiButton = dialogView.findViewById<Button>(R.id.prendreButton)
 
