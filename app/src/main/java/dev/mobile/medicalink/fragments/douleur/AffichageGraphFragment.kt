@@ -380,7 +380,7 @@ class AffichageGraphFragment : Fragment() {
 
                 statuts = statutDouleur.filter {
                     val date = converters.stringToLocalDateTime(it.date)!!
-                    (date.get(weekFields.weekOfYear()) == today.get(weekFields.weekOfYear())) && (date.year == today.year)
+                    (date[weekFields.weekOfYear()] == today[weekFields.weekOfYear()]) && (date.year == today.year)
                 }.toMutableList()
             }
             FiltreDate.MOIS -> {
@@ -407,10 +407,7 @@ class AffichageGraphFragment : Fragment() {
 
         Log.d("zeubie", this.valeurSpinner1.toString())
 
-        if (selmed == null) {
-            Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
-                .show()
-        } else if (this.inputSeuil.text.toString().toIntOrNull() == null || selmed.uuid == "EmptyMed") {
+        if (selmed == null || this.inputSeuil.text.toString().toIntOrNull() == null || selmed.uuid == "EmptyMed") {
             Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
                 .show()
         } else {
