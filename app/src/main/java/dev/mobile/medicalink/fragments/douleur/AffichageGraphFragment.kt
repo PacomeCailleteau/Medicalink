@@ -401,9 +401,10 @@ class AffichageGraphFragment : Fragment() {
     private fun enregistrePoint() {
         val newStatut: StatutDouleur
         val converters = Converters()
-        val selmed = this.traitementUti.find { it.uuid == this.valeurSpinnerMedic }
+        var selmed = this.traitementUti.find { it.uuid == this.valeurSpinnerMedic }
 
-        if (selmed == null || this.inputSeuil.text.toString().toIntOrNull() == null || selmed.uuid == "EmptyMed") {
+
+        if (this.inputSeuil.text.toString().toIntOrNull() == null || (selmed?.uuid == "EmptyMed" && this.valeurSpinnerType == EnumTypeStatut.Medicament)) {
             Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
                 .show()
         } else {
