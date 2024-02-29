@@ -124,7 +124,7 @@ class InfosContactFragment : Fragment() {
         }
         textSpecialite.text = contact.specialty ?: "Spécialité non renseigné"
         if (contact.phoneNumber == null) {
-            textTelephone.text = Telephone_non_renseigne.toString()
+            textTelephone.text = getString(Telephone_non_renseigne)
             btnTelephone.visibility = View.INVISIBLE
         } else {
             textTelephone.text = contact.phoneNumber

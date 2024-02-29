@@ -84,6 +84,7 @@ class HomeAdapterR(
             Log.d("RESULTAT", result.toString())
             changeEtat(result, i)
         }
+        callback.updateRapport(listeEtatPrise)
     }
 
     override fun changeEtat(etat: CircleState, position: Int) {
@@ -104,8 +105,32 @@ class HomeAdapterR(
         listeTraitementUpdated: MutableList<Pair<Prise, Traitement>>,
         date: LocalDate
     ) {
+        listeEtatPrise.clear()
         list = listeTraitementUpdated
+
         dateCourante = date
+
+        for (i in 0 until list.size) {
+            changeEtat(CircleState.NULL, i)
+            val queue = LinkedBlockingQueue<CircleState>()
+            Thread {
+                val isPriseCouranteValidee =
+                    priseValideeDatabaseInterface.getByUUIDTraitementAndDate(
+                        dateCourante.toString(),
+                        list[i].first.numeroPrise
+                    )
+                if (isPriseCouranteValidee.isEmpty()) {
+                    queue.add(CircleState.NULL)
+                } else if (isPriseCouranteValidee.first().statut == "prendre") {
+                    queue.add(CircleState.PRENDRE)
+                } else {
+                    queue.add(CircleState.SAUTER)
+                }
+            }.start()
+            val result = queue.take()
+            Log.d("RESULTAT", result.toString())
+            changeEtat(result, i)
+        }
         //updateRapportText() // Mettez à jour le texte du rapport
         //updatePriseValideeList(listePriseValideeUpdated) // Mettez à jour la listePriseValidee
         notifyDataSetChanged() // Mettez à jour l'adaptateur

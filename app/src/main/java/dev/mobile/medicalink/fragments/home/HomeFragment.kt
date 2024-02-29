@@ -1,5 +1,6 @@
 package dev.mobile.medicalink.fragments.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -452,26 +453,27 @@ class HomeFragment : Fragment(), RapportJourCallback{
                 rapportLayout.visibility = View.GONE
             })
             return
+        } else {
+            val pris = map.count { it.value == CircleState.PRENDRE }
+            val total = map.size
+            activity?.runOnUiThread(Runnable {
+                val rapportLayout = layout.findViewById<ConstraintLayout>(R.id.rapportLayout)
+                rapportLayout.visibility = View.VISIBLE
+                val rapport = layout.findViewById<TextView>(R.id.rapport)
+                val circleTick = layout.findViewById<ImageView>(R.id.circleTickHome)
+                rapport.text = "$pris/$total"
+                when (pris) {
+                    total -> {
+                        circleTick.setImageResource(R.drawable.perfect_face)
+                    }
+                    0 -> {
+                        circleTick.setImageResource(R.drawable.sad_face)
+                    }
+                    else -> {
+                        circleTick.setImageResource(R.drawable.good_face)
+                    }
+                }
+            })
         }
-        val pris = map.count { it.value == CircleState.PRENDRE }
-        val total = map.size
-        activity?.runOnUiThread(Runnable {
-            val rapport = layout.findViewById<TextView>(R.id.rapport)
-            val circleTick = layout.findViewById<ImageView>(R.id.circleTickHome)
-            rapport.text = "$pris/$total"
-            when (pris) {
-                total -> {
-                    circleTick.setImageResource(R.drawable.perfect_face)
-                }
-                0 -> {
-                    circleTick.setImageResource(R.drawable.sad_face)
-                }
-                else -> {
-                    circleTick.setImageResource(R.drawable.good_face)
-                }
-            }
-        })
-
-
     }
 }
