@@ -228,4 +228,5 @@
     <string name="definir_mes_notifications">Настройка уведомлений</string>
     <string name="modifier_mes_notifications">Изменение моих уведомлений</string>
     <string name="aucun_medicament">Без лекарств</string>
+    <string name="note_supp">Дополнительное примечание о статусе (необязательно)</string>
 </resources>

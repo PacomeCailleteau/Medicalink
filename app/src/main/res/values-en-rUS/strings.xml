@@ -227,4 +227,5 @@
     <string name="definir_mes_notifications">Define my notifications</string>
     <string name="modifier_mes_notifications">Change my notifications</string>
     <string name="aucun_medicament">No medication</string>
+    <string name="note_supp">Additional note on status (optional)</string>
 </resources>
