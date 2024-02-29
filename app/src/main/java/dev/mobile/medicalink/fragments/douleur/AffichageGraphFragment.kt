@@ -218,9 +218,13 @@ class AffichageGraphFragment : Fragment() {
 
         // inputSeuil
         inputSeuil.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Rien à faire avant le changement
+            }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Rien à faire pendant le changement
+            }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString() != "") {
@@ -363,38 +367,25 @@ class AffichageGraphFragment : Fragment() {
     private fun filtreDate() {
         val converters = Converters()
         val today = LocalDate.now()
-        val statuts = mutableListOf<StatutDouleur>()
+        var statuts = mutableListOf<StatutDouleur>()
 
         when (this.valeurSpinner1) {
             FiltreDate.JOUR -> {
-                for (s: StatutDouleur in this.statutDouleur) {
-                    if (converters.stringToLocalDateTime(s.date)!!.toLocalDate() == today) {
-                        statuts.add(s)
-                    }
-                }
+                statuts = statutDouleur.filter { converters.stringToLocalDateTime(it.date)!!.toLocalDate() == today }.toMutableList()
             }
             FiltreDate.SEMAINE -> {
                 val weekFields = WeekFields.of(Locale.getDefault())
-                var date: LocalDateTime
 
-                for (s: StatutDouleur in this.statutDouleur) {
-                    date = converters.stringToLocalDateTime(s.date)!!
-
-                    if ((date.get(weekFields.weekOfYear()) == today.get(weekFields.weekOfYear())) && (date.year == today.year)) {
-                        statuts.add(s)
-                    }
-                }
+                statuts = statutDouleur.filter {
+                    val date = converters.stringToLocalDateTime(it.date)!!
+                    (date.get(weekFields.weekOfYear()) == today.get(weekFields.weekOfYear())) && (date.year == today.year)
+                }.toMutableList()
             }
             FiltreDate.MOIS -> {
-                var date: LocalDateTime
-
-                for (s: StatutDouleur in this.statutDouleur) {
-                    date = converters.stringToLocalDateTime(s.date)!!
-
-                    if ((date.month == today.month) && (date.year == today.year)) {
-                        statuts.add(s)
-                    }
-                }
+                statuts = statutDouleur.filter {
+                    val date = converters.stringToLocalDateTime(it.date)!!
+                    (date.month == today.month) && (date.year == today.year)
+                }.toMutableList()
             }
         }
 
