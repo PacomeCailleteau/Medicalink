@@ -1,10 +1,9 @@
 package dev.mobile.medicalink
 
-import android.Manifest
+import android.content.Intent
 import android.widget.DatePicker
-import androidx.room.Room
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -17,38 +16,39 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
-import dev.mobile.medicalink.db.local.AppDatabase
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import java.util.Locale
 
+
+@Config(sdk = [29])
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
-    @JvmField
-    @Rule
-    val permissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
+
 
     @Before
     fun setUp() {
-        val db = Room.inMemoryDatabaseBuilder(
+        /*val db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             AppDatabase::class.java
-        ).allowMainThreadQueries().build()
+        ).allowMainThreadQueries().build()*/
         // On réinitialise la base de données à chaque test
 
-        db.clearAllTables()
-        
-        // On initialise Intents avant chaque test
-        Intents.init()
-        // On lance notre application via sa première activité
-        ActivityScenario.launch(MainActivity::class.java)
+        //db.clearAllTables()
+
+
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+            .putExtra("title", "Testing rules!")
+        val scenario = launchActivity<MainActivity>(intent)
+        scenario.onActivity { activity ->
+            // do some stuff with the Activity
+        }
+
     }
 
     @After

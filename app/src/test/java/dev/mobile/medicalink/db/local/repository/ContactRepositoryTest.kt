@@ -9,14 +9,14 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 
 // NE FONCTIONNE PAS SUR LES PC DE L'IUT
 //NE FONCTIONNE PAS QUAND ON RUN AVEC LE COVERAGE (je sais pas pourquoi)
 //enlever les commentaires du @Config permet de retirer le warning de unknown chunk type 200
 @RunWith(AndroidJUnit4::class)
-//@Config(sdk = [29])
-//@SmallTest
+@Config(sdk = [29])
 class ContactRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var contactRepository: ContactRepository
