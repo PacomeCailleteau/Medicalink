@@ -329,7 +329,7 @@ class AffichageGraphFragment : Fragment() {
         lineChart.data = lineData
 
         // Redessiner le graphique avec les nouvelles données
-        this.lineChart.notifyDataSetChanged()
+        this.lineChart.invalidate()
     }
 
     /**
