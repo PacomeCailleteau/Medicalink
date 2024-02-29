@@ -46,6 +46,7 @@ import java.time.temporal.WeekFields
 import java.util.Calendar
 import java.util.Locale
 import java.util.UUID
+import java.util.concurrent.LinkedBlockingQueue
 
 class AffichageGraphFragment : Fragment() {
 
@@ -92,13 +93,17 @@ class AffichageGraphFragment : Fragment() {
         val medocInterface = MedocRepository(db.medocDao())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
 
+
+        val queue = LinkedBlockingQueue<String>()
         Thread {
             this.userCo = userInterface.getUsersConnected()[0].uuid
             this.traitementUti = medocInterface.getAllMedocByUserId(this.userCo)
             this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
             Log.d("zeubie", this.statutDouleur.toString())
             setEntries()
+            queue.put("done")
         }.start()
+        queue.take()
 
         val retour = rootView.findViewById<ImageView>(R.id.retour_arriere)
         this.spinnerGraph = rootView.findViewById(R.id.spinner1)
@@ -233,9 +238,9 @@ class AffichageGraphFragment : Fragment() {
 
         // spinnerMedicament
         if (traitementUti.isEmpty()) {
-            traitementUti = listOf(Medoc("0",
-                "Aucun traitement",
-                "zizi caca",
+            traitementUti = listOf(Medoc("EmptyMed",
+                "0",
+                requireContext().getString(R.string.aucun_medicament),
                 "0",
                 1,
                 EnumFrequence.AUBESOIN,
@@ -303,9 +308,13 @@ class AffichageGraphFragment : Fragment() {
     private fun recuperePoint() {
         val db = AppDatabase.getInstance(requireContext())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
+
+        val queue = LinkedBlockingQueue<String>()
         Thread{
             this.statutDouleur = statutInterface.getStatutByUser(this.userCo)
+            queue.put("done")
         }.start()
+        queue.take()
 
         filtreDate()
 
@@ -320,7 +329,7 @@ class AffichageGraphFragment : Fragment() {
         lineChart.data = lineData
 
         // Redessiner le graphique avec les nouvelles données
-        this.lineChart.invalidate()
+        this.lineChart.notifyDataSetChanged()
     }
 
     /**
@@ -393,8 +402,14 @@ class AffichageGraphFragment : Fragment() {
     private fun enregistrePoint() {
         val newStatut: StatutDouleur
         val converters = Converters()
+        val selmed = this.traitementUti.find { it.uuid == this.valeurSpinnerMedic }
 
-        if (this.inputSeuil.text.toString().toIntOrNull() == null) {
+        Log.d("zeubie", this.valeurSpinner1.toString())
+
+        if (selmed == null) {
+            Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
+                .show()
+        } else if (this.inputSeuil.text.toString().toIntOrNull() == null || selmed.uuid == "EmptyMed") {
             Toast.makeText(requireContext(), R.string.echec_ajout, Toast.LENGTH_SHORT)
                 .show()
         } else {
@@ -423,9 +438,12 @@ class AffichageGraphFragment : Fragment() {
 
             val db = AppDatabase.getInstance(requireContext())
             val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
+            val queue = LinkedBlockingQueue<String>()
             Thread {
                 val rep = statutInterface.insertStatutDouleur(newStatut)
+                queue.put("done")
             }.start()
+            queue.take()
 
             Toast.makeText(requireContext(), R.string.statut_ajoute, Toast.LENGTH_SHORT)
                 .show()

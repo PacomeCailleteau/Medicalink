@@ -223,4 +223,5 @@
     <string name="apres_prise">После приема</string>
     <string name="statut_ajoute">Статус добавлен</string>
     <string name="echec_ajout">Неправильные значения</string>
+    <string name="aucun_medicament">Без лекарств</string>
 </resources>

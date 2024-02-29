@@ -222,4 +222,5 @@
     <string name="apres_prise">After taking</string>
     <string name="statut_ajoute">Added status</string>
     <string name="echec_ajout">Incorrect values</string>
+    <string name="aucun_medicament">No medication</string>
 </resources>

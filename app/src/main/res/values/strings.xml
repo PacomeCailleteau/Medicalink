@@ -251,5 +251,6 @@
     <string name="apres_prise">Après Prise</string>
     <string name="statut_ajoute">Statut ajouté</string>
     <string name="echec_ajout">Valeurs incorrectes</string>
+    <string name="aucun_medicament">Aucun médicament</string>
 
 </resources>
