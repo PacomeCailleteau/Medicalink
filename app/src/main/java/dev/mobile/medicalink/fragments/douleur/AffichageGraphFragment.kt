@@ -16,6 +16,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.R
 import com.github.mikephil.charting.charts.LineChart
@@ -92,6 +93,10 @@ class AffichageGraphFragment : Fragment() {
         val medocInterface = MedocRepository(db.medocDao())
         val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
 
+        if (activity != null) {
+            val navBarre = requireActivity().findViewById<ConstraintLayout>(R.id.fragmentDuBas)
+            navBarre.visibility = View.GONE
+        }
 
         val queue = LinkedBlockingQueue<String>()
         Thread {
