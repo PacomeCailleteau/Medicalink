@@ -208,6 +208,7 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
             }
         }
 
@@ -270,6 +271,7 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
             }
         }
 
@@ -289,6 +291,7 @@ class AffichageGraphFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Rien à faire en cas de sélection vide
             }
         }
 
