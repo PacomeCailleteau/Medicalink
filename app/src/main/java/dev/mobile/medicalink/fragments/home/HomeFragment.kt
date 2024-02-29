@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,19 +25,27 @@ import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.traitements.Prise
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
 import dev.mobile.medicalink.fragments.traitements.Traitement
+import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelDateSchemaPrise
+import dev.mobile.medicalink.fragments.traitements.ajoutmanuel.AjoutManuelRecapitulatif
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.LinkedBlockingQueue
 
+interface RapportJourCallback {
+    fun updateRapport(map: MutableMap<Int, CircleState>)
+}
+
 /**
  * Le fragment de la page d'accueil
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), RapportJourCallback{
     private lateinit var homeAdapter: HomeAdapterR
 
     private lateinit var calendrierMoisTextView: TextView
+
+    private lateinit var layout: ConstraintLayout
 
     private lateinit var jourAvantButton: Button
     private lateinit var jourJButton: Button
@@ -71,7 +81,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var listePriseValidee: MutableList<Pair<LocalDate, String>>
 
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,6 +115,8 @@ class HomeFragment : Fragment() {
         )
 
         // Récupération des éléments de la vue
+        layout = view.findViewById(R.id.home)
+
         calendrierMoisTextView = view.findViewById(R.id.calendrierMois)
         jourAvantButton = view.findViewById(R.id.jourAvant)
         jourJButton = view.findViewById(R.id.jourJ)
@@ -137,15 +148,14 @@ class HomeFragment : Fragment() {
         jPlus5 = LocalDate.now().plusDays(5)
 
         val paramBtn: ImageView = view.findViewById(R.id.btnParam)
-        val traitementsTries = mutableListOf<Pair<Prise, Traitement>>()
+        val traitementsTries = updateListePrise(LocalDate.now(), view.context.applicationContext)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHome)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        homeAdapter = HomeAdapterR(traitementsTries, mutableListOf(), LocalDate.now(), recyclerView)
+        homeAdapter = HomeAdapterR(traitementsTries, LocalDate.now(), this, recyclerView)
         recyclerView.adapter = homeAdapter
-        val espacementEnDp = 22
+        val espacementEnDp = 10
         recyclerView.addItemDecoration(SpacingRecyclerView(espacementEnDp))
-        updateListePrise(LocalDate.now(), view.context.applicationContext)
 
         //Gestion du calendrier
         revenirDateCourante.visibility = View.GONE
@@ -215,7 +225,6 @@ class HomeFragment : Fragment() {
      * @param dateClique la date sur laquelle l'utilisateur a cliqué
      * @param context le contexte de l'application
      */
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateCalendrier(dateClique: LocalDate, context: Context) {
         if (dateClique != LocalDate.now()) {
@@ -247,7 +256,8 @@ class HomeFragment : Fragment() {
         jPlus3Lettre.text = "${listeJour[jPlus3.dayOfWeek.toString()]}"
         jPlus4Lettre.text = "${listeJour[jPlus4.dayOfWeek.toString()]}"
         jPlus5Lettre.text = "${listeJour[jPlus5.dayOfWeek.toString()]}"
-        updateListePrise(dateClique, context)
+
+        homeAdapter.updateData(updateListePrise(dateClique, context), dateClique)
     }
 
     /**
@@ -256,7 +266,7 @@ class HomeFragment : Fragment() {
      * @param context le contexte de l'application
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateListePrise(dateActuelle: LocalDate, context: Context) {
+    fun updateListePrise(dateActuelle: LocalDate, context: Context): MutableList<Pair<Prise, Traitement>>{
         val db = AppDatabase.getInstance(context)
         val userDatabaseInterface = UserRepository(db.userDao())
         val medocDatabaseInterface = MedocRepository(db.medocDao())
@@ -357,6 +367,7 @@ class HomeFragment : Fragment() {
             queue.add(listeTraitement)
 
         }.start()
+
         val listeTraitementPrise = queue.take()
         Log.d("test", listeTraitementPrise.toString())
         var doIaddIt: Boolean
@@ -433,64 +444,57 @@ class HomeFragment : Fragment() {
         }
         val traitementsTries =
             listePriseAffiche.sortedBy { it.first.heurePrise.uppercase() }.toMutableList()
-        if (traitementsTries.size > 0) {
-            traitementsTries.add(
-                0,
-                Pair(
-                    Prise(
-                        "123456",
-                        "17:00",
-                        7,
-                        "Comprime"
-                    ),
-                    Traitement(
-                        null,
-                        "x",
-                        1,
-                        "Comp",
-                        null,
-                        "comp",
-                        25,
-                        false,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null, null
-                    )
-                )
-            )
-        }
-        val queue2 = LinkedBlockingQueue<MutableList<Pair<LocalDate, String>>>()
-        Thread {
 
-            val resultatListePriseValidee: MutableList<Pair<LocalDate, String>> = mutableListOf()
+        return traitementsTries
+    }
 
-            val listePriseValideeDB = priseValideeDatabaseInterface.getAllPriseValidee()
-
-            for (priseValidee in listePriseValideeDB) {
-
-                val uuidTraitement = priseValidee.uuidPrise
-
-                var dateReformate = LocalDate.now()
-
-                if (priseValidee.date != "null") {
-                    Log.d("testPriseValidee", priseValidee.date)
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val date = priseValidee.date
-
-                    //convert String to LocalDate
-                    dateReformate = LocalDate.parse(date, formatter)
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun updateRapport(map: MutableMap<Int, CircleState>) {
+        if (map.getOrDefault(0, CircleState.VIDE) == CircleState.VIDE) {
+            activity?.runOnUiThread(Runnable {
+                val rapportLayout = layout.findViewById<ConstraintLayout>(R.id.rapportLayout)
+                rapportLayout.visibility = View.GONE
+            })
+            return
+        } else {
+            val pris = map.count { it.value == CircleState.PRENDRE }
+            val total = map.size
+            activity?.runOnUiThread(Runnable {
+                val rapportLayout = layout.findViewById<ConstraintLayout>(R.id.rapportLayout)
+                rapportLayout.visibility = View.VISIBLE
+                val rapport = layout.findViewById<TextView>(R.id.rapport)
+                val circleTick = layout.findViewById<ImageView>(R.id.circleTickHome)
+                rapport.text = "$pris/$total"
+                when (pris) {
+                    total -> {
+                        circleTick.setImageResource(R.drawable.perfect_face)
+                    }
+                    0 -> {
+                        circleTick.setImageResource(R.drawable.sad_face)
+                    }
+                    else -> {
+                        circleTick.setImageResource(R.drawable.good_face)
+                    }
                 }
+            })
+        }
+    }
 
-                resultatListePriseValidee.add(Pair(dateReformate, uuidTraitement))
+    override fun onResume() {
+        super.onResume()
+
+        val callback = object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun handleOnBackPressed() {
+                val destinationFragment = HomeFragment()
+
+                val fragTransaction = parentFragmentManager.beginTransaction()
+                fragTransaction.replace(R.id.FL, destinationFragment)
+                fragTransaction.addToBackStack(null)
+                fragTransaction.commit()
             }
-            queue2.add(resultatListePriseValidee)
+        }
 
-        }.start()
-        listePriseValidee = queue2.take()
-        Log.d("XXX", listePriseValidee.toString())
-        homeAdapter.updateData(traitementsTries, listePriseValidee, dateActuelle)
-        homeAdapter.notifyDataSetChanged()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }

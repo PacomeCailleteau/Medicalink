@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -147,7 +148,8 @@ class ContactsSearchFragment : Fragment() {
 
                 } else {
                     results = getPracticiansToContact(uuid, query)
-                    if (results.isEmpty()) {
+                    Log.d("Results", results.toString())
+                    if (results.isEmpty() && erreurRecherche.visibility == View.GONE) {
                         erreurRecherche.text = "Aucun résultat"
                         erreurRecherche.visibility = View.VISIBLE
                     }
@@ -165,8 +167,11 @@ class ContactsSearchFragment : Fragment() {
 
     private suspend fun getPracticiansToContact(uuid: String, search: String): List<Contact> {
         return try {
+            Log.d("Search", search)
             val response = apiRpps.getPracticians(search)
+            Log.d("Response", response.toString())
             if (response.isSuccessful) {
+
                 response.body()?.map { Contact.fromPractician(uuid, it) } ?: emptyList()
             } else {
                 withContext(Dispatchers.Main) {
