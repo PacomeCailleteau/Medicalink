@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -226,13 +227,15 @@ class AffichageGraphFragment : Fragment() {
         items = this.traitementUti.map { it.nom }
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        this.valeurSpinnerMedic = items[0]
+        if (items.isNotEmpty()) {
+            this.valeurSpinnerMedic = this.traitementUti.map { it.uuid }[0]
 
-        this.spinnerMedicament.adapter = adapter
+            this.spinnerMedicament.adapter = adapter
+        }
 
         this.spinnerMedicament.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                valeurSpinnerMedic = traitementUti[position].codeCIS
+                valeurSpinnerMedic = traitementUti[position].uuid
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -416,12 +419,12 @@ class AffichageGraphFragment : Fragment() {
             val db = AppDatabase.getInstance(requireContext())
             val statutInterface = StatutDouleurRepository(db.statutDouleurDao())
             Thread {
-                statutInterface.insertStatutDouleur(newStatut)
+                val rep = statutInterface.insertStatutDouleur(newStatut)
+                Log.d("zeubie", rep.toString())
             }.start()
 
             Toast.makeText(requireContext(), R.string.statut_ajoute, Toast.LENGTH_SHORT)
                 .show()
-
             recuperePoint()
         }
     }
