@@ -3,19 +3,21 @@ package dev.mobile.medicalink.fragments.home
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import dev.mobile.medicalink.MainActivity
 import dev.mobile.medicalink.R
 import dev.mobile.medicalink.db.local.AppDatabase
 import dev.mobile.medicalink.db.local.repository.UserRepository
+import dev.mobile.medicalink.fragments.douleur.enums.NotificationsDouleursFragment
+import dev.mobile.medicalink.utils.GoTo
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
@@ -26,8 +28,11 @@ class ParametreFragment : Fragment() {
 
     private lateinit var btnDeconnexion: LinearLayout
     private lateinit var btnDarkMode: LinearLayout
-    private lateinit var switchDarkMode: Switch
+    private lateinit var switchDarkMode: SwitchCompat
     private lateinit var supprimerCompte: LinearLayout
+    private lateinit var infoCompte: LinearLayout
+    private lateinit var retour: ImageView
+    private lateinit var infosDouleur : LinearLayout
 
     private var isDarkMode: Boolean =
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
@@ -36,13 +41,29 @@ class ParametreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_parametre_fragement, container, false)
+        val view = inflater.inflate(R.layout.fragment_parametre, container, false)
 
         //Récupérer les elements de la view
         btnDeconnexion = view.findViewById(R.id.cardDeconnexion)
         btnDarkMode = view.findViewById(R.id.cardDarkMode)
         switchDarkMode = view.findViewById(R.id.switchDarkMode)
         supprimerCompte = view.findViewById(R.id.deleteAccount)
+        infoCompte = view.findViewById(R.id.cardInfo)
+        retour = view.findViewById(R.id.userInfoRetour)
+        infosDouleur = view.findViewById(R.id.cardDouleur)
+
+
+        retour.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        infosDouleur.setOnClickListener {
+            GoTo.fragment(NotificationsDouleursFragment(),parentFragmentManager)
+        }
+
+        infoCompte.setOnClickListener {
+            GoTo.fragment(UserInfoFragment(), parentFragmentManager)
+        }
 
         btnDeconnexion.setOnClickListener {
             //Si on clique sur le bouton de déconnexion, on déconnecte l'utilisateur et on le redirige vers la page de connexion
@@ -73,7 +94,7 @@ class ParametreFragment : Fragment() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 // Définir le mode sombre à partir du fragment
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             // Mettre à jour l'apparence du switch
             updateSwitchAppearance(isChecked)
@@ -90,7 +111,6 @@ class ParametreFragment : Fragment() {
             Thread {
                 val res = userDatabaseInterface.getUsersConnected()
                 val userToDelete = userDatabaseInterface.getOneUserById(res.first().uuid).first()
-                Log.d("user", userToDelete.prenom.toString())
 
                 if (userDatabaseInterface.getAllUsers().size == 1) {
                     userDatabaseInterface.deleteUser(userToDelete)
@@ -140,7 +160,7 @@ class ParametreFragment : Fragment() {
      * Rafraîchir le fragment
      */
     fun refreshFragment() {
-        val transaction = requireFragmentManager().beginTransaction()
+        val transaction = parentFragmentManager.beginTransaction()
         transaction.detach(this)
         transaction.attach(this)
         transaction.commit()

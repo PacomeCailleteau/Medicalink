@@ -1,12 +1,10 @@
 package dev.mobile.medicalink
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import dev.mobile.medicalink.db.local.entity.User
 
@@ -49,7 +47,7 @@ class ChangerUtilisateurAdapterR(
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onBindViewHolder(holder: AjoutManuelViewHolder, position: Int) {
         val item = list[position]
         holder.nomUtilisateur.text = "${item.prenom} ${item.nom}"

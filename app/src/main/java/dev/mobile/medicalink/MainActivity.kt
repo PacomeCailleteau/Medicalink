@@ -6,11 +6,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -29,6 +27,7 @@ import dev.mobile.medicalink.db.local.entity.User
 import dev.mobile.medicalink.db.local.repository.UserRepository
 import dev.mobile.medicalink.fragments.MainFragment
 import dev.mobile.medicalink.fragments.traitements.SpacingRecyclerView
+import fr.medicapp.medicapp.ai.PrescriptionAI
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
@@ -57,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         buttonConnexion = findViewById(R.id.button_connexion)
         buttonChangerUtilisateur = findViewById(R.id.button_changer_utilisateur)
 
+        // Initialisation de l'IA de prescription
+        PrescriptionAI.getInstance(this)
 
         //Connection à la base de données
         val db = AppDatabase.getInstance(this)
@@ -149,21 +150,11 @@ class MainActivity : AppCompatActivity() {
         // Création de l'authentification biométrique
         val biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
             object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    super.onAuthenticationError(errorCode, errString)
-                    // Erreur d'authentification
-                }
-
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     // L'authentification a réussi, accès à la page d'accueil
                     val intent = Intent(this@MainActivity, MainFragment::class.java)
                     startActivity(intent)
-                }
-
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                    // L'authentification a échoué, demande à l'utilisateur de réessayer
                 }
             })
 
@@ -265,18 +256,16 @@ class MainActivity : AppCompatActivity() {
      * Fonction qui crée le canal de notification.
      */
     private fun creerCanalNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "medicalinkNotificationChannel"
-            val channelName = "canal de notification"
-            val channelDescription = "canal de notification pour les notifications de l'application"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance).apply {
-                description = channelDescription
-            }
-            // Enregistrement du canal auprès du gestionnaire de notifications
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+        val channelId = "medicalinkNotificationChannel"
+        val channelName = "canal de notification"
+        val channelDescription = "canal de notification pour les notifications de l'application"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, channelName, importance).apply {
+            description = channelDescription
         }
+        // Enregistrement du canal auprès du gestionnaire de notifications
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
     }
 
     /**
@@ -312,18 +301,16 @@ class MainActivity : AppCompatActivity() {
         // Création de l'adapter pour le RecyclerView
         val adapter = ChangerUtilisateurAdapterR(mesUsers) { clickedUser ->
 
-            val queue = LinkedBlockingQueue<String>()
+            val queueStr = LinkedBlockingQueue<String>()
             Thread {
                 userDatabaseInterface.setConnected(
                     userDatabaseInterface.getOneUserById(clickedUser.uuid).first()
                 )
-                queue.add(clickedUser.prenom)
+                queueStr.add(clickedUser.prenom)
             }.start()
-            val prenom = queue.take()
-            Log.d("test", prenom.toString())
+            val prenom = queueStr.take()
             val txtBienvenue = resources.getString(R.string.bienvenue) + " " + prenom + " !"
             textBienvenue.text = txtBienvenue
-
             dialog.dismiss()
         }
 

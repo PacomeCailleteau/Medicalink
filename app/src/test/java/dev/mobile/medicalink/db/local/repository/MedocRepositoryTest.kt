@@ -4,13 +4,17 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.mobile.medicalink.db.local.AppDatabase
+import dev.mobile.medicalink.db.local.entity.CisBdpm
 import dev.mobile.medicalink.db.local.entity.Medoc
 import dev.mobile.medicalink.db.local.entity.User
+import dev.mobile.medicalink.fragments.traitements.enums.EnumFrequence
+import dev.mobile.medicalink.fragments.traitements.enums.EnumTypeMedic
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 //@Config(sdk = [29])
@@ -19,38 +23,93 @@ class MedocRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var medocRepository: MedocRepository
     private val userOfDefaultMedoc =
-        User("1", "Utilisateur", "test", "test", "test", "a@b.c", "test", false)
+        User(
+            "1",
+            "Utilisateur",
+            "test",
+            "test",
+            "test",
+            "a@b.c",
+            "test",
+            false,
+            Pair(1, 1),
+            Pair(1, 1),
+            Pair(1, 1)
+        )
     private val userOfDefaultMedoc2 =
-        User("2", "Utilisateur", "test2", "test2", "test2", "a@b.c", "test2", true)
+        User(
+            "2",
+            "Utilisateur",
+            "test2",
+            "test2",
+            "test2",
+            "a@b.c",
+            "test2",
+            true,
+            Pair(2, 2),
+            Pair(2, 2),
+            Pair(2, 2)
+        )
     private val defaultMedoc = Medoc(
         "1",
         "1",
         "nom",
-        "dosageNB",
-        "dosageUnite",
-        "dateFinTraitement",
-        "typeComprime",
+        "1111111111",
+        1,
+        EnumFrequence.JOUR,
+        LocalDate.now(),
+        EnumTypeMedic.COMPRIME,
         1,
         true,
         "effetsSecondaires",
         "prises",
         1,
-        "dateDbtTraitement"
+        LocalDate.now()
     )
     private val defaultMedoc2 = Medoc(
         "2",
         "2",
         "nom2",
-        "dosageNB2",
-        "dosageUnite2",
-        "dateFinTraitement2",
-        "typeComprime2",
+        "2222222222",
+        2,
+        EnumFrequence.MOIS,
+        LocalDate.now(),
+        EnumTypeMedic.BONBON,
         2,
         false,
         "effetsSecondaires2",
         "prises2",
         2,
-        "dateDbtTraitement2"
+        LocalDate.now()
+    )
+    private val defaultCis = CisBdpm(
+        "1111111111",
+        "denomination",
+        "formePharmaceutique",
+        "voiesAdministration",
+        "statutAdministratifAMM",
+        "typeProcedureAMM",
+        "etatCommercialisation",
+        "dateAMM",
+        "statutBdm",
+        "numeroAutorisationEuropeenne",
+        "titulaire",
+        "surveillanceRenforcee"
+    )
+
+    private val defaultCis2 = CisBdpm(
+        "2222222222",
+        "denomination",
+        "formePharmaceutique",
+        "voiesAdministration",
+        "statutAdministratifAMM",
+        "typeProcedureAMM",
+        "etatCommercialisation",
+        "dateAMM",
+        "statutBdm",
+        "numeroAutorisationEuropeenne",
+        "titulaire",
+        "surveillanceRenforcee"
     )
 
     @Before
@@ -68,6 +127,12 @@ class MedocRepositoryTest {
         val userRepository = UserRepository(db.userDao())
         userRepository.insertUser(userOfDefaultMedoc)
         userRepository.insertUser(userOfDefaultMedoc2)
+
+        //We also need to insert a CisBdpm in the database
+        // !!! WARNING !!! We need to be sure that CisBdpmRepository has been tested before
+        val cisBdpmRepository = CisBdpmRepository(db.cisBdpmDao())
+        cisBdpmRepository.insertCisBdpm(defaultCis)
+        cisBdpmRepository.insertCisBdpm(defaultCis2)
     }
 
     @After
@@ -80,7 +145,7 @@ class MedocRepositoryTest {
     fun `test if we can get all medoc`() {
         // Should be empty
         val medoc = medocRepository.getAllMedocs()
-        assert(medoc.isEmpty())
+        assertTrue(medoc.isEmpty())
     }
 
     @Test
@@ -89,11 +154,11 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         val res = medocRepository.insertMedoc(medoc)
         println(res)
-        assert(res.first)
-        assert(res.second == "Success")
+        assertTrue(res.first)
+        assertEquals(res.second, "Success")
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabase.size == 1)
-        assert(medocFromDatabase[0].uuid == medoc.uuid)
+        assertEquals(1, medocFromDatabase.size)
+        assertEquals(medoc.uuid, medocFromDatabase[0].uuid)
     }
 
     @Test
@@ -101,8 +166,8 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabase.size == 1)
-        assert(medocFromDatabase[0].uuid == medoc.uuid)
+        assertEquals(1, medocFromDatabase.size)
+        assertEquals(medoc.uuid, medocFromDatabase[0].uuid)
     }
 
     @Test
@@ -112,8 +177,8 @@ class MedocRepositoryTest {
         medocRepository.insertMedoc(medoc)
         medocRepository.insertMedoc(medoc2)
         val medocs = medocRepository.getAllMedocByUserId(medoc.uuidUser)
-        assert(medocs.size == 1)
-        assert(medocs[0].uuidUser == medoc.uuidUser)
+        assertEquals(1, medocs.size)
+        assertEquals(medoc.uuidUser, medocs[0].uuidUser)
     }
 
     @Test
@@ -123,7 +188,7 @@ class MedocRepositoryTest {
         medocRepository.insertMedoc(medoc)
         medocRepository.insertMedoc(medoc2)
         val medocs = medocRepository.getAllMedocByUserId("3")
-        assert(medocs.isEmpty())
+        assertTrue(medocs.isEmpty())
     }
 
     @Test
@@ -131,13 +196,13 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabase.size == 1)
-        assert(medocFromDatabase[0].uuid == medoc.uuid)
+        assertEquals(1, medocFromDatabase.size)
+        assertEquals(medoc.uuid, medocFromDatabase[0].uuid)
         val medocUpdated = medoc.copy(nom = "nomUpdated")
         medocRepository.updateMedoc(medocUpdated)
         val medocFromDatabaseUpdated = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabaseUpdated.size == 1)
-        assert(medocFromDatabaseUpdated[0].nom == "nomUpdated")
+        assertEquals(medocFromDatabaseUpdated.size, 1)
+        assertEquals(medocFromDatabaseUpdated[0].nom, "nomUpdated")
     }
 
     @Test
@@ -145,13 +210,13 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabase.size == 1)
-        assert(medocFromDatabase[0].uuid == medoc.uuid)
+        assertEquals(medocFromDatabase.size, 1)
+        assertEquals(medocFromDatabase[0].uuid, medoc.uuid)
         val medocUpdated = medoc.copy(uuid = "3")
         medocRepository.updateMedoc(medocUpdated)
         val medocFromDatabaseUpdated = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabaseUpdated.size == 1)
-        assert(medocFromDatabaseUpdated[0].uuid == medoc.uuid)
+        assertEquals(medocFromDatabaseUpdated.size, 1)
+        assertEquals(medocFromDatabaseUpdated[0].uuid, medoc.uuid)
     }
 
     @Test
@@ -159,8 +224,8 @@ class MedocRepositoryTest {
         val medoc = defaultMedoc
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabase.size == 1)
-        assert(medocFromDatabase[0].uuid == medoc.uuid)
+        assertEquals(medocFromDatabase.size, 1)
+        assertEquals(medocFromDatabase[0].uuid, medoc.uuid)
         medocRepository.deleteMedoc(medocFromDatabase[0])
         val medocFromDatabaseAfterDelete = medocRepository.getOneMedocById(medoc.uuid)
         assert(medocFromDatabaseAfterDelete.isEmpty())
@@ -172,12 +237,12 @@ class MedocRepositoryTest {
         val medoc2 = defaultMedoc2
         medocRepository.insertMedoc(medoc)
         val medocFromDatabase = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabase.size == 1)
-        assert(medocFromDatabase[0].uuid == medoc.uuid)
+        assertEquals(medocFromDatabase.size, 1)
+        assertEquals(medocFromDatabase[0].uuid, medoc.uuid)
         medocRepository.deleteMedoc(medoc2)
         val medocFromDatabaseAfterDelete = medocRepository.getOneMedocById(medoc.uuid)
-        assert(medocFromDatabaseAfterDelete.size == 1)
-        assert(medocFromDatabaseAfterDelete[0].uuid == medoc.uuid)
+        assertEquals(medocFromDatabaseAfterDelete.size, 1)
+        assertEquals(medocFromDatabaseAfterDelete[0].uuid, medoc.uuid)
     }
 
 

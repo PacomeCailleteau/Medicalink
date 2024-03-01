@@ -5,7 +5,7 @@
     android:id="@+id/constraint_layout_ajout_shema_prise_2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.traitements.AjoutManuelSearchFragment">
+    tools:context=".fragments.traitements.ajouts.AjoutManuelSearchFragment">
 
     <TextView
         android:id="@+id/textView9"
@@ -79,11 +79,11 @@
         android:layout_width="27dp"
         android:layout_height="27dp"
         android:layout_marginEnd="25dp"
-        android:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:srcCompat="@drawable/annuler" />
+        app:srcCompat="@drawable/annuler"
+        app:tint="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAjoutPrise"

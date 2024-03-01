@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name" translatable="false">Medicalink</string>
+    <string name="app_name" translatable="false">Medicazelda</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="param_buttun">Boutton Paremètre</string>
-    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicalink !</string>
+    <string name="param_buttun">Bouton Paramètre</string>
+    <string name="bienvenue_sur_medicalink">Bienvenue sur Medicazelda !</string>
     <string name="bienvenue">Bienvenue</string>
     <string name="me_connecter">Me connecter</string>
     <string name="creer_mon_profil">Créer mon profil</string>
     <string name="changer_utilisateur">Changer d\'utilisateur</string>
     <string name="selectionner_un_profil">Sélectionner un profil</string>
     <string name="ajouter_un_profil">Ajouter un profil</string>
-    <string name="medicalink_title" translatable="false">Medicalink</string>
+    <string name="medicalink_title" translatable="false">Medicazelda</string>
     <string name="creer_profil_votre_profil">Votre profil</string>
     <string name="creer_profil_adresse_email">Adresse Email</string>
     <string name="creer_profil_professionnel_de_sante">Professionnel de santé</string>
@@ -59,9 +59,9 @@
     <string name="sousnomperiodicite" translatable="false">SousNomPeriodicite</string>
     <string name="prises">Prises</string>
     <string name="reapprovisionnement">Réapprovisionnement</string>
-    <string name="quotidiennement" translatable="false">Quotidiennement</string>
-    <string name="quoti" translatable="false">quotidiennement</string>
-    <string name="au_besoin" translatable="false">Au besoin</string>
+    <string name="quotidiennement">Quotidiennement</string>
+    <string name="quoti">quotidiennement</string>
+    <string name="au_besoin">Au besoin</string>
     <string name="sch_ma_de_prise_du_ntraitement">Schéma de prise du  traitement</string>
     <string name="ajouter_une_nouvelle_prise">Ajouter une nouvelle prise</string>
     <string name="rechercher">Rechercher</string>
@@ -107,7 +107,7 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="accueil">Accueil</string>
     <string name="traitements">Traitements</string>
-    <string name="messages">Messages</string>
+    <string name="messages">Contacts</string>
     <string name="authentification_biometrique">Authentification biométrique</string>
     <string name="utilisez_empreinte_digitale">Utilisez votre empreinte digitale pour vous authentifier</string>
     <string name="utilisez_mdp">Utiliser le mot de passe</string>
@@ -182,10 +182,82 @@
     <string name="professionnel">Professionnel</string>
     <string name="creer_profil_utilisateur">Utilisateur</string>
     <string name="rapport_journalier">Rapport journalier :</string>
-    <string name="x_x">X/X</string>
+    <string name="x_x" translatable="false">X/X</string>
     <string name="chargement">Chargement</string>
-    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode">Mode sombre</string>
     <string name="ajouter">Ajouter</string>
     <string name="supprimer_compte">Supprimer le compte</string>
+    <string name="vos_contacts">Vos contacts</string>
+    <string name="prenom_message_item">Prénom</string>
+    <string name="nom_message_item">Nom</string>
+    <string name="rpps_message_item" translatable="false">RPPS</string>
+    <string name="rechercher_par_prenom_et_nom">Rechercher par prénom et nom</string>
+    <string name="rechercher_par_rpps">Rechercher par RPPS</string>
+    <string name="rechercher_un_medecin">Rechercher un medecin</string>
+    <string name="rpps_s" translatable="false">Rpps : %s</string>
+    <string name="prenom_s">Prénom : %s</string>
+    <string name="nom_s">Nom : %s</string>
+    <string name="email_s">Email : %s</string>
+    <string name="date_de_naissance_s">Date de naissance : %s</string>
+    <string name="specialite_s">Spécialité : %s</string>
+    <string name="phone_s">Téléphone : %s</string>
+    <string name="adresse_s">Adresse : %s</string>
+    <string name="code_postal_s">Code postal : %s</string>
+    <string name="ville_s">Ville : %s</string>
+    <string name="sexe_s">Sexe : %s</string>
+    <string name="contact">Contact</string>
+    <string name="voulez_vous_vraiment_retirer_ce_contact">Voulez-vous vraiment retirer ce contact ?</string>
+    <string name="j_ai_compris">J\'ai compris</string>
+    <string name="ajouter_vrm_medoc_conflit">Vous prenez déjà %s médicament(s) qui utilise(nt) la même substance active : %s.</string>
+    <string name="date_invalide">Date invalide</string>
+    <string name="pas_medoc_dans_photo">Aucune prescription n\'a été détectée dans l\'image. Veuillez essayer d\'utiliser une autre image de l\'ordonnance ou ajouter manuellement vos médicaments.</string>
+    <string name="defaultMedocNameInDetails">Nom du médicament par défault</string>
+    <string name="dosageDetailMedoc">Dosage : %s</string>
+    <string name="uniteDetailMedoc">Unité : %s</string>
+    <string name="typeComprimeDetailMedoc">Type de comprimé : %s</string>
+    <string name="restantsDetailMedoc">Restants : %s</string>
+    <string name="quantiteDetailMedoc">Quantité : %s</string>
+    <string name="debutTraitementDetailMedoc">Début du traitement : %s</string>
+    <string name="finTraitementDetailMedoc">Fin du traitement : %s</string>
+    <string name="expireDetailMedoc">Expire : %s</string>
+    <string name="effetsSecondairesDetailMedoc">Effets secondaires : %s</string>
+    <string name="prisesDetailMedoc">Prises : %s</string>
+    <string name="principeActifDetailMedoc">Principe Actif : %s</string>
+    <string name="denominationPrincipeDetailMedoc">Dénomination Principe : %s</string>
+    <string name="dosageSubstanceDetailMedoc">Dosage Substance : %s</string>
+    <string name="formePharmaceutiqueDetailMedoc">Forme Pharmaceutique : %s</string>
+    <string name="voieAdministrationDetailMedoc">Voie d\'Administration : %s</string>
+    <string name="voirPlusInformations">Voir plus d\'informations</string>
+    <string name="graphique_des_douleurs">Graphiques des douleurs</string>
+    <string name="image_porte_de_sortie">Image d\'une porte de sortie</string>
+    <string name="voir_mes_informations">Voir mes informations</string>
+    <string name="mes_informations">Mes informations</string>
+    <string name="modifier_email">Bouton de modification de l\'email</string>
+    <string name="contentDescriptionRetour">Bouton de retour à la page précédente</string>
+    <string name="changer_mon_s">Changer mon %s</string>
+    <string name="entrez_votre_nouveau_s">Entrez votre nouveau %s</string>
+    <string name="email">email</string>
+    <string name="mot_de_passe">mot de passe</string>
+    <string name="error_rpps">Le rpps ne peut contenir que des chiffres</string>
+    <string name="error_search_medecin_user">Veuillez renseigner un rpps (11 chiffres) ou un nom/prenom</string>
+    <string name="error_search_medecin_api">Erreur lors de la recherche, veuillez être plus précis</string>
+    <string name="reason_status">Raison du statut</string>
+    <string name="seuil_douleur">Seuil de douleur \n(de 1 à 10)</string>
+    <string name="before_after_taking">Avant ou après prise?</string>
+    <string name="sauter">Sauter</string>
+    <string name="spontane">Spontanée</string>
+    <string name="pb_digit">La valeur doit être comprise entre 1 et 10</string>
+    <string name="avant_prise">Avant Prise</string>
+    <string name="apres_prise">Après Prise</string>
+    <string name="statut_ajoute">Statut ajouté</string>
+    <string name="echec_ajout">Valeurs incorrectes</string>
+    <string name="modifier_mon_intervalle_de_notifications">Modifier mon intervalle de notifications :</string>
+    <string name="modifier_ma_plage_de_notifications">Modifier ma plage de notifications :</string>
+    <string name="definir_mes_notifications">Définir mes notifications</string>
+    <string name="modifier_mes_notifications">Modifier mes notifications</string>
+    <string name="six_heure" translatable="false">06:00</string>
+    <string name="dix_huit_heure" translatable="false">18:00</string>
+    <string name="aucun_medicament">Aucun médicament</string>
+    <string name="note_supp">Note additionnelle sur le statut (optionnelle)</string>
 
 </resources>

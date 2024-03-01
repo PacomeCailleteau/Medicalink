@@ -7,27 +7,36 @@ import android.util.Log
 import dev.mobile.medicalink.db.local.dao.CisBdpmDao
 import dev.mobile.medicalink.db.local.entity.CisBdpm
 
-class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
+class CisBdpmRepository(private val cISbdpmDao: CisBdpmDao) {
 
     fun getAllCisBdpm(): List<CisBdpm> {
         return try {
-            CISbdpmDao.getAll()
+            cISbdpmDao.getAll()
         } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun getOneCisBdpmById(CodeCIS: Int): List<CisBdpm> {
+    fun getOneCisBdpmById(codeCIS: String): List<CisBdpm> {
         return try {
-            CISbdpmDao.getById(CodeCIS)
+            cISbdpmDao.getById(codeCIS)
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    fun getCodeCISByName(nom: String): String {
+        return try {
+            val result = cISbdpmDao.getByName(nom)
+            result[0].codeCIS.toString()
+        } catch (e: java.lang.Exception) {
+            ""
         }
     }
 
     fun insertCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.insertAll(cisBdpm)
+            cISbdpmDao.insertAll(cisBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm already exists")
@@ -43,10 +52,11 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
      * @param context Context
      */
     fun insertFromCsv(context: Context) {
-        val csvContent = readCsvFromAssets(context, "CIS_bdpm.csv")
+        val csv = Csv()
+        val csvContent = csv.readCsvFromAssets(context, "CIS_bdpm.csv")
         val cisBdpmList = parseCsv(csvContent)
         try {
-            CISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
+            cISbdpmDao.insertAll(*cisBdpmList.toTypedArray())
         } catch (e: SQLiteConstraintException) {
             Log.e("CisBdpmRepository", "CIS_bdpm already exists")
         } catch (e: SQLiteException) {
@@ -57,33 +67,21 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
     }
 
     /**
-     * Read CSV file from assets folder
-     * @param context Context
-     * @param filePath CSV file path
-     * @return CSV file content
-     */
-    private fun readCsvFromAssets(context: Context, filePath: String): String {
-        return context.assets.open(filePath).bufferedReader().use {
-            it.readText()
-        }
-    }
-
-
-    /**
      * Parse CSV file and insert all CIS_bdpm in database, the first line of the CSV file must be the header
      * @param csvContent CSV file content
      * @return Pair<Boolean, String> : Boolean is true if success, String is error message if error
      */
     private fun parseCsv(csvContent: String): List<CisBdpm> {
+        val csv = Csv()
         val cisBdpmList = mutableListOf<CisBdpm>()
         val lines = csvContent.split("\n")
         //On ne prend ni la première ligne (header) ni la dernière ligne (vide)
         for (i in 1 until lines.size - 1) {
             val line = lines[i]
-            val values = parseCsvLine(line)
+            val values = csv.parseCsvLine(line)
             if (values.size == 12) {
                 val cisBdpm = CisBdpm(
-                    CodeCIS = values[0].toInt(),
+                    codeCIS = values[0],
                     denomination = values[1],
                     formePharmaceutique = values[2],
                     voiesAdministration = values[3],
@@ -104,42 +102,9 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
         return cisBdpmList
     }
 
-    /**
-     * Parse CSV line and return list of values
-     * We need this function because there some values with comma inside quotes and sometimes no quotes
-     * @param line CSV line
-     */
-    private fun parseCsvLine(line: String): List<String> {
-        val values = mutableListOf<String>()
-        var value = ""
-        var isInsideQuote = false
-        for (char in line) {
-            when (char) {
-                ',' -> {
-                    if (isInsideQuote) {
-                        value += char
-                    } else {
-                        values.add(value)
-                        value = ""
-                    }
-                }
-
-                '"' -> {
-                    isInsideQuote = !isInsideQuote
-                }
-
-                else -> {
-                    value += char
-                }
-            }
-        }
-        values.add(value)
-        return values
-    }
-
     fun deleteCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.delete(cisBdpm)
+            cISbdpmDao.delete(cisBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm doesn't exist")
@@ -152,7 +117,7 @@ class CisBdpmRepository(private val CISbdpmDao: CisBdpmDao) {
 
     fun updateCisBdpm(cisBdpm: CisBdpm): Pair<Boolean, String> {
         return try {
-            CISbdpmDao.update(cisBdpm)
+            cISbdpmDao.update(cisBdpm)
             Pair(true, "Success")
         } catch (e: SQLiteConstraintException) {
             Pair(false, "CisBdpm doesn't exist")

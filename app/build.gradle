@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "dev.mobile.medicalink"
-        minSdk 23
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -60,6 +60,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+
     testImplementation 'junit:junit:4.13.2'
     testImplementation("androidx.test:core-ktx:1.5.0")
     testImplementation("androidx.test.ext:junit-ktx:1.1.5")
@@ -72,6 +75,9 @@ dependencies {
 
     // PyTorch
     implementation("org.pytorch:pytorch_android:2.1.0")
+
+    // Graphique
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }
 

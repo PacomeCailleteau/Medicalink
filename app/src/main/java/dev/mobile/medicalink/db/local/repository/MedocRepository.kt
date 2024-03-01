@@ -24,6 +24,14 @@ class MedocRepository(private val medocDao: MedocDao) {
         }
     }
 
+    fun getOneMedocByCIS(codeCIS: String): Medoc? {
+        return try {
+            medocDao.getByCIS(codeCIS)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     fun getAllMedocByUserId(uuidUser: String): List<Medoc> {
         return try {
             medocDao.getByUser(uuidUser)

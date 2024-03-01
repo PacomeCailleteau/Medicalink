@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.traitements.AjoutManuelSearchFragment">
+    tools:context=".fragments.traitements.ajouts.AjoutManuelSearchFragment">
 
     <TextView
         android:id="@+id/textView9"
@@ -89,16 +89,16 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageview4"
+                    android:id="@+id/retourRecapNom"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
+                    app:layout_constraintBottom_toBottomOf="@+id/texteRecapNom"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/nom_categorie5"
+                    app:layout_constraintTop_toTopOf="@+id/texteRecapNom"
                     app:srcCompat="@drawable/right_arrow" />
 
                 <TextView
-                    android:id="@+id/nom_categorie5"
+                    android:id="@+id/texteRecapNom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
@@ -117,8 +117,8 @@
                     android:text="@string/nommedoc"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
-                    app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
+                    app:layout_constraintStart_toStartOf="@+id/texteRecapNom"
+                    app:layout_constraintTop_toBottomOf="@+id/texteRecapNom" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,16 +131,16 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageview4"
+                    android:id="@+id/retourRecapCaracteristique"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
+                    app:layout_constraintBottom_toBottomOf="@+id/texteRecapCaracteristique"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/nom_categorie5"
+                    app:layout_constraintTop_toTopOf="@+id/texteRecapCaracteristique"
                     app:srcCompat="@drawable/right_arrow" />
 
                 <TextView
-                    android:id="@+id/nom_categorie5"
+                    android:id="@+id/texteRecapCaracteristique"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
@@ -158,11 +158,11 @@
                     android:text="@string/textunite"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/titre_para_un4"
-                    app:layout_constraintTop_toBottomOf="@+id/titre_para_un4" />
+                    app:layout_constraintStart_toStartOf="@+id/uniteRecap"
+                    app:layout_constraintTop_toBottomOf="@+id/uniteRecap" />
 
                 <TextView
-                    android:id="@+id/titre_para_un4"
+                    android:id="@+id/uniteRecap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -171,8 +171,8 @@
                     android:text="@string/unite"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
-                    app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
+                    app:layout_constraintStart_toStartOf="@+id/texteRecapCaracteristique"
+                    app:layout_constraintTop_toBottomOf="@+id/texteRecapCaracteristique" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -185,7 +185,7 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageview4"
+                    android:id="@+id/retourRecapPeriode"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginTop="3dp"
@@ -195,7 +195,7 @@
                     app:srcCompat="@drawable/right_arrow" />
 
                 <TextView
-                    android:id="@+id/nom_categorie5"
+                    android:id="@+id/texteRecapPeriode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
@@ -226,8 +226,8 @@
                     android:text="@string/date_de_fin_de_traitement"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
-                    app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
+                    app:layout_constraintStart_toStartOf="@+id/texteRecapPeriode"
+                    app:layout_constraintTop_toBottomOf="@+id/texteRecapPeriode" />
 
                 <TextView
                     android:id="@+id/sousNomPeriodicite"
@@ -237,9 +237,9 @@
                     android:fontFamily="@font/quicksand_semibold"
                     android:text="@string/sousnomperiodicite"
                     android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
-                    app:layout_constraintEnd_toStartOf="@+id/imageview4"
-                    app:layout_constraintTop_toTopOf="@+id/nom_categorie5" />
+                    app:layout_constraintBottom_toBottomOf="@+id/texteRecapPeriode"
+                    app:layout_constraintEnd_toStartOf="@+id/retourRecapPeriode"
+                    app:layout_constraintTop_toTopOf="@+id/texteRecapPeriode" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -252,16 +252,16 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/imageview4"
+                    android:id="@+id/retourRecapPrise"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/nom_categorie5"
+                    app:layout_constraintBottom_toBottomOf="@+id/texteRecapPrise"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/nom_categorie5"
+                    app:layout_constraintTop_toTopOf="@+id/texteRecapPrise"
                     app:srcCompat="@drawable/right_arrow" />
 
                 <TextView
-                    android:id="@+id/nom_categorie5"
+                    android:id="@+id/texteRecapPrise"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand_bold"
@@ -276,9 +276,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/imageview4"
-                    app:layout_constraintStart_toStartOf="@+id/nom_categorie5"
-                    app:layout_constraintTop_toBottomOf="@+id/nom_categorie5" />
+                    app:layout_constraintEnd_toEndOf="@+id/retourRecapPrise"
+                    app:layout_constraintStart_toStartOf="@+id/texteRecapPrise"
+                    app:layout_constraintTop_toBottomOf="@+id/texteRecapPrise" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
