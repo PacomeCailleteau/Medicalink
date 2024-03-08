@@ -234,7 +234,8 @@ class AjoutManuelRecapitulatif : Fragment() {
                                         substanceAdd,
                                         bundle,
                                         "Est incompatible avec : ",
-                                        "Interactions Détectées"
+                                        "Interactions Détectées",
+                                        true
                                     )
                                 }
                             }
@@ -644,7 +645,8 @@ class AjoutManuelRecapitulatif : Fragment() {
             //pour chaque mot de la substance du medoc
             for (sub in substance.split(" ")) {
                 //si le mot est dans la substance incompatible
-                if (sub in element) {
+                if ((sub.length > 3) && (sub in element)) {//ICI
+                    Log.d("InteractionSubstance", "La substance $sub est incompatible avec $element")
                     listMedicamentIncompatible.add(medoc.nom)
                     break@outerLoup // Breaks out of both loops
                 }

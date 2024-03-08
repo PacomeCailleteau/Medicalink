@@ -190,7 +190,7 @@ class AjoutManuelDateSchemaPrise : Fragment() {
                 Traitement(
                     traitement.CodeCIS,
                     traitement.nomTraitement,
-                    traitement.dosageNb,
+                    traitement.prises?.sumOf { it.quantite } ?: 0,
                     traitement.dosageUnite,
                     textFinTraite,
                     traitement.typeComprime,
