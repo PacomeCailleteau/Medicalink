@@ -345,7 +345,7 @@ class HomeAdapterR(
         // Si le bouton prendre est cliqué, on affiche la fenêtre de dialogue
         sauterLayout.setOnClickListener {
             // Si l'image est déjà un avertissment, on la remet en cercle, sinon on la met en avertissment
-            if (holder.circleState == CircleState.SAUTER) {
+            if (holderCircle == CircleState.SAUTER.name) {
                 val queue = LinkedBlockingQueue<String>()
                 Thread {
 
