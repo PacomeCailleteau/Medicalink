@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: "0 20 * * *"
 
 env:
   ANDROID_ARCH: x86_64
